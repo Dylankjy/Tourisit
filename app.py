@@ -4,3 +4,5 @@ if __name__ == '__main__':
     print('Test')
 
 print('Testing')
+
+print('Commit all')
