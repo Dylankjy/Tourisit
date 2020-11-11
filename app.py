@@ -1,3 +1,4 @@
 from flask import Flask, request
 
-print('Does this work?')
+if __name__ == '__main__':
+    print('Test')
