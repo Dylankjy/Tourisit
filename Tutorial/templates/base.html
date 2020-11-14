@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    {% endblock %}
+    {% block morescripts %}
+    {% endblock %}
+</head>
+<body>
+    {% block nav %}
+    <nav class='navbar' role='navigation'>
+        <div class='navbar-menu'>
+            <div class='navbar-end'>
+
+                <div class="navbar-item">
+                    <p class='control'>
+                        <a class='button is-outlined is-info is-small'>For Guides</a>
+                    </p>
+                </div>
+
+
+                <div class='navbar-item has-dropdown is-hoverable'>
+
+                    <a class='navbar-link is-size-7 '>Account</a>
+
+                    <div class='navbar-dropdown is-size-7'>
+                        <a class='navbar-item'>Sign up</a>
+                        <hr class='navbar-divider'>
+                        <a class='navbar-item'>Log in</a>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+
+    {% block content %}
+    <p> This is base.html </p>
+    {% endblock %}
+    
+</body>
+</html>

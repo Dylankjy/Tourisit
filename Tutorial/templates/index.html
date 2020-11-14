@@ -1,0 +1,69 @@
+<!-- If you just do this without any customization, it will include all templates in base.html -->
+<!-- However, if you want to customize some stuff, you can just do {#%block nav%#} CUSTOM CONTENT {#% endblock %#} and it will override the base.html parent file navbar -->
+{% extends 'base.html' %}
+
+{% block morescripts %}
+<link rel='stylesheet' href={{ url_for('static', filename='shop.css') }}>
+{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  {% block content %}
+  <section class='section'>
+
+    <div class='container'>
+
+      <div class='columns'>
+
+        {% for desc, price in db.items() %}
+        <div class='column'>
+          <div class='box item-box'>
+            <figure class='image'>
+              <img src={{ url_for('static', filename='building.jpg')}}>
+              <div class='content is-size-7'>
+                <br>
+                <p class='has-text-centered'>{{ desc }}</p>
+                <div class='navbar-divider'></div>
+                <p>From <b>${{ price }}</b></p>
+              </div>
+            </figure>
+
+            <div class='level-right'>
+
+              <a class="level-item">
+                <span class="icon is-small">
+                  <i class="fas fa-heart"></i>
+                </span>
+              </a>
+
+              <a class="level-item">
+                <span class="icon is-small">
+                  <i class="fas fa-shopping-cart"></i>
+                </span>
+              </a>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+    </div>
+    
+
+  </section>
+  {% endblock %}
+</body>
+
+</html>
