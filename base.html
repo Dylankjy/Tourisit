@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{% block title %} {% endblock %}</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    {% endblock %}
+
+    {% block scripts %}
+
     <!-- url_for(Folder Name, filepath from Folder) -->
     <link rel='stylesheet' href="{{ url_for('static', filename='css/main.css') }}">
-    {% block head %}
-    
-    INSERT GLOBAL SCRIPTS HERE!
-    
+
     {% endblock %}
+
 </head>
 <body>
-    {% block body %}
+    {% block content %}
 
     INSERT GLOBAL BODY CONTENT HERE!
     
