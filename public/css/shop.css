@@ -1,3 +1,20 @@
-.product-card {
+.listing-author * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.listing-author-pfp {
+    height: 2rem;
+    width: 2rem;
+    border: 1px rgb(238, 238, 238) solid;
+    border-radius: 99999px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
+.listing-img {
+    height: 20rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }

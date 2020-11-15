@@ -1,13 +1,37 @@
 {% extends 'base.html' %}
 
+{% block scripts %}
+<link rel="stylesheet" href="/css/shop.css">
+{% endblock %}
 
 {% block content %}
-<section class='hero'>
-    <div class='hero-body'>
-        <div class='box'>
-            <h1 class='title has-text-weight-bold'>Bishan Nightlife</h1>
-
-            <p>Explore the night life of Bishan</p>
+<section class="section">
+    <div class="container">
+        <div class='box p-5'>
+            <div class="columns is-vcentered">
+                <div class="column">
+                    <div class="ml-4">
+                        <div class="mb-2 listing-author">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                            <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+                        </div>
+                        <h1 class='title'>Bishan Nightlife</h1>
+                        <p class="subtitle">Explore the night life of Bishan</p>
+                        <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                            $100
+                        </p>
+                        <br>
+                    </div>
+                    <div class="buttons">
+                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
+                            to wishlist</a>
+                        <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
