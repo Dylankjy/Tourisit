@@ -9,9 +9,11 @@ app = Flask(__name__,
 def home():
     return render_template('index.html')
 
+
 @app.route('/id/login')
 def login():
     return render_template('login.html')
+
 
 @app.route('/id/signup')
 def signup():
