@@ -29,4 +29,30 @@ def signup():
     return render_template('signup.html')
 
 
+@app.route('/market')
+def market():
+    try:
+        return render_template('market.html')
+    except:
+        return 'Error trying to render'
+
+
+@app.route('/makelisting')
+def makelisting():
+    try:
+        return render_template('makelisting.html')
+    except:
+        return 'Error trying to render'
+
+
+@app.route('/ownlisting')
+def ownlisting():
+    try:
+        return render_template('ownlisting.html')
+    except:
+        return 'Error trying to render'
+
+
+
+
 app.run(debug=True)
