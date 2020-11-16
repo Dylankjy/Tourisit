@@ -14,6 +14,7 @@ def home():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    global info
     if (request.method == 'POST') and (request.form['submit_button'] == 'yes'):
         name = request.form['username']
         status = request.form['submit_button']
@@ -28,5 +29,9 @@ def login():
 def signup():
     return render_template('signup.html')
 
+
+@app.route('/bookings')
+def bookings():
+    return render_template('bookings.html', info=info)
 
 app.run(debug=True)
