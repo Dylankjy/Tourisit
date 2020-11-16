@@ -6,11 +6,28 @@
 {% endblock %}
 
 {% block content %}
-<section>
-    <div class="container">
-        <div class="box p-3">
-            <h3 class="is-vcentered">Let's rate your tour experience</h3>
+<section class="section">
+    <div class='box p-5'>
+        <h1 class="title">Let's rate your tour experience</h1>
+            <div class="columns is-vcentered">
+                <div class="column">
+                    <div class="ml-4">
+                        <div class="mb-2 listing-author">
+                            <div class="profile-img" style="background-image: url('/public/pfp.jpg');"></div>
+                            <div class="ml-2"><b>HideThePain69</b></div>
+                        </div>
+                        <h1 class='title'>Bishan Nightlife</h1>
+                        <p class="subtitle">Explore the night life of Bishan</p>
+                        <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                            $100
+                        </p>
+                        <br>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box listing-img" style="background-image: url('/public/places/bishan.jpg');"></div>
+                </div>
+            </div>
         </div>
-    </div>
 </section>
 {% endblock %}
