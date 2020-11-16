@@ -17,6 +17,8 @@
 
 <body>
   {% block nav %}
+
+
   <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
@@ -43,18 +45,87 @@
           </a>
         </div>
 
-        <!-- <div class="navbar-end">
+        {% if info.status == 'yes' %}
+        <div class="navbar-end">
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-item">
+              <div class="listing-author-pfp" style="background-image: url('/pfp.jpg');"></div>
+            </a>
+
+            <div class="navbar-dropdown">
+              <div class="has-background-light p-4 mb-2">
+                <p class="has-text-weight-bold">Logged in as</p>
+                <p>{{ info.name }}</p>
+              </div>
+              <a class="navbar-item">
+                Your profile
+              </a>
+              <a class="navbar-item">
+                Your bookings
+              </a>
+              <a class="navbar-item">
+                Your wishlist
+              </a>
+              <a class="navbar-item">
+                Account settings
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item">
+                <i class="fas fa-sign-out-alt"></i>&ensp;Sign out
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {% else %}
+
+        <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-info is-light">
+              <a class="button is-info is-light" href='/signup'>
                 <strong>Sign up</strong>
               </a>
-              <a class="button is-light">
+              <a class="button is-light" href='/login'>
                 Log in
               </a>
             </div>
           </div>
-        </div> -->
+        </div>
+
+        {% endif %}
+
+
+    </div>
+  </nav>      
+      
+
+
+  <!-- <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item has-text-weight-bold" href="/">Tourister</a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+
+          <a class="navbar-item" href="/discover">
+            Discover
+          </a>
+          <a class="navbar-item" href="/help">
+            Helpdesk
+          </a>
+        </div>
+      
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-item">
@@ -87,7 +158,7 @@
         </div>
       </div>
     </div>
-  </nav>
+  </nav> -->
   {% endblock %}
 
   {% block content %}

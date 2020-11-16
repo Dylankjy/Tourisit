@@ -6,5 +6,29 @@
 {% endblock %}
 
 {% block content %}
-<p>This is Login Page</p>
+<section class="hero is-fullheight has-text-centered">
+    <div class="hero-body has-text-centered">
+      <div class="login">
+        <img src="https://logoipsum.com/logo/logo-1.svg" width="325px" />
+        <form method='POST'>
+          <div class="field">
+            <div class="control">
+              <input class="input is-medium is-rounded" name='username' type="text" placeholder="Name" required />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input is-medium is-rounded" type="password" placeholder="**********" required />
+            </div>
+          </div>
+          <br>
+          <button class="button is-block is-fullwidth is-primary is-medium is-rounded" name='submit_button' type="submit" value='yes'>
+            Login
+          </button>
+        </form>
+        <br>
+        
+      </div>
+    </div>
+</section>
 {% endblock %}
