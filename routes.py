@@ -14,6 +14,7 @@ def home():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    global info
     if (request.method == 'POST') and (request.form['submit_button'] == 'yes'):
         name = request.form['username']
         status = request.form['submit_button']
@@ -53,6 +54,14 @@ def ownlisting():
         return 'Error trying to render'
 
 
+@app.route('/bookings')
+def bookings():
+    return render_template('bookings.html')
+
+
+@app.route('/tourListing')
+def tourListing():
+    return render_template('tourListing.html')
 
 
 app.run(debug=True)
