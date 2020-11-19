@@ -56,7 +56,10 @@ def ownlisting():
 
 @app.route('/bookings')
 def bookings():
-    return render_template('bookings.html')
+    try:
+        return render_template('bookings.html')
+    except:
+        return 'Error trying to render'
 
 
 @app.route('/tourListing')

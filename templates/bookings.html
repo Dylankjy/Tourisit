@@ -10,53 +10,112 @@
 
 
 {% block content %}
-<!-- WIP -->
+<section class='hero is-medium is-info is-bold'>
+    <div class='hero-body'>
+        <div class="container">
+            <h1 class="title is-size-1 has-text-weight-bold">
+              Your Bookings
+            </h1>
+        </div>
+    </div>
+</section>
+
+<!--Main-->
 <section class="section">
     <div class="container">
-        <h1 class="title is-size-2">Bookings</h1>
+        <div class="columns is-7">
 
-        <!-- Start: Tab (Current/Previous bookings)-->
-           <div class="tabs is-toggle">
-              <ul>
-                <li class="is-active">
-                  <a>Current Bookings</a>
-                </li>
-                <li>
-                  <a>Past Bookings</a>
-                </li>
-              </ul>
-            </div>
-        <!-- End: Tabs -->
-    </div><br>
+<!--Start: Menu Column-->
+<div class="column is-one-third">
+        <aside class="menu">
 
-    <!-- START: Horizontal Card -->
-    <div class="container">
-        <div class='box p-5'>
-            <div class="columns">
+        <!--Start: Dropdown-->
+        <div class="dropdown is-hoverable">
+          <div class="dropdown-trigger">
+            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+              <span>Upcoming Bookings</span>
+              <span class="icon is-small">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </div>
+      <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+        <div class="dropdown-content">
+          <a class="dropdown-item is-active">
+            Upcoming Bookings
+          </a>
+            <a class="dropdown-item">
+            Archived
+          </a>
+        </div>
+      </div>
+    </div>
+            <!--End: Dropdown-->
+
+        <!--Start: Booking Thumbnails-->
+        <ul class="menu-list">
+            <li><a>
+
+                    <!-- START: Horizontal Card -->
+        <div class='box p-2'>
+            <div class="columns"> <!-- columns div has width issue-->
                 <div class="column">
-                    <div class="ml-4">
-                        <!-- insert timeline using bulma steps extension-->
+                    <div>
                         <div class="mb-2 listing-author">
                             <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                             <div class="ml-2"><b>HideThePain69</b> is offering:</div>
                         </div>
-                        <h1 class='title'>Bishan Nightlife</h1>
-                        <p class="subtitle">Explore the night life of Bishan</p>
+                        <p class='is-size-4'>Bishan Nightlife</p>
                         <br>
                     </div>
-                    <div class="buttons">
-                        <a class="button is-white has-text-primary"><i class="fas fa-comment-alt"></i>&ensp;View Chat</a><br>
-                        <!-- insert dropdown for options: Initiate/Terminate, View Latest Itinerary, Make Payment, Feedback-->
-                        <a class="button is-white has-text-primary"></i>&ensp;Options</a>
-                    </div>
-                </div>
-                <div class="column is-two-fifths">
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                <div class="column">
+                    <div class="image listing-img is-128x128" style="background-image: url('/places/bishan.jpg');"></div>
                 </div>
             </div>
         </div>
-    </div>
         <!-- END: Horizontal Card -->
+            </a></li>
+
+            <li><a>
+                    <!-- START: Horizontal Card -->
+        <div class='box p-2'>
+            <div class="columns"> <!-- columns div has width issue-->
+                <div class="column">
+                    <div>
+                        <div class="mb-2 listing-author">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                            <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+                        </div>
+                        <p class='is-size-4'>Bishan Nightlife</p>
+                        <br>
+                    </div>
+                <div class="column">
+                    <div class="image listing-img is-128x128" style="background-image: url('/places/bishan.jpg');"></div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Horizontal Card -->
+            </a></li>
+
+        </ul>
+        <!--End: Booking Thumbnails-->
+        </aside>
+</div>
+<!--End: Menu Column-->
+
+
+<!--Start: Console Column-->
+    <div class="column">
+        <section class="section">
+            <div class="container has-background-light p-4">
+                Main Panel
+            </div>
+        </section>
+    </div>
+<!--End: Console Column-->
+        </div>
+    </div>
 </section>
+
 
 {% endblock %}
