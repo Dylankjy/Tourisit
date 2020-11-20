@@ -61,6 +61,12 @@ def bookings():
     except:
         return 'Error trying to render'
 
+@app.route('/review')
+def bookings():
+    try:
+        return render_template('review.html')
+    except:
+        return 'Error trying to render'
 
 @app.route('/tourListing')
 def tourListing():
