@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+<!--<link rel="stylesheet" href="/css/shop.css">-->
+<link rel="stylesheet" href="/css/navbar.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block content %}
+<section class="hero is-light">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          Your workdesk
+        </h1>
+        <h2 class="subtitle">
+          View your performance, earnings and ratings
+        </h2>
+      </div>
+    </div>
+  </section>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <aside class="column is-2">
+                <nav class="menu">
+                    <p class="menu-label">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li><a class="is-active">Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                    </ul>
+                    <p class="menu-label">
+                        Administration
+                    </p>
+                    <ul class="menu-list">
+                        <li><a>Team Settings</a></li>
+                        <li>
+                            <a class="">Manage Your Team</a>
+                            <ul>
+                                <li><a>Members</a></li>
+                                <li><a>Plugins</a></li>
+                                <li><a>Add a member</a></li>
+                            </ul>
+                        </li>
+                        <li><a>Invitations</a></li>
+                        <li><a>Cloud Storage Environment Settings</a></li>
+                        <li><a>Authentication</a></li>
+                    </ul>
+                    <p class="menu-label">
+                        Transactions
+                    </p>
+                    <ul class="menu-list">
+                        <li><a>Payments</a></li>
+                        <li><a>Transfers</a></li>
+                        <li><a>Balance</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="column">
+                <div class="level">
+                    <div class="level-right">
+                        <div class="level-item">
+                            <button type="button" class="button is-small">
+                                March 8, 2017 - April 6, 2017
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns is-multiline">
+                    <div class="column">
+                        <div class="box">
+                            <div class="heading">Your Net Earnings</div>
+                            <div class="title">$696 <span class="tag is-danger is-light">-$18</span></div>
+                            <div class="level">
+                                <div class="level-item">
+                                    <div>
+                                        <div class="heading">Gross Income</div>
+                                        <div class="title is-5">$768</div>
+                                    </div>
+                                </div>
+                                <div class="level-item">
+                                    <div>
+                                        <div class="heading">Expenses</div>
+                                        <div class="title is-5">$72</div>
+                                    </div>
+                                </div>
+                                <div class="level-item">
+                                    <div>
+                                        <div class="heading">Expense Ratio</div>
+                                        <div class="title is-5">9.38%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <div class="heading">Your Satisfaction</div>
+                            <div class="title">96.4% <span class="tag is-success is-light">+10%</span></div>
+                            <div class="level">
+                                <div class="level-item">
+                                    <div class="">
+                                        <div class="heading">Positive</div>
+                                        <div class="title is-5">54</div>
+                                    </div>
+                                </div>
+                                <div class="level-item">
+                                    <div class="">
+                                        <div class="heading">Negative</div>
+                                        <div class="title is-5">2</div>
+                                    </div>
+                                </div>
+                                <div class="level-item">
+                                    <div class="">
+                                        <div class="heading">Overrall rate</div>
+                                        <div class="title is-5">78.6%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <div class="heading">Impressions</div>
+                            <div class="title">128 <span class="tag is-success is-light">+2</span></div>
+                            <div class="level">
+                                <div class="level-item">
+                                    <div class="">
+                                        <div class="heading">Click-through rate</div>
+                                        <div class="title is-5">20%</div>
+                                    </div>
+                                </div>
+                                <div class="level-item">
+                                    <div class="">
+                                        <div class="heading">Booking rate</div>
+                                        <div class="title is-5">90%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns is-multiline">
+                    <div class="column is-6">
+                        <div class="panel">
+                            <p class="panel-heading">
+                                Expenses
+                            </p>
+                            <div class="panel-block">
+                                <canvas id="expensesChart" width="400" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="panel">
+                            <p class="panel-heading">
+                                Refunds
+                            </p>
+                            <div class="panel-block">
+                                <canvas id="refundChart" width="400" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+{% endblock %}
