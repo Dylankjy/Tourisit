@@ -1,9 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 app = Flask(__name__,
             static_url_path='',
             static_folder='public',
             template_folder='templates')
+
+bcrypt = Bcrypt()
+login_manager = LoginManager(app)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -58,12 +63,14 @@ def bookings():
     except:
         return 'Error trying to render'
 
+
 @app.route('/review')
 def review():
     try:
         return render_template('review.html')
     except:
         return 'Error trying to render'
+
 
 @app.route('/tourListing')
 def tourListing():
