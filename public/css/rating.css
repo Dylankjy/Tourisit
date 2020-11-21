@@ -1,35 +1,42 @@
-.rate {
-    float: left;
-    height: 46px;
-    padding: 0 10px;
+input[type="radio"] {
+	position: fixed;
+	top: 0;
+	right: 100%;
 }
-.rate:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
+
+.radio.label {
+	font-size: 1.5em;
+	padding: 0.5em;
+	margin: 0;
+	float: left;
+	cursor: pointer;
+	@include transition(0.2s);
 }
-.rate:not(:checked) > label {
-    float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:30px;
-    color:#ccc;
+
+input[type="radio"]:checked ~ input + label {
+	background: none;
+	color: #aaa;
 }
-.rate:not(:checked) > label:before {
-    content: '★ ';
+
+input + label {
+	background: #fff;
+	color: orange;
+	margin: 0 0 1em 0;
 }
-.rate > input:checked ~ label {
-    color: #ffc700;
+
+input + label:first-of-type {
+	border-top-left-radius: $rad;
+	border-bottom-left-radius: $rad;
 }
-.rate:not(:checked) > label:hover,
-.rate:not(:checked) > label:hover ~ label {
-    color: #deb217;
+
+input:checked + label {
+	border-top-right-radius: $rad;
+	border-bottom-right-radius: $rad;
 }
-.rate > input:checked + label:hover,
-.rate > input:checked + label:hover ~ label,
-.rate > input:checked ~ label:hover,
-.rate > input:checked ~ label:hover ~ label,
-.rate > label:hover ~ input:checked ~ label {
-    color: #c59b08;
+
+hr {
+	clear: both;
+	border: 0;
+	border-top: 2px solid #999;
+	margin: 2em 0;
 }
