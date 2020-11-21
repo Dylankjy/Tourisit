@@ -69,5 +69,11 @@ def review():
 def tourListing():
     return render_template('tourListing.html')
 
+@app.route('/helpdesk')
+def helpdesk():
+    try:
+        return render_template('helpdesk')
+    except:
+        return 'Error trying to render'
 
 app.run(debug=True)
