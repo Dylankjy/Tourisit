@@ -1,0 +1,6 @@
+#discover-hero {
+    background: url("/imgs/discover.jpg") center scroll no-repeat;
+    background-size: cover;
+    background-color: rgba(0,0,0,0.55);
+    background-blend-mode: overlay;
+}

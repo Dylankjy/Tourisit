@@ -29,7 +29,7 @@
     {% block nav %}
 
 
-    <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
                 <a class="navbar-item has-text-weight-bold" href="/">Tourister</a>
@@ -54,7 +54,7 @@
 
                 <div class="navbar-end">
                     <a class="navbar-item has-text-danger-dark" href="{{url_for('home')}}">
-                        <i class="fas fa-arrow-left"></i>&ensp;Return to Buyer mode
+                        <i class="fas fa-arrow-left"></i>&ensp;Buyer mode
                     </a>
                     <a class="navbar-item" href="{{url_for('all_businesses')}}">
                         <i class="fas fa-briefcase"></i>
@@ -65,7 +65,7 @@
                         </a>
 
                         <div class="navbar-dropdown is-boxed is-right">
-                            <div class="has-background-light p-4 mb-2">
+                            <div class="has-background-light p-4 mb-2 has-text-black">
                                 <p class="has-text-weight-bold">Logged in as</p>
                                 <p>HidethePain69</p>
                             </div>
@@ -79,7 +79,7 @@
                                 Account settings
                             </a>
                             <hr class="navbar-divider">
-                            <a class="navbar-item">
+                            <a class="navbar-item has-text-danger-dark">
                                 <i class="fas fa-sign-out-alt"></i>&ensp;Sign out
                             </a>
                         </div>

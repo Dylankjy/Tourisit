@@ -2,20 +2,31 @@
 
 {% block scripts %}
 <link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/css/discover.css">
 {% endblock %}
 
 {% block content %}
-<section class='section'>
-    <div class='container searchbar'>
-        <div class="field has-addons">
-            <div class="control is-expanded">
-                <input id="searchReq" class="input is-fullwidth" type="text" placeholder="Look for a tour">
-            </div>
-            <div class="control">
-                <button class="button is-danger">
-                    Search
-                </button>
+<section id="discover-hero" class="hero is-medium is-black">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
+                Discover
+            </h1>
+            <h2 class="subtitle is-size-4">
+                There's always a trip for everyone
+            </h2>
+        </div>
+        <br>
+        <div class="searchbar">
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input id="searchReq" class="input is-fullwidth" type="text" placeholder="Look for a tour">
+                </div>
+                <div class="control">
+                    <button class="button is-danger">
+                        Search
+                    </button>
+                </div>
             </div>
         </div>
     </div>

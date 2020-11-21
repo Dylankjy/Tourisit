@@ -8,10 +8,14 @@
     <title>Tourister - Tours by locals.</title>
     <link rel="stylesheet" href="/css/bulma.min.css">
     <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
         crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"
         integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw=="
         crossorigin="anonymous"></script>
@@ -28,7 +32,7 @@
     {% block nav %}
 
 
-    <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
                 <a class="navbar-item has-text-weight-bold" href="/">Tourister</a>
@@ -55,8 +59,9 @@
 
 
                 <div class="navbar-end">
-                    <a class="navbar-item" href="/s/" class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="Tooltip content on top">
-                        
+                    <a class="navbar-item" href="/s/" class="has-tooltip-arrow has-tooltip-bottom"
+                        data-tooltip="Tooltip content on top">
+
                     </a>
                     <a class="navbar-item has-text-primary-dark" href="{{url_for('sellerDashboard')}}">
                         <i class="fas fa-arrow-right"></i>&ensp;Tour Guide mode
@@ -73,7 +78,7 @@
                         </a>
 
                         <div class="navbar-dropdown is-boxed is-right">
-                            <div class="has-background-light p-4 mb-2">
+                            <div class="has-background-light p-4 mb-2 has-text-black">
                                 <p class="has-text-weight-bold">Logged in as</p>
                                 <p>HidethePain69</p>
                             </div>
@@ -93,7 +98,7 @@
                                 Account settings
                             </a>
                             <hr class="navbar-divider">
-                            <a class="navbar-item">
+                            <a class="navbar-item has-text-danger-dark">
                                 <i class="fas fa-sign-out-alt"></i>&ensp;Sign out
                             </a>
                         </div>

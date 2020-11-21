@@ -1,9 +1,14 @@
 .profile-img {
     height: 2rem;
     width: 2rem;
-    border: 1px rgb(238, 238, 238) solid;
+    border: 1px rgb(12, 12, 12)lid;
     border-radius: 99999px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.navbar.is-black {
+    background-color: rgba(0, 0, 0, .80) !important;
+    backdrop-filter: saturate(180%) blur(20px);
 }
