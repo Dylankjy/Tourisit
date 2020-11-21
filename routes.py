@@ -26,6 +26,14 @@ def login():
 def signup():
     return render_template('signup.html')
 
+@app.route('/s/')
+def sellerMode():
+    return redirect("/s/dashboard", code = 302)
+
+@app.route('/s/dashboard')
+def sellerDashboard():
+    return render_template('dashboard.html')
+
 
 @app.route('/market')
 def market():
