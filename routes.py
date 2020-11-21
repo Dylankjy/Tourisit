@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
+# from flask_bcrypt import Bcrypt
+# from flask_login import LoginManager
 
 app = Flask(__name__,
             static_url_path='',
