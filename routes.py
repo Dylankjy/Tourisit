@@ -31,6 +31,14 @@ def login():
 def signup():
     return render_template('signup.html')
 
+@app.route('/s/')
+def sellerMode():
+    return redirect("/s/dashboard", code = 302)
+
+@app.route('/s/dashboard')
+def sellerDashboard():
+    return render_template('dashboard.html')
+
 
 @app.route('/market')
 def market():
@@ -76,5 +84,11 @@ def review():
 def tourListing():
     return render_template('tourListing.html')
 
+@app.route('/helpdesk')
+def helpdesk():
+    try:
+        return render_template('helpdesk.html')
+    except:
+        return 'Error trying to render'
 
 app.run(debug=True)

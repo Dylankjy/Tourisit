@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="/css/bulma.min.css">
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw==" crossorigin="anonymous"></script>
+  <script>
+    Turbolinks.start()
+  </script>
   {% endblock %}
 
   {% block scripts %}
@@ -63,10 +67,10 @@
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-item">
-              <div class="listing-author-pfp" style="background-image: url('/pfp.jpg');"></div>
+              <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
             </a>
 
-            <div class="navbar-dropdown">
+            <div class="navbar-dropdown is-boxed is-right">
               <div class="has-background-light p-4 mb-2">
                 <p class="has-text-weight-bold">Logged in as</p>
                 <p>HidethePain69</p>
