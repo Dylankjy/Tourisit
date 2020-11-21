@@ -1,0 +1,67 @@
+{% extends 'baseTour.html' %}
+
+{% block scripts %}
+<link rel="stylesheet" href="/css/shop.css">
+<link rel="stylesheet" href="/css/index.css">
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+
+        <!-- START: Horizontal Card -->
+        <div class='box p-5'>
+            <div class="columns is-vcentered">
+                <div class="column">
+                    <a href={{url_for("tourListing")}}>
+                        <div class="ml-4">
+                            <div class="mb-2 listing-author">
+                                <br><br>
+                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+                            </div>
+                            <h1 class='title'>Bishan Nightlife</h1>
+                            <p class="subtitle">Explore the night life of Bishan</p>
+                            <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                                $100
+                            </p>
+                            <br>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="column">
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                </div>
+                
+            </div>
+            <br><br>
+
+            <div class='columns'>
+                <div class='column is-half content'>
+                    <h2>About this Tour</h2>
+                    <p>
+                        <b>HideThePain69</b> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                        when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
+                        into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum 
+                        passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </p>
+                </div>
+
+                <div class='column'>
+                    <br>
+                    <div class="buttons is-centered">
+                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
+                            to wishlist</a>
+                    </div>
+                    <br>
+                    <div class="buttons is-centered">
+                        <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Horizontal Card -->
+    </div>
+</section>
+{% endblock %}

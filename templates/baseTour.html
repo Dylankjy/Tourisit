@@ -8,7 +8,8 @@
     <title>Tourister - Tours by locals.</title>
     <link rel="stylesheet" href="/css/bulma.min.css">
     <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
         crossorigin="anonymous" />
@@ -42,11 +43,8 @@
 
             <div class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="/">
-                        Home
-                    </a>
-                    <a class="navbar-item" href="{{url_for('market')}}">
-                        Discover
+                    <a class="navbar-item" href="{{url_for('sellerModeDir')}}">
+                        Workdesk
                     </a>
                     <a class="navbar-item" href="{{url_for('support')}}">
                         Support
@@ -55,17 +53,11 @@
 
 
                 <div class="navbar-end">
-                    <a class="navbar-item" href="/s/" class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="Tooltip content on top">
-                        
+                    <a class="navbar-item has-text-danger-dark" href="{{url_for('home')}}">
+                        <i class="fas fa-arrow-left"></i>&ensp;Return to Buyer mode
                     </a>
-                    <a class="navbar-item has-text-primary-dark" href="{{url_for('sellerModeDir')}}">
-                        <i class="fas fa-arrow-right"></i>&ensp;Tour Guide mode
-                    </a>
-                    <a class="navbar-item" href="/chat">
-                        <i class="fas fa-bookmark"></i>
-                    </a>
-                    <a class="navbar-item" href="/support">
-                        <i class="fas fa-heart"></i>
+                    <a class="navbar-item" href="{{url_for('all_businesses')}}">
+                        <i class="fas fa-briefcase"></i>
                     </a>
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-item">
@@ -80,16 +72,10 @@
                             <a class="navbar-item" href="{{url_for('profile')}}">
                                 Your profile
                             </a>
-                            <a class="navbar-item" href='{{url_for("ownlisting")}}'>
-                                Your listings
+                            <a class="navbar-item" href="{{url_for('ownlisting')}}">
+                                Manage listings
                             </a>
-                            <a class="navbar-item" href='{{url_for("all_bookings")}}'>
-                                Your bookings
-                            </a>
-                            <a class="navbar-item" href='{{url_for("favourites")}}'>
-                                Your wishlist
-                            </a>
-                            <a class="navbar-item" href='{{url_for("accountinfo")}}'>
+                            <a class="navbar-item" href="{{url_for('accountinfo')}}">
                                 Account settings
                             </a>
                             <hr class="navbar-divider">
@@ -122,7 +108,7 @@
     {% endblock %}
 
     {% block content %}
-    {% endblock%}
+    {% endblock %}
 </body>
 
 </html>

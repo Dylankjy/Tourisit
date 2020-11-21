@@ -2,43 +2,26 @@
 
 {% block scripts %}
 <link rel="stylesheet" href="/css/shop.css">
+<link rel="stylesheet" href="/css/index.css">
 {% endblock %}
 
 {% block content %}
-
-<section class="section">
-    <div class="container">
-
-        <!-- START: Horizontal Card -->
-        <div class='box p-5'>
-            <div class="columns is-vcentered">
-                <div class="column">
-                    <div class="ml-4">
-                        <div class="mb-2 listing-author">
-                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                            <div class="ml-2"><b>HideThePain69</b> is offering:</div>
-                        </div>
-                        <h1 class='title'>Bishan Nightlife</h1>
-                        <p class="subtitle">Explore the night life of Bishan</p>
-                        <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
-                            $100
-                        </p>
-                        <br>
-                    </div>
-                    <div class="buttons">
-                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
-                            to wishlist</a>
-                        <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
-                </div>
+<section class='section'>
+    <div class='container searchbar'>
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <input id="searchReq" class="input is-fullwidth" type="text" placeholder="Look for a tour">
+            </div>
+            <div class="control">
+                <button class="button is-danger">
+                    Search
+                </button>
             </div>
         </div>
-        <!-- END: Horizontal Card -->
     </div>
-    <br>
+</section>
+
+<section class="section">
     <div class="container">
         <div class="columns">
             <div class="column">
