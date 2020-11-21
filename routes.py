@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+
 # from flask_bcrypt import Bcrypt
 # from flask_login import LoginManager
 
@@ -7,12 +8,13 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
+
 # bcrypt = Bcrypt()
 # login_manager = LoginManager(app)
 
 # --------------------------------------
 
-#Amy
+# Amy
 
 # SHARED
 # Support: Help desk with customer support and Apply for Pro Verified
@@ -23,6 +25,7 @@ def support():
     except:
         return 'Error trying to render'
 
+
 # CUSTOMER
 # Submit Review
 @app.route('/review')
@@ -31,6 +34,7 @@ def review():
         return render_template('customer/review.html')
     except:
         return 'Error trying to render'
+
 
 # SHARED
 # User profile 
@@ -42,6 +46,7 @@ def profile():
     except:
         return 'Error trying to render'
 
+
 # SHARED
 # User account settings
 @app.route('/me/settings')
@@ -51,18 +56,20 @@ def accountinfo():
     except:
         return 'Error trying to render'
 
+
 # --------------------------------------
 
-#ALEX
+# ALEX
 
-#CUSTOMERS
-#Home page
+# CUSTOMERS
+# Home page
 @app.route('/', methods=['POST', 'GET'])
 def home():
     return render_template('customer/index-customer.html')
 
-#CUSTOMERS
-#Marketplace: Display all listings
+
+# CUSTOMERS
+# Marketplace: Display all listings
 @app.route('/discover')
 def market():
     try:
@@ -70,29 +77,33 @@ def market():
     except:
         return 'Error trying to render'
 
-#CUSTOMERS
-#Detailed Listing: More detailed listing when listing from M clicked
+
+# CUSTOMERS
+# Detailed Listing: More detailed listing when listing from M clicked
 @app.route('/discover/l/')
 def tourListing():
     return render_template('customer/tourListing.html')
 
-#CUSTOMERS
-#Favourites: Shows all the liked listings
+
+# CUSTOMERS
+# Favourites: Shows all the liked listings
 @app.route('/me/favourites')
 def favourites():
     return render_template('customer/favourites.html')
 
-#TOUR GUIDES
-#Manage Listings: For Tour Guides to Edit/Manage their listings
+
+# TOUR GUIDES
+# Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
 def ownlisting():
     try:
         return render_template('tourGuides/ownlisting.html')
     except:
         return 'Error trying to render'
-        
-#TOUR GUIDES
-#Add a Listing: For Tour Guides to add listing
+
+
+# TOUR GUIDES
+# Add a Listing: For Tour Guides to add listing
 @app.route('/listings/add')
 def makelisting():
     try:
@@ -100,11 +111,12 @@ def makelisting():
     except:
         return 'Error trying to render'
 
+
 # --------------------------------------
 
-#Chlorine (Cl) - 17, 35.5 [Halogen]
+# Chlorine (Cl) - 17, 35.5 [Halogen]
 
-#CUSTOMER
+# CUSTOMER
 # Your Bookings: Access all bookings
 @app.route('/bookings')
 def all_bookings():
@@ -113,15 +125,17 @@ def all_bookings():
     except:
         return 'Error trying to render'
 
-#CUSTOMER
+
+# CUSTOMER
 # Individual Bookings
-#@app.route('/bookings/<id>')
+# @app.route('/bookings/<id>')
 @app.route('/bookings')
 def bookings():
     try:
         return render_template('customer/booking.html')
     except:
         return 'Error trying to render'
+
 
 # SHARED
 # Chats: Render indiv chats
@@ -132,6 +146,7 @@ def chat():
     except:
         return 'Error trying to render'
 
+
 # TOUR GUIDES
 # My Businesses: Access all gigs
 @app.route('/s/businesses')
@@ -141,9 +156,10 @@ def all_businesses():
     except:
         return 'Error trying to render'
 
-# TOUR GUIDES 
+
+# TOUR GUIDES
 # Individual gigs  
-#@app.route('/s/businesses/<id>')
+# @app.route('/s/businesses/<id>')
 @app.route('/s/businesses')
 def business():
     try:
@@ -151,21 +167,22 @@ def business():
     except:
         return 'Error trying to render'
 
+
 # --------------------------------------
 
-#Dylan
+# Dylan
 
 # TOUR GUIDE
 # Redirect user to dashboard if attempt to access root of /s/
 @app.route('/s/')
 def sellerModeDir():
-    return redirect("/s/dashboard", code = 302)
+    return redirect(url_for('sellerDashboard'))
 
 
 # Redirect user to dashboard if attempt to access file of /s/
 @app.route('/s')
 def sellerModeFile():
-    return redirect("/s/dashboard", code = 302)
+    return redirect(url_for('sellerDashboard'))
 
 
 # TOUR GUIDE
@@ -174,11 +191,13 @@ def sellerModeFile():
 def sellerDashboard():
     return render_template('tourGuides/dashboard.html')
 
+
 # INTERNAL
 # Admin Dashboard -- Private internal shit
 @app.route('/admin')
 def adminDashboard():
     return render_template('internal/dashboard.html')
+
 
 # SHARED
 # Login Page
@@ -190,6 +209,7 @@ def login():
         return render_template('index.html')
 
     return render_template('auth/login.html')
+
 
 # SHARED
 # Sign up page
