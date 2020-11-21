@@ -7,8 +7,8 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
-bcrypt = Bcrypt()
-login_manager = LoginManager(app)
+# bcrypt = Bcrypt()
+# login_manager = LoginManager(app)
 
 
 @app.route('/', methods=['POST', 'GET'])
