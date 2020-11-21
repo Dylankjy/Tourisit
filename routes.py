@@ -72,7 +72,7 @@ def tourListing():
 @app.route('/helpdesk')
 def helpdesk():
     try:
-        return render_template('helpdesk')
+        return render_template('helpdesk.html')
     except:
         return 'Error trying to render'
 
