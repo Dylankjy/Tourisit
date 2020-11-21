@@ -1,10 +1,71 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="/css/index.css">
+<script defer src="/js/signup.js"></script>
 {% endblock %}
 
 {% block content %}
-<p>This is Signup Page</p>
+<section class="section">
+    <div class="container" id="main">
+        <div id="register">
+            <h1 class="title">Get a Tourister ID</h1>
+            <h3 class="subtitle">Your pass to local tours, by locals.</h3>
+            <div id="emailNotValid" class="notification is-danger" style="display: none;">
+                Email address doesn't seem to be valid.
+            </div>
+            <div id="passwordNotValid" class="notification is-danger" style="display: none;">
+                Password should consist of 8 or more characters.
+            </div>
+            <div id="emailDuplicate" class="notification is-danger" style="display: none;">
+                Email is already attached to an existing account.
+            </div>
+            <form id="signupForm">
+                <div class="field">
+                    <div class="control has-icons-left has-icons-right">
+                        <input id="registerEmail" class="input" type="text" placeholder="Email">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control has-icons-left has-icons-right">
+                        <input id="registerPassword" class="input" type="password" placeholder="Password">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-key"></i>
+                        </span>
+
+                        <div class="showPasswordContainer">
+                            <small class="has-text-grey unselectable" id="showPassword" style="cursor: pointer;"><i
+                                    id="icon-showPassword" class="fas fa-eye-slash"></i>&ensp;<span
+                                    id="showPasswordText">Hold
+                                    to
+                                    show
+                                    password</span></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a class="button is-light has-text-grey" data-pjax='main' href="./login"><i
+                            class="fas fa-key"></i>&ensp;Sign in instead</a>
+                    <a id="registerButton" class="button is-primary">Continue&ensp;<i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+            </form>
+        </div>
+
+        <div id="emailConfirmation" style="display: none;">
+            <h2 class="title is-3">Almost done!</h2>
+            <p id="loginSuccessText" class="subtitle is-6">Please verify your email</p>
+            <div id="tooFastEmail" class="notification is-danger" style="display: none;">
+                Resending emails too quickly.
+            </div>
+            <p>We have sent to a verification link to <b id="emailSentTo"></b>. Please click on it to verify your
+                account with your email.<br><br>Afterwards, you may start using your account.</p>
+            <br>
+            <button id="resendEmailButton" class="button is-light"><i class="fas fa-paper-plane"></i>&ensp;Resend
+                Email</button>
+        </div>
+    </div>
+</section>
 {% endblock %}
