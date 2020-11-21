@@ -7,8 +7,8 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
-# bcrypt = Bcrypt()
-# login_manager = LoginManager(app)
+bcrypt = Bcrypt()
+login_manager = LoginManager(app)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -31,14 +31,12 @@ def login():
 def signup():
     return render_template('signup.html')
 
-
 @app.route('/s/')
-def seller_mode():
+def sellerMode():
     return redirect("/s/dashboard", code = 302)
 
-
 @app.route('/s/dashboard')
-def seller_dashboard():
+def sellerDashboard():
     return render_template('dashboard.html')
 
 
@@ -51,7 +49,7 @@ def market():
 
 
 @app.route('/makelisting')
-def make_listing():
+def makelisting():
     try:
         return render_template('makelisting.html')
     except:
@@ -59,7 +57,7 @@ def make_listing():
 
 
 @app.route('/ownlisting')
-def own_listing():
+def ownlisting():
     try:
         return render_template('ownlisting.html')
     except:
@@ -92,6 +90,5 @@ def helpdesk():
         return render_template('helpdesk.html')
     except:
         return 'Error trying to render'
-
 
 app.run(debug=True)
