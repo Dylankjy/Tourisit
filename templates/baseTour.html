@@ -32,7 +32,7 @@
     <nav class="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item has-text-weight-bold" href="/">Tourister</a>
+                <a class="navbar-item has-text-weight-bold" href="./dashboard">Tourister</a>
 
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
@@ -43,7 +43,7 @@
 
             <div class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="{{url_for('sellerModeDir')}}">
+                    <a class="navbar-item" href="{{url_for('sellerDashboard')}}">
                         Workdesk
                     </a>
                     <a class="navbar-item" href="{{url_for('support')}}">
@@ -53,13 +53,13 @@
 
 
                 <div class="navbar-end">
-                    <a class="navbar-item has-text-danger-dark" href="{{url_for('home')}}">
+                    <a class="navbar-item has-text-danger-dark has-tooltip-arrow has-tooltip-bottom" data-tooltip="Return to the Marketplace" href="{{url_for('home')}}">
                         <i class="fas fa-arrow-left"></i>&ensp;Buyer mode
                     </a>
-                    <a class="navbar-item is-success has-text-success is-vcentered" href="{{url_for('makelisting')}}">
-                        <i class="fas fa-plus"></i>&ensp;Add a listing
+                    <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="New listing" href="{{url_for('makelisting')}}">
+                        <i class="fas fa-plus"></i>
                     </a>
-                    <a class="navbar-item" href="{{url_for('all_businesses')}}">
+                    <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Your business" href="{{url_for('all_businesses')}}">
                         <i class="fas fa-briefcase"></i>
                     </a>
                     <div class="navbar-item has-dropdown is-hoverable">
@@ -88,24 +88,8 @@
                         </div>
                     </div>
                 </div>
-
-
-
-                <!-- <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-info is-light" href='/signup'>
-                <strong>Sign up</strong>
-              </a>
-              <a class="button is-light" href='/login'>
-                Log in
-              </a>
             </div>
-          </div>
-        </div> -->
-
-
-            </div>
+        </div>
     </nav>
 
     {% endblock %}

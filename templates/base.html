@@ -59,17 +59,13 @@
 
 
                 <div class="navbar-end">
-                    <a class="navbar-item" href="/s/" class="has-tooltip-arrow has-tooltip-bottom"
-                        data-tooltip="Tooltip content on top">
-
-                    </a>
                     <a class="navbar-item has-text-primary-dark" href="{{url_for('sellerDashboard')}}">
                         <i class="fas fa-arrow-right"></i>&ensp;Tour Guide mode
                     </a>
-                    <a class="navbar-item" href="{{url_for('chat')}}">
+                    <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Your Bookings" href="{{url_for('chat')}}">
                         <i class="fas fa-bookmark"></i>
                     </a>
-                    <a class="navbar-item" href="{{url_for('favourites')}}">
+                    <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Your Wishlist" href="{{url_for('favourites')}}">
                         <i class="fas fa-heart"></i>
                     </a>
                     <div class="navbar-item has-dropdown is-hoverable">
@@ -119,6 +115,7 @@
 
 
             </div>
+        </div>
     </nav>
 
     {% endblock %}
