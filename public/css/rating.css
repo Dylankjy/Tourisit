@@ -11,8 +11,16 @@
 .score {
     direction: rtl;
     unicode-bidi: bidi-override;
-    color: gray;
 }
+
+.radio input[type="radio"] {
+    visibility: hidden;
+}
+
+.radio i {
+    color: red;
+}
+
 input[type="radio" i] {
     display: none;
 }
