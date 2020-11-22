@@ -12,22 +12,22 @@
         <div class='box p-5'>
             <div class="columns is-vcentered">
                 <div class="column">
-                    <a href={{url_for("tourListing")}}>
-                        <div class="ml-4">
-                            <div class="mb-2 listing-author">
-                                <br><br>
-                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>HideThePain69</b> is offering:</div>
-                            </div>
-                            <h1 class='title'>Bishan Nightlife</h1>
-                            <p class="subtitle">Explore the night life of Bishan</p>
-                            <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
-                                $100
-                            </p>
-                            <br>
+                    
+                    <div class="ml-4">
+                        <div class="mb-2 listing-author">
+                            <br><br>
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                            <div class="ml-2"><b>HideThePain69</b> is offering:</div>
                         </div>
+                        <h1 class='title'>{{ item.tour_name }}</h1>
+                        <p class="subtitle">{{ item.tour_brief }}</p>
+                        <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                            ${{ item.tour_price }}
+                        </p>
+                        <br>
+                    </div>
 
-                    </a>
+                    
                 </div>
                 <div class="column">
                     <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
@@ -40,10 +40,7 @@
                 <div class='column is-half content'>
                     <h2>About this Tour</h2>
                     <p>
-                        <b>HideThePain69</b> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
-                        into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum 
-                        passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        {{ item.tour_desc }}
                     </p>
                 </div>
 
