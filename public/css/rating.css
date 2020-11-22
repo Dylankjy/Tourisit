@@ -9,6 +9,7 @@
 }
 
 .rate {
+    border: 1px solid #cccccc;
     float: left;
     height: 46px;
     padding: 0 10px;

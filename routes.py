@@ -237,7 +237,7 @@ def signup():
 
 
 # Run app
-# app.run(debug=False)
+app.run(debug=False)
 
 
 # class User():
