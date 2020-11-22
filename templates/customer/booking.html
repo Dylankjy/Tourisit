@@ -4,7 +4,8 @@
 
 {% block scripts %}
 <link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="bulma-timeline.min.css">
+<link rel="stylesheet" href="/css/bulma-timeline.min.css">
+<link rel="stylesheet" href="/css/bulma-steps.css">
 <!--<link rel="stylesheet" href="/css/booking.css">-->
 {% endblock %}
 
@@ -24,7 +25,7 @@
                 <div class="ml-2">By <b>HideThePain69</b></div>
             </div>
 
-            <div class='columns my-5 is-centered'>
+            <div class='columns my-5 is-vcentered'>
                 <div class='column'>
                     <h2 class='is-size-4'><b>About this Tour</b></h2>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has 
@@ -42,11 +43,54 @@
     <!--START: Card 2-->
     <div class='container mt-5'>
         <div class='box p-5'>
+          <div class="mb-4">
+            <a href="{{url_for('chat')}}" class='has-text-link mr-4'>
+              <span class="is-size-5"><i class="fas fa-comment-alt"></i>&ensp;View Chat</span></a>
+            <span class='is-pulled-right is-size-5'><i class="fas fa-ellipsis-h"></i></span>
+          </div>
             <!--Steps-->
-            <img src="..\..\public\imgs\steps_placeholder.PNG">
-            <br>
-            <a href="{{url_for('chat')}}" class='has-text-link mr-4'><i class="fas fa-comment-alt"></i>&ensp;View Chat</a>
-            <div class='has-text-right'><i class="fas fa-ellipsis-h"></i></div>
+            <div>
+              <ul class="steps has-content-centered">
+
+                <li class="steps-segment">
+                  <span class="steps-marker">
+                    <i class="fas fa-book"></i>
+                  </span>
+                  <div class="steps-content">
+                    <p class="is-size-5">Initiate Booking</p>
+                  </div>
+                </li>
+
+                <li class="steps-segment is-active">
+                  <span class="steps-marker">
+                    <i class="fas fa-route"></i>
+                  </span>
+                  <div class="steps-content">
+                    <p class="is-size-5">Finalise Itinerary</p>
+                  </div>
+                </li>
+
+                <li class="steps-segment">
+                  <span class="steps-marker">
+                    <i class="fas fa-dollar-sign"></i>
+                  </span>
+                  <div class="steps-content">
+                    <p class="is-size-5 has-text-link">Make Payment</p>
+                  </div>
+                </li>
+
+                <li class="steps-segment">
+                  <span class="steps-marker">
+                    <i class="fas fa-comments"></i>
+                  </span>
+                  <div class="steps-content">
+                    <p class="is-size-5">Leave Feedback</p>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+            <!--Steps end-->
         </div>
     </div>
     <!--END: Card 2-->
@@ -54,55 +98,68 @@
     <div class='container mt-5'>
         <div class='box p-5'>
             <h2 class='is-size-3'><b>Itinerary</b></h2>
-            <table class='table'>
-                <tr><td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
-                    <td>27/11/20, 6pm</td></tr>
-                <tr><td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
-                    <td>Bishan MRT Station</td></tr>
-                <tr><td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
-                    <td>4 hours</td></tr>
-                <tr><td><i class="fas fa-dollar-sign"></i>&ensp;<b>Cost</b></td>
-                    <td>$120</td></tr>
-            </table>
-            <!--timeline-->
+            <div class="columns pt-5">
+
+                <!--timeline-->
+                <div class="column">
             <div class="timeline">
-                <header class="timeline-header">
-                  <span class="tag is-medium is-primary">Start</span>
-                </header>
-                <div class="timeline-item">
-                  <div class="timeline-marker"></div>
-                  <div class="timeline-content">
-                    <p class="heading">January 2016</p>
-                    <p>Timeline content - Can include any HTML element</p>
-                  </div>
+              <header class="timeline-header">
+                <span class="tag is-medium is-success">Start</span>
+              </header>
+              <div class="timeline-item">
+                <div class="timeline-marker is-icon">
+                  <i class="fas fa-map-marker-alt"></i>
                 </div>
-                <div class="timeline-item">
-                  <div class="timeline-marker is-image is-32x32">
-                    <img src="https://bulma.io/images/placeholders/32x32.png">
-                  </div>
-                  <div class="timeline-content">
-                    <p class="heading">February 2016</p>
-                    <p>Timeline content - Can include any HTML element</p>
-                  </div>
-                </div>
-                <header class="timeline-header">
-                  <span class="tag is-primary">2017</span>
-                </header>
-                <div class="timeline-item">
-                  <div class="timeline-marker is-icon">
-                    <i class="fa fa-flag"></i>
-                  </div>
-                  <div class="timeline-content">
-                    <p class="heading">March 2017</p>
-                    <p>Timeline content - Can include any HTML element</p>
-                  </div>
-                </div>
-                <div class="timeline-header">
-                  <span class="tag is-medium is-primary">End</span>
+                <div class="timeline-content">
+                  <p class="heading">Meeting Point</p>
+                  <p>Bishan MRT Station</p>
                 </div>
               </div>
-            <!--timeline end-->
+              <div class="timeline-item">
+                <div class="timeline-marker is-icon">
+                  <i class="fas fa-utensils"></i>
+                </div>
+                <div class="timeline-content">
+                  <p class="heading">Restaurant Name</p>
+                  <p>Enjoy tradiitonal Indian cuisine at this hidden gem of a restaurant!</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <p class="heading">Location</p>
+                  <p>Activity</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <p class="heading">Location</p>
+                  <p>Activity</p>
+                </div>
+              </div>
+              <div class="timeline-header">
+                <span class="tag is-medium is-success">End</span>
+              </div>
+            </div>
+            </div>
+          <!--timeline end-->
+          <!--Start: Info Table-->
+          <div class="column is-one-third">
+            <table class='table'>
+              <tr><td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
+                  <td>27/11/20, 6pm</td></tr>
+              <tr><td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
+                  <td>Bishan MRT Station</td></tr>
+              <tr><td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
+                  <td>4 hours</td></tr>
+              <tr><td><i class="fas fa-dollar-sign"></i>&ensp;<b>Cost</b></td>
+                  <td>$120</td></tr>
+          </table>
+          </div>
+          <!--End: Info Table-->
 
+            </div>
             </div>
         </div>
 

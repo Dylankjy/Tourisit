@@ -1,10 +1,81 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
+<link rel="stylesheet" href="/css/chat.css">
 {% endblock %}
 
 
 
 {% block content %}
+<!--hero-->
+<section class="section has-background-primary-dark has-text-white pb-0">
+    <div class="container p-5">
+    <a href="{{url_for('bookings')}}" class="button is-success is-light is-size-6">
+        <i class="fas fa-chevron-left"></i>&ensp;Bishan Nightlife</a>
+        <br>
+    <div class="listing-author mt-2">
+        <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+        <div class="ml-2 is-size-3"><b>HideThePain69</b></div>
+    </div>
+</div>
+</section>
+<!--End: hero-->
+
+<section class="section">
+    <div class="container">
+        <div class="box" style="height:420px;">
+            <!--Start: Messages-->
+            <div style="height:340px;">
+
+                <div class="box has-background-info-light ml-6 py-2">
+                    <article class="media">
+                      <div class="media-content">
+                        <div class="content is-pulled-right">
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="media-right">
+                        <figure class="image is-64x64">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                        </figure>
+                      </div>
+                    </article>
+                  </div>
+
+                <div class="box has-background-success-light mr-6 py-2">
+                    <article class="media">
+                      <div class="media-left">
+                        <figure class="image is-64x64">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                        </figure>
+                      </div>
+                      <div class="media-content">
+                        <div class="content">
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+
+
+            </div>
+            <!--End: Messages-->
+            <!--Start: Input field-->
+            <div>
+                <div class="field">
+                    <div class="control">
+                      <input class="input" type="text" placeholder="Enter Message Here..">
+                    </div>
+                  </div>
+            </div>
+            <!--End: Input Field-->
+        </div>
+    </div>
+</section>
+
 {% endblock %}
 
