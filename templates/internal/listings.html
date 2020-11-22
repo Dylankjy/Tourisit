@@ -1,0 +1,43 @@
+{% extends 'baseAdmin.html' %}
+
+{% block scripts %}
+<!--<link rel="stylesheet" href="/css/shop.css">-->
+<link rel="stylesheet" href="/css/navbar.css">
+<link rel="stylesheet" href="/css/admin.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+    integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+    crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block content %}
+<section id="admin-hero" class="hero is-dark is-medium">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Manage Listings
+            </h1>
+            <h2 class="subtitle">
+                Remove and edit listings
+            </h2>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <table class="table is-fullwidth">
+            <tr>
+                <th>Listing name</th>
+                <th>Author</th>
+                <th>Date of Creation</th>
+                <th>Last booking</th>
+            </tr>
+            <tr>
+                <td>Bishan Nightlife</td>
+                <td>HideThePain69</td>
+                <td>5 days ago</td>
+                <td>1 day ago</td>
+            </tr>
+        </table>
+    </div>
+</section>
+{% endblock %}
