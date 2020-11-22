@@ -331,7 +331,7 @@ def signup():
 
 
 # Run app
-app.run(debug=True)
+app.run(debug=False)
 
 
 # class User():

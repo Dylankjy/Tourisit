@@ -1,0 +1,21 @@
+.profile-img {
+    height: 2rem;
+    width: 2rem;
+    border: 1px rgb(12, 12, 12);
+    border-radius: 99999px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.score {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+    color: #ddd;
+}
+
+.score input[type="radio"] {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+}
