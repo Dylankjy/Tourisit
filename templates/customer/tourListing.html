@@ -1,63 +1,109 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/shop.css">
 {% endblock %}
 
 {% block content %}
-<section class="section">
-    <div class="container">
+    <section class="section">
+        <div class="container">
 
-        <!-- START: Horizontal Card -->
-        <div class='box p-5'>
-            <div class="columns is-vcentered">
-                <div class="column">
-                    
-                    <div class="ml-4">
-                        <div class="mb-2 listing-author">
-                            <br><br>
-                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                            <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+            <!-- START: Horizontal Card -->
+            <div class='box p-5'>
+                <div class="columns is-vcentered">
+                    <div class="column">
+
+                        <div class="ml-4">
+                            <div class="mb-2 listing-author">
+                                <br><br>
+                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+                            </div>
+                            <h1 class='title'>{{ item.tour_name }}</h1>
+                            <p class="subtitle">{{ item.tour_brief }}</p>
+                            <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                                ${{ item.tour_price }}
+                            </p>
+                            <br>
                         </div>
-                        <h1 class='title'>{{ item.tour_name }}</h1>
-                        <p class="subtitle">{{ item.tour_brief }}</p>
-                        <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
-                            ${{ item.tour_price }}
+
+
+                    </div>
+                    <div class="column">
+                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
+
+                </div>
+                <br><br>
+
+                <div class='columns'>
+                    <div class='column is-half content'>
+                        <h2>About this Tour</h2>
+                        <p>
+                            {{ item.tour_desc }}
                         </p>
+                    </div>
+
+                    <div class='column'>
                         <br>
+                        <div class="buttons is-centered">
+                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
+                                to wishlist</a>
+                        </div>
+                        <br>
+                        <div class="buttons is-centered">
+                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                        </div>
                     </div>
-
-                    
                 </div>
-                <div class="column">
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
-                </div>
-                
             </div>
-            <br><br>
+            <!-- END: Horizontal Card -->
 
-            <div class='columns'>
-                <div class='column is-half content'>
-                    <h2>About this Tour</h2>
-                    <p>
-                        {{ item.tour_desc }}
-                    </p>
-                </div>
-
-                <div class='column'>
-                    <br>
-                    <div class="buttons is-centered">
-                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
-                            to wishlist</a>
+            <!--Start of review cards-->
+            <div class="box">
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-64x64">
+                            <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+                        </figure>
                     </div>
-                    <br>
-                    <div class="buttons is-centered">
-                        <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>John Smith</strong>
+                                <small>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star checked"></span>
+                                    <span class="fas fa-star"></span>
+                                    <span class="fas fa-star"></span>
+                                </small>
+                                <br>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+                            </p>
+                        </div>
+                        <nav class="level is-mobile">
+                            <div class="level-left">
+                                <a class="level-item" aria-label="reply">
+            <span class="icon is-small">
+              <i class="fas fa-reply" aria-hidden="true"></i>
+            </span>
+                                </a>
+                                <a class="level-item" aria-label="retweet">
+            <span class="icon is-small">
+              <i class="fas fa-retweet" aria-hidden="true"></i>
+            </span>
+                                </a>
+                                <a class="level-item" aria-label="like">
+            <span class="icon is-small">
+              <i class="fas fa-heart" aria-hidden="true"></i>
+            </span>
+                                </a>
+                            </div>
+                        </nav>
                     </div>
-                </div>
+                </article>
             </div>
         </div>
-        <!-- END: Horizontal Card -->
-    </div>
-</section>
+    </section>
 {% endblock %}
