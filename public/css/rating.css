@@ -8,9 +8,9 @@
     background-size: cover;
 }
 
-.radio:hover,
-.radio:hover ~ .radio,
-.radio input:checked + .radio,
-.radio input:checked + .radio ~ .radio {
-    color: greenyellow;
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked + label,
+.rating input:checked + label ~ label {
+    color: #ffc107; /* Personal color choice. Lifted from Bootstrap 4 */
 }
