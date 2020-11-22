@@ -20,100 +20,123 @@
     </div>
 </section>
 
-<!--Main-->
-<section class="section">
-    <div class="container">
-        <div class="columns is-7">
-
-<!--Start: Menu Column -->
-<div class="column is-one-third">
-        <aside class="menu">
-
+<section class='section'>
+    <div class='container'>
         <!--Start: Dropdown-->
-        <div class="dropdown is-hoverable">
-          <div class="dropdown-trigger">
-            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-              <span>Upcoming Bookings</span>
-              <span class="icon is-small">
-                <i class="fas fa-angle-down" aria-hidden="true"></i>
-              </span>
-            </button>
-          </div>
-      <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-        <div class="dropdown-content">
-          <a class="dropdown-item is-active">
-            Upcoming Bookings
-          </a>
-            <a class="dropdown-item">
-            Archived
-          </a>
+        <div class="control">
+            <div class="select">
+                <select>
+                    <option>All Bookings</option>
+                    <option>Upcoming Bookings</option>
+                    <option>Uninitiated</option>
+                    <option>Archived</option>
+                </select>
+            </div>
         </div>
-      </div>
     </div>
-            <!--End: Dropdown-->
-
-        <!--Start: Booking Thumbnails-->
-        <ul class="menu-list">
-            <li><a href="{{url_for('bookings')}}">
-
-                    <!-- START: Horizontal Card -->
-        <div class='box p-2'>
-            <div class="columns"> <!-- columns div has width issue-->
+</section>
+        <!--End: Dropdown-->
+<section>
+        <!--Start: Card -->
+    <div class='container mt-5'>
+        <div class='box p-5'>
+            <div class="columns is-vcentered">
                 <div class="column">
-                    <div>
+                    <div class="ml-4">
+                        <span class="tag has-text-gray-light mb-4">Unintiated</span>
                         <div class="mb-2 listing-author">
                             <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                             <div class="ml-2"><b>HideThePain69</b> is offering:</div>
                         </div>
-                        <p class='is-size-4'>Bishan Nightlife</p>
+                        <h1 class='title'>Bishan Nightlife</h1>
+                        <p class="subtitle">Explore the night life of Bishan</p>
                         <br>
-                    </div>
-                <div class="column">
-                    <div class="image listing-img is-128x128" style="background-image: url('/places/bishan.jpg');"></div>
+                        <a href="{{url_for('bookings')}}" class="has-text-link mt-2">
+                        View Booking details</a>
+                </div>
+            </div>
+                <div class="column is-two-fifths">
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
                 </div>
             </div>
         </div>
-        <!-- END: Horizontal Card -->
-            </a></li>
-
-            <li><a>
-                    <!-- START: Horizontal Card -->
-        <div class='box p-2'>
-            <div class="columns"> <!-- columns div has width issue-->
+    </div>
+        <!--End: Card-->
+        <!--Start: Card -->
+    <div class='container mt-5'>
+        <div class='box p-5'>
+            <div class="columns is-vcentered">
                 <div class="column">
-                    <div>
+                    <div class="ml-4">
+                        <span class="tag is-info is-light mb-4">Ordered</span>
                         <div class="mb-2 listing-author">
                             <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                             <div class="ml-2"><b>HideThePain69</b> is offering:</div>
                         </div>
-                        <p class='is-size-4'>Bishan Nightlife</p>
+                        <h1 class='title'>Bishan Nightlife</h1>
+                        <p class="subtitle">Explore the night life of Bishan</p>
                         <br>
-                    </div>
-                <div class="column">
-                    <div class="image listing-img is-128x128" style="background-image: url('/places/bishan.jpg');"></div>
+                        <a href="{{url_for('bookings')}}" class="has-text-link mt-2">
+                        View Booking details</a>
+                </div>
+            </div>
+                <div class="column is-two-fifths">
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
                 </div>
             </div>
         </div>
-        <!-- END: Horizontal Card -->
-            </a></li>
-
-        </ul>
-        <!--End: Booking Thumbnails-->
-        </aside>
-</div>
-<!--End: Menu Column-->
-
-
-<!--Start: Console Column-->
-    <div class="column">
-        <section class="section">
-            <div class="container has-background-light p-4">
-                Main Panel
-            </div>
-        </section>
     </div>
-<!--End: Console Column-->
+        <!--End: Card-->
+        <!--Start: Card -->
+    <div class='container mt-5'>
+        <div class='box p-5'>
+            <div class="columns is-vcentered">
+                <div class="column">
+                    <div class="ml-4">
+                        <span class="tag is-success is-light mb-4">Paid</span>
+                        <div class="mb-2 listing-author">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                            <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+                        </div>
+                        <h1 class='title'>Bishan Nightlife</h1>
+                        <p class="subtitle">Explore the night life of Bishan</p>
+                        <br>
+                        <a href="{{url_for('bookings')}}" class="has-text-link mt-2">
+                        View Booking details</a>
+                </div>
+            </div>
+                <div class="column is-two-fifths">
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                </div>
+            </div>
         </div>
+    </div>
+        <!--End: Card-->
+        <!--Start: Card -->
+    <div class='container mt-5'>
+        <div class='box p-5'>
+            <div class="columns is-vcentered">
+                <div class="column">
+                    <div class="ml-4">
+                        <span class="tag is-warning is-light mb-4">Completed</span>
+                        <div class="mb-2 listing-author">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                            <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+                        </div>
+                        <h1 class='title'>Bishan Nightlife</h1>
+                        <p class="subtitle">Explore the night life of Bishan</p>
+                        <br>
+                        <a href="{{url_for('bookings')}}" class="has-text-link mt-2">
+                        View Booking details</a>
+                </div>
+            </div>
+                <div class="column is-two-fifths">
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--End: Card-->
     </div>
 </section>
 
