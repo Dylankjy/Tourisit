@@ -343,6 +343,10 @@ def signup():
 app.run(debug=True)
 
 
+#Get the last listing (The most recent one)
+# print(Listing.query.all()[-1])
+
+
 
 # class User():
 #     __tablename__ = 'users'
