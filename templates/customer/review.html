@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="/css/rating.css">
+<link rel="stylesheet" href="/public/css/shop.css">
+<link rel="stylesheet" href="/public/css/rating.css">
 {% endblock %}
 
 {% block content %}
@@ -32,8 +32,26 @@
                 </div>
                 <form class="form-horizontal">
                     <fieldset>
-                        <div class="field">
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <input type="radio" name="rate" id="star5" value="5" class="rate">
+                                <label for="star5"><span><i class="far fa-star fa-6x"></i></span></label>
 
+                                <input type="radio" name="rate" id="star4" value="4" class="rate">
+                                <label for="star4"><span><i class="far fa-star fa-6x"></i></span></label>
+
+
+                                <input type="radio" name="rate" id="star3" value="3" class="rate">
+                                <label for="star3"><span><i class="far fa-star fa-6x"></i></span></label>
+
+
+                                <input type="radio" name="rate" id="star2" value="2" class="rate">
+                                <label for="star2"><span><i class="far fa-star fa-6x"></i></span></label>
+
+                                <input type="radio" name="rate" id="star1" value="1" class="rate">
+                                <label for="star1"><span><i class="far fa-star fa-6x"></i></span></label>
+
+                            </div>
                         </div>
 
                         <div class="field">
@@ -46,8 +64,7 @@
                         <div class="field">
                             <label class="label" for="review-submit"></label>
                             <div class="control">
-                                <button id="review-submit" name="review-submit" class="button is-success is-medium is-fullwidth">Submit your review
-                                </button>
+                                <button id="review-submit" name="review-submit" class="button is-success is-medium is-fullwidth">Submit your review</button>
                             </div>
                         </div>
                     </fieldset>

@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
+<<<<<<< HEAD
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+=======
+# from flask_sqlalchemy import SQLAlchemy
+>>>>>>> f4de7c4d61df42cda76da17be33e2eccefa5c63c
 
 # from flask_bcrypt import Bcrypt
 # from flask_login import LoginManager
@@ -10,10 +14,10 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
-
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
+#
+# db = SQLAlchemy(app)
 
 
 # bcrypt = Bcrypt()
@@ -204,6 +208,18 @@ def sellerDashboard():
 @app.route('/admin')
 def adminDashboard():
     return render_template('internal/dashboard.html')
+
+# INTERNAL
+# Admin Dashboard -- Manage users
+@app.route('/admin/users')
+def adminUsers():
+    return render_template('internal/users.html')
+
+# INTERNAL
+# Admin Dashboard -- Manage listings
+@app.route('/admin/listings')
+def adminListings():
+    return render_template('internal/listings.html')
 
 
 # SHARED
