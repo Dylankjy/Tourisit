@@ -135,7 +135,7 @@ def all_bookings():
 # CUSTOMER
 # Individual Bookings
 # @app.route('/bookings/<id>')
-@app.route('/bookings')
+@app.route('/bookings/id')
 def bookings():
     try:
         return render_template('customer/booking.html')
@@ -166,7 +166,7 @@ def all_businesses():
 # TOUR GUIDES
 # Individual gigs  
 # @app.route('/s/businesses/<id>')
-@app.route('/s/businesses')
+@app.route('/s/businesses/id')
 def business():
     try:
         return render_template('tourGuides/business.html')
