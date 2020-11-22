@@ -1,8 +1,51 @@
 {% extends 'base.html' %}
 
+{% block title %}Tourister - Tours By Locals {% endblock %}
+
 {% block scripts %}
+<link rel="stylesheet" href="/css/shop.css">
+<!--<link rel="stylesheet" href="/css/booking.css">-->
 {% endblock %}
 
 
 {% block content %}
+
+
+
+<section class="section">
+    <div class="container mt-5">
+        <!-- START: Horizontal Card -->
+        <div class='box p-5'>
+            <h1 class="title is-size-1 m-0">Bishan Nightlife</h1>
+            <div class="listing-author">
+                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                <div class="ml-2">By <b>HideThePain69</b></div>
+            </div>
+
+            <div class='columns my-5 is-centered'>
+                <div class='column'>
+                    <h2 class='is-size-4'><b>About this Tour</b></h2>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has 
+                        been the industry's standard dummy text ever since the 1500s, when an unknown printer took 
+                        a galley of type and scrambled it to make a type specimen book. It has survived not only 
+                        five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
+                </div>
+                <div class='column'>
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Horizontal Card -->
+    </div>
+    <div class='container mt-5'>
+        <div class='box p-5'>
+            <!--Steps-->
+            <img src="../../public/imgs/steps_placeholder.PNG">
+            <!---End steps-->
+            <br>
+            <a href="{{url_for('chat')}}"><i class="fas fa-comment-alt"></i>&ensp;View Chat</a>
+            <i class="fas fa-ellipsis-h"></i>
+        </div>
+    </div>
+</section>
 {% endblock %}
