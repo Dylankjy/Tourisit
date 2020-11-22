@@ -66,10 +66,10 @@
                     <a class="navbar-item has-text-primary-dark" href="{{url_for('sellerDashboard')}}">
                         <i class="fas fa-arrow-right"></i>&ensp;Tour Guide mode
                     </a>
-                    <a class="navbar-item" href="/chat">
+                    <a class="navbar-item" href="{{url_for('chat')}}">
                         <i class="fas fa-bookmark"></i>
                     </a>
-                    <a class="navbar-item" href="/support">
+                    <a class="navbar-item" href="{{url_for('favourites')}}">
                         <i class="fas fa-heart"></i>
                     </a>
                     <div class="navbar-item has-dropdown is-hoverable">
@@ -90,9 +90,6 @@
                             </a>
                             <a class="navbar-item" href='{{url_for("all_bookings")}}'>
                                 Your bookings
-                            </a>
-                            <a class="navbar-item" href='{{url_for("favourites")}}'>
-                                Your wishlist
                             </a>
                             <a class="navbar-item" href='{{url_for("accountinfo")}}'>
                                 Account settings

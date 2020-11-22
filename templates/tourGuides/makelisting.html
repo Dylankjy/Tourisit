@@ -6,11 +6,22 @@
 {% endblock %}
 
 {% block content %}
-<section class='section'>
-    <div class="content has-text-centered">
-        <h1>Make a listing!</h1>
+<section id="discover-hero" class="hero is-medium is-info is-bold">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
+                Add a Listing   <i class="fas fa-book"></i>
+            </h1>
+            <h2 class="subtitle is-size-4">
+                Showcase your speciality to others
+            </h2>
+        </div>
+        <br>
     </div>
-    
+</section>
+
+<section class='section'>
+
     <div class='columns is-centered'>
         <div class='column is-half'>
             <div class='box'>
@@ -23,8 +34,16 @@
                         <div class="field">
                         <label class="label" for="tour-title"></label>
                         <div class="control">
-                            <input id="tour-title" name="tour-title" type="text" class="input " required="">
-                            
+                            <input id="tour-title" name="tour-title" type="text" class="input " required="" placeholder="Bishan Eco-walk">      
+                        </div>
+                        </div>
+
+
+                        <legend class='label'>Brief Description</legend>
+                        <div class="field">
+                        <label class="label" for="tour-brief"></label>
+                        <div class="control">
+                            <input id="tour-brief" name="tour-brief" type="text" class="input " required="" placeholder="Explore the Nature aspects of Bishan">      
                         </div>
                         </div>
                         
@@ -47,15 +66,15 @@
                         <div class="field">
                         <label class="label" for="tour-desc">Tour Description</label>
                         <div class="control">                     
-                            <textarea class="textarea" id="tour-desc" name="tour-desc"></textarea>
+                            <textarea class="textarea" id="tour-desc" name="tour-desc" placeholder="This Eco-walk will take you to different Nature attractions in Bishan, including: Gardens, Parks and Trails...."></textarea>
                         </div>
                         </div>
                         
                 
                         <div class="field">
-                        <label class="label" for="tour-price">Minimum Price</label>
+                        <label class="label" for="tour-price">Minimum Price ($SGD)</label>
                         <div class="control">
-                            <input id="tour-price" name="tour-price" type="text" class="input ">
+                            <input id="tour-price" name="tour-price" type="number" class="input" placeholder="120">
                             
                         </div>
                         </div>
