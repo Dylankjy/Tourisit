@@ -2,125 +2,91 @@
 <html lang="en">
 
 <head>
-  {% block head %}
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tourister - Tours by locals.</title>
-  <link rel="stylesheet" href="/css/bulma.min.css">
-  <link rel="stylesheet" href="/css/navbar.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw==" crossorigin="anonymous"></script>
-  <script>
-    Turbolinks.start()
-  </script>
-  {% endblock %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourister - Tours by locals.</title>
+    <link rel="stylesheet" href="/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"
+        integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw=="
+        crossorigin="anonymous"></script>
+    <script>
+        Turbolinks.start()
+    </script>
+    {% endblock %}
 
-  {% block scripts %}
-  {% endblock %}
+    {% block scripts %}
+    {% endblock %}
 </head>
 
 <body>
-  {% block nav %}
+    {% block nav %}
 
 
-  <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
-    <div class="container">
-      <div class="navbar-brand">
-        <a class="navbar-item has-text-weight-bold" href="/">Tourister</a>
+    <nav class="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item has-text-weight-bold" href="{{url_for('adminDashboard')}}">Tourister&nbsp;<span
+                        class="has-text-danger">Admin</span></a>
 
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-
-      <div class="navbar-menu">
-        <div class="navbar-start">
-
-          <a class="navbar-item" href="/">
-            Home
-          </a>
-
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-              Discover
-            </a>
-    
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href='{{url_for("market")}}'>
-                Marketplace
-              </a>
-              <a class="navbar-item" href='{{url_for("makelisting")}}'>
-                Make a Listing
-              </a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
             </div>
-          </div>
-          
-          <a class="navbar-item" href="/help">
-            Support
-          </a>
 
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="{{url_for('adminDashboard')}}">
+                        Home
+                    </a>
+                    <a class="navbar-item" href="/help">
+                        Manage Users
+                    </a>
+                    <a class="navbar-item" href="/help">
+                        Manage Listings
+                    </a>
+                </div>
+
+
+                <div class="navbar-end">
+                    <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Return to the Marketplace"
+                        href="{{url_for('home')}}">
+                        <i class="fas fa-arrow-left"></i>&ensp;Exit Admin
+                    </a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-item">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                        </a>
+
+                        <div class="navbar-dropdown is-boxed is-right">
+                            <div class="has-background-light p-4 mb-2 has-text-black">
+                                <p class="has-text-weight-bold">Logged in as</p>
+                                <p>HidethePain69</p>
+                            </div>
+                            <hr class="navbar-divider">
+                            <a class="navbar-item has-text-danger-dark">
+                                <i class="fas fa-sign-out-alt"></i>&ensp;Sign out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </nav>
 
-
-        <div class="navbar-end">
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-item">
-              <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-            </a>
-
-            <div class="navbar-dropdown is-boxed is-right">
-              <div class="has-background-light p-4 mb-2">
-                <p class="has-text-weight-bold">Logged in as</p>
-                <p>HidethePain69</p>
-              </div>
-              <a class="navbar-item">
-                Your profile
-              </a>
-              <a class="navbar-item" href='{{url_for("ownlisting")}}'>
-                Your listings
-              </a>
-              <a class="navbar-item" href='{{url_for("bookings")}}'>
-                Your bookings
-              </a>
-              <a class="navbar-item">
-                Your wishlist
-              </a>
-              <a class="navbar-item">
-                Account settings
-              </a>
-              <hr class="navbar-divider">
-              <a class="navbar-item">
-                <i class="fas fa-sign-out-alt"></i>&ensp;Sign out
-              </a>
-            </div>
-          </div>
-        </div>
-
-
-
-        <!-- <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-info is-light" href='/signup'>
-                <strong>Sign up</strong>
-              </a>
-              <a class="button is-light" href='/login'>
-                Log in
-              </a>
-            </div>
-          </div>
-        </div> -->
-
-
+    <div class="notification is-danger has-text-centered" style="padding-top: 4.25rem; margin-bottom: -1rem">
+        <i class="fas fa-exclamation-triangle"></i>&ensp;You are in <b>Administration mode</b>.
     </div>
-  </nav>      
-      
-  {% endblock %}
+    {% endblock %}
 
-  {% block content %}
-  {% endblock %}
+    {% block content %}
+    {% endblock %}
 </body>
 
 </html>
