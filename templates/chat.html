@@ -7,7 +7,8 @@
 
 
 {% block content %}
-<!--hero-->
+<!--Please don't get triggered at my crusty code,, I'm trying to create a better chat page, but this'll do for now-->
+<!--HEADER-->
 <section class="section has-background-primary-dark has-text-white pb-0">
     <div class="container p-5">
     <a href="{{url_for('bookings')}}" class="button is-success is-light is-size-6">
@@ -19,15 +20,15 @@
     </div>
 </div>
 </section>
-<!--End: hero-->
+<!--End: header-->
 
 <section class="section">
     <div class="container">
         <div class="box" style="height:420px;">
-            <!--Start: Messages-->
+            <!--START: Messages-->
             <div style="height:340px;">
 
-                <div class="box has-background-info-light ml-6 py-2">
+                <div class="box has-background-info-light ml-6 py-4">
                     <article class="media">
                       <div class="media-content">
                         <div class="content is-pulled-right">
@@ -37,17 +38,17 @@
                         </div>
                       </div>
                       <div class="media-right">
-                        <figure class="image is-64x64">
+                        <figure>
                             <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                         </figure>
                       </div>
                     </article>
                   </div>
 
-                <div class="box has-background-success-light mr-6 py-2">
+                <div class="box has-background-success-light mr-6 py-4">
                     <article class="media">
                       <div class="media-left">
-                        <figure class="image is-64x64">
+                        <figure>
                             <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                         </figure>
                       </div>
@@ -63,8 +64,8 @@
 
 
             </div>
-            <!--End: Messages-->
-            <!--Start: Input field-->
+            <!--END: Messages-->
+            <!--START: Input field-->
             <div>
                 <div class="field">
                     <div class="control">
@@ -72,7 +73,7 @@
                     </div>
                   </div>
             </div>
-            <!--End: Input Field-->
+            <!--END: Input Field-->
         </div>
     </div>
 </section>
