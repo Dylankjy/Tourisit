@@ -25,9 +25,8 @@
     <div class='columns is-centered'>
         <div class='column is-half'>
             <div class='box'>
-                <form class="form-horizontal" enctype="multipart/form-data">
+                <form class="form-horizontal" enctype="multipart/form-data" action="/listings/add" method="POST">
                     <fieldset>
-                    
                     
                         <legend class='label'>Tour Title</legend>
                         
@@ -83,7 +82,7 @@
                         <div class="field">
                         <label class="label" for="tour-submit"></label>
                         <div class="control">
-                            <button id="tour-submit" name="tour-submit" class="button is-success">List!</button>
+                            <input type='submit' value='List!' id="tour-submit" name="tour-submit" class="button is-success">
                         </div>
                         </div>
                     
