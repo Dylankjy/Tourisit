@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 
 # from flask_bcrypt import Bcrypt
 # from flask_login import LoginManager
@@ -9,10 +9,10 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
-
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
+#
+# db = SQLAlchemy(app)
 
 
 # bcrypt = Bcrypt()
