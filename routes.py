@@ -57,7 +57,7 @@ class User(db.Model):
 class Listing(db.Model):
     __tablename__ = 'listings'
     tour_id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
-    tour_name = db.Column(db.String(30), nullable=False, unique=True)
+    tour_name = db.Column(db.String(30), nullable=False)
     tour_brief = db.Column(db.String(50), nullable=False)
     tour_desc = db.Column(db.String(500), nullable=False)
     tour_price = db.Column(db.Integer, nullable=False)
@@ -183,10 +183,46 @@ def favourites():
 # Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
 def ownlisting():
-    try:
-        return render_template('tourGuides/ownlisting.html')
-    except:
-        return 'Error trying to render'
+    return render_template('tourGuides/ownlisting.html', listings=Listing.query.all())
+
+
+# TOUR GUIDES
+# Delete Listings: When click on Delete button
+@app.route('/listings/delete/<int:id>', methods=['GET', 'POST'])
+def deleteList(id):
+    listing = Listing.query.filter_by(tour_id=id).first()
+    db.session.delete(listing)
+    db.session.commit()
+
+    return redirect('/listings')
+
+
+
+
+# TOUR GUIDES
+# Edit Listings: When click on own listing to edit
+@app.route('/listings/edit/<int:id>', methods=['GET', 'POST'])
+def editList(id):
+    if request.method == 'POST':
+        listing = Listing.query.filter_by(tour_id=id).first()
+
+        listing.tour_name = request.form['tour-title']
+        listing.tour_brief = request.form['tour-brief']
+        listing.tour_desc = request.form['tour-desc']
+        tour_img = request.files['tour-img'].filename
+        if tour_img == '':
+            tour_img = str(uuid.uuid1()) + '.jpg'
+        listing.tour_img = tour_img
+        listing.tour_price = request.form['tour-price']
+
+        db.session.commit()
+
+        return redirect(f'/discover/{id}')
+
+    else:
+        item = Listing.query.filter_by(tour_id=id).first()
+        return render_template('tourGuides/editListing.html', listing=item)
+
 
 
 # TOUR GUIDES
@@ -195,29 +231,28 @@ def ownlisting():
 def makelisting():
     if request.method == 'POST':
 
-        try:
-            jake = User.query.filter_by(user_name='Jake001').first()
+        #This should be the tour guide
+        jake = User.query.filter_by(user_name='Jake001').first()
 
-            tour_title = request.form['tour-title']
-            brief_desc = request.form['tour-brief']
-            detail_desc = request.form['tour-desc']
-            tour_img = request.files['tour-img'].filename
-            if tour_img == '':
-                tour_img = str(uuid.uuid1()) + '.jpg'
-            tour_price = request.form['tour-price']
+        tour_title = request.form['tour-title']
+        brief_desc = request.form['tour-brief']
+        detail_desc = request.form['tour-desc']
+        tour_img = request.files['tour-img'].filename
+        if tour_img == '':
+            tour_img = str(uuid.uuid1()) + '.jpg'
+        tour_price = request.form['tour-price']
 
-            listing = Listing(tour_name=tour_title, tour_brief=brief_desc, tour_desc=detail_desc, tour_price=tour_price,
-                              tour_img=tour_img, tour_guide=jake)
+        listing = Listing(tour_name=tour_title, tour_brief=brief_desc, tour_desc=detail_desc, tour_price=tour_price,
+                          tour_img=tour_img, tour_guide=jake)
 
-            db.session.add(listing)
-            db.session.commit()
-            #Replace with success msg
-            return render_template('tourGuides/listing-success.html')
+        db.session.add(listing)
+        db.session.commit()
+        #Replace with success msg
+        return render_template('tourGuides/listing-success.html')
 
-        except:
-            return f'Error!'
+    else:
+        return render_template('tourGuides/makelisting.html')
 
-    return render_template('tourGuides/makelisting.html')
 
 
 
@@ -341,6 +376,13 @@ def signup():
 
 # Run app
 app.run(debug=True)
+
+
+# This edits the tour_name of the 4th listing
+# listing = Listing.query.filter_by(tour_id=4).first()
+# listing.tour_name = 'New nreame'
+# db.session.commit()
+
 
 
 #Get the last listing (The most recent one)
