@@ -19,7 +19,6 @@ class Customer(db.Model, User):
 
 class TourGuides(db.Model, User):
     __tablename__ = 'tourguides'
-    guide_id = db.Column(db.String(30), ForeignKey='users.user_id')
     tours = db.Column(db.String(30), nullable=False)
 
 
