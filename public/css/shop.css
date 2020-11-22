@@ -29,6 +29,10 @@
     padding: 0 20rem
 }
 
+.checked {
+    color: orange;
+}
+
 @media only screen and (max-width: 1215px) {
     div.container.searchbar {
         padding: 0 8rem

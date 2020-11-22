@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import uuid
 
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -148,8 +149,7 @@ def accountinfo():
 # Home page
 @app.route('/', methods=['GET'])
 def home():
-    # return render_template('customer/index-customer.html')
-    return render_template('tourGuides/listing-success.html')
+    return render_template('customer/index-customer.html', listings=Listing.query.all())
 
 
 # CUSTOMERS
@@ -157,16 +157,19 @@ def home():
 @app.route('/discover')
 def market():
     try:
-        return render_template('customer/marketplace.html')
+        return render_template('customer/marketplace.html', listings=Listing.query.all())
     except:
         return 'Error trying to render'
 
 
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from M clicked
-@app.route('/discover/l/')
-def tourListing():
-    return render_template('customer/tourListing.html')
+@app.route('/discover/<int:tour_id>')
+def tourListing(tour_id):
+    item = Listing.query.filter_by(tour_id=tour_id).first()
+    return render_template('customer/tourListing.html', item=item)
+    # except:
+    #     return f'Error for Tour_ID: {tour_id}'
 
 
 # CUSTOMERS
@@ -192,21 +195,27 @@ def ownlisting():
 def makelisting():
     if request.method == 'POST':
 
-        jake = User.query.filter_by(user_name='Jake001').first()
+        try:
+            jake = User.query.filter_by(user_name='Jake001').first()
 
-        tour_title = request.form['tour-title']
-        brief_desc = request.form['tour-brief']
-        detail_desc = request.form['tour-desc']
-        tour_img = request.files['tour-img'].filename
-        tour_price = request.form['tour-price']
+            tour_title = request.form['tour-title']
+            brief_desc = request.form['tour-brief']
+            detail_desc = request.form['tour-desc']
+            tour_img = request.files['tour-img'].filename
+            if tour_img == '':
+                tour_img = str(uuid.uuid1()) + '.jpg'
+            tour_price = request.form['tour-price']
 
-        listing = Listing(tour_name=tour_title, tour_brief=brief_desc, tour_desc=detail_desc, tour_price=tour_price,
-                          tour_img=tour_img, tour_guide=jake)
+            listing = Listing(tour_name=tour_title, tour_brief=brief_desc, tour_desc=detail_desc, tour_price=tour_price,
+                              tour_img=tour_img, tour_guide=jake)
 
-        db.session.add(listing)
-        db.session.commit()
-        #Replace with success msg
-        return redirect(url_for('home'))
+            db.session.add(listing)
+            db.session.commit()
+            #Replace with success msg
+            return render_template('tourGuides/listing-success.html')
+
+        except:
+            return f'Error!'
 
     return render_template('tourGuides/makelisting.html')
 
@@ -331,7 +340,12 @@ def signup():
 
 
 # Run app
-app.run(debug=False)
+app.run(debug=True)
+
+
+#Get the last listing (The most recent one)
+# print(Listing.query.all()[-1])
+
 
 
 # class User():
