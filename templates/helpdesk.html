@@ -8,12 +8,8 @@
 <section class="hero is-medium is-black">
     <div class="hero-body">
         <div class="container has-text-centered">
-            <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
-                Hi, How can we help?
-            </h1>
-            <h2 class="subtitle is-size-4">
-                Drop us a message and we will get back to you soon
-            </h2>
+            <h1 class="title has-text-weight-bold" style="font-size: 3rem;">Hi, How can we help?</h1>
+            <h2 class="subtitle is-size-4">Drop us a message and we will get back to you soon</h2>
         </div>
     </div>
 </section>
@@ -24,55 +20,48 @@
                 <form class="form-horizontal" enctype="multipart/form-data">
                     <fieldset>
 
-
-                        <legend class='label'>Tour Title</legend>
-
                         <div class="field">
-                            <label class="label" for="tour-title"></label>
+                            <label class="label">Subject</label>
                             <div class="control">
-                                <input id="tour-title" name="tour-title" type="text" class="input " required="">
-
-                            </div>
-                        </div>
-
-
-                        <label class="label" for="tour-img">Tour Image</label>
-                        <div class="file">
-                            <label class="file-label">
-                                <input class="file-input" type="file" name="tour-img"
-                                    onchange="if (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML = this.files[0].name;">
-                                <span class="file-cta">
-                                    <span class="file-icon">
-                                        <i class="fa fa-upload"></i>
-                                    </span>
-                                    <span class="file-label" id="filename-tour-img">
-                                        Choose a file…
-                                    </span>
-                                </span>
-                            </label>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" for="tour-desc">Tour Description</label>
-                            <div class="control">
-                                <textarea class="textarea" id="tour-desc" name="tour-desc"></textarea>
+                                <div class="select">
+                                    <select>
+                                        <option>Enquiries</option>
+                                        <option>Apply for Pro Verified</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
 
                         <div class="field">
-                            <label class="label" for="tour-price">Minimum Price</label>
-                            <div class="control">
-                                <input id="tour-price" name="tour-price" type="text" class="input ">
+                            <label class="label">Name</label>
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-success" type="text" placeholder="Name">
+                                <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+                                <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
+                            </div>
+                        </div>
 
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-danger" type="email" placeholder="Email">
+                                <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                                <span class="icon is-small is-right"><i class="fas fa-exclamation-triangle"></i></span>
                             </div>
                         </div>
 
 
                         <div class="field">
-                            <label class="label" for="tour-submit"></label>
+                            <label class="label">Message</label>
                             <div class="control">
-                                <button id="tour-submit" name="tour-submit" class="button is-success">List!</button>
+                                <textarea class="textarea" placeholder="Let us know how we can help you"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-success is-fullwidth">Send us a message</button>
                             </div>
                         </div>
 
