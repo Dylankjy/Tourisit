@@ -11,36 +11,11 @@
 .score {
     direction: rtl;
     unicode-bidi: bidi-override;
+    color: #ddd;
 }
 
-.radio input[type="radio"] {
+.score input[type="radio"] {
+    display: none;
+    opacity: 0;
     visibility: hidden;
-}
-
-.radio i {
-    color: red;
-}
-
-input[type="radio" i] {
-    display: none;
-}
-
-.fa-star:before {
-    color: red;
-}
-
-.radio input {
-    display: none;
-    visibility: hidden;
-}
-
-.rating input {
-    display: none;
-}
-
-.rating label:hover,
-.rating label:hover ~ label,
-.rating input:checked + label,
-.rating input:checked + label ~ label {
-    color: #ffc107; /* Personal color choice. Lifted from Bootstrap 4 */
 }
