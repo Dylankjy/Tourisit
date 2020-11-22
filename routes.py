@@ -204,6 +204,18 @@ def sellerDashboard():
 def adminDashboard():
     return render_template('internal/dashboard.html')
 
+# INTERNAL
+# Admin Dashboard -- Manage users
+@app.route('/admin/users')
+def adminUsers():
+    return render_template('internal/users.html')
+
+# INTERNAL
+# Admin Dashboard -- Manage listings
+@app.route('/admin/listings')
+def adminListings():
+    return render_template('internal/listings.html')
+
 
 # SHARED
 # Login Page
