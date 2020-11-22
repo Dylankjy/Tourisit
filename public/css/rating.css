@@ -8,14 +8,9 @@
     background-size: cover;
 }
 
-.score {
-    direction: rtl;
-    unicode-bidi: bidi-override;
-    color: #ddd;
-}
-
-.score input[type="radio"] {
-    display: none;
-    opacity: 0;
-    visibility: hidden;
+.radio:hover,
+.radio:hover ~ .radio,
+.radio input:checked + .radio,
+.radio input:checked + .radio ~ .radio {
+    color: greenyellow;
 }
