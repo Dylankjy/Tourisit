@@ -1,77 +1,73 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/public/css/shop.css">
-<link rel="stylesheet" href="/public/css/rating.css">
+    <link rel="stylesheet" href="../../public/css/shop.css">
+    <link rel="stylesheet" href="../../public/css/rating.css">
 {% endblock %}
 
 {% block content %}
-<section class='section'>
-    <div class="content has-text-centered">
-        <h1>Rate your tour experience!</h1>
-    </div>
+    <section class='section'>
+        <div class="content has-text-centered">
+            <h1>Rate your tour experience!</h1>
+        </div>
 
-    <div class='columns is-centered'>
-        <div class='column is-half'>
-            <div class='box'>
-                <div class="columns is-vcentered">
-                    <div class="column">
-                        <div class="ml-4">
-                            <div class="mb-2 listing-author">
-                                <div class="profile-img" style="background-image: url('/public/pfp.jpg');"></div>
-                                <div class="ml-2"><b>HideThePain69</b></div>
+        <div class='columns is-centered'>
+            <div class='column is-half'>
+                <div class='box'>
+                    <div class="columns is-vcentered">
+                        <div class="column">
+                            <div class="ml-4">
+                                <div class="mb-2 listing-author">
+                                    <div class="profile-img" style="background-image: url('/public/pfp.jpg');"></div>
+                                    <div class="ml-2"><b>HideThePain69</b></div>
+                                </div>
+                                <h1 class='title'>Bishan Nightlife</h1>
+                                <p class="subtitle">Explore the night life of Bishan</p>
+                                <br>
                             </div>
-                            <h1 class='title'>Bishan Nightlife</h1>
-                            <p class="subtitle">Explore the night life of Bishan</p>
-                            <br>
+                        </div>
+                        <div class="column">
+                            <div class="box listing-img" style="background-image: url('/public/places/bishan.jpg');"></div>
                         </div>
                     </div>
-                    <div class="column">
-                        <div class="box listing-img" style="background-image: url('/public/places/bishan.jpg');"></div>
-                    </div>
+
+                    <form class="form-horizontal">
+                        <div class="rate">
+                            <input type="radio" id="star5" name="rate" value="5"/>
+                            <label for="star5" title="text">5 stars</label>
+                            <input type="radio" id="star4" name="rate" value="4"/>
+                            <label for="star4" title="text">4 stars</label>
+                            <input type="radio" id="star3" name="rate" value="3"/>
+                            <label for="star3" title="text">3 stars</label>
+                            <input type="radio" id="star2" name="rate" value="2"/>
+                            <label for="star2" title="text">2 stars</label>
+                            <input type="radio" id="star1" name="rate" value="1"/>
+                            <label for="star1" title="text">1 star</label>
+                        </div>
+                        <fieldset>
+                            <div class="field is-grouped is-grouped-centered">
+
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="review">Leave a review</label>
+                                <div class="control">
+                                    <textarea class="textarea" placeholder="What were some things you enjoyed about this experience? How can it be improved?" id="review" name="review"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="review-submit"></label>
+                                <div class="control">
+                                    <button id="review-submit" name="review-submit" class="button is-success is-medium is-fullwidth">Submit your review</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="field is-grouped is-grouped-centered">
-                            <div class="rating control">
-                                <input type="radio" name="rate" id="star5" value="5" style="display: none;">
-                                <label for="star5"></label>
-
-                                <input type="radio" name="rate" id="star4" value="4" style="display: none;">
-                                <label for="star4"></label>
-
-
-                                <input type="radio" name="rate" id="star3" value="3" style="display: none;">
-                                <label for="star3"></label>
-
-
-                                <input type="radio" name="rate" id="star2" value="2" style="display: none;">
-                                <label for="star2"></label>
-
-                                <input type="radio" name="rate" id="star1" value="1" style="display: none;">
-                                <label for="star1"></label>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" for="review">Leave a review</label>
-                            <div class="control">
-                                <textarea class="textarea" placeholder="What were some things you enjoyed about this experience? How can it be improved?" id="review" name="review"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" for="review-submit"></label>
-                            <div class="control">
-                                <button id="review-submit" name="review-submit" class="button is-success is-medium is-fullwidth">Submit your review</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 {% endblock %}

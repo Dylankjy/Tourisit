@@ -1,3 +1,13 @@
+.profile-img {
+    height: 2rem;
+    width: 2rem;
+    border: 1px rgb(12, 12, 12) lid;
+    border-radius: 99999px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .rate {
     float: left;
     height: 46px;
@@ -5,7 +15,7 @@
 }
 .rate:not(:checked) > input {
     position:absolute;
-    top:-19px;
+    top:-9999px;
 }
 .rate:not(:checked) > label {
     float:right;
