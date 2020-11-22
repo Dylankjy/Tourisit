@@ -23,32 +23,37 @@
     <div class="container">
 
         <!-- START: Horizontal Card -->
-        <div class='box p-5'>
-            <div class="columns is-vcentered">
-                <div class="column">
-                    <div class="ml-4">
-                        <div class="mb-2 listing-author">
-                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                            <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+        {% for item in listings|reverse %}
+        <a href='/discover/{{ item.tour_id }}'>
+            <div class='box p-5'>
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <div class="ml-4">
+                            <div class="mb-2 listing-author">
+                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+                            </div>
+                            <h1 class='title'>{{ item.tour_name }}</h1>
+                            <p class="subtitle">{{ item.tour_brief }}</p>
+                            <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                                ${{ item.tour_price }}
+                            </p>
+                            <br>
                         </div>
-                        <h1 class='title'>Bishan Nightlife</h1>
-                        <p class="subtitle">Explore the night life of Bishan</p>
-                        <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
-                            $100
-                        </p>
-                        <br>
+                        <div class="buttons">
+                            <a class="button is-white" style="color:rgb(226, 48, 78)" href='/listings/delete/{{ item.tour_id }}'><i class="fas fa-trash-alt"></i>&ensp;Delete</a>
+                            <a class="button is-white has-text-primary" href='/listings/edit/{{ item.tour_id }}'><i class="fas fa-clipboard"></i>&ensp;Update</a>
+                        </div>
                     </div>
-                    <div class="buttons">
-                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-trash-alt"></i>&ensp;Delete</a>
-                        <a class="button is-white has-text-primary"><i class="fas fa-clipboard"></i>&ensp;Update</a>
+                    <div class="column">
+                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
                     </div>
-                </div>
-                <div class="column">
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
                 </div>
             </div>
-        </div>
+        </a>
         <!-- END: Horizontal Card -->
+
+        {% endfor %}
 
         
     </div>

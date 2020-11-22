@@ -60,7 +60,10 @@
 
     <div class="container">
         <div class="columns">
-            {% for item in listings  %}
+
+            {% for item in listings %}
+            {% if loop.index <=3 %}
+
             <div class="column">
                 <a href="/discover/{{ item.tour_id }}">
                     <!-- START: Vertical Card -->
@@ -71,7 +74,7 @@
                                 <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                                 <div class="ml-2"><b>HideThePain69</b> is offering:</div>
                             </div>
-                            <h1 class='title is-4'>{{ item.tour_price }}</h1>
+                            <h1 class='title is-4'>{{ item.tour_name }}</h1>
                             <p class="subtitle is-6">{{ item.tour_brief }}</p>
                             <p class="has-text-weight-light is-size-3 has-text-dark"><small class="is-size-5">From</small>
                                 ${{ item.tour_price }}
@@ -87,6 +90,8 @@
                     <!-- END: Vertical Card -->
                 </a>
             </div>
+            {% else %}
+            {% endif %}
             {% endfor %}
         </div>
     </div>

@@ -36,8 +36,11 @@
 
 <section class="section">
     <div class="container">
+        {% for item in listings %}
+
+        {% if loop.index is divisibleby(3) %}
         <div class="columns">
-            {% for item in listings %}
+
             <div class="column">
                 <!-- START: Vertical Card -->
                 <a href='/discover/{{ item.tour_id }}'>
@@ -64,8 +67,38 @@
                     <!-- END: Vertical Card -->
                 </a>
             </div>
-            {% endfor %}
         </div>
+
+        {% else %}
+            <div class="column">
+                <!-- START: Vertical Card -->
+                <a href='/discover/{{ item.tour_id }}'>
+                    <div class='box p-5 vertical'>
+                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                        <div class="ml-4">
+                            <div class="mb-2 listing-author">
+                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                <div class="ml-2"><b>HideThePain69</b> is offering:</div>
+                            </div>
+                            <h1 class='title is-4'>{{ item.tour_name }}</h1>
+                            <p class="subtitle is-6">{{ item.tour_brief }}</p>
+                            <p class="has-text-weight-light is-size-3 has-text-dark"><small class="is-size-5">From</small>
+                                ${{ item.tour_price }}
+                            </p>
+                            <br>
+                        </div>
+                        <div class="buttons">
+                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
+                                to wishlist</a>
+                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                        </div>
+                    </div>
+                    <!-- END: Vertical Card -->
+                </a>
+            </div>
+
+        {% endif %}
+        {% endfor %}
     </div>
 </section>
 {% endblock %}
