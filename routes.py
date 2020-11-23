@@ -120,7 +120,7 @@ def review():
 
 
 # SHARED
-# User profile 
+# User profile
 # @app.route('/users/<id>)
 @app.route('/users/')
 def profile():
@@ -372,7 +372,7 @@ def signup():
 
 # Run app
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)
 
 # This edits the tour_name of the 4th listing
 # listing = Listing.query.filter_by(tour_id=4).first()
