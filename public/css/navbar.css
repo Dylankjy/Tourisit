@@ -11,4 +11,5 @@
 .navbar.is-black {
     background-color: rgba(0, 0, 0, .80) !important;
     backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
