@@ -1,10 +1,8 @@
+import uuid
+from datetime import datetime
+
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-import uuid
-
-from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
 
 app = Flask(__name__,
             static_url_path='',
@@ -25,10 +23,10 @@ class User(db.Model):
     user_rating = db.Column(db.String(30), nullable=False)
     user_img = db.Column(db.String(30))
 
-    #Customer
+    # Customer
     wishlist = db.Column(db.String(30))
 
-    #Tour Guide
+    # Tour Guide
     # Creates an artificial column in 'Listing' table called 'tour_guide'.
     # COMMENT OUT THE NEXT 3 LINES!
     # TourGuides['tours'] = Listing
@@ -64,23 +62,24 @@ class Listing(db.Model):
     tour_img = db.Column(db.String(10), unique=True)
     date_created = db.Column(db.DateTime, default=datetime.now)
 
-    #You need to hav ea common column beteen Listing and Users in order to join them
+    # You need to hav ea common column beteen Listing and Users in order to join them
     tour_guide_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
-#TO ADD TO THE USERS DATABASE
+
+# TO ADD TO THE USERS DATABASE
 
 # jake = User(user_name='Jake001', user_password='secure', user_rating=4, user_img='blank.jpg')
 # db.session.add(jake)
 # db.session.commit()
 
-#TO SEARCH FOR USER USING user_name
+# TO SEARCH FOR USER USING user_name
 # jake = User.query.filter_by(user_name='Jake001').first()
 
-#TO PRINT THE PASSWORD OF SEARCHED USER
+# TO PRINT THE PASSWORD OF SEARCHED USER
 # print(jake.user_password)
 
 
-#TO ADD TO THE LISTINGS DATABASE
+# TO ADD TO THE LISTINGS DATABASE
 
 # tour_title = 'Bishan walk NUMBER 2'
 # brief_desc = 'Just yoour regualr awak'
@@ -197,8 +196,6 @@ def deleteList(id):
     return redirect('/listings')
 
 
-
-
 # TOUR GUIDES
 # Edit Listings: When click on own listing to edit
 @app.route('/listings/edit/<int:id>', methods=['GET', 'POST'])
@@ -224,14 +221,13 @@ def editList(id):
         return render_template('tourGuides/editListing.html', listing=item)
 
 
-
 # TOUR GUIDES
 # Add a Listing: For Tour Guides to add listing
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
     if request.method == 'POST':
 
-        #This should be the tour guide
+        # This should be the tour guide
         jake = User.query.filter_by(user_name='Jake001').first()
 
         tour_title = request.form['tour-title']
@@ -247,13 +243,11 @@ def makelisting():
 
         db.session.add(listing)
         db.session.commit()
-        #Replace with success msg
+        # Replace with success msg
         return render_template('tourGuides/listing-success.html')
 
     else:
         return render_template('tourGuides/makelisting.html')
-
-
 
 
 # --------------------------------------
@@ -342,11 +336,13 @@ def sellerDashboard():
 def adminDashboard():
     return render_template('internal/dashboard.html')
 
+
 # INTERNAL
 # Admin Dashboard -- Manage users
 @app.route('/admin/users')
 def adminUsers():
     return render_template('internal/users.html')
+
 
 # INTERNAL
 # Admin Dashboard -- Manage listings
@@ -378,17 +374,14 @@ def signup():
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
 
-
 # This edits the tour_name of the 4th listing
 # listing = Listing.query.filter_by(tour_id=4).first()
 # listing.tour_name = 'New nreame'
 # db.session.commit()
 
 
-
-#Get the last listing (The most recent one)
+# Get the last listing (The most recent one)
 # print(Listing.query.all()[-1])
-
 
 
 # class User():
