@@ -85,7 +85,7 @@
             <div class="column is-one-third">
                 <!-- START: Vertical Card -->
                 <a href='/discover/{{ item.tour_id }}'>
-                    <div class='box p-5 vertical'>
+                    <div class='p-5 vertical'>
                         <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
                         <div class="ml-4">
                             <div class="mb-2 listing-author">
@@ -101,10 +101,10 @@
                             <br>
                         </div>
                         <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i
+                            <a class="button is-white" style="color:rgb(73, 27, 35)" href={{ url_for('favourites') }}><i
                                     class="fas fa-heart"></i>&ensp;Add
                                 to wishlist</a>
-                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book
+                            <a class="button is-white has-text-primary" href={{ url_for('all_bookings') }}><i class="fas fa-arrow-right"></i>&ensp;Book
                                 now</a>
                         </div>
                     </div>
