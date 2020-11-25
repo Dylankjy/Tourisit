@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/chat.css">
+<!--<link rel="stylesheet" href="css/chat.css">-->
 {% endblock %}
 
 
 
 {% block content %}
-<!--Please don't get triggered at my crusty code,, I'm trying to create a better chat page, but this'll do for now-->
+<!--WIP-->
 <!--HEADER-->
 <section class="section has-background-primary-dark has-text-white pb-0">
     <div class="container p-5">
@@ -22,9 +22,10 @@
 </section>
 <!--End: header-->
 
+
 <section class="section">
-    <div class="container">
-        <div class="box" style="height:420px;">
+    <div class="container chat-main">
+        <div class="box">
             <!--START: Messages-->
             <div style="height:340px;">
 
@@ -65,14 +66,41 @@
 
             </div>
             <!--END: Messages-->
+
             <!--START: Input field-->
-            <div>
-                <div class="field">
-                    <div class="control">
-                      <input class="input" type="text" placeholder="Enter Message Here..">
+            <div class="field has-addons">
+              <div class="control">
+                  <!--Dropup-->
+                  <div class="dropdown post-options is-hoverable is-up">
+                    <div class="dropdown-trigger">
+                      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
+                        <span class="icon is-small">
+                          <i class="fas fa-paperclip"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
+                      <div class="dropdown-content">
+                        <a class="dropdown-item">
+                          Photos & Videos
+                        </a>
+                        <a class="dropdown-item">
+                          Documents
+                        </a>
+                      </div>
                     </div>
                   </div>
-            </div>
+                  <!--END: Dropup-->
+              </div>
+              <div class="control is-expanded">
+                  <input class="input is-fullwidth" type="text" placeholder="Enter your message..">
+              </div>
+              <div class="control">
+                  <button class="button is-primary">
+                    <i class="fas fa-paper-plane"></i>
+                  </button>
+              </div>
+          </div>
             <!--END: Input Field-->
         </div>
     </div>
