@@ -125,7 +125,7 @@ def review():
 @app.route('/users/')
 def profile():
     try:
-        return render_template('profile.html')
+        return render_template('profile.html', listings=Listing.query.all())
     except:
         return 'Error trying to render'
 

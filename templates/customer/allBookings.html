@@ -6,11 +6,12 @@
 
 {% block scripts %}
 <link rel="stylesheet" href="/css/shop.css">
+<link rel="stylesheet" href="/css/all_bookings.css">
 {% endblock %}
 
 
 {% block content %}
-<section class='hero is-medium is-info is-bold'>
+<section class='hero is-medium is-black' id='bookings-hero'>
     <div class='hero-body'>
         <div class="container">
             <h1 class="title is-size-1 has-text-weight-bold">
@@ -27,7 +28,7 @@
             <div class="select">
                 <select>
                     <option>All Bookings</option>
-                    <option>Upcoming Bookings</option>
+                    <option>Current Bookings</option>
                     <option>Uninitiated</option>
                     <option>Archived</option>
                 </select>

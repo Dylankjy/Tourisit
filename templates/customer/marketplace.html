@@ -36,10 +36,49 @@
     </div>
 </section>
 
+<section class='section'>
+    <div class='container'>
+        <div class="dropdown is-hoverable is-pulled-right">
+            <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span>Filter By:</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                    <a href="#" class="dropdown-item">
+                        Highest Relevance
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Highest Rating
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Newest Listings
+                    </a>  
+                    <a class="dropdown-item">
+                        Closest Proximity
+                    </a>                  
+                    <a href="#" class="dropdown-item">
+                        Lowest to Highest Price
+                    </a>
+                    <a class="dropdown-item">
+                        Highest to Lowest Price
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
 <section class="section">
     <div class="container">
-        
+
         <div class="columns is-multiline">
 
             {% for item in listings %}
@@ -55,15 +94,18 @@
                             </div>
                             <h1 class='title is-4'>{{ item.tour_name }}</h1>
                             <p class="subtitle is-6">{{ item.tour_brief }}</p>
-                            <p class="has-text-weight-light is-size-3 has-text-dark"><small class="is-size-5">From</small>
+                            <p class="has-text-weight-light is-size-3 has-text-dark"><small
+                                    class="is-size-5">From</small>
                                 ${{ item.tour_price }}
                             </p>
                             <br>
                         </div>
                         <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
+                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i
+                                    class="fas fa-heart"></i>&ensp;Add
                                 to wishlist</a>
-                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book
+                                now</a>
                         </div>
                     </div>
                     <!-- END: Vertical Card -->

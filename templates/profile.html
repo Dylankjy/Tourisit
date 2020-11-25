@@ -3,6 +3,7 @@
 {% block scripts %}
 <link rel="stylesheet" href="/public/css/shop.css">
 <link rel="stylesheet" href="/public/css/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
 {% endblock %}
 
 
@@ -22,8 +23,47 @@
     </div>
 
 
-    <!-- Con4ent -->
+    <!-- Content -->
     <div class="column">
+        <section class="section">
+			<div class="container">
+				<div id="carousel-demo" class="carousel">
+					<div class="item-1">
+                        <div class='box p-5 vertical'>
+                            <h1>I am </h1>
+                        </div>
+					</div>
+					<div class="item-2">
+                        <div class='box p-5 vertical'>
+                            <h1>I am </h1>
+                        </div>
+					</div>
+					<div class="item-3">
+                        <div class='box p-5 vertical'>
+                            <h1>I am </h1>
+                        </div>
+                    </div>
+                    <div class="item-4">
+                        <div class='box p-5 vertical'>
+                            <h1>I am </h1>
+                        </div>
+                    </div>
+                    <div class="item-5">
+                        <div class='box p-5 vertical'>
+                            <h1>I am </h1>
+                        </div>
+					</div>
+				</div>
+			</div>
+        </section>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
+		<script>
+		bulmaCarousel.attach('#carousel-demo', {
+			slidesToScroll: 1,
+			slidesToShow: 4
+		});
+		</script>
     </div>
 
 </div>
