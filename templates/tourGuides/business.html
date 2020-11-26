@@ -130,11 +130,72 @@
     <div class='container mt-5'>
         <div class='box p-5'>
             <h2 class='is-size-3'><b>Itinerary</b></h2>
-            <a href="#" class="button is-success is-light is-size-6">
-                <i class="fas fa-edit"></i>&ensp;Edit</a>
+            <button onclick="toggleEdit()" class="button is-success is-light is-size-6" id="toggleButton">
+                <i class="fas fa-edit"></i>&ensp;Edit
+            </button>
+
+            <!--START: Edit section-->
+            <div id="editform" style="display:none;">
+              <section class="section">
+                <div class="container">
+                  <div class="columns">
+                    <!--START: Form-->
+                    <div class="column">
+                      <form class="form-horizontal" enctype="multipart/form-data">
+                        
+                        <div class="field">
+                          <label class="label">Date & Time</label>
+                          <div class="control has-icons-left">
+                              <input class="input" id="input_dateTime" type="text" placeholder="Date & Time" value="27/11/20, 6pm">
+                              <span class="icon is-small is-left"><i class="far fa-calendar"></i></span>
+                          </div>
+                      </div>
+                        <div class="field">
+                          <label class="label">Meetup Point</label>
+                          <div class="control has-icons-left">
+                              <input class="input" id="input_meeting" type="text" placeholder="Meetup Point" value="Bishan MRT Station">
+                              <span class="icon is-small is-left"><i class="fas fa-map-marker-alt"></i></span>
+                          </div>
+                      </div>
+                        <div class="field">
+                          <label class="label">Duration</label>
+                          <div class="control has-icons-left">
+                              <input class="input" id="input_duration" type="text" placeholder="Duration" value="4 hours">
+                              <span class="icon is-small is-left"><i class="fas fa-hourglass-half"></i></span>
+                          </div>
+                      </div>
+                        <div class="field">
+                          <label class="label">Cost</label>
+                          <div class="control has-icons-left">
+                              <input class="input" id="input_cost" type="text" placeholder="Cost" value="$120">
+                              <span class="icon is-small is-left"><i class="fas fa-dollar-sign"></i></span>
+                          </div>
+                      </div>
+                      <!--START: itinerary fields (wip)-->
+                      <!--END: itinerary fields-->
+                      </form>
+                    </div>
+                    <!-- END: Form-->
+                    <!--START: map iframe-->
+                    <div class='column is-two-fifths'>
+                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d510561.04654116975!2d103.5695466557071!3d1.3208489830657906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da11238a8b9375%3A0x887869cf52abf5c4!2sSingapore!5e0!3m2!1sen!2ssg!4v1606391738781!5m2!1sen!2ssg" 
+                      width="350" height="350" 
+                      frameborder="0" style="border:0;" 
+                      allowfullscreen="" 
+                      aria-hidden="false" 
+                      tabindex="0" class="is-pulled-right"></iframe>
+                    </div>
+                    <!--END: map iframe-->
+                  </div>
+                </div>
+              </section>
+            </div>
+            <!--END: Edit section-->
+
             <div class="columns pt-5">
 
                 <!--timeline-->
+                <div id="timeline" style="display:block;">
                 <div class="column">
             <div class="timeline">
               <header class="timeline-header">
@@ -177,11 +238,12 @@
               </div>
             </div>
             </div>
+            </div>
           <!--timeline end-->
           <!--START: Info Table-->
           <div class="column is-one-third">
             <table class='table'>
-              <tr><td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
+              <tr><td><i class="far fa-calendar"></i>&ensp;<b><span id="dateTime">Date & Time</span></b></td>
                   <td>27/11/20, 6pm</td></tr>
               <tr><td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
                   <td>Bishan MRT Station</td></tr>
@@ -199,4 +261,5 @@
 
     <!--END: Card 3-->
 </section>
+<script src="/js/ItineraryEdit.js" defer></script>
 {% endblock %}
