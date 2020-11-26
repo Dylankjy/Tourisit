@@ -7,10 +7,3 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
-
-.rating label:hover,
-.rating label:hover ~ label,
-.rating input:checked + label,
-.rating input:checked + label ~ label {
-    color: #ffc107; /* Personal color choice. Lifted from Bootstrap 4 */
-}
