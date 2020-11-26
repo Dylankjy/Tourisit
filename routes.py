@@ -9,7 +9,7 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
 
 db = SQLAlchemy(app)
@@ -372,7 +372,7 @@ def signup():
 
 # Run app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
 
 # This edits the tour_name of the 4th listing
 # listing = Listing.query.filter_by(tour_id=4).first()
