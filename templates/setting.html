@@ -1,8 +1,159 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
+<link rel="stylesheet" href="/css/shop.css">
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/css/profile.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
 {% endblock %}
 
 
 {% block content %}
+<div class="columns">
+
+
+    <!-- Side Profile Page -->
+    <div class="column is-one-quarter mt-6">
+        <div class="section">
+            <div class="box is-centered">
+                <div class="profile-img-onprofile" style="background-image: url('/pfp.jpg');"></div>
+                <br>
+                <p class="title is-5 is-spaced">HidethePain</p>
+                <p class="subtitle is-6">I am a certified tour guide with fluent English and I specialise in food tours.
+                </p>
+                <span class="tag is-success">Verified</span>
+            </div>
+            <div class="box is-centered">
+                <p class="title is-5"><strong>Description</strong></p>
+                <p class="subtitle is-6">I am a certified tour guide with fluent English and I specialise in food tours.
+                </p>
+                <br>
+                <p class="title is-5"><strong>Languages</strong></p>
+                <p class="subtitle is-6">I am a certified tour guide with fluent English and I specialise in food tours.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Content -->
+    <div class="column mt-6 pt-6">
+        <h1 class='title has-text-centered'>My Offered Tours</h1>
+        <div class="columns">
+            <div class="column">
+                <!-- START: Vertical Card -->
+                <div class='box p-5 vertical'>
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    <div class="ml-4">
+                        <div class="mb-2 listing-author">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                            <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                        </div>
+                        <h1 class='title is-4'>Bishan Nightlife</h1>
+                        <p class="subtitle is-6">Explore the night life of Bishan</p>
+                        <p class="has-text-weight-light is-size-3 has-text-dark"><small class="is-size-5">From</small>
+                            $100
+                        </p>
+                        <br>
+                    </div>
+                    <div class="buttons">
+                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i
+                                class="fas fa-heart-broken"></i>&ensp;Remove
+                            from wishlist</a>
+                        <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                    </div>
+                </div>
+                <!-- END: Vertical Card -->
+            </div>
+            <div class="column">
+                <!-- START: Vertical Card -->
+
+                <div class='box p-5 vertical'>
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    <div class="ml-4">
+                        <div class="mb-2 listing-author">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                            <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                        </div>
+                        <h1 class='title is-4'>Bishan Nightlife</h1>
+                        <p class="subtitle is-6">Explore the night life of Bishan</p>
+                        <p class="has-text-weight-light is-size-3 has-text-dark"><small class="is-size-5">From</small>
+                            $100
+                        </p>
+                        <br>
+                    </div>
+                    <div class="buttons">
+                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i
+                                class="fas fa-heart-broken"></i>&ensp;Remove
+                            from wishlist</a>
+                        <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                    </div>
+                </div>
+                <!-- END: Vertical Card -->
+            </div>
+            <div class="column">
+                <!-- START: Vertical Card -->
+                <div class='box p-5 vertical'>
+                    
+                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    <div class="ml-4">
+                        <div class="mb-2 listing-author">
+                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                            <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                        </div>
+                        <h1 class='title is-4'>Bishan Nightlife</h1>
+                        <p class="subtitle is-6">Explore the night life of Bishan</p>
+                        <p class="has-text-weight-light is-size-3 has-text-dark"><small class="is-size-5">From</small>
+                            $100
+                        </p>
+                        <br>
+                    </div>
+                    <div class="buttons">
+                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i
+                                class="fas fa-heart-broken"></i>&ensp;Remove
+                            from wishlist</a>
+                        <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                    </div>
+                </div>
+                <!-- END: Vertical Card -->
+            </div>
+        </div>
+        <!--Reviews-->
+        <h1 class='title has-centered'>My Reviews</h1>
+        <div class="box">
+            
+            <article class="media">
+                <div class="media-left">
+                    <figure class="image is-64x64">
+                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong class="pr-5">Gordon Lansay</strong>
+                            <span class="fas fa-star checked"></span>
+                            <span class="fas fa-star checked"></span>
+                            <span class="fas fa-star checked"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <br>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
+                            fringilla egestas. Nullam condimentum luctus turpis.
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
+        <script>
+            bulmaCarousel.attach('#carousel-demo', {
+                slidesToScroll: 1,
+                slidesToShow: 4
+            });
+        </script>
+    </div>
+
+</div>
 {% endblock %}
