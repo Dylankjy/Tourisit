@@ -54,7 +54,7 @@ class User(db.Model):
 
 class Listing(db.Model):
     __tablename__ = 'listings'
-    tour_id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
+    tour_id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True, default=uuid.uuid4)
     tour_name = db.Column(db.String(30), nullable=False)
     tour_brief = db.Column(db.String(50), nullable=False)
     tour_desc = db.Column(db.String(500), nullable=False)
