@@ -54,7 +54,7 @@ class User(db.Model):
 
 class Listing(db.Model):
     __tablename__ = 'listings'
-    tour_id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True, default=uuid.uuid4)
+    tour_id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
     tour_name = db.Column(db.String(30), nullable=False)
     tour_brief = db.Column(db.String(50), nullable=False)
     tour_desc = db.Column(db.String(500), nullable=False)
@@ -372,7 +372,7 @@ def signup():
 
 # Run app
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)
 
 # This edits the tour_name of the 4th listing
 # listing = Listing.query.filter_by(tour_id=4).first()
