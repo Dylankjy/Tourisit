@@ -7,16 +7,16 @@ class User:
         name,
         password,
         email,
-        phone_number,
-        bio,
-        profile_img,
-        last_seen,
-        last_activity,
-        stripe_ID,
-        wishlist,
-        fb,
-        insta,
-        linkedin,
+        phone_number='',
+        bio='',
+        profile_img='',
+        last_seen='',
+        last_activity='',
+        stripe_ID='',
+        wishlist=[],
+        fb='',
+        insta='',
+        linkedin='',
     ):
         self.__name = name
         self.__password = password
@@ -57,6 +57,7 @@ def validate_len(name, leng):
         assert len(name) <= leng
     except AssertionError:
         print(f"{name} must be less than {leng} characters!")
+        return None
     else:
         return name
 
@@ -66,31 +67,32 @@ def validate_type(name, dtype):
         assert type(name) == dtype
     except AssertionError:
         print(f"{name} must be of type {dtype}")
+        return None
     else:
         return dtype
 
 
-class Listing:
+class Listings:
     def __init__(
         self,
         tour_name,
         tour_brief,
-        tour_itinerary,
-        tour_location,
         tour_price,
         tg_uid,
-        tour_img=bytes(""),
+        tour_img=''
     ):
-        self.__tour_name = tour_name
-        self.__tour_brief = tour_brief
-        self.__tour_itinerary = tour_itinerary
-        self.__tour_location = tour_location
+
+        self.set_tour_name(tour_name)
+        self.set_tour_brief(tour_brief)
+        self.__tour_itinerary = []
+        self.__tour_location = []
         self.__tour_price = tour_price
         self.__tour_img = tour_img
+        # self.set_tour_img(tour_img)
         self.__date_created = datetime.now()
         self.__tour_rating = 0
         self.__tour_review = []
-        self.__tguid = tg_uid
+        self.set_tg_uid(tg_uid)
 
     def set_tour_name(self, tour_name):
         tour_name = validate_len(tour_name, 30)
@@ -106,10 +108,10 @@ class Listing:
 
     def set_tour_location(self, tour_location):
         tour_location = validate_type(tour_location, list)
-        self.__tour_location = tour_location
+        self.__tour_location.append(tour_location)
 
     def set_tour_price(self, tour_price):
-        tour_price = validate_type(tour_price, float)
+        tour_price = validate_type(tour_price, str)
         self.__tour_price = tour_price
 
     def set_tour_img(self, tour_img):
@@ -117,20 +119,15 @@ class Listing:
         self.__tour_img = tour_img
 
     def set_tour_rating(self, tour_rating):
-        tour_rating = validate_type(tour_rating, float)
-        try:
-            assert tour_rating <= 5
-        except AssertionError:
-            print("Tour Rating must be less than or equal to 5!")
-        else:
-            self.__tour_rating = tour_rating
+        tour_rating = validate_type(tour_rating, str)
+        self.__tour_rating = tour_rating
 
     def set_tour_review(self, tour_review):
         tour_review = validate_type(tour_review, list)
         self.__tour_review.append(tour_review)
 
-    def set_tguid(self, tguid):
-        self.__tguid = tguid
+    def set_tg_uid(self, tg_uid):
+        self.__tg_uid = tg_uid
 
     def return_obj(self):
         return {
