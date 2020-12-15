@@ -12,7 +12,7 @@ class User():
         self.__last_seen = last_seen
         self.__last_activity = last_activity   
         self.__stripe_ID = stripe_ID
-        self.__wishlist
+        self.__wishlist = wishlist
 
     def return_obj(self):
         return {'name': self.__name, 'password': self.__password, 'email': self.__email, 'phone_number': self.__password, 'bio': self.__bio, 
@@ -29,7 +29,7 @@ class Listing():
         self.__date_created = date_created
         self.__tour_rating = tour_rating
         self.__tour_review = tour_review
-        self.__tg_uid = tg_uid
+        self.__tguid = tg_uid
 
     def return_obj(self):
         return {"tour_name": self.__tour_name, "tour_brief": self.__tour_brief, "tour_itinerary": self.__tour_itinerary, "tour_price": self.__tour_price,
@@ -37,8 +37,7 @@ class Listing():
 
         
 class Bookings():
-    def __init__(self, booking_id, chat, datetime, duration, info, timeline_content, process_step):
-        self.__booking_id = booking_id
+    def __init__(self, chat, datetime, duration, info, timeline_content, process_step):
         self.__chat = chat
         self.__datetime = datetime
         self.__duration = duration
@@ -48,9 +47,10 @@ class Bookings():
         
 
 class Transactions():
-    def __init__(self, pid, cost):
-        
-  
+    def __init__(self, pid, cost, listing):
+        self.__pid = pid
+        self.__cost = cost
+        self.__listing = listing
         
 
 class Support():
@@ -59,3 +59,9 @@ class Support():
         self.__support_type = support_type
         self.__content = content
         self.__status = status
+    
+    def return_obj(self):
+        return {'uid': self.__uid, 'support_type': self.__support_type, 'content': self.__support_type, 'status': self.__status}
+
+class SocialMedia():
+    def __init__(self, fb_link, instalnk)
