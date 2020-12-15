@@ -70,9 +70,17 @@ def validate_type(name, dtype):
         return dtype
 
 
-class Listing():
-    def __init__(self, tour_name, tour_brief, tour_itinerary, tour_location,
-                 tour_price, tg_uid, tour_img=bytes('')):
+class Listing:
+    def __init__(
+        self,
+        tour_name,
+        tour_brief,
+        tour_itinerary,
+        tour_location,
+        tour_price,
+        tg_uid,
+        tour_img=bytes(""),
+    ):
         self.__tour_name = tour_name
         self.__tour_brief = tour_brief
         self.__tour_itinerary = tour_itinerary
