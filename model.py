@@ -64,5 +64,12 @@ class Support():
         return {'uid': self.__uid, 'support_type': self.__support_type, 'content': self.__support_type, 'status': self.__status}
 
 class SocialMedia():
+<<<<<<< Updated upstream
     def __init__(self, fb_link, instalnk)
 
+=======
+    def __init__(self, uid, fb, insta, linkedin):
+        self.__uid = uid
+        self.__fb = fb
+        self,__insta = insta
+>>>>>>> Stashed changes
