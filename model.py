@@ -1,54 +1,61 @@
-# from routes import db
-# from flask_sqlalchemy import SQLAlchemy
-# from datetime import datetime
+from routes import support
 
 
-class User(db.Model):
-    __tablename__ = 'users'
-    user_id = db.Column(db.Integer, primary_key=True, unique=True)
-    user_name = db.Column(db.String(30), nullable=False, unique=True)
-    user_password = db.Column(db.String(30), nullable=False)
-    user_rating = db.Column(db.String(30), nullable=False)
-    user_img = db.Column(db.String(30))
+class User():
+    def __init__(self, name, password, email, phone_number, bio, profile_img, last_seen, last_activity, stripe_ID, wishlist):
+        self.__name = name
+        self.__password = password
+        self.__email = email
+        self.__phone_number = phone_number
+        self.__bio = bio
+        self.__profile_img = profile_img
+        self.__last_seen = last_seen
+        self.__last_activity = last_activity   
+        self.__stripe_ID = stripe_ID
+        self.__wishlist
 
-    #Customer
-    wishlist = db.Column(db.String(30))
+    def return_obj(self):
+        return {'name': self.__name, 'password': self.__password, 'email': self.__email, 'phone_number': self.__password, 'bio': self.__bio, 
+        'profile_img': self.__profile_img, 'last_seen': self.__profile_img, 'last_activity': self.__last_activity, 'stripe_id': self.__stripe_ID, "wishlist": self.__wishlist}
 
-    #Tour Guide
-    # Creates an artificial column in 'Listing' table called 'tour_guide'.
-    # COMMENT OUT THE NEXT 3 LINES!
-    # TourGuides['tours'] = Listing
-    # Listing['tour_guide'] = TourGuides
-    # backref='tour_guide' means you can do Listing(tour_guide=jake) where jake is a TourGuide Object
-    tours = db.relationship('Listing', backref='tour_guide')
+class Listing():
+    def __init__(self, tour_name, tour_brief, tour_itinerary, tour_location, tour_price, tour_img, date_created, tour_rating, tour_review, tg_uid):
+        self.__tour_name = tour_name
+        self.__tour_brief = tour_brief
+        self.__tour_itinerary = tour_itinerary
+        self.__tour_location = tour_location
+        self.__tour_price = tour_price
+        self.__tour_img = tour_img
+        self.__date_created = date_created
+        self.__tour_rating = tour_rating
+        self.__tour_review = tour_review
+        self.__tg_uid = tg_uid
 
+    def return_obj(self):
+        return {"tour_name": self.__tour_name, "tour_brief": self.__tour_brief, "tour_itinerary": self.__tour_itinerary, "tour_price": self.__tour_price,
+                "tour_img": self.__tour_img, "date_created": self.__date_created, "tour_rating": self.__tour_rating, "tour_review":self.__tour_rating, "tg_uid":tg_uid}
 
-# class Customers(db.Model, User):
-#     __tablename__ = 'customers'
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
-#     wishlist = db.Column(db.String(30), nullable=False, unique=True)
+        
+class Bookings():
+    def __init__(self, booking_id, chat, datetime, duration, info, timeline_content, process_step):
+        self.__booking_id = booking_id
+        self.__chat = chat
+        self.__datetime = datetime
+        self.__duration = duration
+        self.__info = info
+        self.__timeline_content = timeline_content
+        self.__process_step = process_step
+        
 
+class Transactions():
+    def __init__(self, pid, cost):
+        
+  
+        
 
-# class TourGuides(db.Model, User):
-#     __tablename__ = 'tourguides'
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
-#     #Creates an artificial column in 'Listing' table called 'tour_guide'.
-#     # COMMENT OUT THE NEXT 3 LINES!
-#     # TourGuides['tours'] = Listing
-#     # Listing['tour_guide'] = TourGuides
-#     # backref='tour_guide' means you can do Listing(tour_guide=jake) where jake is a TourGuide Object
-#     tours = db.relationship('Listing', backref='tour_guide')
-
-
-class Listing(db.Model):
-    __tablename__ = 'listings'
-    tour_id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
-    tour_name = db.Column(db.String(30), nullable=False, unique=True)
-    tour_brief = db.Column(db.String(50), nullable=False)
-    tour_desc = db.Column(db.String(500), nullable=False)
-    tour_price = db.Column(db.Integer, nullable=False)
-    tour_img = db.Column(db.String(10), unique=True)
-    date_created = db.Column(db.DateTime, default=datetime.now)
-
-    #You need to hav ea common column beteen Listing and Users in order to join them
-    tour_guide_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+class Support():
+    def __init__(self, uid, support_type, content, status):
+        self.__uid = uid
+        self.__support_type = support_type
+        self.__content = content
+        self.__status = status
