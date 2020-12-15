@@ -70,13 +70,14 @@ def validate_type(name, dtype):
 
 
 class Listing():
-    def __init__(self, tour_name, tour_brief, tour_itinerary, tour_location, tour_price, date_created, tg_uid, tour_img=''):
+    def __init__(self, tour_name, tour_brief, tour_itinerary, tour_location,
+                 tour_price, tg_uid, tour_img=bytes('')):
         self.__tour_name = tour_name
         self.__tour_brief = tour_brief
         self.__tour_itinerary = tour_itinerary
         self.__tour_location = tour_location
         self.__tour_price = tour_price
-        self.__tour_img = bytes('')
+        self.__tour_img = tour_img
         self.__date_created = datetime.now()
         self.__tour_rating = 0
         self.__tour_review = []
@@ -117,7 +118,7 @@ class Listing():
 
     def set_tour_review(self, tour_review):
         tour_review = validate_type(tour_review, list)
-        self.__tour_review = tour_review
+        self.__tour_review.append(tour_review)
 
     def set_tguid(self, tguid):
         self.__tguid = tguid
