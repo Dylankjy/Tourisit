@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class User:
     def __init__(
         self,
@@ -55,7 +56,7 @@ def validate_len(name, leng):
     try:
         assert len(name) <= leng
     except AssertionError:
-        print(f'{name} must be less than {leng} characters!')
+        print(f"{name} must be less than {leng} characters!")
     else:
         return name
 
@@ -64,19 +65,29 @@ def validate_type(name, dtype):
     try:
         assert type(name) == dtype
     except AssertionError:
-        print(f'{name} must be of type {dtype}')
+        print(f"{name} must be of type {dtype}")
     else:
         return dtype
 
 
-class Listing():
-    def __init__(self, tour_name, tour_brief, tour_itinerary, tour_location, tour_price, date_created, tg_uid, tour_img=''):
+class Listing:
+    def __init__(
+        self,
+        tour_name,
+        tour_brief,
+        tour_itinerary,
+        tour_location,
+        tour_price,
+        date_created,
+        tg_uid,
+        tour_img="",
+    ):
         self.__tour_name = tour_name
         self.__tour_brief = tour_brief
         self.__tour_itinerary = tour_itinerary
         self.__tour_location = tour_location
         self.__tour_price = tour_price
-        self.__tour_img = bytes('')
+        self.__tour_img = bytes("")
         self.__date_created = datetime.now()
         self.__tour_rating = 0
         self.__tour_review = []
@@ -111,7 +122,7 @@ class Listing():
         try:
             assert tour_rating <= 5
         except AssertionError:
-            print('Tour Rating must be less than or equal to 5!')
+            print("Tour Rating must be less than or equal to 5!")
         else:
             self.__tour_rating = tour_rating
 
