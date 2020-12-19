@@ -1,8 +1,10 @@
 import uuid
 from datetime import datetime
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, make_response
 from flask_sqlalchemy import SQLAlchemy
+
+import auth as auth
 
 app = Flask(__name__,
             static_url_path='',
