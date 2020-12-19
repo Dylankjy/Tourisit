@@ -25,14 +25,22 @@ template_header = open("email/header.html", "r").read()
 template_email_confirmation = open("email/confirmation.html", "r").read()
 
 
-def create_account():
-    # TODO: Change this to dynamic
-    name = 'Takabaka'
-    password = 'UwUs696969!'
-    email = 'takabaka69@example.com'
+def create_account(name='Takabaka', raw_password=b'UwUs696969!', email='takabaka69@example.com'):
+    # TODO: Change this to dynamic ^^^^^
+
+    # Check whether account already exists
+    query = {
+        "email": email
+    }
+    query_result = [i for i in db_users.find(query)]
+    if len(query_result) > 0:
+        return False
+
+    # Hash password
+    hashed_password = bcrypt.hashpw(raw_password, bcrypt.gensalt())
 
     # Construct an object implements class
-    user_obj = User.User(name, password, email)
+    user_obj = User.User(name, hashed_password, email)
 
     # Get Dictionary for BSON
     user_dict = user_obj.return_obj()
