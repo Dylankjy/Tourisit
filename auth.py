@@ -71,6 +71,9 @@ def add_session(uid):
     # Database Ops: Insert into session
     db_sessions.insert_one(session_dict)
 
+    return hashed_sid
+
+
 def delete_account(uid):
     try:
         # Query everything in relation to UID
