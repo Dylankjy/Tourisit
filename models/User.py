@@ -1,3 +1,5 @@
+import models.Validation as validation
+
 class User:
     def __init__(
         self,

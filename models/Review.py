@@ -1,3 +1,5 @@
+import models.Validation as validation
+
 class Review:
     def __init__(self, stars, text, reviewer_id, reviewee_id):
         self.__stars = stars

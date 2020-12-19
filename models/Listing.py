@@ -1,3 +1,5 @@
+import models.Validation as validation
+
 from datetime import datetime
 
 class Listing:

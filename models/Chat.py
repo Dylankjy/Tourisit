@@ -1,3 +1,5 @@
+import models.Validation as validation
+
 class Chat:
     def __init__(self, sender_id, receiver_id, msg_content):
         self.__sender_id = sender_id
