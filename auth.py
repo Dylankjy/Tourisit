@@ -108,8 +108,6 @@ def send_confirmation_email():
         )
 
 
-send_confirmation_email()
-
 def get_sid():
     try:
         # Get SID
