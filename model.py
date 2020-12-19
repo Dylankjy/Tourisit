@@ -82,49 +82,87 @@ class Listings:
         tour_img=''
     ):
 
+        self.__tour_name = ''
         self.set_tour_name(tour_name)
+
+        self.__tour_brief = ''
         self.set_tour_brief(tour_brief)
+
+        self.__tour_img = ''
+        self.set_tour_img(tour_img)
+
         self.__tour_itinerary = []
         self.__tour_location = []
         self.__tour_price = tour_price
-        self.__tour_img = tour_img
-        # self.set_tour_img(tour_img)
+
         self.__date_created = datetime.now()
         self.__tour_rating = 0
         self.__tour_review = []
         self.set_tg_uid(tg_uid)
 
     def set_tour_name(self, tour_name):
-        tour_name = validate_len(tour_name, 30)
-        self.__tour_name = tour_name
+        try:
+            assert len(tour_name) <= 30
+        except AssertionError:
+            print(f"{tour_name} must be less than {30} characters!")
+        else:
+            self.__tour_name = tour_name
 
     def set_tour_brief(self, tour_brief):
-        tour_brief = validate_len(tour_brief, 200)
-        self.__tour_brief = tour_brief
+        try:
+            assert len(tour_brief) <= 200
+        except AssertionError:
+            print(f"{tour_brief} must be less than {200} characters!")
+        else:
+            self.__tour_brief = tour_brief
 
     def add_tour_itinerary(self, itinerary):
-        itinerary = validate_type(itinerary, str)
-        self.__tour_review.append(itinerary)
+        try:
+            assert type(itinerary) == str
+        except AssertionError:
+            print(f"{itinerary} must be of type {str}")
+        else:
+            self.__tour_review.append(itinerary)
 
     def set_tour_location(self, tour_location):
-        tour_location = validate_type(tour_location, list)
-        self.__tour_location.append(tour_location)
+        try:
+            assert type(tour_location) == list
+        except AssertionError:
+            print(f"{tour_location} must be of type {list}")
+        else:
+            self.__tour_location.append(tour_location)
 
     def set_tour_price(self, tour_price):
-        tour_price = validate_type(tour_price, str)
-        self.__tour_price = tour_price
+        try:
+            tour_price = float(tour_price)
+        except ValueError:
+            print(f"{tour_price} must be of type {float}")
+        else:
+            self.__tour_price = tour_price
 
     def set_tour_img(self, tour_img):
-        tour_img = validate_type(tour_img, bytes)
-        self.__tour_img = tour_img
+        try:
+            assert type(tour_img) == bytes
+        except AssertionError:
+            print(f"{tour_img} must be of type {bytes}")
+        else:
+            self.__tour_img = tour_img
 
     def set_tour_rating(self, tour_rating):
-        tour_rating = validate_type(tour_rating, str)
-        self.__tour_rating = tour_rating
+        try:
+            tour_rating = float(tour_rating)
+        except ValueError:
+            print(f"{tour_rating} must be of type {float}")
+        else:
+            self.__tour_rating = tour_rating
 
     def set_tour_review(self, tour_review):
-        tour_review = validate_type(tour_review, list)
-        self.__tour_review.append(tour_review)
+        try:
+            assert type(tour_review) == list
+        except AssertionError:
+            print(f"{tour_review} must be of type {list}")
+        else:
+            self.__tour_review.append(tour_review)
 
     def set_tg_uid(self, tg_uid):
         self.__tg_uid = tg_uid
