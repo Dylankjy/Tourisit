@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/css/shop.css">
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/profile.css">
-    <link rel="stylesheet" href="/css/bulma-calendar.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/css/bulma-calendar.min.css">
 {% endblock %}
 
 
@@ -82,19 +82,14 @@
 
                     <!-- Update personal details -->
                     <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3">Personal</h1>
-                    <input class="input" type="date">
+
                     <div class="field is-grouped is-grouped-centered is-align-items-center">
                         <label class="control-label pr-3">Birthday</label>
                         <p class="control is-expanded">
-                            <input type="date">
-                        </p>
-                        <p class="control">
-                            <a class="button is-primary">
-                                Update
-                            </a>
+                            <input class="input" type="date">
                         </p>
                     </div>
-                    <p class="is-size-5">Birthday</p>
+
                     <p class="is-size-5">Gender</p>
                     <p class="is-size-5">Language</p>
 
@@ -123,24 +118,24 @@
         </div>
 
     </div>
-    <script src="/js/bulma-calendar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/js/bulma-calendar.min.js"></script>
     <script>
-        // Initialize all input of type date
-        var calendars = bulmaCalendar.attach('[type="date"]', options);
+        // Initialize all input of date type.
+        const calendars = bulmaCalendar.attach('[type="date"]', options);
 
         // Loop on each calendar initialized
-        for (var i = 0; i < calendars.length; i++) {
-            // Add listener to date:selected event
-            calendars[i].on('select', date => {
+        calendars.forEach(calendar => {
+            // Add listener to select event
+            calendar.on('select', date => {
                 console.log(date);
             });
-        }
+        });
 
         // To access to bulmaCalendar instance of an element
-        var element = document.querySelector('#my-element');
+        const element = document.querySelector('#my-element');
         if (element) {
             // bulmaCalendar instance is available as element.bulmaCalendar
-            element.bulmaCalendar.on('select', function (datepicker) {
+            element.bulmaCalendar.on('select', datepicker => {
                 console.log(datepicker.data.value());
             });
         }
