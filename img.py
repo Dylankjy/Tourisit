@@ -1,9 +1,9 @@
-from PIL import Image
-import os
 import base64
 from io import BytesIO
+
+from PIL import Image
+
 buffered = BytesIO()
-import matplotlib.pyplot as plt
 
 
 def img_to_base64(img):
