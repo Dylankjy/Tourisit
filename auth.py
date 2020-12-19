@@ -15,7 +15,7 @@ def get_sid():
         return None
 
 
-def is_auth():
+def is_auth(gib_data=False):
     if get_sid():
         req_sid = get_sid()
     else:
@@ -28,11 +28,19 @@ def is_auth():
     try:
         query_result = [i for i in db_sessions.find(query)]
 
-        if len(query_result) == 1 and req_sid != '' and req_sid is not None:
-            query_user = {"_id": ObjectId(query_result[0]['uid'])}
-            user_data = [i for i in db_users.find(query_user)]
+        if len(query_result) == 1:
 
-            return user_data[0]
+            if gib_data:
+                query_user = {"_id": ObjectId(query_result[0]['uid'])}
+                query_user_data = [i for i in db_users.find(query_user)]
+
+                user_data = {
+                    "name": query_user_data[0]['name'],
+                    "email": query_user_data[0]['email']
+                }
+                return user_data
+            elif not gib_data:
+                return True
         else:
             return False
     except:
