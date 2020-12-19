@@ -357,19 +357,24 @@ def adminListings():
 # Login Page
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    if (request.method == 'POST') and (request.form['submit_button'] == 'yes'):
-        name = request.form['username']
-        status = request.form['submit_button']
-        return render_template('index.html')
-
-    return render_template('auth/login.html')
+    if not auth.is_auth():
+        if (request.method == 'POST') and (request.form['submit_button'] == 'yes'):
+            name = request.form['username']
+            status = request.form['submit_button']
+        return render_template('auth/login.html')
+    else:
+        return redirect(url_for('home'))
 
 
 # SHARED
 # Sign up page
 @app.route('/signup')
 def signup():
-    return render_template('auth/signup.html')
+    if not auth.is_auth():
+        return render_template('auth/signup.html')
+    else:
+        return redirect(url_for('home'))
+    # return render_template('auth/signup.html')
 
 
 # Run app
