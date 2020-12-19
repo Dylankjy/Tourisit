@@ -26,6 +26,7 @@ db_listings = client['Listings']
 # Email Templates & API Key
 sendgrid_key = [i for i in env.find({})][0]["sendgrid_api"]
 template_header = open("email/header.html", "r").read()
+# Template: Confirmation
 template_email_confirmation = open("email/confirmation.html", "r").read()
 
 
