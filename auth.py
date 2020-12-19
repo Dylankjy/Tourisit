@@ -94,17 +94,27 @@ def login_account(email='takabaka69@example.com', password=b'UwUs696969!'):
     return add_session(query_result["_id"])
 
 
-def logout_account(sid):
+def logout_account(sid, all_sessions=False):
     # Get session from database
     query = {
         "sid": sid
     }
-    query_result = [i for i in db_sessions.find(query)]
-    if len(query_result) == 1:
-        db_sessions.delete_one(query)
-        return True
-    else:
-        return False
+
+    if not all_sessions:
+        query_result = [i for i in db_sessions.find(query)]
+        if len(query_result) == 1:
+            db_sessions.delete_one(query)
+            return True
+        else:
+            return False
+    elif all_sessions:
+        query_result = [i for i in db_sessions.find(query)]
+
+        query_all_sessions = {
+            "uid": ObjectId(query_result[0]['uid'])
+        }
+        if len(query_result) == 1:
+            db_sessions.delete_many(query_all_sessions)
 
 
 def delete_account(uid):
