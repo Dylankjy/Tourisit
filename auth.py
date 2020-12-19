@@ -14,12 +14,16 @@ from flask import request
 
 import models.User as User
 
+# MongoDB connection string
 client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongodb.net/test')['Tourisit']
-db_sessions = client['Sessions']
-db_users = client['Users']
-db_listings = client['Listings']
-env = client['Environment']
 
+# Collections
+env = client['Environment']
+db_users = client['Users']
+db_sessions = client['Sessions']
+db_listings = client['Listings']
+
+# Email Templates & API Key
 sendgrid_key = [i for i in env.find({})][0]["sendgrid_api"]
 template_header = open("email/header.html", "r").read()
 template_email_confirmation = open("email/confirmation.html", "r").read()
