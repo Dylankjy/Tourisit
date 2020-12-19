@@ -48,27 +48,7 @@ def create_account(name='Takabaka', raw_password=b'UwUs696969!', email='takabaka
     # Database Ops: Insert user
     db_users.insert_one(user_dict)
 
-
-def delete_account(uid):
-    try:
-        # Query everything in relation to UID
-        query = {
-            '$or': {
-                "_id": ObjectId(uid),
-                "uid": ObjectId(uid),
-                'tg_uid': ObjectId(uid),
-                'cust_uid': ObjectId(uid)
-            }
-        }
-
-        # Yeet everything into oblivion
-        db_users.delete_many(query)
-        db_sessions.delete_many(query)
-        db_listings.delete_many(query)
-
-        return
-    except:
-        return Exception("Couldn't yeet user account due to an error.")
+    return True
 
 
 def add_session(uid):
@@ -90,6 +70,27 @@ def add_session(uid):
 
     # Database Ops: Insert into session
     db_sessions.insert_one(session_dict)
+
+def delete_account(uid):
+    try:
+        # Query everything in relation to UID
+        query = {
+            '$or': {
+                "_id": ObjectId(uid),
+                "uid": ObjectId(uid),
+                'tg_uid': ObjectId(uid),
+                'cust_uid': ObjectId(uid)
+            }
+        }
+
+        # Yeet everything into oblivion
+        db_users.delete_many(query)
+        db_sessions.delete_many(query)
+        db_listings.delete_many(query)
+
+        return True
+    except:
+        return Exception("Couldn't yeet user account due to an error.")
 
 
 def send_confirmation_email():
