@@ -1,72 +1,72 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/shop.css">
 {% endblock %}
 
 {% block content %}
-<section class="hero is-medium is-black">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title has-text-weight-bold" style="font-size: 3rem;">Hi, How can we help?</h1>
-            <h2 class="subtitle is-size-4">Drop us a message and we will get back to you soon</h2>
+    <section class="hero is-medium is-black">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title has-text-weight-bold" style="font-size: 3rem;">Hi, How can we help?</h1>
+                <h2 class="subtitle is-size-4">Drop us a message and we will get back to you soon</h2>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
-<section class='section'>
-    <div class='columns is-centered'>
-        <div class='column is-half'>
-            <div class='box p-6'>
-                <form class="form-horizontal" enctype="multipart/form-data">
-                    <fieldset>
+    <section class='section'>
+        <div class='columns is-centered'>
+            <div class='column is-half'>
+                <div class='box p-6'>
+                    <form class="form-horizontal" enctype="multipart/form-data">
+                        <fieldset>
 
-                        <div class="field">
-                            <label class="label">Choose a Topic</label>
-                            <div class="control">
-                                <div class="select">
-                                    <select>
-                                        <option>General Enquiry</option>
-                                        <option>Report Tour Guide</option>
-                                        <option>Apply for Verified</option>
-                                    </select>
+                            <div class="field">
+                                <label class="label">Choose a Topic</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select>
+                                            <option>General Enquiry</option>
+                                            <option>Report Tour Guide</option>
+                                            <option>Apply for Verified</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
 
-                        <div class="field">
-                            <label class="label">Name</label>
-                            <div class="control has-icons-left has-icons-right">
-                                <input class="input" type="text" placeholder="Name">
-                                <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
-                                <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
+                            <div class="field">
+                                <label class="label">Name</label>
+                                <div class="control has-icons-left has-icons-right">
+                                    <input class="input" type="text" placeholder="Name">
+                                    <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+                                    <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="field">
-                            <label class="label">Email</label>
-                            <div class="control has-icons-left has-icons-right">
-                                <input class="input" type="email" placeholder="Email">
-                                <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
-                                <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control has-icons-left has-icons-right">
+                                    <input class="input" type="email" placeholder="Email">
+                                    <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                                    <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
+                                </div>
                             </div>
-                        </div>
 
 
-                        <div class="field">
-                            <label class="label">Message</label>
-                            <div class="control">
-                                <textarea class="textarea" placeholder="Let us know how we can help you"></textarea>
+                            <div class="field">
+                                <label class="label">Message</label>
+                                <div class="control">
+                                    <textarea class="textarea" placeholder="Let us know how we can help you"></textarea>
+                                </div>
                             </div>
-                        </div>
 
-                        <label class="label" for="support-img"></label>
-                        <div class="file">
-                        <label class="file-label">
-                            <input class="file-input" type="file" name="tour-img" onchange="if (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML = this.files[0].name;">
-                            <span class="file-cta">
+                            <label class="label" for="support-img"></label>
+                            <div class="file">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" name="tour-img" onchange="if (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML = this.files[0].name;">
+                                    <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
                             </span>
@@ -74,19 +74,19 @@
                                 Choose a file…
                             </span>
                             </span>
-                        </label>
-                        </div>
-                        <br>
-                        <div class="field">
-                            <div class="control">
-                                <button class="button is-success is-fullwidth">Send us a message</button>
+                                </label>
                             </div>
-                        </div>
+                            <br>
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-success is-fullwidth">Send us a message</button>
+                                </div>
+                            </div>
 
-                    </fieldset>
-                </form>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}
