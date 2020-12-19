@@ -74,6 +74,21 @@ def add_session(uid):
     return hashed_sid
 
 
+def login_account(email='takabaka69@example.com', password=b'UwUs696969!'):
+    # TODO: Change this to dynamic ^^^^^
+
+    # Get user data from db by email
+    query = {
+        "email": email
+    }
+    query_result = [i for i in db_users.find(query)][0]
+
+    if not bcrypt.checkpw(password, query_result["password"]):
+        return False
+
+    return add_session(query_result["_id"])
+
+
 def delete_account(uid):
     try:
         # Query everything in relation to UID
