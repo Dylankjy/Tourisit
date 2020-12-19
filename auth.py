@@ -131,6 +131,7 @@ def send_confirmation_email():
     # Create a secure SSL context
     context = ssl.create_default_context()
 
+    # Email headers
     message = MIMEMultipart("alternative")
     message["Subject"] = "Tourisit - Confirm your Email"
     message["From"] = formataddr((str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
@@ -138,10 +139,14 @@ def send_confirmation_email():
 
     code = 'https://tourisit.ichiharu.com/confirmEmail/code'
 
-    content = template_header + template_email_confirmation.format(confirmation_url="https://tourisit.ichiharu.com/confirmEmail/")
+    # Build email HTML from 2 parts. Format with URL
+    content = template_header + template_email_confirmation.format(
+        confirmation_url=code)
 
+    # Add content to email
     message.attach(MIMEText(content, "html"))
 
+    # Send email
     with smtplib.SMTP_SSL("smtp.sendgrid.net", port, context=context) as server:
         server.login("apikey", password)
         server.sendmail(
