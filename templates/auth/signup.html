@@ -32,10 +32,11 @@
             <div id="emailDuplicate" class="notification is-danger" style="display: none;">
                 Email is already attached to an existing account.
             </div>
-            <form id="signupForm">
+            <form id="signupForm" method="POST" action="/signup">
                 <div class="field">
                     <div class="control has-icons-left has-icons-right">
-                        <input id="registerName" class="input" type="text" placeholder="Full Name">
+                        <!-- <input id="registerName" class="input" type="text" placeholder="Full Name"> -->
+                        {{ form.full_name(id="registerName", type="text", class="input", placeholder="Full Name") }}
                         <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
@@ -43,7 +44,8 @@
                 </div>
                 <div class="field">
                     <div class="control has-icons-left has-icons-right">
-                        <input id="registerEmail" class="input" type="text" placeholder="Email">
+                        <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
+                        {{ form.email(id="registerEmail", type="email", class="input", placeholder="Email Address") }}
                         <span class="icon is-small is-left">
                             <i class="fas fa-at"></i>
                         </span>
@@ -51,7 +53,8 @@
                 </div>
                 <div class="field">
                     <div class="control has-icons-left has-icons-right">
-                        <input id="registerPassword" class="input" type="password" placeholder="Password">
+                        <!-- <input id="registerPassword" class="input" type="password" placeholder="Password"> -->
+                        {{ form.password(id="registerPassword", type="password", class="input", placeholder="Password") }}
                         <span class="icon is-small is-left">
                             <i class="fas fa-key"></i>
                         </span>
@@ -69,8 +72,8 @@
                 <div class="buttons">
                     <a class="button is-light has-text-grey" data-pjax='main' href="./login"><i
                             class="fas fa-key"></i>&ensp;Sign in instead</a>
-                    <a id="registerButton" class="button is-primary">Continue&ensp;<i
-                            class="fas fa-arrow-right"></i></a>
+                    <button id="registerButton" type="submit" class="button is-primary">Continue&ensp;<i
+                            class="fas fa-arrow-right"></i></button>
                 </div>
             </form>
         </div>
