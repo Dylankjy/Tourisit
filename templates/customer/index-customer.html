@@ -27,7 +27,7 @@
         <div class='box p-5'>
             <div class="columns is-vcentered">
                 <div class="column">
-                    <a href='/discover/{{ listings[-1].tour_id }}'>
+                    <a href='/discover/{{ listings[-1]["_id"] }}'>
                         <div class="ml-4">
                             <div class="mb-2 listing-author">
                                 <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
@@ -65,7 +65,7 @@
             {% if loop.index <=3 %}
 
             <div class="column">
-                <a href="/discover/{{ item.tour_id }}">
+                <a href="/discover/{{ item['_id'] }}">
                     <!-- START: Vertical Card -->
                     <div class='box p-5 vertical'>
                         <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>

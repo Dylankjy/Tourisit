@@ -24,7 +24,7 @@
 
         <!-- START: Horizontal Card -->
         {% for item in listings|reverse %}
-        <a href='/discover/{{ item.tour_id }}'>
+        <a href='/discover/{{ item["_id"] }}'>
             <div class='box p-5'>
                 <div class="columns is-vcentered">
                     <div class="column">
@@ -41,8 +41,8 @@
                             <br>
                         </div>
                         <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)" href='/listings/delete/{{ item.tour_id }}'><i class="fas fa-trash-alt"></i>&ensp;Delete</a>
-                            <a class="button is-white has-text-primary" href='/listings/edit/{{ item.tour_id }}'><i class="fas fa-clipboard"></i>&ensp;Update</a>
+                            <a class="button is-white" style="color:rgb(226, 48, 78)" href='/listings/delete/{{ item["_id"] }}'><i class="fas fa-trash-alt"></i>&ensp;Delete</a>
+                            <a class="button is-white has-text-primary" href='/listings/edit/{{ item["_id"] }}'><i class="fas fa-clipboard"></i>&ensp;Update</a>
                         </div>
                     </div>
                     <div class="column">

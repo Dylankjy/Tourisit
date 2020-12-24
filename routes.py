@@ -1,14 +1,40 @@
-import uuid
-from datetime import datetime
-
+#Flask imports
 from flask import Flask, render_template, request, redirect, url_for, make_response
 
+from flask_wtf import Form
+from wtforms import FileField, StringField, IntegerField
+
+#Authentication library
 import auth as auth
+
+#Database
+import pymongo
+from bson.objectid import ObjectId
+
+#Data Generation
+import uuid
+from datetime import datetime
+import base64
+from io import BytesIO
+buffered = BytesIO()
+
 
 app = Flask(__name__,
             static_url_path='',
             static_folder='public',
             template_folder='templates')
+
+client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongodb.net/test')['Tourisit']
+
+shop_db = client['Listings']
+
+
+class ListingForm(Form):
+    tour_title = StringField('tour_title')
+    tour_brief = StringField('tour_brief')
+    tour_desc = StringField('tour_desc')
+    tour_img = FileField('tour_img')
+    tour_price = IntegerField('tour_price')
 
 
 # --------------------------------------
@@ -41,7 +67,7 @@ def review():
 @app.route('/users/')
 def profile():
     try:
-        return render_template('profile.html', listings=Listing.query.all())
+        return render_template('profile.html', listings=list(shop_db.find()))
     except:
         return 'Error trying to render'
 
@@ -64,24 +90,23 @@ def accountinfo():
 # Home page
 @app.route('/', methods=['GET'])
 def home():
-    return render_template('customer/index-customer.html', listings=Listing.query.all())
+    return render_template('customer/index-customer.html', listings=list(shop_db.find()))
 
 
 # CUSTOMERS
 # Marketplace: Display all listings
 @app.route('/discover')
 def market():
-    try:
-        return render_template('customer/marketplace.html', listings=Listing.query.all())
-    except:
-        return 'Error trying to render'
+    return render_template('customer/marketplace.html', listings=list(shop_db.find()))
+    # except:
+    #     return 'Error trying to render'
 
 
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from M clicked
-@app.route('/discover/<int:tour_id>')
+@app.route('/discover/<tour_id>')
 def tourListing(tour_id):
-    item = Listing.query.filter_by(tour_id=tour_id).first()
+    item = shop_db.find_one({'_id':ObjectId(tour_id)})
     return render_template('customer/tourListing.html', item=item)
     # except:
     #     return f'Error for Tour_ID: {tour_id}'
@@ -98,16 +123,14 @@ def favourites():
 # Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
 def ownlisting():
-    return render_template('tourGuides/ownlisting.html', listings=Listing.query.all())
+    return render_template('tourGuides/ownlisting.html', listings=list(shop_db.find()))
 
 
 # TOUR GUIDES
 # Delete Listings: When click on Delete button
 @app.route('/listings/delete/<int:id>', methods=['GET', 'POST'])
 def deleteList(id):
-    listing = Listing.query.filter_by(tour_id=id).first()
-    db.session.delete(listing)
-    db.session.commit()
+    listing = shop_db.delete_one({'_id': ObjectId(id)})
 
     return redirect('/listings')
 
@@ -117,18 +140,15 @@ def deleteList(id):
 @app.route('/listings/edit/<int:id>', methods=['GET', 'POST'])
 def editList(id):
     if request.method == 'POST':
-        listing = Listing.query.filter_by(tour_id=id).first()
+        listing = shop_db.find_one({'_id': ObjectId(id)})
 
-        listing.tour_name = request.form['tour-title']
-        listing.tour_brief = request.form['tour-brief']
-        listing.tour_desc = request.form['tour-desc']
-        tour_img = request.files['tour-img'].filename
-        if tour_img == '':
-            tour_img = str(uuid.uuid1()) + '.jpg'
+        tour_name = request.form['tour-title']
+        tour_brief = request.form['tour-brief']
+        tour_desc = request.form['tour-desc']
+        tour_img = bytes(request.files['tour-img'].filename)
         listing.tour_img = tour_img
-        listing.tour_price = request.form['tour-price']
-
-        db.session.commit()
+        tour_price = request.form['tour-price']
+        updated = {"$set": { "tour_name": tour_name, "tour_brief": tour_brief, "tour_desc": tour_desc, "tour_img": tour_img, "tour_price": tour_price}}
 
         return redirect(f'/discover/{id}')
 
@@ -138,6 +158,14 @@ def editList(id):
 
 
 # TOUR GUIDES
+
+def img_to_base64(img):
+    img = Image.open(img).resize((150, 150))
+    img.save(buffered, format="JPEG")
+    img_str = base64.b64encode(buffered.getvalue())
+    return img_str
+
+
 # Add a Listing: For Tour Guides to add listing
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
@@ -163,7 +191,7 @@ def makelisting():
         return render_template('tourGuides/listing-success.html')
 
     else:
-        return render_template('tourGuides/makelisting.html')
+        return render_template('tourGuides/makelisting.html', form=ListingForm)
 
 
 # --------------------------------------

@@ -84,7 +84,7 @@
             {% for item in listings %}
             <div class="column is-one-third">
                 <!-- START: Vertical Card -->
-                <a href='/discover/{{ item.tour_id }}'>
+                <a href='/discover/{{ item["_id"] }}'>
                     <div class='p-5 vertical'>
                         <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
                         <div class="ml-4">
