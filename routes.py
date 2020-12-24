@@ -344,7 +344,7 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = auth.SignupForm()
-    if form.validate():
+    if form.validate_on_submit():
         print("Data yes")
     else:
         print("Data no")

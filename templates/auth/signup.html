@@ -32,7 +32,8 @@
             <div id="emailDuplicate" class="notification is-danger" style="display: none;">
                 Email is already attached to an existing account.
             </div>
-            <form id="signupForm" method="POST" action="/signup">
+            <form id="signupForm" method="POST" action="{{url_for('signup')}}">
+                {{ form.csrf_token }}
                 <div class="field">
                     <div class="control has-icons-left has-icons-right">
                         <!-- <input id="registerName" class="input" type="text" placeholder="Full Name"> -->
