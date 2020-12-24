@@ -2,7 +2,6 @@ import uuid
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, url_for, make_response
-from flask_sqlalchemy import SQLAlchemy
 
 import auth as auth
 
@@ -11,91 +10,6 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
-
-db = SQLAlchemy(app)
-
-
-class User(db.Model):
-    __tablename__ = 'users'
-    user_id = db.Column(db.Integer, primary_key=True, unique=True)
-    user_name = db.Column(db.String(30), nullable=False, unique=True)
-    user_password = db.Column(db.String(30), nullable=False)
-    user_rating = db.Column(db.String(30), nullable=False)
-    user_img = db.Column(db.String(30))
-
-    # Customer
-    wishlist = db.Column(db.String(30))
-
-    # Tour Guide
-    # Creates an artificial column in 'Listing' table called 'tour_guide'.
-    # COMMENT OUT THE NEXT 3 LINES!
-    # TourGuides['tours'] = Listing
-    # Listing['tour_guide'] = TourGuides
-    # backref='tour_guide' means you can do Listing(tour_guide=jake) where jake is a TourGuide Object
-    tours = db.relationship('Listing', backref='tour_guide')
-
-
-# class Customers(db.Model, User):
-#     __tablename__ = 'customers'
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
-#     wishlist = db.Column(db.String(30), nullable=False, unique=True)
-
-
-# class TourGuides(db.Model, User):
-#     __tablename__ = 'tourguides'
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
-#     #Creates an artificial column in 'Listing' table called 'tour_guide'.
-#     # COMMENT OUT THE NEXT 3 LINES!
-#     # TourGuides['tours'] = Listing
-#     # Listing['tour_guide'] = TourGuides
-#     # backref='tour_guide' means you can do Listing(tour_guide=jake) where jake is a TourGuide Object
-#     tours = db.relationship('Listing', backref='tour_guide')
-
-
-class Listing(db.Model):
-    __tablename__ = 'listings'
-    tour_id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
-    tour_name = db.Column(db.String(30), nullable=False)
-    tour_brief = db.Column(db.String(50), nullable=False)
-    tour_desc = db.Column(db.String(500), nullable=False)
-    tour_price = db.Column(db.Integer, nullable=False)
-    tour_img = db.Column(db.String(10), unique=True)
-    date_created = db.Column(db.DateTime, default=datetime.now)
-
-    # You need to hav ea common column beteen Listing and Users in order to join them
-    tour_guide_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-
-
-# TO ADD TO THE USERS DATABASE
-
-# jake = User(user_name='Jake001', user_password='secure', user_rating=4, user_img='blank.jpg')
-# db.session.add(jake)
-# db.session.commit()
-
-# TO SEARCH FOR USER USING user_name
-# jake = User.query.filter_by(user_name='Jake001').first()
-
-# TO PRINT THE PASSWORD OF SEARCHED USER
-# print(jake.user_password)
-
-
-# TO ADD TO THE LISTINGS DATABASE
-
-# tour_title = 'Bishan walk NUMBER 2'
-# brief_desc = 'Just yoour regualr awak'
-# detail_desc = 'This is the mroe detialed version'
-# tour_img = 'Thires.jpg'
-# tour_price = 40
-#
-# listing = Listing(tour_name=tour_title, tour_brief=brief_desc, tour_desc=detail_desc, tour_price=tour_price, tour_img=tour_img, tour_guide=jake)
-# db.session.add(listing)
-# db.session.commit()
-
-
-# bcrypt = Bcrypt()
-# login_manager = LoginManager(app)
 
 # --------------------------------------
 

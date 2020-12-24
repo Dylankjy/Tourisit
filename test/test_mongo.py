@@ -1,4 +1,4 @@
-from model import User, Listings, Bookings, Transactions, Support
+from models.model import User, Listing, Booking, Transaction, Support, Booking, Chat, Review
 from PIL import Image
 import base64
 import pymongo
