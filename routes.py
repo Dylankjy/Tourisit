@@ -1,27 +1,21 @@
-#Flask imports
-from flask import Flask, render_template, request, redirect, url_for, make_response
-
-from flask_wtf import FlaskForm
-from wtforms import FileField, StringField, IntegerField, SubmitField, TextAreaField
-from wtforms.validators import InputRequired, Length, NumberRange
-
-#Authentication library
-import auth as auth
-
-#Database
-import pymongo
-from bson.objectid import ObjectId
-
-
-from models.model import User, Listing, Booking, Transaction, Support, Booking, Chat, Review
-
-#Data Generation
-import uuid
-from datetime import datetime
+# Flask imports
+# Data Generation
 import base64
 from io import BytesIO
-buffered = BytesIO()
 
+# Database
+import pymongo
+from bson.objectid import ObjectId
+from flask import Flask, render_template, request, redirect, url_for
+from flask_wtf import FlaskForm
+from wtforms import FileField, StringField, IntegerField, TextAreaField
+from wtforms.validators import InputRequired, Length, NumberRange
+
+# Authentication library
+import auth as auth
+from models.model import Listing
+
+buffered = BytesIO()
 
 app = Flask(__name__,
             static_url_path='',
@@ -36,13 +30,16 @@ shop_db = client['Listings']
 
 
 class ListingForm(FlaskForm):
-    tour_name = StringField('tour_name', validators=[InputRequired(), Length(min=1, max=30, message='Name can only be 30 characters long!')])
-    tour_brief = StringField('tour_brief', validators=[InputRequired(), Length(min=1, max=100, message='Brief description can only be 100 characters long!')])
+    tour_name = StringField('tour_name', validators=[InputRequired(), Length(min=1, max=30,
+                                                                             message='Name can only be 30 characters long!')])
+    tour_brief = StringField('tour_brief', validators=[InputRequired(), Length(min=1, max=100,
+                                                                               message='Brief description can only be 100 characters long!')])
     tour_desc = TextAreaField('tour_desc', validators=[InputRequired()])
-    #render_kw will pass in a dictionary.. if you want to render custom css etc..
+    # render_kw will pass in a dictionary.. if you want to render custom css etc..
     # tour_desc = TextAreaField('tour_desc', validators=[InputRequired()], render_kw={"rows": 70, "cols": 11})
     tour_img = FileField('tour_img')
-    tour_price = IntegerField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None, message='Price cannot be below $0!')])
+    tour_price = IntegerField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None,
+                                                                                     message='Price cannot be below $0!')])
 
 
 @app.route('/listings/add', methods=['GET', 'POST'])
@@ -67,6 +64,8 @@ def makelisting():
 
     else:
         return render_template('tourGuides/makelisting.html', form=lForm)
+
+
 # --------------------------------------
 
 # Amy
@@ -136,7 +135,7 @@ def market():
 # Detailed Listing: More detailed listing when listing from M clicked
 @app.route('/discover/<tour_id>')
 def tourListing(tour_id):
-    item = shop_db.find_one({'_id':ObjectId(tour_id)})
+    item = shop_db.find_one({'_id': ObjectId(tour_id)})
     return render_template('customer/tourListing.html', item=item)
     # except:
     #     return f'Error for Tour_ID: {tour_id}'
@@ -178,7 +177,9 @@ def editList(id):
         tour_img = bytes(request.files['tour-img'].filename)
         listing.tour_img = tour_img
         tour_price = request.form['tour-price']
-        updated = {"$set": { "tour_name": tour_name, "tour_brief": tour_brief, "tour_desc": tour_desc, "tour_img": tour_img, "tour_price": tour_price}}
+        updated = {
+            "$set": {"tour_name": tour_name, "tour_brief": tour_brief, "tour_desc": tour_desc, "tour_img": tour_img,
+                     "tour_price": tour_price}}
 
         return redirect(f'/discover/{id}')
 
