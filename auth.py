@@ -11,6 +11,9 @@ import bcrypt
 import pymongo
 from bson import ObjectId
 from flask import request
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired, Email
 
 import models.User as User
 
@@ -206,3 +209,18 @@ def is_auth(gib_data=False):
             return False
     except:
         raise Exception('auth.py: Cannot authenticate user due to an unknown error')
+
+
+class SignupForm(FlaskForm):
+    full_name = StringField(
+        'Full Name',
+        [DataRequired()]
+    )
+    email = StringField(
+        'Email Address',
+        [DataRequired(), Email()]
+    )
+    password = StringField(
+        'Password',
+        [DataRequired()]
+    )
