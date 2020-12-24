@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+{% from "_formhelper.html" import render_field %}
 <section id="discover-hero" class="hero is-medium is-info is-bold">
     <div class="hero-body">
         <div class="container has-text-centered">
@@ -25,15 +26,21 @@
     <div class='columns is-centered'>
         <div class='column is-half'>
             <div class='box'>
-                <form class="form-horizontal" enctype="multipart/form-data" action="/listings/add" method="POST">
+                <form class="form-horizontal" enctype="multipart/form-data" action="{{url_for('makelisting')}}" method="POST">
+                    {{ form.csrf_token }}
                     <fieldset>
-                    
-                        <legend class='label'>Tour Title</legend>
-                        
+
+                        <legend class='label'>Tour Name</legend>
+
                         <div class="field">
-                        <label class="label" for="tour-title"></label>
+                        <label class="label" for="tour-name"></label>
                         <div class="control">
-                            <input id="tour-title" name="tour-title" type="text" class="input " required="" placeholder="Bishan Eco-walk">      
+                            {{ form.tour_name(id="tour-name", type="text", class="input", placeholder="Bishan Eco-walk") }}
+                            <ul>
+                                {% for error in form.tour_name.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                         </div>
 
@@ -42,15 +49,20 @@
                         <div class="field">
                         <label class="label" for="tour-brief"></label>
                         <div class="control">
-                            <input id="tour-brief" name="tour-brief" type="text" class="input " required="" placeholder="Explore the Nature aspects of Bishan">      
+                            {{ form.tour_brief(id="tour-brief", type="text", class="input", placeholder="Explore the Nature aspects of Bishan") }}
+                             <ul>
+                                {% for error in form.tour_brief.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                         </div>
-                        
-                        
+
+
                         <label class="label" for="tour-img">Tour Image</label>
                         <div class="file">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="tour-img" onchange="if (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML = this.files[0].name;">
+                            {{ form.tour_img(class="file-input", type="file", onchange="if (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML = this.files[0].name;") }}
                             <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -59,26 +71,40 @@
                                 Choose a file…
                             </span>
                             </span>
+                             <ul>
+                                {% for error in form.tour_img.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </label>
                         </div>
-                
+
                         <div class="field">
                         <label class="label" for="tour-desc">Tour Description</label>
-                        <div class="control">                     
-                            <textarea class="textarea" id="tour-desc" name="tour-desc" placeholder="This Eco-walk will take you to different Nature attractions in Bishan, including: Gardens, Parks and Trails...."></textarea>
+                        <div class="control">
+                            {{ form.tour_desc(class='textarea', id="tour-desc", placeholder="This Eco-walk will take you to different Nature attractions in Bishan, including: Gardens, Parks and Trails....") }}
+                             <ul>
+                                {% for error in form.tour_desc.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                         </div>
-                        
-                
+
+
                         <div class="field">
                         <label class="label" for="tour-price">Minimum Price ($SGD)</label>
                         <div class="control">
-                            <input id="tour-price" name="tour-price" type="number" class="input" placeholder="120">
-                            
+                            {{ form.tour_price(id="tour-price", type="number", class="input", placeholder="120") }}
+                            <ul>
+                                {% for error in form.tour_price.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                         </div>
-                        
-                
+
+
                         <div class="field">
                         <label class="label" for="tour-submit"></label>
                         <div class="control">

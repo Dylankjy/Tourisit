@@ -1,8 +1,9 @@
 #Flask imports
 from flask import Flask, render_template, request, redirect, url_for, make_response
 
-from flask_wtf import Form
-from wtforms import FileField, StringField, IntegerField
+from flask_wtf import FlaskForm
+from wtforms import FileField, StringField, IntegerField, SubmitField, TextAreaField
+from wtforms.validators import InputRequired, Length, NumberRange
 
 #Authentication library
 import auth as auth
@@ -10,6 +11,9 @@ import auth as auth
 #Database
 import pymongo
 from bson.objectid import ObjectId
+
+
+from models.model import User, Listing, Booking, Transaction, Support, Booking, Chat, Review
 
 #Data Generation
 import uuid
@@ -24,19 +28,45 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
+app.config['SECRET_KEY'] = 'keepthissecret'
+
 client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongodb.net/test')['Tourisit']
 
 shop_db = client['Listings']
 
 
-class ListingForm(Form):
-    tour_title = StringField('tour_title')
-    tour_brief = StringField('tour_brief')
-    tour_desc = StringField('tour_desc')
+class ListingForm(FlaskForm):
+    tour_name = StringField('tour_name', validators=[InputRequired(), Length(min=1, max=30, message='Name can only be 30 characters long!')])
+    tour_brief = StringField('tour_brief', validators=[InputRequired(), Length(min=1, max=100, message='Brief description can only be 100 characters long!')])
+    tour_desc = TextAreaField('tour_desc', validators=[InputRequired()])
+    #render_kw will pass in a dictionary.. if you want to render custom css etc..
+    # tour_desc = TextAreaField('tour_desc', validators=[InputRequired()], render_kw={"rows": 70, "cols": 11})
     tour_img = FileField('tour_img')
-    tour_price = IntegerField('tour_price')
+    tour_price = IntegerField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None, message='Price cannot be below $0!')])
 
 
+@app.route('/listings/add', methods=['GET', 'POST'])
+def makelisting():
+    lForm = ListingForm()
+    if request.method == 'POST':
+        if lForm.validate_on_submit():
+            tour_name = request.form['tour_name']
+            brief_desc = request.form['tour_brief']
+            detail_desc = request.form['tour_desc']
+            tour_img = request.files['tour_img']
+            tour_price = request.form['tour_price']
+            print(tour_name)
+
+            tour_listing = Listing(tour_name=tour_name, tour_brief=brief_desc, tour_desc=detail_desc,
+                                   tour_price=tour_price,
+                                   tour_img=tour_img, tg_uid='testing')
+
+            x = tour_listing.return_obj()
+            return x
+        return render_template('tourGuides/makelisting.html', form=lForm)
+
+    else:
+        return render_template('tourGuides/makelisting.html', form=lForm)
 # --------------------------------------
 
 # Amy
@@ -167,31 +197,31 @@ def img_to_base64(img):
 
 
 # Add a Listing: For Tour Guides to add listing
-@app.route('/listings/add', methods=['GET', 'POST'])
-def makelisting():
-    if request.method == 'POST':
-
-        # This should be the tour guide
-        jake = User.query.filter_by(user_name='Jake001').first()
-
-        tour_title = request.form['tour-title']
-        brief_desc = request.form['tour-brief']
-        detail_desc = request.form['tour-desc']
-        tour_img = request.files['tour-img'].filename
-        if tour_img == '':
-            tour_img = str(uuid.uuid1()) + '.jpg'
-        tour_price = request.form['tour-price']
-
-        listing = Listing(tour_name=tour_title, tour_brief=brief_desc, tour_desc=detail_desc, tour_price=tour_price,
-                          tour_img=tour_img, tour_guide=jake)
-
-        db.session.add(listing)
-        db.session.commit()
-        # Replace with success msg
-        return render_template('tourGuides/listing-success.html')
-
-    else:
-        return render_template('tourGuides/makelisting.html', form=ListingForm)
+# @app.route('/listings/add', methods=['GET', 'POST'])
+# def makelisting():
+#     if request.method == 'POST':
+#
+#         # This should be the tour guide
+#         jake = User.query.filter_by(user_name='Jake001').first()
+#
+#         tour_title = request.form['tour-title']
+#         brief_desc = request.form['tour-brief']
+#         detail_desc = request.form['tour-desc']
+#         tour_img = request.files['tour-img'].filename
+#         if tour_img == '':
+#             tour_img = str(uuid.uuid1()) + '.jpg'
+#         tour_price = request.form['tour-price']
+#
+#         listing = Listing(tour_name=tour_title, tour_brief=brief_desc, tour_desc=detail_desc, tour_price=tour_price,
+#                           tour_img=tour_img, tour_guide=jake)
+#
+#         db.session.add(listing)
+#         db.session.commit()
+#         # Replace with success msg
+#         return render_template('tourGuides/listing-success.html')
+#
+#     else:
+#         return render_template('tourGuides/makelisting.html', form=ListingForm)
 
 
 # --------------------------------------
