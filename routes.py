@@ -341,10 +341,16 @@ def login():
 
 # SHARED
 # Sign up page
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    form = auth.SignupForm()
+    if form.validate():
+        print("Data yes")
+    else:
+        print("Data no")
+
     if not auth.is_auth():
-        return render_template('auth/signup.html')
+        return render_template('auth/signup.html', form=form)
     else:
         return redirect(url_for('home'))
     # return render_template('auth/signup.html')
