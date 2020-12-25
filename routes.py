@@ -26,7 +26,7 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
-#CONFIGS
+#APP CONFIGS
 #REMEMBER TO USE GLOBAL VARIABLE FOR THIS
 app.config['SECRET_KEY'] = 'keepthissecret'
 #Set file upload limit to 1MB

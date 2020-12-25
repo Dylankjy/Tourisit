@@ -48,7 +48,7 @@
                     </a>
                 </div>
                 <div class="column">
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    <div class="box listing-img" style="background-image: url('data:image/jpeg;base64, {{ listings[-1]['tour_img'] }}');"></div>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
                 <a href="/discover/{{ item['_id'] }}">
                     <!-- START: Vertical Card -->
                     <div class='box p-5 vertical'>
-                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                        <div class="box listing-img" style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');"></div>
                         <div class="ml-4">
                             <div class="mb-2 listing-author">
                                 <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
