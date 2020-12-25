@@ -3,6 +3,24 @@ import models.Validation as validation
 from datetime import datetime
 
 
+from flask_wtf import FlaskForm
+from wtforms import FileField, StringField, IntegerField, TextAreaField, FloatField
+from wtforms.validators import InputRequired, Length, NumberRange
+
+
+class ListingForm(FlaskForm):
+    tour_name = StringField('tour_name', validators=[InputRequired(), Length(min=1, max=30,
+                                                                             message='Name can only be 30 characters long!')])
+    tour_brief = StringField('tour_brief', validators=[InputRequired(), Length(min=1, max=100,
+                                                                               message='Brief description can only be 100 characters long!')])
+    tour_desc = TextAreaField('tour_desc', validators=[InputRequired()])
+    # render_kw will pass in a dictionary.. if you want to render custom css etc..
+    # tour_desc = TextAreaField('tour_desc', validators=[InputRequired()], render_kw={"rows": 70, "cols": 11})
+    tour_img = FileField('tour_img')
+    tour_price = FloatField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None,
+                                                                                     message='Price cannot be below $0!')])
+
+
 class Listing:
     def __init__(
         self,
