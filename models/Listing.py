@@ -4,8 +4,10 @@ from datetime import datetime
 
 
 from flask_wtf import FlaskForm
-from wtforms import FileField, StringField, IntegerField, TextAreaField, FloatField
+from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, IntegerField, TextAreaField, FloatField
 from wtforms.validators import InputRequired, Length, NumberRange
+
 
 
 class ListingForm(FlaskForm):
@@ -16,7 +18,8 @@ class ListingForm(FlaskForm):
     tour_desc = TextAreaField('tour_desc', validators=[InputRequired()])
     # render_kw will pass in a dictionary.. if you want to render custom css etc..
     # tour_desc = TextAreaField('tour_desc', validators=[InputRequired()], render_kw={"rows": 70, "cols": 11})
-    tour_img = FileField('tour_img')
+    #Only allow image files
+    tour_img = FileField('tour_img', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Only Images are allowed!')])
     tour_price = FloatField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None,
                                                                                      message='Price cannot be below $0!')])
 

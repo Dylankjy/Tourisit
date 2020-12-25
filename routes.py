@@ -18,15 +18,20 @@ from models.model import Listing
 #Custom class imports
 from models.Listing import ListingForm
 
+#For Images
 buffered = BytesIO()
+from validate_imgs import img_to_base64, validate_image
 
 app = Flask(__name__,
             static_url_path='',
             static_folder='public',
             template_folder='templates')
 
+#CONFIGS
 #REMEMBER TO USE GLOBAL VARIABLE FOR THIS
 app.config['SECRET_KEY'] = 'keepthissecret'
+#Set file upload limit to 1MB
+app.config["MAX_IMAGE_FILESIZE"] = 1 * 1024 * 1024
 
 #CHANGE THE PASSWORD TO A GLOBAL VARIABLE
 client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongodb.net/test')['Tourisit']
@@ -34,6 +39,16 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 #Initialize all DBs here
 shop_db = client['Listings']
 user_db = client['Users']
+
+
+@app.route('/testImg', methods=['GET', 'POST'])
+def test_img():
+    lForm = ListingForm()
+    if request.method == 'POST':
+        tour_img = request.files['tour_img']
+        img_string = img_to_base64(tour_img)
+        return render_template('tourGuides/testImg.html', form=lForm, imgBase64=img_string)
+    return render_template('tourGuides/testImg.html', form=lForm, imgBase64='')
 
 
 # --------------------------------------
@@ -111,13 +126,6 @@ def tourListing(tour_id):
     #     return f'Error for Tour_ID: {tour_id}'
 
 
-# CUSTOMERS
-# Favourites: Shows all the liked listings
-@app.route('/me/favourites')
-def favourites():
-    return render_template('customer/favourites.html')
-
-
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
@@ -181,22 +189,29 @@ def editListing(id):
         return render_template('tourGuides/editListing.html', listing=item, form=lForm)
 
 
+# @app.route('/testImg', methods=['GET', 'POST'])
+# def test_img():
+#     lForm = ListingForm()
+#     if request.method == 'POST':
+#         tour_img = request.files['tour_img']
+#         print(tour_img)
+#     return render_template('tourGuides/testImg.html', form=lForm)
+
+
 # TOUR GUIDES
 # Delete Listings: When click on Delete button
-@app.route('/listings/delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/listings/delete/<id>', methods=['GET', 'POST'])
 def deleteList(id):
     listing = shop_db.delete_one({'_id': ObjectId(id)})
 
     return redirect('/listings')
 
 
-# TOUR GUIDES
-
-def img_to_base64(img):
-    img = Image.open(img).resize((150, 150))
-    img.save(buffered, format="JPEG")
-    img_str = base64.b64encode(buffered.getvalue())
-    return img_str
+# CUSTOMERS
+# Favourites: Shows all the liked listings
+@app.route('/me/favourites')
+def favourites():
+    return render_template('customer/favourites.html')
 
 # --------------------------------------
 

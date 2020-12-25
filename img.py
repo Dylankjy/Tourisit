@@ -14,4 +14,4 @@ def img_to_base64(img):
 
 
 img_str = img_to_base64('public/imgs/bookings.jpg')
-print(type(img_str))
+print(img_str)
