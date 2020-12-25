@@ -29,6 +29,7 @@ class Listing:
         self,
         tour_name,
         tour_brief,
+        tour_desc,
         tour_price,
         tg_uid,
         tour_img=''
@@ -40,12 +41,16 @@ class Listing:
         self.__tour_brief = ''
         self.set_tour_brief(tour_brief)
 
-        self.__tour_img = ''
-        self.set_tour_img(tour_img)
+        self.__tour_desc = ''
+        self.set_tour_desc(tour_desc)
 
         self.__tour_itinerary = []
         self.__tour_location = []
-        self.__tour_price = tour_price
+        self.__tour_price = 0
+        self.set_tour_price(tour_price)
+
+        self.__tour_img = ''
+        self.set_tour_img(tour_img)
 
         self.__date_created = datetime.now()
         self.__tour_rating = 0
@@ -62,11 +67,14 @@ class Listing:
 
     def set_tour_brief(self, tour_brief):
         try:
-            assert len(tour_brief) <= 200
+            assert len(tour_brief) <= 100
         except AssertionError:
-            print(f"{tour_brief} must be less than {200} characters!")
+            print(f"Brief Tour Description must be less than 100 characters!")
         else:
             self.__tour_brief = tour_brief
+
+    def set_tour_desc(self, tour_desc):
+        self.__tour_desc = tour_desc
 
     def add_tour_itinerary(self, itinerary):
         try:
@@ -93,12 +101,7 @@ class Listing:
             self.__tour_price = tour_price
 
     def set_tour_img(self, tour_img):
-        try:
-            assert type(tour_img) == bytes
-        except AssertionError:
-            print(f"{tour_img} must be of type {bytes}")
-        else:
-            self.__tour_img = tour_img
+        self.__tour_img = tour_img
 
     def set_tour_rating(self, tour_rating):
         try:
@@ -123,6 +126,7 @@ class Listing:
         return {
             "tour_name": self.__tour_name,
             "tour_brief": self.__tour_brief,
+            "tour_desc": self.__tour_desc,
             "tour_itinerary": self.__tour_itinerary,
             "tour_location": self.__tour_location,
             "tour_price": self.__tour_price,

@@ -13,10 +13,9 @@ from wtforms.validators import InputRequired, Length, NumberRange
 
 # Authentication library
 import auth as auth
-from models.model import Listing
 
 #Custom class imports
-from models.Listing import ListingForm
+from models.Listing import ListingForm, Listing
 
 #For Images
 buffered = BytesIO()
@@ -47,6 +46,7 @@ def test_img():
     if request.method == 'POST':
         tour_img = request.files['tour_img']
         img_string = img_to_base64(tour_img)
+        print(img_string)
         return render_template('tourGuides/testImg.html', form=lForm, imgBase64=img_string)
     return render_template('tourGuides/testImg.html', form=lForm, imgBase64='')
 
@@ -142,14 +142,16 @@ def makelisting():
             brief_desc = request.form['tour_brief']
             detail_desc = request.form['tour_desc']
             tour_img = request.files['tour_img']
+            img_string = img_to_base64(tour_img)
             tour_price = request.form['tour_price']
             print(tour_name)
 
             tour_listing = Listing(tour_name=tour_name, tour_brief=brief_desc, tour_desc=detail_desc,
                                    tour_price=tour_price,
-                                   tour_img=tour_img, tg_uid='testing')
+                                   tour_img=img_string, tg_uid='testing')
 
             listingInfo = tour_listing.return_obj()
+            print(listingInfo)
             shop_db.insert_one(listingInfo)
             return render_template('tourGuides/listing-success.html')
         return render_template('tourGuides/makelisting.html', form=lForm)
@@ -170,10 +172,11 @@ def editListing(id):
             tour_name = request.form['tour_name']
             tour_brief = request.form['tour_brief']
             tour_desc = request.form['tour_desc']
-            tour_img = bytes(request.files['tour_img'])
+            tour_img = request.files['tour_img']
+            img_string = img_to_base64(tour_img)
             tour_price = request.form['tour_price']
             updated = {
-                "$set": {"tour_name": tour_name, "tour_brief": tour_brief, "tour_desc": tour_desc, "tour_img": tour_img,
+                "$set": {"tour_name": tour_name, "tour_brief": tour_brief, "tour_desc": tour_desc, "tour_img": img_string,
                          "tour_price": tour_price}}
             shop_db.update_one(query_listing, updated)
 
