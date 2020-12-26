@@ -3,6 +3,32 @@
 {% block scripts %}
 <link rel="stylesheet" href="/css/shop.css">
 <link rel="stylesheet" href="/css/discover.css">
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+
+    function liveSearch(value){
+        value = value.trim(); // remove any spaces around the text
+        if(value != ""){ // don't make requests with an empty string
+            $.ajax({
+                url: "/search",
+                data: {searchListing: value},
+                dataType: "json",
+                success: function(data){
+                    var res = "";
+                    for(i in data.results){
+                        res += "<div>"+data.results[i]+"</div>";
+                    }
+                    $("#results").html(res);
+                }
+
+            });
+        }
+        else{
+            $("#results").html(""); // set the results empty in case of empty string
+        }
+    }
+
+</script>
 {% endblock %}
 
 {% block content %}
@@ -21,7 +47,7 @@
         <div class="searchbar">
             <div class="field has-addons">
                 <div class="control is-expanded">
-                    <input id="searchReq" class="input is-fullwidth" type="text" placeholder="Look for a tour">
+                    <input id="searchReq" class="input is-fullwidth" type="text" placeholder="Look for a tour" onkeyup="liveSearch(this.value)">
                 </div>
                 <div class="control">
                     <button class="button is-danger">
@@ -34,6 +60,7 @@
             </div>
         </div>
     </div>
+
 </section>
 
 <section class='section'>
@@ -78,6 +105,10 @@
 
 <section class="section">
     <div class="container">
+
+            <div class="section">
+                <div class="has-text-info" id="results"></div>
+            </div>
 
         <div class="columns is-multiline">
 

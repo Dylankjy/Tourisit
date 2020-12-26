@@ -21,6 +21,9 @@ from models.Listing import ListingForm, Listing
 buffered = BytesIO()
 from validate_imgs import img_to_base64, validate_image
 
+
+import json
+
 app = Flask(__name__,
             static_url_path='',
             static_folder='public',
@@ -111,9 +114,36 @@ def home():
 # Marketplace: Display all listings
 @app.route('/discover')
 def market():
+    # all_listings = list(i['tour_name'] for i in shop_db.find())
+    # # try:
+    # text = request.args['search']
+    # if text != '':
+    #     result = [c for c in all_listings if str(text).lower() in c.lower()]
+    #     result_listings = list(i for i in shop_db.find({'tour_name': {'$in': result}}))
+    #     return render_template('customer/marketplace.html', listings=result_listings)
+    # else:
+    #     return render_template('customer/marketplace.html', listings=list(shop_db.find()))
+    # except:
+    # if request.method == 'POST':
+    #     print('SUBMITTED')
+    #     result = request.form['searchResult']
+    #     print(result)
     return render_template('customer/marketplace.html', listings=list(shop_db.find()))
     # except:
     #     return 'Error trying to render'
+
+
+#To implement search function
+@app.route('/search')
+def search():
+    all_listings = list(i['tour_name'] for i in shop_db.find())
+    #Get the string that is typed in the search bar
+    text = request.args['searchListing']
+    #Get all the listing names from db
+    #Get all the listings that fulfil the criteria
+    result = [c for c in all_listings if str(text).lower() in c.lower()]
+    result_listings = list(shop_db.find({'tour_name': {'$in': result}}))
+    return json.dumps({"results": result})
 
 
 # CUSTOMERS

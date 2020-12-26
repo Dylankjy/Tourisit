@@ -17,16 +17,41 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 
 db = client['Listings']
 
-x = list(db.find())
-for i in x:
-    print(i['_id'])
+all_listings = list(i['tour_name'] for i in db.find())
+print(all_listings)
 
 
-def img_to_base64(img):
-    img = Image.open(img).resize((150, 150))
-    img.save(buffered, format="JPEG")
-    img_str = base64.b64encode(buffered.getvalue())
-    return img_str
+text = 'i'
+result = [c for c in all_listings if str(text).lower() in c.lower()]
+x = list(i for i in db.find({'tour_name': {'$in': result }}))
+print(x[1])
+
+
+# co = True
+# while co:
+#     text = input('txt:')
+#     # all_listings = list(i['tour_name'] for i in db.find())
+#     # print(all_listings)
+#     result = [c for c in all_listings if str(text).lower() in c.lower()]
+#     x = list(i['tour_name'] for i in db.find({'tour_name': {'$in': result }}))
+#     print(x)
+#     cont = input('co:?')
+#     if cont == 'n':
+#         co = False
+
+
+
+
+# x = list(db.find())
+# for i in x:
+#     print(i['_id'])
+#
+#
+# def img_to_base64(img):
+#     img = Image.open(img).resize((150, 150))
+#     img.save(buffered, format="JPEG")
+#     img_str = base64.b64encode(buffered.getvalue())
+#     return img_str
 
 
 # co = True
@@ -58,7 +83,7 @@ def img_to_base64(img):
 
 # LISTINGS
 # img_str = img_to_base64('public/imgs/bookings.jpg')
-# x = Listings('Gay bars', 'THis is not me', '60', 'iire3', tour_img=img_str)
+# x = Listings('bars', 'THis is not me', '60', 'iire3', tour_img=img_str)
 # y = x.return_obj()
 # print(y)
 # db = client['Listings']
