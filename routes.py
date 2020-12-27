@@ -1,26 +1,21 @@
 # Flask imports
 # Data Generation
-import base64
 from io import BytesIO
 
 # Database
 import pymongo
 from bson.objectid import ObjectId
 from flask import Flask, render_template, request, redirect, url_for
-from flask_wtf import FlaskForm
-from wtforms import FileField, StringField, IntegerField, TextAreaField
-from wtforms.validators import InputRequired, Length, NumberRange
 
 # Authentication library
 import auth as auth
-
-#Custom class imports
+# Custom class imports
 from models.Listing import ListingForm, Listing
+from models.User import UserForm
 
-#For Images
+# For Images
 buffered = BytesIO()
-from validate_imgs import img_to_base64, validate_image
-
+from validate_imgs import img_to_base64
 
 import json
 
@@ -29,19 +24,18 @@ app = Flask(__name__,
             static_folder='public',
             template_folder='templates')
 
-#APP CONFIGS
-#REMEMBER TO USE GLOBAL VARIABLE FOR THIS
+# APP CONFIGS
+# REMEMBER TO USE GLOBAL VARIABLE FOR THIS
 app.config['SECRET_KEY'] = 'keepthissecret'
-#Set file upload limit to 1MB
+# Set file upload limit to 1MB
 app.config["MAX_IMAGE_FILESIZE"] = 1 * 1024 * 1024
 
-#CHANGE THE PASSWORD TO A GLOBAL VARIABLE
+# CHANGE THE PASSWORD TO A GLOBAL VARIABLE
 client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongodb.net/test')['Tourisit']
 
-#Initialize all DBs here
+# Initialize all DBs here
 shop_db = client['Listings']
 user_db = client['Users']
-
 
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
@@ -52,7 +46,6 @@ def test_img():
         print(img_string)
         return render_template('tourGuides/testImg.html', form=lForm, imgBase64=img_string)
     return render_template('tourGuides/testImg.html', form=lForm, imgBase64='')
-
 
 # --------------------------------------
 
@@ -67,7 +60,6 @@ def support():
     except:
         return 'Error trying to render'
 
-
 # CUSTOMER
 # Submit Review
 @app.route('/review')
@@ -76,7 +68,6 @@ def review():
         return render_template('customer/review.html')
     except:
         return 'Error trying to render'
-
 
 # SHARED
 # User profile
@@ -88,16 +79,41 @@ def profile():
     except:
         return 'Error trying to render'
 
-
 # SHARED
 # User account settings
-@app.route('/me/settings')
+@app.route('/me/settings', methods=['GET', 'POST'])
 def accountinfo():
+    uForm = UserForm()
+    user_id = '5fde1b5bdf4fe3bc527058f1'
+    item = user_db.find_one({'_id': ObjectId(user_id)})
+    if request.method == 'POST':
+        if uForm.validate_on_submit():
+            query_user = {'_id': ObjectId(user_id)}
+            name = request.form['name']
+            password = request.form['password']
+            email = request.form['email']
+            phone_number = request.form['phone_number']
+            updated = {
+                "$set": {"name": name, "password": password, "email": email, "phone_number": phone_number}}
+            user_db.update_one(query_user, updated)
+
+            return render_template('success-user.html', id=user_id)
+        uForm.phone_number.default = item['phone_number']
+        uForm.process()
+        return render_template('setting.html', user=item, form=uForm)
+
+    else:
+        print(item['name'])
+        # uForm.tour_desc.default = item['tour_desc']
+        # uForm.process()
+        return render_template('setting.html', user=item, form=uForm)
+
+@app.route('/me/billing')
+def accountbilling():
     try:
-        return render_template('setting.html')
+        return render_template('billing.html')
     except:
         return 'Error trying to render'
-
 
 # --------------------------------------
 
@@ -108,7 +124,6 @@ def accountinfo():
 @app.route('/', methods=['GET'])
 def home():
     return render_template('customer/index-customer.html', listings=list(shop_db.find()))
-
 
 # CUSTOMERS
 # Marketplace: Display all listings
@@ -132,19 +147,17 @@ def market():
     # except:
     #     return 'Error trying to render'
 
-
-#To implement search function
+# To implement search function
 @app.route('/search')
 def search():
     all_listings = list(i['tour_name'] for i in shop_db.find())
-    #Get the string that is typed in the search bar
+    # Get the string that is typed in the search bar
     text = request.args['searchListing']
-    #Get all the listing names from db
-    #Get all the listings that fulfil the criteria
+    # Get all the listing names from db
+    # Get all the listings that fulfil the criteria
     result = [c for c in all_listings if str(text).lower() in c.lower()]
     result_listings = list(shop_db.find({'tour_name': {'$in': result}}))
     return json.dumps({"results": result})
-
 
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from M clicked
@@ -155,13 +168,11 @@ def tourListing(tour_id):
     # except:
     #     return f'Error for Tour_ID: {tour_id}'
 
-
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
 def ownlisting():
     return render_template('tourGuides/ownlisting.html', listings=list(shop_db.find()))
-
 
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
@@ -188,7 +199,6 @@ def makelisting():
 
     else:
         return render_template('tourGuides/makelisting.html', form=lForm)
-
 
 # TOUR GUIDES
 # Edit Listings: When click on own listing to edit
@@ -221,7 +231,6 @@ def editListing(id):
         lForm.process()
         return render_template('tourGuides/editListing.html', listing=item, form=lForm)
 
-
 # @app.route('/testImg', methods=['GET', 'POST'])
 # def test_img():
 #     lForm = ListingForm()
@@ -238,7 +247,6 @@ def deleteList(id):
     listing = shop_db.delete_one({'_id': ObjectId(id)})
 
     return redirect('/listings')
-
 
 # CUSTOMERS
 # Favourites: Shows all the liked listings
@@ -259,7 +267,6 @@ def all_bookings():
     except:
         return 'Error trying to render'
 
-
 # CUSTOMER
 # Individual Bookings
 # @app.route('/bookings/<id>')
@@ -270,7 +277,6 @@ def bookings():
     except:
         return 'Error trying to render'
 
-
 # SHARED
 # Chats: Render indiv chats
 @app.route('/chat')
@@ -280,7 +286,6 @@ def chat():
     except:
         return 'Error trying to render'
 
-
 # TOUR GUIDES
 # My Businesses: Access all gigs
 @app.route('/s/businesses')
@@ -289,7 +294,6 @@ def all_businesses():
         return render_template('tourGuides/allBusinesses.html')
     except:
         return 'Error trying to render'
-
 
 # TOUR GUIDES
 # Individual gigs  
@@ -301,7 +305,6 @@ def business():
     except:
         return 'Error trying to render'
 
-
 # --------------------------------------
 
 # Dylan
@@ -312,12 +315,10 @@ def business():
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
 
-
 # Redirect user to dashboard if attempt to access file of /s/
 @app.route('/s')
 def sellerModeFile():
     return redirect(url_for('sellerDashboard'))
-
 
 # TOUR GUIDE
 # Dashboard sex OH YES FREAK ME, DATA COME ON BABY
@@ -325,13 +326,11 @@ def sellerModeFile():
 def sellerDashboard():
     return render_template('tourGuides/dashboard.html')
 
-
 # INTERNAL
 # Admin Dashboard -- Private internal shit
 @app.route('/admin')
 def adminDashboard():
     return render_template('internal/dashboard.html')
-
 
 # INTERNAL
 # Admin Dashboard -- Manage users
@@ -339,13 +338,11 @@ def adminDashboard():
 def adminUsers():
     return render_template('internal/users.html')
 
-
 # INTERNAL
 # Admin Dashboard -- Manage listings
 @app.route('/admin/listings')
 def adminListings():
     return render_template('internal/listings.html')
-
 
 # SHARED
 # Login Page
@@ -358,7 +355,6 @@ def login():
         return render_template('auth/login.html')
     else:
         return redirect(url_for('home'))
-
 
 # SHARED
 # Sign up page
@@ -375,7 +371,6 @@ def signup():
     else:
         return redirect(url_for('home'))
     # return render_template('auth/signup.html')
-
 
 # Run app
 if __name__ == '__main__':

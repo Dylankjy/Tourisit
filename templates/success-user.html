@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+
+{% endblock %}
+
+
+{% block content %}
+<section class="section mt-5">
+    <div class="container">
+        <div class='content has-text-centered'>
+            <h1>Successfully Updated Account!</h1>
+            <br>
+            <a class='button is-light' href="/me/settings/{{ id }}">
+                View Account
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

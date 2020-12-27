@@ -30,55 +30,69 @@
             <div class="column">
                 <div class="section">
                     <!-- Update account settings -->
-                    <h1 class="is-size-4 has-text-left has-text-weight-bold">Account Info</h1>
+                    <h1 class="is-size-4 has-text-left has-text-weight-bold">Account Details</h1>
+                    <form class="form-horizontal" action="/me/settings/{{ user['_id'] }}" method="POST">
+                        {{ form.csrf_token }}
+                        <fieldset>
 
-                    <div class="field is-grouped is-grouped-centered is-align-items-center">
-                        <label class="control-label pr-3">Username:</label>
-                        <p class="control is-expanded">
-                            <input class="input" type="text" placeholder="Coolion">
-                        </p>
-                        <p class="control">
-                            <a class="button is-primary">
-                                Update
-                            </a>
-                        </p>
-                    </div>
+                            <div class="field">
+                                <label class="label" for="name">Name:</label>
+                                <div class="control">
+                                    {{ form.name(id="name", type="text", class="input", placeholder="", value=user.name) }}
+                                    <ul>
+                                        {% for error in form.name.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
 
-                    <div class="field is-grouped is-grouped-centered is-align-items-center">
-                        <label class="control-label pr-3">Password:</label>
-                        <p class="control is-expanded">
-                            <input class="input" type="text" placeholder="************">
-                        </p>
-                        <p class="control">
-                            <a class="button is-primary">
-                                Update
-                            </a>
-                        </p>
-                    </div>
+                            <div class="field">
+                                <label class="label" for="name">Password:</label>
+                                <div class="control">
+                                    {{ form.name(id="name", type="text", class="input", placeholder="", value=user.password) }}
+                                    <ul>
+                                        {% for error in form.name.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
 
-                    <div class="field is-grouped is-grouped-centered is-align-items-center">
-                        <label class="control-label pr-3">Phone Number:</label>
-                        <p class="control is-expanded">
-                            <input class="input" type="text" placeholder="+65 **** 1234">
-                        </p>
-                        <p class="control">
-                            <a class="button is-primary">
-                                Update
-                            </a>
-                        </p>
-                    </div>
+                            <div class="field">
+                                <label class="label" for="name">Email Address:</label>
+                                <div class="control">
+                                    {{ form.name(id="name", type="text", class="input", placeholder="", value=user.email) }}
+                                    <ul>
+                                        {% for error in form.name.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
 
-                    <div class="field is-grouped is-grouped-centered is-align-items-center">
-                        <label class="control-label pr-3">Email Address:</label>
-                        <p class="control is-expanded">
-                            <input class="input" type="text" placeholder="a******@gmail.com">
-                        </p>
-                        <p class="control">
-                            <a class="button is-primary">
-                                Update
-                            </a>
-                        </p>
-                    </div>
+                            <div class="field">
+                                <label class="label" for="name">Phone Number:</label>
+                                <div class="control">
+                                    {{ form.name(id="name", type="text", class="input", placeholder="", value=user.phone_number) }}
+                                    <ul>
+                                        {% for error in form.name.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="user-submit"></label>
+                                <div class="control">
+                                    <input type='submit' value='Update!' id="user-submit" name="user-submit" class="button is-success">
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+
 
                     <!-- Update personal details -->
                     <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3">Personal</h1>
