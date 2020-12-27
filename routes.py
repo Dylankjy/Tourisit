@@ -376,11 +376,18 @@ def adminListings():
 # Login Page
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    form = auth.LoginForm()
     if not auth.is_auth():
-        if (request.method == 'POST') and (request.form['submit_button'] == 'yes'):
-            name = request.form['username']
-            status = request.form['submit_button']
-        return render_template('auth/login.html')
+        if form.validate_on_submit():
+            email = form.data['email']
+            password = form.data['password']
+
+            if not auth.login_account(email, password):
+                return render_template('auth/login.html', form=form, acc_login_failed=True)
+            else:
+                return redirect(url_for('home'))
+
+        return render_template('auth/login.html', form=form)
     else:
         return redirect(url_for('home'))
 
@@ -391,9 +398,14 @@ def login():
 def signup():
     form = auth.SignupForm()
     if form.validate_on_submit():
-        print("Data yes")
-    else:
-        print("Data no")
+        name = form.data['full_name']
+        email = form.data['email']
+        password = form.data['password']
+
+        if auth.create_account(name, password, email):
+            return render_template('auth/signup.html', form=form, acc_creation=True, email=email)
+        else:
+            return render_template('auth/signup.html', form=form, exist=True, email=email)
 
     if not auth.is_auth():
         return render_template('auth/signup.html', form=form)

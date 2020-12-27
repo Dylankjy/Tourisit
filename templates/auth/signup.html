@@ -55,7 +55,8 @@
                 <div class="field">
                     <div class="control has-icons-left has-icons-right">
                         <!-- <input id="registerPassword" class="input" type="password" placeholder="Password"> -->
-                        {{ form.password(id="registerPassword", type="password", class="input", placeholder="Password") }}
+                        {{ form.password(id="registerPassword", type="password", class="input", placeholder="Password", value="")
+                        }}
                         <span class="icon is-small is-left">
                             <i class="fas fa-key"></i>
                         </span>
@@ -93,4 +94,37 @@
         </div>
     </div>
 </section>
+
+{% if exist %}
+<div id="errorDuplicateModal" class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card box" style="padding: 3em;">
+        <p class="title is-3 has-text-weight-bold has-text-centered">Account already in existance</p>
+        <p class="has-text-centered"><b>{{ email }}</b> already exists as a Tourisit ID.</p>
+        <br>
+        <span class="buttons">
+        <a href="{{url_for('login')}}" class="button is-primary is-fullwidth"><i
+            class="fas fa-sign-in-alt"></i>&ensp;Login instead</a>
+        <a onclick="$('#errorDuplicateModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
+                class="fas fa-times"></i>&ensp;Close</a>
+            </span>
+    </div>
+</div>
+{% endif %}
+
+{% if acc_creation %}
+<div id="createModal" class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card box" style="padding: 3em;">
+        <p class="title is-3 has-text-weight-bold has-text-centered">Please verify your email</p>
+        <p class="has-text-centered">We have sent a verification email to <b>{{ email }}</b>.
+            <br><small>Please check your spam folder if you do not receive our email within a minute.</small>
+        </p>
+        <br>
+        <a onclick="$('#createModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
+                class="fas fa-times"></i>&ensp;Close</a>
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}

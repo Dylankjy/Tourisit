@@ -2,17 +2,36 @@ import models.Validation as validation
 
 from datetime import datetime
 
-
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, IntegerField, TextAreaField, FloatField
 from wtforms.validators import InputRequired, Length, NumberRange
 
+
 class UserForm(FlaskForm):
-    name = StringField('name', validators=[InputRequired(), Length(min=1, max=30, message='Testing')])
-    password = StringField('password', validators=[InputRequired(), Length(min=1, max=30, message='Name can only be 30 characters long!')])
-    email = StringField('email', validators=[InputRequired(), Length(min=1, max=30, message='Name can only be 30 characters long!')])
-    phone_number = StringField('phone_number', validators=[InputRequired(), Length(min=8, max=8, message='Phone number can only be 8 long')])
+    name = StringField(
+        "name", validators=[InputRequired(), Length(min=1, max=30, message="Testing")]
+    )
+    password = StringField(
+        "password",
+        validators=[
+            InputRequired()
+        ],
+    )
+    email = StringField(
+        "email",
+        validators=[
+            InputRequired(),
+            Length(min=1, max=30, message="Name can only be 30 characters long!"),
+        ],
+    )
+    phone_number = StringField(
+        "phone_number",
+        validators=[
+            InputRequired(),
+            Length(min=8, max=8, message="Phone number can only be 8 long"),
+        ],
+    )
 
 
 class User:
@@ -21,21 +40,21 @@ class User:
         name,
         password,
         email,
-        phone_number='',
-        bio='',
-        profile_img='',
-        last_seen='',
-        last_activity='',
-        stripe_ID='',
+        phone_number="",
+        bio="",
+        profile_img="",
+        last_seen="",
+        last_activity="",
+        stripe_ID="",
         wishlist=[],
-        fb='',
-        insta='',
-        linkedin='',
+        fb="",
+        insta="",
+        linkedin="",
     ):
-        self.__name = ''
+        self.__name = ""
         self.set_name(name)
 
-        self.__password = ''
+        self.__password = ""
         self.set_password(password)
 
         self.__email = email
@@ -61,13 +80,12 @@ class User:
             self.__name = name
 
     def set_password(self, password):
-        try:
-            assert len(password) <= 30
-        except AssertionError:
-            print(f"{password} must be less than {30} characters!")
-        else:
-            self.__password = password
-
+        # try:
+        #     assert len(password) <= 30
+        # except AssertionError:
+        #     print(f"{password} must be less than {30} characters!")
+        # else:
+        self.__password = password
 
     def return_obj(self):
         return {

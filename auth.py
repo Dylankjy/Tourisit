@@ -33,8 +33,11 @@ template_header = open("email/header.html", "r").read()
 template_email_confirmation = open("email/confirmation.html", "r").read()
 
 
-def create_account(name='Takabaka', raw_password=b'UwUs696969!', email='takabaka69@example.com'):
+def create_account(name, raw_password, email):
     # TODO: Change this to dynamic ^^^^^
+
+    # Convert password into byte literals
+    password = raw_password.encode('utf-8')
 
     # Check whether account already exists
     query = {
@@ -45,9 +48,10 @@ def create_account(name='Takabaka', raw_password=b'UwUs696969!', email='takabaka
         return False
 
     # Hash password
-    hashed_password = bcrypt.hashpw(raw_password, bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+    print(hashed_password)
 
-    # Construct an object implements class
+    # Construct an object implements User class
     user_obj = User.User(name, hashed_password, email)
 
     # Get Dictionary for BSON
@@ -82,8 +86,10 @@ def add_session(uid):
     return hashed_sid
 
 
-def login_account(email='takabaka69@example.com', password=b'UwUs696969!'):
+def login_account(email, unencoded_password):
     # TODO: Change this to dynamic ^^^^^
+
+    password = unencoded_password.encode('utf-8')
 
     # Get user data from db by email
     query = {
@@ -216,6 +222,16 @@ class SignupForm(FlaskForm):
         'Full Name',
         [DataRequired()]
     )
+    email = StringField(
+        'Email Address',
+        [DataRequired(), Email()]
+    )
+    password = StringField(
+        'Password',
+        [DataRequired()]
+    )
+
+class LoginForm(FlaskForm):
     email = StringField(
         'Email Address',
         [DataRequired(), Email()]
