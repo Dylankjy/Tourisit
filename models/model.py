@@ -1,19 +1,18 @@
 from datetime import datetime
-import models.Validation as validation
 
 
 class Booking:
     def __init__(
-        self,
-        tg_uid,
-        cust_uid,
-        listing,
-        chat,
-        datetime,
-        duration,
-        info,
-        timeline_content,
-        process_step,
+            self,
+            tg_uid,
+            cust_uid,
+            listing,
+            chat,
+            datetime,
+            duration,
+            info,
+            timeline_content,
+            process_step,
     ):
         self.__tg_uid = tg_uid
         self.__cust_uid = cust_uid
@@ -55,13 +54,13 @@ class Chat:
 
 class Listing:
     def __init__(
-        self,
-        tour_name,
-        tour_brief,
-        tour_desc,
-        tour_price,
-        tg_uid,
-        tour_img=''
+            self,
+            tour_name,
+            tour_brief,
+            tour_desc,
+            tour_price,
+            tg_uid,
+            tour_img=''
     ):
 
         self.__tour_name = ''
@@ -206,20 +205,20 @@ class Support:
 
 class User:
     def __init__(
-        self,
-        name,
-        password,
-        email,
-        phone_number='',
-        bio='',
-        profile_img='',
-        last_seen='',
-        last_activity='',
-        stripe_ID='',
-        wishlist=[],
-        fb='',
-        insta='',
-        linkedin='',
+            self,
+            name,
+            password,
+            email,
+            phone_number='',
+            bio='',
+            profile_img='',
+            last_seen='',
+            last_activity='',
+            stripe_ID='',
+            wishlist=[],
+            fb='',
+            insta='',
+            linkedin='',
     ):
         self.__name = name
         self.__password = password
@@ -271,4 +270,3 @@ class Transaction:
             "cost": self.__cost,
             "booking": self.__booking,
         }
-

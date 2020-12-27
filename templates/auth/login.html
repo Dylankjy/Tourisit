@@ -1,116 +1,118 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/index.css">
 {% endblock %}
 
 {% block content %}
-<section id="discover-hero" class="hero is-medium is-black">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
-                Tourisit ID
-            </h1>
-            <h2 class="subtitle is-size-4">
-                Your pass to local tours, by locals.
-            </h2>
+    <section id="discover-hero" class="hero is-medium is-black">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
+                    Tourisit ID
+                </h1>
+                <h2 class="subtitle is-size-4">
+                    Your pass to local tours, by locals.
+                </h2>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
-<section class="section">
-    <div class="container" id="main">
-        <div id="login">
-            <h1 class="title">Login to your Tourisit ID</h1>
-            <h3 class="subtitle">Welcome back!</h3>
-            <div id="emailConfirmed" class="notification is-success" style="display: none;">
-                Your email has been verified.
-            </div>
-            <div id="badLogin" class="notification is-danger" style="display: none;">
-                Email or password is invalid.
-            </div>
-            <form id="loginForm" method="POST" action="{{url_for('login')}}">
-                {{ form.csrf_token }}
-                <div class="field">
-                    <div class="control has-icons-left has-icons-right">
-                        <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
-                        {{ form.email(id="loginEmail", type="email", class="input", placeholder="Email Address") }}
-                        <span class="icon is-small is-left">
+    <section class="section">
+        <div class="container" id="main">
+            <div id="login">
+                <h1 class="title">Login to your Tourisit ID</h1>
+                <h3 class="subtitle">Welcome back!</h3>
+                <div id="emailConfirmed" class="notification is-success" style="display: none;">
+                    Your email has been verified.
+                </div>
+                <div id="badLogin" class="notification is-danger" style="display: none;">
+                    Email or password is invalid.
+                </div>
+                <form id="loginForm" method="POST" action="{{ url_for('login') }}">
+                    {{ form.csrf_token }}
+                    <div class="field">
+                        <div class="control has-icons-left has-icons-right">
+                            <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
+                            {{ form.email(id="loginEmail", type="email", class="input", placeholder="Email Address") }}
+                            <span class="icon is-small is-left">
                             <i class="fas fa-at"></i>
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="control has-icons-left has-icons-right">
-                        <!-- <input id="registerPassword" class="input" type="password" placeholder="Password"> -->
-                        {{ form.password(id="loginPassword", type="password", class="input", placeholder="Password", value="")
-                        }}
-                        <span class="icon is-small is-left">
+                    <div class="field">
+                        <div class="control has-icons-left has-icons-right">
+                            <!-- <input id="registerPassword" class="input" type="password" placeholder="Password"> -->
+                            {{ form.password(id="loginPassword", type="password", class="input", placeholder="Password", value="") }}
+                            <span class="icon is-small is-left">
                             <i class="fas fa-key"></i>
                         </span>
 
-                        <div class="showPasswordContainer">
-                            <small class="has-text-grey unselectable" id="showPassword" style="cursor: pointer;"><i
-                                    id="icon-showPassword" class="fas fa-eye-slash"></i>&ensp;<span
-                                    id="showPasswordText">Hold
+                            <div class="showPasswordContainer">
+                                <small class="has-text-grey unselectable" id="showPassword" style="cursor: pointer;"><i
+                                        id="icon-showPassword" class="fas fa-eye-slash"></i>&ensp;<span
+                                        id="showPasswordText">Hold
                                     to
                                     show
                                     password</span></small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <br>
-                <div class="buttons">
-                    <a class="button is-light has-text-grey" data-pjax='main' href="./signup"><i
-                            class="fas fa-user-plus"></i>&ensp;Get an account</a>
-                    <a class="button is-light has-text-grey" data-pjax='main' href="./resetpassword"><i
-                            class="fas fa-question-circle"></i>&ensp;Lost password</a>
-                    <button type="submit" class="button is-primary">Login&ensp;<i class="fas fa-arrow-right"></i></button>
-                </div>
-            </form>
-        </div>
-
-        <div id="emailConfirmation" style="display: none;">
-            <h2 class="title is-3">Almost done!</h2>
-            <p id="loginSuccessText" class="subtitle is-6">Please verify your email</p>
-            <div id="tooFastEmail" class="notification is-danger" style="display: none;">
-                Resending emails too quickly.
+                    <br>
+                    <div class="buttons">
+                        <a class="button is-light has-text-grey" data-pjax='main' href="./signup"><i
+                                class="fas fa-user-plus"></i>&ensp;Get an account</a>
+                        <a class="button is-light has-text-grey" data-pjax='main' href="./resetpassword"><i
+                                class="fas fa-question-circle"></i>&ensp;Lost password</a>
+                        <button type="submit" class="button is-primary">Login&ensp;<i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
-            <p>We have sent to a verification link to <b id="emailSentTo"></b>. Please click on it to verify your
-                account with your email.<br><br>Afterwards, you may start using your account.</p>
-            <br>
-            <button id="resendEmailButton" class="button is-light"><i class="fas fa-paper-plane"></i>&ensp;Resend
-                Email</button>
-        </div>
 
-        <div id="accountSuspended" style="display: none;">
-            <h2 class="title is-3">Account Suspended</h2>
-            <p id="loginSuccessText" class="subtitle is-6">Unable to log you in</p>
-            <p>Your account has been suspended by the site's administrator.</p>
-            <small>Please contact the site's administrator for more information.</small>
-        </div>
+            <div id="emailConfirmation" style="display: none;">
+                <h2 class="title is-3">Almost done!</h2>
+                <p id="loginSuccessText" class="subtitle is-6">Please verify your email</p>
+                <div id="tooFastEmail" class="notification is-danger" style="display: none;">
+                    Resending emails too quickly.
+                </div>
+                <p>We have sent to a verification link to <b id="emailSentTo"></b>. Please click on it to verify your
+                    account with your email.<br><br>Afterwards, you may start using your account.</p>
+                <br>
+                <button id="resendEmailButton" class="button is-light"><i class="fas fa-paper-plane"></i>&ensp;Resend
+                    Email
+                </button>
+            </div>
 
-        <div id="authorised" style="display: none;">
-            <h2 class="title is-3 has-text-centered">Verifying</h2>
-            <p class="subtitle is-5 has-text-centered">Please wait</p>
-        </div>
-    </div>
-</section>
+            <div id="accountSuspended" style="display: none;">
+                <h2 class="title is-3">Account Suspended</h2>
+                <p id="loginSuccessText" class="subtitle is-6">Unable to log you in</p>
+                <p>Your account has been suspended by the site's administrator.</p>
+                <small>Please contact the site's administrator for more information.</small>
+            </div>
 
-{% if acc_login_failed %}
-<div id="accFailedModal" class="modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-card box" style="padding: 3em;">
-        <p class="title is-3 has-text-weight-bold has-text-centered">Invalid Credentials</p>
-        <p class="has-text-centered">We couldn't log you in as the <b>provided Email address or Password is incorrect</b>.<br><small>If you have trouble logging in, please reset your password.</small></p>
-        <br>
-        <a onclick="$('#accFailedModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
-                class="fas fa-times"></i>&ensp;Try again</a>
-    </div>
-</div>
-{% endif %}
+            <div id="authorised" style="display: none;">
+                <h2 class="title is-3 has-text-centered">Verifying</h2>
+                <p class="subtitle is-5 has-text-centered">Please wait</p>
+            </div>
+        </div>
+    </section>
+
+    {% if acc_login_failed %}
+        <div id="accFailedModal" class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-card box" style="padding: 3em;">
+                <p class="title is-3 has-text-weight-bold has-text-centered">Invalid Credentials</p>
+                <p class="has-text-centered">We couldn't log you in as the <b>provided Email address or Password is
+                    incorrect</b>.<br><small>If you have trouble logging in, please reset your password.</small></p>
+                <br>
+                <a onclick="$('#accFailedModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
+                        class="fas fa-times"></i>&ensp;Try again</a>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}

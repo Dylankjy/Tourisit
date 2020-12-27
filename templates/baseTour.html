@@ -3,25 +3,25 @@
 
 <head>
     {% block head %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tourisit - Tours by locals.</title>
-    <link rel="stylesheet" href="/css/bulma.min.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-        crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-        crossorigin="anonymous"></script>
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"#}
-{#        integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw=="#}
-{#        crossorigin="anonymous"></script>#}
-    <script>
-        Turbolinks.start()
-    </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tourisit - Tours by locals.</title>
+        <link rel="stylesheet" href="/css/bulma.min.css">
+        <link rel="stylesheet" href="/css/navbar.css">
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+              integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+              crossorigin="anonymous"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+                integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+                crossorigin="anonymous"></script>
+        {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"#}
+        {#        integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw=="#}
+        {#        crossorigin="anonymous"></script>#}
+        <script>
+            Turbolinks.start()
+        </script>
     {% endblock %}
 
     {% block scripts %}
@@ -29,13 +29,14 @@
 </head>
 
 <body>
-    {% block nav %}
+{% block nav %}
 
 
     <nav class="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item has-text-weight-bold" href="{{url_for('sellerDashboard')}}"><img src="/logo.png">&emsp;<span
+                <a class="navbar-item has-text-weight-bold" href="{{ url_for('sellerDashboard') }}"><img
+                        src="/logo.png">&emsp;<span
                         class="has-text-weight-bold has-text-primary">for Tour Guides</span></a>
 
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
@@ -47,10 +48,10 @@
 
             <div class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="{{url_for('sellerDashboard')}}">
+                    <a class="navbar-item" href="{{ url_for('sellerDashboard') }}">
                         Workdesk
                     </a>
-                    <a class="navbar-item" href="{{url_for('support')}}">
+                    <a class="navbar-item" href="{{ url_for('support') }}">
                         Support
                     </a>
                 </div>
@@ -58,15 +59,15 @@
 
                 <div class="navbar-end">
                     <a class="navbar-item has-text-danger-dark has-tooltip-arrow has-tooltip-bottom"
-                        data-tooltip="Return to the Marketplace" href="{{url_for('home')}}">
+                       data-tooltip="Return to the Marketplace" href="{{ url_for('home') }}">
                         <i class="fas fa-arrow-left"></i>&ensp;Buyer mode
                     </a>
                     <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="New listing"
-                        href="{{url_for('makelisting')}}">
+                       href="{{ url_for('makelisting') }}">
                         <i class="fas fa-plus"></i>
                     </a>
                     <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Your business"
-                        href="{{url_for('all_businesses')}}">
+                       href="{{ url_for('all_businesses') }}">
                         <i class="fas fa-briefcase"></i>
                     </a>
                     <div class="navbar-item has-dropdown is-hoverable">
@@ -79,13 +80,13 @@
                                 <p class="has-text-weight-bold">Logged in as</p>
                                 <p>HidethePain</p>
                             </div>
-                            <a class="navbar-item" href="{{url_for('profile')}}">
+                            <a class="navbar-item" href="{{ url_for('profile') }}">
                                 Your profile
                             </a>
-                            <a class="navbar-item" href="{{url_for('ownlisting')}}">
+                            <a class="navbar-item" href="{{ url_for('ownlisting') }}">
                                 Manage listings
                             </a>
-                            <a class="navbar-item" href="{{url_for('accountinfo')}}">
+                            <a class="navbar-item" href="{{ url_for('accountinfo') }}">
                                 Account settings
                             </a>
                             <hr class="navbar-divider">
@@ -101,10 +102,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/patternomaly@1.3.2/dist/patternomaly.min.js"></script>
 
-    {% endblock %}
+{% endblock %}
 
-    {% block content %}
-    {% endblock %}
+{% block content %}
+{% endblock %}
 </body>
 
 </html>

@@ -1,18 +1,15 @@
-from datetime import datetime
-import models.Validation as validation
-
 class Booking:
     def __init__(
-        self,
-        tg_uid,
-        cust_uid,
-        listing,
-        chat,
-        datetime,
-        duration,
-        info,
-        timeline_content,
-        process_step,
+            self,
+            tg_uid,
+            cust_uid,
+            listing,
+            chat,
+            datetime,
+            duration,
+            info,
+            timeline_content,
+            process_step,
     ):
         self.__tg_uid = tg_uid
         self.__cust_uid = cust_uid

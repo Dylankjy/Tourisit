@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+
 # from flask_sqlalchemy import SQLAlchemy
 
 # from flask_bcrypt import Bcrypt
@@ -8,6 +9,7 @@ app = Flask(__name__,
             static_url_path='',
             static_folder='public',
             template_folder='templates')
+
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
@@ -204,11 +206,13 @@ def sellerDashboard():
 def adminDashboard():
     return render_template('internal/dashboard.html')
 
+
 # INTERNAL
 # Admin Dashboard -- Manage users
 @app.route('/admin/users')
 def adminUsers():
     return render_template('internal/users.html')
+
 
 # INTERNAL
 # Admin Dashboard -- Manage listings
@@ -234,7 +238,6 @@ def login():
 @app.route('/signup')
 def signup():
     return render_template('auth/signup.html')
-
 
 # Run app
 # app.run(debug=False)

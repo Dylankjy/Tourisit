@@ -1,11 +1,6 @@
-import models.Validation as validation
-
-from datetime import datetime
-
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, IntegerField, TextAreaField, FloatField
-from wtforms.validators import InputRequired, Length, NumberRange
+from wtforms import StringField
+from wtforms.validators import InputRequired, Length
 
 
 class UserForm(FlaskForm):
@@ -36,20 +31,20 @@ class UserForm(FlaskForm):
 
 class User:
     def __init__(
-        self,
-        name,
-        password,
-        email,
-        phone_number="",
-        bio="",
-        profile_img="",
-        last_seen="",
-        last_activity="",
-        stripe_ID="",
-        wishlist=[],
-        fb="",
-        insta="",
-        linkedin="",
+            self,
+            name,
+            password,
+            email,
+            phone_number="",
+            bio="",
+            profile_img="",
+            last_seen="",
+            last_activity="",
+            stripe_ID="",
+            wishlist=[],
+            fb="",
+            insta="",
+            linkedin="",
     ):
         self.__name = ""
         self.set_name(name)

@@ -1,99 +1,106 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/index.css">
 {% endblock %}
 
 {% block content %}
 
-<section id="index-hero" class="hero is-large is-black">
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <h1 class="title has-text-weight-bold" style="font-size: 5rem;">
-            <img src="/logo.png" style="height: 7rem">
-        </h1>
-        <h2 class="subtitle is-size-3">
-          Tours by Locals, for Locals
-        </h2>
-      </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container">
-
-        <!-- START: Horizontal Card -->
-        <div class='box p-5'>
-            <div class="columns is-vcentered">
-                <div class="column">
-                    <a href='/discover/{{ listings[-1]["_id"] }}'>
-                        <div class="ml-4">
-                            <div class="mb-2 listing-author">
-                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
-                            </div>
-                            <h1 class='title'> {{ listings[-1].tour_name }}</h1>
-                            <p class="subtitle">{{ listings[-1].tour_brief }}</p>
-                            <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
-                                ${{ listings[-1].tour_price }}
-                            </p>
-                            <br>
-                        </div>
-                        <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
-                                to wishlist</a>
-                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
-                        </div>
-                    </a>
-                </div>
-                <div class="column">
-                    <div class="box listing-img" style="background-image: url('data:image/jpeg;base64, {{ listings[-1]['tour_img'] }}');"></div>
-                </div>
+    <section id="index-hero" class="hero is-large is-black">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title has-text-weight-bold" style="font-size: 5rem;">
+                    <img src="/logo.png" style="height: 7rem">
+                </h1>
+                <h2 class="subtitle is-size-3">
+                    Tours by Locals, for Locals
+                </h2>
             </div>
         </div>
-        <!-- END: Horizontal Card -->
-    </div>
+    </section>
 
-    <br>
+    <section class="section">
+        <div class="container">
 
-
-    <div class="container">
-        <div class="columns">
-
-            {% for item in listings %}
-            {% if loop.index <=3 %}
-
-            <div class="column">
-                <a href="/discover/{{ item['_id'] }}">
-                    <!-- START: Vertical Card -->
-                    <div class='box p-5 vertical'>
-                        <div class="box listing-img" style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');"></div>
-                        <div class="ml-4">
-                            <div class="mb-2 listing-author">
-                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
+            <!-- START: Horizontal Card -->
+            <div class='box p-5'>
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <a href='/discover/{{ listings[-1]["_id"] }}'>
+                            <div class="ml-4">
+                                <div class="mb-2 listing-author">
+                                    <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                    <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                                </div>
+                                <h1 class='title'> {{ listings[-1].tour_name }}</h1>
+                                <p class="subtitle">{{ listings[-1].tour_brief }}</p>
+                                <p class="has-text-weight-light is-size-2 has-text-dark"><small
+                                        class="is-size-5">From</small>
+                                    ${{ listings[-1].tour_price }}
+                                </p>
+                                <br>
                             </div>
-                            <h1 class='title is-4'>{{ item.tour_name }}</h1>
-                            <p class="subtitle is-6">{{ item.tour_brief }}</p>
-                            <p class="has-text-weight-light is-size-3 has-text-dark"><small class="is-size-5">From</small>
-                                ${{ item.tour_price }}
-                            </p>
-                            <br>
-                        </div>
-                        <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
-                                to wishlist</a>
-                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
-                        </div>
+                            <div class="buttons">
+                                <a class="button is-white" style="color:rgb(226, 48, 78)"><i class="fas fa-heart"></i>&ensp;Add
+                                    to wishlist</a>
+                                <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book
+                                    now</a>
+                            </div>
+                        </a>
                     </div>
-                    <!-- END: Vertical Card -->
-                </a>
+                    <div class="column">
+                        <div class="box listing-img"
+                             style="background-image: url('data:image/jpeg;base64, {{ listings[-1]['tour_img'] }}');"></div>
+                    </div>
+                </div>
             </div>
-            {% else %}
-            {% endif %}
-            {% endfor %}
+            <!-- END: Horizontal Card -->
         </div>
-    </div>
-</section>
+
+        <br>
+
+
+        <div class="container">
+            <div class="columns">
+
+                {% for item in listings %}
+                    {% if loop.index <=3 %}
+
+                        <div class="column">
+                            <a href="/discover/{{ item['_id'] }}">
+                                <!-- START: Vertical Card -->
+                                <div class='box p-5 vertical'>
+                                    <div class="box listing-img"
+                                         style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');"></div>
+                                    <div class="ml-4">
+                                        <div class="mb-2 listing-author">
+                                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                            <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                                        </div>
+                                        <h1 class='title is-4'>{{ item.tour_name }}</h1>
+                                        <p class="subtitle is-6">{{ item.tour_brief }}</p>
+                                        <p class="has-text-weight-light is-size-3 has-text-dark"><small
+                                                class="is-size-5">From</small>
+                                            ${{ item.tour_price }}
+                                        </p>
+                                        <br>
+                                    </div>
+                                    <div class="buttons">
+                                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i
+                                                class="fas fa-heart"></i>&ensp;Add
+                                            to wishlist</a>
+                                        <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book
+                                            now</a>
+                                    </div>
+                                </div>
+                                <!-- END: Vertical Card -->
+                            </a>
+                        </div>
+                    {% else %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

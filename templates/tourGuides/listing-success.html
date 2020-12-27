@@ -6,15 +6,15 @@
 
 
 {% block content %}
-<section class="section mt-5">
-    <div class="container">
-        <div class='content has-text-centered'>
-            <h1>Listing was Successful!</h1>
-            <br>
-            <a class='button is-light' href="{{url_for('ownlisting')}}">
-                View Listings
-            </a>   
+    <section class="section mt-5">
+        <div class="container">
+            <div class='content has-text-centered'>
+                <h1>Listing was Successful!</h1>
+                <br>
+                <a class='button is-light' href="{{ url_for('ownlisting') }}">
+                    View Listings
+                </a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}

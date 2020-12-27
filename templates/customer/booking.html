@@ -3,10 +3,10 @@
 {% block title %}Tourisit - Tours By Locals {% endblock %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="/css/bulma-timeline.min.css">
-<link rel="stylesheet" href="/css/bulma-steps.css">
-<!--<link rel="stylesheet" href="/css/booking.css">-->
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/bulma-timeline.min.css">
+    <link rel="stylesheet" href="/css/bulma-steps.css">
+    <!--<link rel="stylesheet" href="/css/booking.css">-->
 {% endblock %}
 
 
@@ -14,183 +14,193 @@
 
 
 
-<section class="section">
-    <div class="container mt-5">
-        <!-- START: Card 1 -->
-        <div class='box p-5'>
-            <a href="{{url_for('all_bookings')}}"><i class="fas fa-chevron-left"></i>&ensp;Back to Bookings</a>
-            <h1 class="title is-size-1 m-0">Bishan Nightlife</h1>
-            <div class="listing-author">
-                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                <div class="ml-2">By <b>HidethePain</b></div>
-            </div>
+    <section class="section">
+        <div class="container mt-5">
+            <!-- START: Card 1 -->
+            <div class='box p-5'>
+                <a href="{{ url_for('all_bookings') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to Bookings</a>
+                <h1 class="title is-size-1 m-0">Bishan Nightlife</h1>
+                <div class="listing-author">
+                    <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                    <div class="ml-2">By <b>HidethePain</b></div>
+                </div>
 
-            <div class='columns my-5 is-vcentered'>
-                <div class='column'>
-                    <h2 class='is-size-4'><b>About this Tour</b></h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has 
-                        been the industry's standard dummy text ever since the 1500s, when an unknown printer took 
-                        a galley of type and scrambled it to make a type specimen book. It has survived not only 
-                        five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
-                </div>
-                <div class='column'>
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                <div class='columns my-5 is-vcentered'>
+                    <div class='column'>
+                        <h2 class='is-size-4'><b>About this Tour</b></h2>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+                            a galley of type and scrambled it to make a type specimen book. It has survived not only
+                            five centuries, but also the leap into electronic typesetting, remaining essentially
+                            unchanged. </p>
+                    </div>
+                    <div class='column'>
+                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
                 </div>
             </div>
+            <!-- END: Card 1 -->
         </div>
-        <!-- END: Card 1 -->
-    </div>
-    <!--START: Card 2-->
-    <div class='container mt-5'>
-        <div class='box p-5'>
-          <div class="mb-4">
-            <a href="{{url_for('chat')}}" class='has-text-link mr-4'>
-              <span class="is-size-5"><i class="fas fa-comment-alt"></i>&ensp;View Chat</span></a>
-            <!--<span class='is-pulled-right is-size-5'><i class="fas fa-ellipsis-h"></i></span>-->
+        <!--START: Card 2-->
+        <div class='container mt-5'>
+            <div class='box p-5'>
+                <div class="mb-4">
+                    <a href="{{ url_for('chat') }}" class='has-text-link mr-4'>
+                        <span class="is-size-5"><i class="fas fa-comment-alt"></i>&ensp;View Chat</span></a>
+                    <!--<span class='is-pulled-right is-size-5'><i class="fas fa-ellipsis-h"></i></span>-->
 
-            <!--START: More options dropdown-->
-            <div class="dropdown post-options is-hoverable is-right is-pulled-right">
-              <div class="dropdown-trigger">
-                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
+                    <!--START: More options dropdown-->
+                    <div class="dropdown post-options is-hoverable is-right is-pulled-right">
+                        <div class="dropdown-trigger">
+                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
                   <span class="icon is-small">
                     <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
                   </span>
-                </button>
-              </div>
-              <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                <div class="dropdown-content">
-                  <a class="dropdown-item">
-                    Make Payment
-                  </a>
-                  <a class="dropdown-item">
-                    Request Booking Cancellation
-                  </a>
-                  <a href="{{url_for('support')}}" class="dropdown-item">
-                    Report Abuse
-                  </a>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
+                            <div class="dropdown-content">
+                                <a class="dropdown-item">
+                                    Make Payment
+                                </a>
+                                <a class="dropdown-item">
+                                    Request Booking Cancellation
+                                </a>
+                                <a href="{{ url_for('support') }}" class="dropdown-item">
+                                    Report Abuse
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--END: More options dropdown-->
+
                 </div>
-              </div>
-            </div>
-            <!--END: More options dropdown-->
+                <!--START: Steps-->
+                <div>
+                    <ul class="steps has-content-centered">
 
-          </div>
-            <!--START: Steps-->
-            <div>
-              <ul class="steps has-content-centered">
-
-                <li class="steps-segment">
+                        <li class="steps-segment">
                   <span class="steps-marker">
                     <i class="fas fa-book"></i>
                   </span>
-                  <div class="steps-content">
-                    <p class="is-size-5">Initiate Booking</p>
-                  </div>
-                </li>
+                            <div class="steps-content">
+                                <p class="is-size-5">Initiate Booking</p>
+                            </div>
+                        </li>
 
-                <li class="steps-segment is-active">
+                        <li class="steps-segment is-active">
                   <span class="steps-marker">
                     <i class="fas fa-route"></i>
                   </span>
-                  <div class="steps-content">
-                    <p class="is-size-5">Approve Itinerary</p>
-                  </div>
-                </li>
+                            <div class="steps-content">
+                                <p class="is-size-5">Approve Itinerary</p>
+                            </div>
+                        </li>
 
-                <li class="steps-segment">
+                        <li class="steps-segment">
                   <span class="steps-marker">
                     <i class="fas fa-dollar-sign"></i>
                   </span>
-                  <div class="steps-content">
-                    <p class="is-size-5 has-text-link">Make Payment</p>
-                  </div>
-                </li>
+                            <div class="steps-content">
+                                <p class="is-size-5 has-text-link">Make Payment</p>
+                            </div>
+                        </li>
 
-                <li class="steps-segment">
-                  <a href="{{url_for('review')}}"><span class="steps-marker">
+                        <li class="steps-segment">
+                            <a href="{{ url_for('review') }}"><span class="steps-marker">
                     <i class="fas fa-comments"></i>
                   </span>
-                  <div class="steps-content">
-                    <p class="is-size-5 has-text-black">Leave Feedback</p>
-                  </div></a>
-                </li>
+                                <div class="steps-content">
+                                    <p class="is-size-5 has-text-black">Leave Feedback</p>
+                                </div>
+                            </a>
+                        </li>
 
-              </ul>
-            </div>
-            <!--END: Steps-->
-        </div>
-    </div>
-    <!--END: Card 2-->
-    <!--START: Card 3-->
-    <div class='container mt-5'>
-        <div class='box p-5'>
-            <h2 class='is-size-3'><b>Itinerary</b></h2>
-            <a href="#" class="button is-success is-light is-size-6">
-              <i class="fas fa-check"></i>&ensp;Approved</a>
-            <div class="columns pt-5">
-
-                <!--timeline-->
-                <div class="column">
-            <div class="timeline">
-              <header class="timeline-header">
-                <span class="tag is-medium is-success">Start</span>
-              </header>
-              <div class="timeline-item">
-                <div class="timeline-marker is-icon">
-                  <i class="fas fa-map-marker-alt"></i>
+                    </ul>
                 </div>
-                <div class="timeline-content">
-                  <p class="heading">Meeting Point</p>
-                  <p>Bishan MRT Station</p>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-marker is-icon">
-                  <i class="fas fa-utensils"></i>
-                </div>
-                <div class="timeline-content">
-                  <p class="heading">Restaurant Name</p>
-                  <p>Enjoy tradiitonal Indian cuisine at this hidden gem of a restaurant!</p>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                  <p class="heading">Location</p>
-                  <p>Activity</p>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                  <p class="heading">Location</p>
-                  <p>Activity</p>
-                </div>
-              </div>
-              <div class="timeline-header">
-                <span class="tag is-medium is-success">End</span>
-              </div>
-            </div>
-            </div>
-          <!--timeline end-->
-          <!--START: Info Table-->
-          <div class="column is-one-third">
-            <table class='table'>
-              <tr><td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
-                  <td>27/11/20, 6pm</td></tr>
-              <tr><td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
-                  <td>Bishan MRT Station</td></tr>
-              <tr><td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
-                  <td>4 hours</td></tr>
-              <tr><td><i class="fas fa-dollar-sign"></i>&ensp;<b>Cost</b></td>
-                  <td>$120</td></tr>
-          </table>
-          </div>
-          <!--END: Info Table-->
-
-            </div>
+                <!--END: Steps-->
             </div>
         </div>
+        <!--END: Card 2-->
+        <!--START: Card 3-->
+        <div class='container mt-5'>
+            <div class='box p-5'>
+                <h2 class='is-size-3'><b>Itinerary</b></h2>
+                <a href="#" class="button is-success is-light is-size-6">
+                    <i class="fas fa-check"></i>&ensp;Approved</a>
+                <div class="columns pt-5">
 
-    <!--END: Card 3-->
-</section>
+                    <!--timeline-->
+                    <div class="column">
+                        <div class="timeline">
+                            <header class="timeline-header">
+                                <span class="tag is-medium is-success">Start</span>
+                            </header>
+                            <div class="timeline-item">
+                                <div class="timeline-marker is-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="heading">Meeting Point</p>
+                                    <p>Bishan MRT Station</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker is-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="heading">Restaurant Name</p>
+                                    <p>Enjoy tradiitonal Indian cuisine at this hidden gem of a restaurant!</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <p class="heading">Location</p>
+                                    <p>Activity</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <p class="heading">Location</p>
+                                    <p>Activity</p>
+                                </div>
+                            </div>
+                            <div class="timeline-header">
+                                <span class="tag is-medium is-success">End</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--timeline end-->
+                    <!--START: Info Table-->
+                    <div class="column is-one-third">
+                        <table class='table'>
+                            <tr>
+                                <td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
+                                <td>27/11/20, 6pm</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
+                                <td>Bishan MRT Station</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
+                                <td>4 hours</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-dollar-sign"></i>&ensp;<b>Cost</b></td>
+                                <td>$120</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--END: Info Table-->
+
+                </div>
+            </div>
+        </div>
+
+        <!--END: Card 3-->
+    </section>
 {% endblock %}

@@ -21,7 +21,8 @@
                             </div>
                             <h1 class='title'>{{ item.tour_name }}</h1>
                             <p class="subtitle">{{ item.tour_brief }}</p>
-                            <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                            <p class="has-text-weight-light is-size-2 has-text-dark"><small
+                                    class="is-size-5">From</small>
                                 ${{ item.tour_price }}
                             </p>
                             <br>
@@ -30,7 +31,8 @@
 
                     </div>
                     <div class="column">
-                        <div class="box listing-img" style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');"></div>
+                        <div class="box listing-img"
+                             style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');"></div>
                     </div>
 
                 </div>
@@ -47,12 +49,14 @@
                     <div class='column'>
                         <br>
                         <div class="buttons is-centered">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)" href={{ url_for('favourites') }}><i class="fas fa-heart"></i>&ensp;Add
+                            <a class="button is-white" style="color:rgb(226, 48, 78)"
+                               href={{ url_for('favourites') }}><i class="fas fa-heart"></i>&ensp;Add
                                 to wishlist</a>
                         </div>
                         <br>
                         <div class="buttons is-centered">
-                            <a class="button is-white has-text-primary" href={{ url_for('chat') }}><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                            <a class="button is-white has-text-primary" href={{ url_for('chat') }}><i
+                                    class="fas fa-arrow-right"></i>&ensp;Book now</a>
                         </div>
                     </div>
                 </div>
@@ -77,7 +81,8 @@
                                 <span class="fas fa-star"></span>
                                 <span class="fas fa-star"></span>
                                 <br>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
+                                fringilla egestas. Nullam condimentum luctus turpis.
                             </p>
                         </div>
                     </div>

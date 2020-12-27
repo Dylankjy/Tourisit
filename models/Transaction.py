@@ -1,5 +1,3 @@
-import models.Validation as validation
-
 class Transaction:
     def __init__(self, tg_uid, cust_uid, pay_id, cost, booking):
         self.__tg_uid = tg_uid

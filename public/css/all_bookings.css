@@ -1,6 +1,6 @@
 #bookings-hero {
     background: url("/imgs/bookings.jpg") center scroll no-repeat;
     background-size: cover;
-    background-color: rgba(0,0,0,0.55);
+    background-color: rgba(0, 0, 0, 0.55);
     background-blend-mode: overlay;
 }

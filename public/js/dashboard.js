@@ -25,11 +25,11 @@ var incomeChartData = new Chart(incomeChart, {
             yAxes: [{
                 ticks: {
                     beginAtZero: false,
-                    callback: function(value, index, values) {
+                    callback: function (value, index, values) {
                         // Convert the number to a string and splite the string every 3 charaters from the end
                         value = value.toString();
                         value = value.split(/(?=(?:...)*$)/);
-            
+
                         // Convert the array to a string and format the output
                         value = value.join('.');
                         return '$' + value;
@@ -77,14 +77,14 @@ var csatChartData = new Chart(csatChart, {
                 ticks: {
                     beginAtZero: true,
                     max: 100,
-                    callback: function(value, index, values) {
+                    callback: function (value, index, values) {
                         // Convert the number to a string and splite the string every 3 charaters from the end
                         value = value.toString();
                         value = value.split(/(?=(?:...)*$)/);
-            
+
                         // Convert the array to a string and format the output
                         value = value.join('.');
-                        return  value + '%';
+                        return value + '%';
                     }
                 }
             }]

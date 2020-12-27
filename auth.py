@@ -231,6 +231,7 @@ class SignupForm(FlaskForm):
         [DataRequired()]
     )
 
+
 class LoginForm(FlaskForm):
     email = StringField(
         'Email Address',

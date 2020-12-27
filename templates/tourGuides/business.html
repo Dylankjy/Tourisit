@@ -3,10 +3,10 @@
 {% block title %}Tourisit - Tours By Locals {% endblock %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="/css/bulma-timeline.min.css">
-<link rel="stylesheet" href="/css/bulma-steps.css">
-<!--<link rel="stylesheet" href="/css/booking.css">-->
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/bulma-timeline.min.css">
+    <link rel="stylesheet" href="/css/bulma-steps.css">
+    <!--<link rel="stylesheet" href="/css/booking.css">-->
 {% endblock %}
 
 
@@ -14,252 +14,270 @@
 
 
 
-<section class="section">
-    <div class="container mt-5">
-        <!-- START: Card 1 -->
-        <div class='box p-5'>
-            <a href="{{url_for('all_businesses')}}"><i class="fas fa-chevron-left"></i>&ensp;Back to Your Business</a>
-            <h1 class="title is-size-1 m-0">Bishan Nightlife</h1>
-            <div class="listing-author">
-                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                <div class="ml-2">By <b>HidethePain</b></div>
-            </div>
+    <section class="section">
+        <div class="container mt-5">
+            <!-- START: Card 1 -->
+            <div class='box p-5'>
+                <a href="{{ url_for('all_businesses') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to Your Business</a>
+                <h1 class="title is-size-1 m-0">Bishan Nightlife</h1>
+                <div class="listing-author">
+                    <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                    <div class="ml-2">By <b>HidethePain</b></div>
+                </div>
 
-            <div class='columns my-5 is-vcentered'>
-                <div class='column'>
-                    <h2 class='is-size-4'><b>About this Tour</b></h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has 
-                        been the industry's standard dummy text ever since the 1500s, when an unknown printer took 
-                        a galley of type and scrambled it to make a type specimen book. It has survived not only 
-                        five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
-                </div>
-                <div class='column'>
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                <div class='columns my-5 is-vcentered'>
+                    <div class='column'>
+                        <h2 class='is-size-4'><b>About this Tour</b></h2>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+                            a galley of type and scrambled it to make a type specimen book. It has survived not only
+                            five centuries, but also the leap into electronic typesetting, remaining essentially
+                            unchanged. </p>
+                    </div>
+                    <div class='column'>
+                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
                 </div>
             </div>
+            <!-- END: Card 1 -->
         </div>
-        <!-- END: Card 1 -->
-    </div>
-    <!--START: Card 2-->
-    <div class='container mt-5'>
-        <div class='box p-5'>
-          <div class="mb-4">
-            <a href="{{url_for('chat')}}" class='has-text-link mr-4'>
-              <span class="is-size-5"><i class="fas fa-comment-alt"></i>&ensp;View Chat</span></a>
-            <!--<span class='is-pulled-right is-size-5'><i class="fas fa-ellipsis-h"></i></span>-->
+        <!--START: Card 2-->
+        <div class='container mt-5'>
+            <div class='box p-5'>
+                <div class="mb-4">
+                    <a href="{{ url_for('chat') }}" class='has-text-link mr-4'>
+                        <span class="is-size-5"><i class="fas fa-comment-alt"></i>&ensp;View Chat</span></a>
+                    <!--<span class='is-pulled-right is-size-5'><i class="fas fa-ellipsis-h"></i></span>-->
 
-            <!--START: More options dropdown-->
-            <div class="dropdown post-options is-hoverable is-pulled-right">
-              <div class="dropdown-trigger">
-                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
+                    <!--START: More options dropdown-->
+                    <div class="dropdown post-options is-hoverable is-pulled-right">
+                        <div class="dropdown-trigger">
+                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
                   <span class="icon is-small">
                     <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
                   </span>
-                </button>
-              </div>
-              <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                <div class="dropdown-content">
-                  <a class="dropdown-item">
-                    Terminate Job
-                  </a>
-                  <a href="{{url_for('support')}}" class="dropdown-item">
-                    Report Abuse
-                  </a>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
+                            <div class="dropdown-content">
+                                <a class="dropdown-item">
+                                    Terminate Job
+                                </a>
+                                <a href="{{ url_for('support') }}" class="dropdown-item">
+                                    Report Abuse
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--END: More options dropdown-->
+
                 </div>
-              </div>
-            </div>
-            <!--END: More options dropdown-->
+                <!--START: Steps-->
+                <div>
+                    <ul class="steps has-content-centered">
 
-          </div>
-            <!--START: Steps-->
-            <div>
-              <ul class="steps has-content-centered">
-
-                <li class="steps-segment">
+                        <li class="steps-segment">
                   <span class="steps-marker">
                     <i class="fas fa-book"></i>
                   </span>
-                  <div class="steps-content">
-                    <p class="is-size-5">Booking Initiated</p>
-                  </div>
-                </li>
+                            <div class="steps-content">
+                                <p class="is-size-5">Booking Initiated</p>
+                            </div>
+                        </li>
 
-                <li class="steps-segment">
+                        <li class="steps-segment">
                     <span class="steps-marker">
                       <i class="fas fa-route"></i>
                     </span>
-                    <div class="steps-content">
-                      <p class="is-size-5">Propose Itinerary</p>
-                    </div>
-                  </li>
+                            <div class="steps-content">
+                                <p class="is-size-5">Propose Itinerary</p>
+                            </div>
+                        </li>
 
-                <li class="steps-segment is-active">
+                        <li class="steps-segment is-active">
                   <span class="steps-marker">
                     <i class="fas fa-route"></i>
                   </span>
-                  <div class="steps-content">
-                    <p class="is-size-5">Itinerary Approved</p>
-                  </div>
-                </li>
+                            <div class="steps-content">
+                                <p class="is-size-5">Itinerary Approved</p>
+                            </div>
+                        </li>
 
-                <li class="steps-segment">
+                        <li class="steps-segment">
                   <span class="steps-marker">
                     <i class="fas fa-dollar-sign"></i>
                   </span>
-                  <div class="steps-content">
-                    <p class="is-size-5">Payment</p>
-                  </div>
-                </li>
+                            <div class="steps-content">
+                                <p class="is-size-5">Payment</p>
+                            </div>
+                        </li>
 
-                <li class="steps-segment">
-                  <a href="{{url_for('review')}}"><span class="steps-marker">
+                        <li class="steps-segment">
+                            <a href="{{ url_for('review') }}"><span class="steps-marker">
                     <i class="fas fa-comments"></i>
                   </span></a>
-                  <div class="steps-content">
-                    <p class="is-size-5">Leave Feedback</p>
-                  </div>
-                </li>
+                            <div class="steps-content">
+                                <p class="is-size-5">Leave Feedback</p>
+                            </div>
+                        </li>
 
-              </ul>
-            </div>
-            <!--END: Steps-->
-        </div>
-    </div>
-    <!--END: Card 2-->
-    <!--START: Card 3-->
-    <div class='container mt-5'>
-        <div class='box p-5'>
-            <h2 class='is-size-3'><b>Itinerary</b></h2>
-            <button onclick="toggleEdit()" class="button is-success is-light is-size-6" id="toggleButton">
-                <i class="fas fa-edit"></i>&ensp;Edit
-            </button>
-
-            <!--START: Edit section-->
-            <div id="editform" style="display:none;">
-              <section class="section">
-                <div class="container">
-                  <div class="columns">
-                    <!--START: Form-->
-                    <div class="column">
-                      <form class="form-horizontal" enctype="multipart/form-data">
-                        
-                        <div class="field">
-                          <label class="label">Date & Time</label>
-                          <div class="control has-icons-left">
-                              <input class="input" id="input_dateTime" type="text" placeholder="Date & Time" value="27/11/20, 6pm">
-                              <span class="icon is-small is-left"><i class="far fa-calendar"></i></span>
-                          </div>
-                      </div>
-                        <div class="field">
-                          <label class="label">Meetup Point</label>
-                          <div class="control has-icons-left">
-                              <input class="input" id="input_meeting" type="text" placeholder="Meetup Point" value="Bishan MRT Station">
-                              <span class="icon is-small is-left"><i class="fas fa-map-marker-alt"></i></span>
-                          </div>
-                      </div>
-                        <div class="field">
-                          <label class="label">Duration</label>
-                          <div class="control has-icons-left">
-                              <input class="input" id="input_duration" type="text" placeholder="Duration" value="4 hours">
-                              <span class="icon is-small is-left"><i class="fas fa-hourglass-half"></i></span>
-                          </div>
-                      </div>
-                        <div class="field">
-                          <label class="label">Cost</label>
-                          <div class="control has-icons-left">
-                              <input class="input" id="input_cost" type="text" placeholder="Cost" value="$120">
-                              <span class="icon is-small is-left"><i class="fas fa-dollar-sign"></i></span>
-                          </div>
-                      </div>
-                      <!--START: itinerary fields (wip)-->
-                      <!--END: itinerary fields-->
-                      </form>
-                    </div>
-                    <!-- END: Form-->
-                    <!--START: map iframe-->
-                    <div class='column is-two-fifths'>
-                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d510561.04654116975!2d103.5695466557071!3d1.3208489830657906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da11238a8b9375%3A0x887869cf52abf5c4!2sSingapore!5e0!3m2!1sen!2ssg!4v1606391738781!5m2!1sen!2ssg" 
-                      width="350" height="350" 
-                      frameborder="0" style="border:0;" 
-                      allowfullscreen="" 
-                      aria-hidden="false" 
-                      tabindex="0" class="is-pulled-right"></iframe>
-                    </div>
-                    <!--END: map iframe-->
-                  </div>
+                    </ul>
                 </div>
-              </section>
-            </div>
-            <!--END: Edit section-->
-
-            <div class="columns pt-5">
-
-                <!--timeline-->
-                <div id="timeline" style="display:block;">
-                <div class="column">
-            <div class="timeline">
-              <header class="timeline-header">
-                <span class="tag is-medium is-success">Start</span>
-              </header>
-              <div class="timeline-item">
-                <div class="timeline-marker is-icon">
-                  <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div class="timeline-content">
-                  <p class="heading">Meeting Point</p>
-                  <p>Bishan MRT Station</p>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-marker is-icon">
-                  <i class="fas fa-utensils"></i>
-                </div>
-                <div class="timeline-content">
-                  <p class="heading">Restaurant Name</p>
-                  <p>Enjoy tradiitonal Indian cuisine at this hidden gem of a restaurant!</p>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                  <p class="heading">Location</p>
-                  <p>Activity</p>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                  <p class="heading">Location</p>
-                  <p>Activity</p>
-                </div>
-              </div>
-              <div class="timeline-header">
-                <span class="tag is-medium is-success">End</span>
-              </div>
-            </div>
-            </div>
-            </div>
-          <!--timeline end-->
-          <!--START: Info Table-->
-          <div class="column is-one-third">
-            <table class='table'>
-              <tr><td><i class="far fa-calendar"></i>&ensp;<b><span id="dateTime">Date & Time</span></b></td>
-                  <td>27/11/20, 6pm</td></tr>
-              <tr><td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
-                  <td>Bishan MRT Station</td></tr>
-              <tr><td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
-                  <td>4 hours</td></tr>
-              <tr><td><i class="fas fa-dollar-sign"></i>&ensp;<b>Cost</b></td>
-                  <td>$120</td></tr>
-          </table>
-          </div>
-          <!--END: Info Table-->
-
-            </div>
+                <!--END: Steps-->
             </div>
         </div>
+        <!--END: Card 2-->
+        <!--START: Card 3-->
+        <div class='container mt-5'>
+            <div class='box p-5'>
+                <h2 class='is-size-3'><b>Itinerary</b></h2>
+                <button onclick="toggleEdit()" class="button is-success is-light is-size-6" id="toggleButton">
+                    <i class="fas fa-edit"></i>&ensp;Edit
+                </button>
 
-    <!--END: Card 3-->
-</section>
-<script src="/js/ItineraryEdit.js" defer></script>
+                <!--START: Edit section-->
+                <div id="editform" style="display:none;">
+                    <section class="section">
+                        <div class="container">
+                            <div class="columns">
+                                <!--START: Form-->
+                                <div class="column">
+                                    <form class="form-horizontal" enctype="multipart/form-data">
+
+                                        <div class="field">
+                                            <label class="label">Date & Time</label>
+                                            <div class="control has-icons-left">
+                                                <input class="input" id="input_dateTime" type="text"
+                                                       placeholder="Date & Time" value="27/11/20, 6pm">
+                                                <span class="icon is-small is-left"><i
+                                                        class="far fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Meetup Point</label>
+                                            <div class="control has-icons-left">
+                                                <input class="input" id="input_meeting" type="text"
+                                                       placeholder="Meetup Point" value="Bishan MRT Station">
+                                                <span class="icon is-small is-left"><i
+                                                        class="fas fa-map-marker-alt"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Duration</label>
+                                            <div class="control has-icons-left">
+                                                <input class="input" id="input_duration" type="text"
+                                                       placeholder="Duration" value="4 hours">
+                                                <span class="icon is-small is-left"><i
+                                                        class="fas fa-hourglass-half"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Cost</label>
+                                            <div class="control has-icons-left">
+                                                <input class="input" id="input_cost" type="text" placeholder="Cost"
+                                                       value="$120">
+                                                <span class="icon is-small is-left"><i
+                                                        class="fas fa-dollar-sign"></i></span>
+                                            </div>
+                                        </div>
+                                        <!--START: itinerary fields (wip)-->
+                                        <!--END: itinerary fields-->
+                                    </form>
+                                </div>
+                                <!-- END: Form-->
+                                <!--START: map iframe-->
+                                <div class='column is-two-fifths'>
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d510561.04654116975!2d103.5695466557071!3d1.3208489830657906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da11238a8b9375%3A0x887869cf52abf5c4!2sSingapore!5e0!3m2!1sen!2ssg!4v1606391738781!5m2!1sen!2ssg"
+                                            width="350" height="350"
+                                            frameborder="0" style="border:0;"
+                                            allowfullscreen=""
+                                            aria-hidden="false"
+                                            tabindex="0" class="is-pulled-right"></iframe>
+                                </div>
+                                <!--END: map iframe-->
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!--END: Edit section-->
+
+                <div class="columns pt-5">
+
+                    <!--timeline-->
+                    <div id="timeline" style="display:block;">
+                        <div class="column">
+                            <div class="timeline">
+                                <header class="timeline-header">
+                                    <span class="tag is-medium is-success">Start</span>
+                                </header>
+                                <div class="timeline-item">
+                                    <div class="timeline-marker is-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <p class="heading">Meeting Point</p>
+                                        <p>Bishan MRT Station</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-marker is-icon">
+                                        <i class="fas fa-utensils"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <p class="heading">Restaurant Name</p>
+                                        <p>Enjoy tradiitonal Indian cuisine at this hidden gem of a restaurant!</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <p class="heading">Location</p>
+                                        <p>Activity</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-marker"></div>
+                                    <div class="timeline-content">
+                                        <p class="heading">Location</p>
+                                        <p>Activity</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-header">
+                                    <span class="tag is-medium is-success">End</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--timeline end-->
+                    <!--START: Info Table-->
+                    <div class="column is-one-third">
+                        <table class='table'>
+                            <tr>
+                                <td><i class="far fa-calendar"></i>&ensp;<b><span id="dateTime">Date & Time</span></b>
+                                </td>
+                                <td>27/11/20, 6pm</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
+                                <td>Bishan MRT Station</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
+                                <td>4 hours</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-dollar-sign"></i>&ensp;<b>Cost</b></td>
+                                <td>$120</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--END: Info Table-->
+
+                </div>
+            </div>
+        </div>
+
+        <!--END: Card 3-->
+    </section>
+    <script src="/js/ItineraryEdit.js" defer></script>
 {% endblock %}

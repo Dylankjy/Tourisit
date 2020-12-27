@@ -1,10 +1,8 @@
-import models.Validation as validation
-
 from datetime import datetime
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, IntegerField, TextAreaField, FloatField
+from wtforms import StringField, TextAreaField, FloatField
 from wtforms.validators import InputRequired, Length, NumberRange
 
 

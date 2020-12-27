@@ -1,9 +1,7 @@
-from models.model import User, Listing, Booking, Transaction, Support, Booking, Chat, Review
-from bson.objectid import ObjectId
-from PIL import Image
-import base64
-import pymongo
 from io import BytesIO
+
+import pymongo
+
 buffered = BytesIO()
 
 client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongodb.net/test')['Tourisit']
@@ -20,12 +18,10 @@ db = client['Listings']
 all_listings = list(i['tour_name'] for i in db.find())
 print(all_listings)
 
-
 text = 'i'
 result = [c for c in all_listings if str(text).lower() in c.lower()]
-x = list(i for i in db.find({'tour_name': {'$in': result }}))
+x = list(i for i in db.find({'tour_name': {'$in': result}}))
 print(x[1])
-
 
 # co = True
 # while co:
@@ -38,8 +34,6 @@ print(x[1])
 #     cont = input('co:?')
 #     if cont == 'n':
 #         co = False
-
-
 
 
 # x = list(db.find())

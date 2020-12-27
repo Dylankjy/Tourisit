@@ -1,8 +1,6 @@
-import imghdr
 import base64
+import imghdr
 from io import BytesIO
-from PIL import Image
-
 
 buffered = BytesIO()
 

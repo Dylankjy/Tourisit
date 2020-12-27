@@ -1,61 +1,64 @@
 {% extends 'baseTour.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/index.css">
 {% endblock %}
 
 {% block content %}
-<section class='hero is-medium is-success is-bold'>
-    <div class='hero-body'>
-        <div class="container">
-            <h1 class="title is-size-1 has-text-weight-bold">
-              Tours
-            </h1>
-            <h2 class="subtitle">
-              By HidethePain
-            </h2>
-          </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container">
-
-        <!-- START: Horizontal Card -->
-        {% for item in listings|reverse %}
-        <a href='/discover/{{ item["_id"] }}'>
-            <div class='box p-5'>
-                <div class="columns is-vcentered">
-                    <div class="column">
-                        <div class="ml-4">
-                            <div class="mb-2 listing-author">
-                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
-                            </div>
-                            <h1 class='title'>{{ item.tour_name }}</h1>
-                            <p class="subtitle">{{ item.tour_brief }}</p>
-                            <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
-                                ${{ item.tour_price }}
-                            </p>
-                            <br>
-                        </div>
-                        <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)" href='/listings/delete/{{ item["_id"] }}'><i class="fas fa-trash-alt"></i>&ensp;Delete</a>
-                            <a class="button is-white has-text-primary" href='/listings/edit/{{ item["_id"] }}'><i class="fas fa-clipboard"></i>&ensp;Update</a>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="box listing-img" style="background-image: url('data:image/jpeg;base64, {{ item.tour_img }}');"></div>
-                    </div>
-                </div>
+    <section class='hero is-medium is-success is-bold'>
+        <div class='hero-body'>
+            <div class="container">
+                <h1 class="title is-size-1 has-text-weight-bold">
+                    Tours
+                </h1>
+                <h2 class="subtitle">
+                    By HidethePain
+                </h2>
             </div>
-        </a>
-        <!-- END: Horizontal Card -->
+        </div>
+    </section>
 
-        {% endfor %}
+    <section class="section">
+        <div class="container">
 
-        
-    </div>
-</section>
+            <!-- START: Horizontal Card -->
+            {% for item in listings|reverse %}
+                <a href='/discover/{{ item["_id"] }}'>
+                    <div class='box p-5'>
+                        <div class="columns is-vcentered">
+                            <div class="column">
+                                <div class="ml-4">
+                                    <div class="mb-2 listing-author">
+                                        <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                        <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                                    </div>
+                                    <h1 class='title'>{{ item.tour_name }}</h1>
+                                    <p class="subtitle">{{ item.tour_brief }}</p>
+                                    <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                                        ${{ item.tour_price }}
+                                    </p>
+                                    <br>
+                                </div>
+                                <div class="buttons">
+                                    <a class="button is-white" style="color:rgb(226, 48, 78)"
+                                       href='/listings/delete/{{ item["_id"] }}'><i class="fas fa-trash-alt"></i>&ensp;Delete</a>
+                                    <a class="button is-white has-text-primary" href='/listings/edit/{{ item["_id"] }}'><i
+                                            class="fas fa-clipboard"></i>&ensp;Update</a>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="box listing-img"
+                                     style="background-image: url('data:image/jpeg;base64, {{ item.tour_img }}');"></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- END: Horizontal Card -->
+
+            {% endfor %}
+
+
+        </div>
+    </section>
 {% endblock %}

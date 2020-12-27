@@ -1,10 +1,10 @@
 #fav-hero {
     background: url("/imgs/index.jpg") center scroll no-repeat;
     background-size: cover;
-    background-color: rgba(0,0,0,0.55);
+    background-color: rgba(0, 0, 0, 0.55);
     background-blend-mode: overlay;
 }
 
 #fav-hero * {
-    text-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    text-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }

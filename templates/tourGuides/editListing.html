@@ -5,63 +5,64 @@
 
 
 {% block content %}
-<section id="discover-hero" class="hero is-medium is-info is-bold">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
-                Edit your Listing   <i class="fas fa-book"></i>
-            </h1>
-            <h2 class="subtitle is-size-4">
-                Perfect your Listings
-            </h2>
+    <section id="discover-hero" class="hero is-medium is-info is-bold">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
+                    Edit your Listing <i class="fas fa-book"></i>
+                </h1>
+                <h2 class="subtitle is-size-4">
+                    Perfect your Listings
+                </h2>
+            </div>
+            <br>
         </div>
-        <br>
-    </div>
-</section>
+    </section>
 
-<section class='section'>
+    <section class='section'>
 
-    <div class='columns is-centered'>
-        <div class='column is-half'>
-            <div class='box'>
-                <form class="form-horizontal" enctype="multipart/form-data" action="/listings/edit/{{ listing['_id'] }}" method="POST">
-                    {{ form.csrf_token }}
-                    <fieldset>
+        <div class='columns is-centered'>
+            <div class='column is-half'>
+                <div class='box'>
+                    <form class="form-horizontal" enctype="multipart/form-data"
+                          action="/listings/edit/{{ listing['_id'] }}" method="POST">
+                        {{ form.csrf_token }}
+                        <fieldset>
 
-                        <legend class='label'>Tour Name</legend>
+                            <legend class='label'>Tour Name</legend>
 
-                        <div class="field">
-                        <label class="label" for="tour-name"></label>
-                        <div class="control">
-                            {{ form.tour_name(id="tour-name", type="text", class="input", placeholder="Bishan Eco-walk", value=listing.tour_name) }}
-                            <ul>
-                                {% for error in form.tour_name.errors %}
-                                <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        </div>
-
-
-                        <legend class='label'>Brief Description</legend>
-                        <div class="field">
-                        <label class="label" for="tour-brief"></label>
-                        <div class="control">
-                            {{ form.tour_brief(id="tour-brief", type="text", class="input", placeholder="Explore the Nature aspects of Bishan", value=listing.tour_brief ) }}
-                             <ul>
-                                {% for error in form.tour_brief.errors %}
-                                <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        </div>
+                            <div class="field">
+                                <label class="label" for="tour-name"></label>
+                                <div class="control">
+                                    {{ form.tour_name(id="tour-name", type="text", class="input", placeholder="Bishan Eco-walk", value=listing.tour_name) }}
+                                    <ul>
+                                        {% for error in form.tour_name.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
 
 
-                        <label class="label" for="tour-img">Tour Image</label>
-                        <div class="file">
-                        <label class="file-label">
-                            {{ form.tour_img(class="file-input", type="file", onchange="if (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML = this.files[0].name;", value=listing.tour_img ) }}
-                            <span class="file-cta">
+                            <legend class='label'>Brief Description</legend>
+                            <div class="field">
+                                <label class="label" for="tour-brief"></label>
+                                <div class="control">
+                                    {{ form.tour_brief(id="tour-brief", type="text", class="input", placeholder="Explore the Nature aspects of Bishan", value=listing.tour_brief ) }}
+                                    <ul>
+                                        {% for error in form.tour_brief.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <label class="label" for="tour-img">Tour Image</label>
+                            <div class="file">
+                                <label class="file-label">
+                                    {{ form.tour_img(class="file-input", type="file", onchange="if (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML = this.files[0].name;", value=listing.tour_img ) }}
+                                    <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
                             </span>
@@ -69,53 +70,54 @@
                                 Choose a file…
                             </span>
                             </span>
-                             <ul>
-                                {% for error in form.tour_img.errors %}
-                                <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </label>
-                        </div>
+                                    <ul>
+                                        {% for error in form.tour_img.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </label>
+                            </div>
 
-                        <div class="field">
-                        <label class="label" for="tour-desc">Tour Description</label>
-                        <div class="control">
-                            {{ form.tour_desc(class='textarea', id="tour-desc") }}
-                             <ul>
-                                {% for error in form.tour_desc.errors %}
-                                <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        </div>
-
-
-                        <div class="field">
-                        <label class="label" for="tour-price">Minimum Price ($SGD)</label>
-                        <div class="control">
-                            {{ form.tour_price(id="tour-price", type="number", class="input", placeholder="120", value=listing.tour_price ) }}
-                            <ul>
-                                {% for error in form.tour_price.errors %}
-                                <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        </div>
+                            <div class="field">
+                                <label class="label" for="tour-desc">Tour Description</label>
+                                <div class="control">
+                                    {{ form.tour_desc(class='textarea', id="tour-desc") }}
+                                    <ul>
+                                        {% for error in form.tour_desc.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
 
 
-                        <div class="field">
-                        <label class="label" for="tour-submit"></label>
-                        <div class="control">
-                            <input type='submit' value='Update!' id="tour-submit" name="tour-submit" class="button is-success">
-                        </div>
-                        </div>
-                    
-                    </fieldset>
-                </form>
+                            <div class="field">
+                                <label class="label" for="tour-price">Minimum Price ($SGD)</label>
+                                <div class="control">
+                                    {{ form.tour_price(id="tour-price", type="number", class="input", placeholder="120", value=listing.tour_price ) }}
+                                    <ul>
+                                        {% for error in form.tour_price.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <div class="field">
+                                <label class="label" for="tour-submit"></label>
+                                <div class="control">
+                                    <input type='submit' value='Update!' id="tour-submit" name="tour-submit"
+                                           class="button is-success">
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 {% endblock %}

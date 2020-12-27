@@ -3,23 +3,23 @@
 
 <head>
     {% block head %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tourisit - Tours by locals.</title>
-    <link rel="stylesheet" href="/css/bulma.min.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-        crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"
-        integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw=="
-        crossorigin="anonymous"></script>
-    <script>
-        Turbolinks.start()
-    </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tourisit - Tours by locals.</title>
+        <link rel="stylesheet" href="/css/bulma.min.css">
+        <link rel="stylesheet" href="/css/navbar.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+              integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+              crossorigin="anonymous"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+                integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"
+                integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw=="
+                crossorigin="anonymous"></script>
+        <script>
+            Turbolinks.start()
+        </script>
     {% endblock %}
 
     {% block scripts %}
@@ -27,13 +27,13 @@
 </head>
 
 <body>
-    {% block nav %}
+{% block nav %}
 
 
     <nav class="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item has-text-weight-bold" href="{{url_for('adminDashboard')}}"><img src="/logo.png">&emsp;<span
+                <a class="navbar-item has-text-weight-bold" href="{{ url_for('adminDashboard') }}"><img src="/logo.png">&emsp;<span
                         class="has-text-danger has-text-weight-bold">Admin</span></a>
 
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
@@ -45,13 +45,13 @@
 
             <div class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="{{url_for('adminDashboard')}}">
+                    <a class="navbar-item" href="{{ url_for('adminDashboard') }}">
                         Home
                     </a>
-                    <a class="navbar-item" href="{{url_for('adminUsers')}}">
+                    <a class="navbar-item" href="{{ url_for('adminUsers') }}">
                         Manage Users
                     </a>
-                    <a class="navbar-item" href="{{url_for('adminListings')}}">
+                    <a class="navbar-item" href="{{ url_for('adminListings') }}">
                         Manage Listings
                     </a>
                 </div>
@@ -59,7 +59,7 @@
 
                 <div class="navbar-end">
                     <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Return to the Marketplace"
-                        href="{{url_for('home')}}">
+                       href="{{ url_for('home') }}">
                         <i class="fas fa-arrow-left"></i>&ensp;Exit Admin
                     </a>
                     <div class="navbar-item has-dropdown is-hoverable">
@@ -86,10 +86,10 @@
     <div class="notification is-danger has-text-centered" style="padding-top: 4.25rem; margin-bottom: -1rem">
         <i class="fas fa-exclamation-triangle"></i>&ensp;You are in <b>Administration mode</b>.
     </div>
-    {% endblock %}
+{% endblock %}
 
-    {% block content %}
-    {% endblock %}
+{% block content %}
+{% endblock %}
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 #admin-hero {
     background: url("/imgs/admin.jpg") center scroll no-repeat;
     background-size: cover;
-    background-color: rgba(0,0,0,0.55);
+    background-color: rgba(0, 0, 0, 0.55);
     background-blend-mode: overlay;
 }

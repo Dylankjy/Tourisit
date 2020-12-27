@@ -1,194 +1,200 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/chat.css" />
-<link rel="stylesheet" href="/css/shop.css" />
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-{% endblock %} 
+    <link rel="stylesheet" href="/css/chat.css"/>
+    <link rel="stylesheet" href="/css/shop.css"/>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+{% endblock %}
 
 {% block content %}
-<!--Start: CHAD HEADER-->
-<section class="section has-background-primary-dark pb-0" id="chat-hero">
-  <div class="container p-5">
-    <h1 class="title is-size-1 has-text-weight-bold has-text-white">Inbox</h1>
-  </div>
-</section>
-<!--End: CHAD HEADER-->
+    <!--Start: CHAD HEADER-->
+    <section class="section has-background-primary-dark pb-0" id="chat-hero">
+        <div class="container p-5">
+            <h1 class="title is-size-1 has-text-weight-bold has-text-white">Inbox</h1>
+        </div>
+    </section>
+    <!--End: CHAD HEADER-->
 
-<!--Main-->
-<section class="section">
-  <div class="container">
-    <div class="columns is-7">
-      <!--Start: Menu Column -->
-      <div class="column is-one-third">
-        <aside class="menu">
-          <!--Start: Dropdown-->
-          <div class="dropdown is-hoverable">
-            <div class="dropdown-trigger">
-              <button
-                class="button"
-                aria-haspopup="true"
-                aria-controls="dropdown-menu4"
-              >
-                <span>All</span>
-                <span class="icon is-small">
+    <!--Main-->
+    <section class="section">
+        <div class="container">
+            <div class="columns is-7">
+                <!--Start: Menu Column -->
+                <div class="column is-one-third">
+                    <aside class="menu">
+                        <!--Start: Dropdown-->
+                        <div class="dropdown is-hoverable">
+                            <div class="dropdown-trigger">
+                                <button
+                                        class="button"
+                                        aria-haspopup="true"
+                                        aria-controls="dropdown-menu4"
+                                >
+                                    <span>All</span>
+                                    <span class="icon is-small">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
-              </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-              <div class="dropdown-content">
-                <a class="dropdown-item is-active"> All </a>
-                <a class="dropdown-item"> Booking Chats </a>
-                <a class="dropdown-item"> Archived </a>
-              </div>
-            </div>
-          </div>
-          <!--End: Dropdown-->
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                                <div class="dropdown-content">
+                                    <a class="dropdown-item is-active"> All </a>
+                                    <a class="dropdown-item"> Booking Chats </a>
+                                    <a class="dropdown-item"> Archived </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End: Dropdown-->
 
-          <!--Start: Chat Thumbnails-->
-          <ul class="menu-list">
-            <!-- START: Horizontal Card -->
-            <li>
-              <div class="box mt-4 has-background-primary-light">
-                <a>
-                  <div class="p-2 listing-author">
-                    <div
-                      class="profile-img"
-                      style="background-image: url('/pfp.jpg')"
-                    ></div>
-                    <div class="ml-2"><b>HideThePain69</b></div>
-                  </div>
-                </a>
-              </div>
-            </li>
-            <!-- END: Horizontal Card -->
+                        <!--Start: Chat Thumbnails-->
+                        <ul class="menu-list">
+                            <!-- START: Horizontal Card -->
+                            <li>
+                                <div class="box mt-4 has-background-primary-light">
+                                    <a>
+                                        <div class="p-2 listing-author">
+                                            <div
+                                                    class="profile-img"
+                                                    style="background-image: url('/pfp.jpg')"
+                                            ></div>
+                                            <div class="ml-2"><b>HideThePain69</b></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <!-- END: Horizontal Card -->
 
-            <!-- START: Horizontal Card -->
-            <li>
-              <div class="box mt-4">
-                <a>
-                  <div class="p-2 listing-author">
-                    <div
-                      class="profile-img"
-                      style="background-image: url('/pfp.jpg')"
-                    ></div>
-                    <div class="ml-2"><b>HideThePain69</b></div>
-                  </div>
-                </a>
-              </div>
-            </li>
-            <!-- END: Horizontal Card -->
-          </ul>
-          <!--End: Chat Thumbnails-->
-        </aside>
-      </div>
-      <!--End: Menu Column-->
+                            <!-- START: Horizontal Card -->
+                            <li>
+                                <div class="box mt-4">
+                                    <a>
+                                        <div class="p-2 listing-author">
+                                            <div
+                                                    class="profile-img"
+                                                    style="background-image: url('/pfp.jpg')"
+                                            ></div>
+                                            <div class="ml-2"><b>HideThePain69</b></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <!-- END: Horizontal Card -->
+                        </ul>
+                        <!--End: Chat Thumbnails-->
+                    </aside>
+                </div>
+                <!--End: Menu Column-->
 
-      <!--Start: Console Column-->
-      <div class="column">
-        <section class="section">
-          <div class="container chat-main">
-            <div class="box">
-              <!--START: Messages-->
-              <!--Experimental (monke brain)-->
-<div class="jumbotron m-0 p-0 bg-transparent">
-  <div class="row m-0 p-0 position-relative">
-    <div class="col-12 p-0 m-0 position-absolute" style="right: 0px;">
-    <div class="card border-0 rounded" style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 6px 10px 0 rgba(0, 0, 0, 0.01); overflow: hidden; height: 50vh;">
+                <!--Start: Console Column-->
+                <div class="column">
+                    <section class="section">
+                        <div class="container chat-main">
+                            <div class="box">
+                                <!--START: Messages-->
+                                <!--Experimental (monke brain)-->
+                                <div class="jumbotron m-0 p-0 bg-transparent">
+                                    <div class="row m-0 p-0 position-relative">
+                                        <div class="col-12 p-0 m-0 position-absolute" style="right: 0px;">
+                                            <div class="card border-0 rounded"
+                                                 style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 6px 10px 0 rgba(0, 0, 0, 0.01); overflow: hidden; height: 50vh;">
 
-      <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0" style="color: rgba(96, 125, 139,1.0);">
-      <div class="profile-img" style="background-image: url('/pfp.jpg')"></div>
-      <h6 class="float-left" style="margin: 0px; margin-left: 10px;"> HideThePain69 </h6>
-      </div>
-    
-      <div class="card border-0 m-0 p-0" style="height: 100vh;">
-      <div id="sohbet" class="card border-0 m-0 p-0 position-relative bg-transparent" style="overflow-y: auto; height: 50vh;">
-    
-      <div class="balon1 p-2 m-0 position-relative">
-        <div class="float-left"> Hey there! What's up? </div>
-      </div>
-      
-      <div class="balon2 p-2 m-0 position-relative">
-        <div class="float-right"> Hey there! What's up? </div>
-      </div>
+                                                <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0"
+                                                     style="color: rgba(96, 125, 139,1.0);">
+                                                    <div class="profile-img"
+                                                         style="background-image: url('/pfp.jpg')"></div>
+                                                    <h6 class="float-left" style="margin: 0px; margin-left: 10px;">
+                                                        HideThePain69 </h6>
+                                                </div>
 
-      <div class="balon1 p-2 m-0 position-relative">
-        <div class="float-left"> Hey there! What's up? </div>
-      </div>
+                                                <div class="card border-0 m-0 p-0" style="height: 100vh;">
+                                                    <div id="sohbet"
+                                                         class="card border-0 m-0 p-0 position-relative bg-transparent"
+                                                         style="overflow-y: auto; height: 50vh;">
 
-      <div class="balon2 p-2 m-0 position-relative">
-        <div class="float-right"> Hey there! What's up? </div>
-      </div>
+                                                        <div class="balon1 p-2 m-0 position-relative">
+                                                            <div class="float-left"> Hey there! What's up?</div>
+                                                        </div>
 
-      </div>
-      </div>
+                                                        <div class="balon2 p-2 m-0 position-relative">
+                                                            <div class="float-right"> Hey there! What's up?</div>
+                                                        </div>
 
-    </div>
-    </div>
-    
-  </div>
-  </div>
-<!--End experimental-->
-              <!--END: Messages-->
+                                                        <div class="balon1 p-2 m-0 position-relative">
+                                                            <div class="float-left"> Hey there! What's up?</div>
+                                                        </div>
 
-              <!--START: Input field-->
-              <div class="field has-addons">
-                <div class="control">
-                  <!--Dropup-->
-                  <div class="dropdown post-options is-hoverable is-up">
-                    <div class="dropdown-trigger">
-                      <button
-                        class="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu-post"
-                      >
+                                                        <div class="balon2 p-2 m-0 position-relative">
+                                                            <div class="float-right"> Hey there! What's up?</div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--End experimental-->
+                                <!--END: Messages-->
+
+                                <!--START: Input field-->
+                                <div class="field has-addons">
+                                    <div class="control">
+                                        <!--Dropup-->
+                                        <div class="dropdown post-options is-hoverable is-up">
+                                            <div class="dropdown-trigger">
+                                                <button
+                                                        class="button"
+                                                        aria-haspopup="true"
+                                                        aria-controls="dropdown-menu-post"
+                                                >
                         <span class="icon is-small">
                           <i class="fas fa-paperclip"></i>
                         </span>
-                      </button>
-                    </div>
-                    <div
-                      class="dropdown-menu"
-                      id="dropdown-menu-post"
-                      role="menu"
-                    >
-                      <div class="dropdown-content">
-                        <a class="dropdown-item">
-                          <i class="fas fa-photo-video"></i>&ensp;Photos &
-                          Videos
-                        </a>
-                        <a class="dropdown-item">
-                          <i class="fas fa-file"></i>&ensp;Documents
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <!--END: Dropup-->
+                                                </button>
+                                            </div>
+                                            <div
+                                                    class="dropdown-menu"
+                                                    id="dropdown-menu-post"
+                                                    role="menu"
+                                            >
+                                                <div class="dropdown-content">
+                                                    <a class="dropdown-item">
+                                                        <i class="fas fa-photo-video"></i>&ensp;Photos &
+                                                        Videos
+                                                    </a>
+                                                    <a class="dropdown-item">
+                                                        <i class="fas fa-file"></i>&ensp;Documents
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--END: Dropup-->
+                                    </div>
+                                    <div class="control is-expanded">
+                                        <input
+                                                class="input is-fullwidth"
+                                                type="text"
+                                                placeholder="Enter your message.."
+                                        />
+                                    </div>
+                                    <div class="control">
+                                        <button class="button is-primary">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--END: Input Field-->
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <div class="control is-expanded">
-                  <input
-                    class="input is-fullwidth"
-                    type="text"
-                    placeholder="Enter your message.."
-                  />
-                </div>
-                <div class="control">
-                  <button class="button is-primary">
-                    <i class="fas fa-paper-plane"></i>
-                  </button>
-                </div>
-              </div>
-              <!--END: Input Field-->
+                <!--End: Console Column-->
             </div>
-          </div>
-        </section>
-      </div>
-      <!--End: Console Column-->
-    </div>
-  </div>
-</section>
+        </div>
+    </section>
 
 
 {% endblock %}

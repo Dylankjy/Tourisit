@@ -5,141 +5,141 @@
 
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/shop.css">
-<link rel="stylesheet" href="/css/all_bookings.css">
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/all_bookings.css">
 {% endblock %}
 
 
 {% block content %}
-<section class='hero is-medium is-black' id='bookings-hero'>
-    <div class='hero-body'>
-        <div class="container">
-            <h1 class="title is-size-1 has-text-weight-bold">
-              Your Bookings
-            </h1>
+    <section class='hero is-medium is-black' id='bookings-hero'>
+        <div class='hero-body'>
+            <div class="container">
+                <h1 class="title is-size-1 has-text-weight-bold">
+                    Your Bookings
+                </h1>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class='section'>
-    <div class='container'>
-        <!--START: Dropdown-->
-        <div class="control">
-            <div class="select">
-                <select>
-                    <option>All Bookings</option>
-                    <option>Current Bookings</option>
-                    <option>Uninitiated</option>
-                    <option>Archived</option>
-                </select>
+    <section class='section'>
+        <div class='container'>
+            <!--START: Dropdown-->
+            <div class="control">
+                <div class="select">
+                    <select>
+                        <option>All Bookings</option>
+                        <option>Current Bookings</option>
+                        <option>Uninitiated</option>
+                        <option>Archived</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-        <!--END: Dropdown-->
-<section>
+    </section>
+    <!--END: Dropdown-->
+    <section>
         <!--START: Card -->
-    <div class='container mt-5'>
-        <div class='box p-5'>
-            <div class="columns is-vcentered">
-                <div class="column">
-                    <div class="ml-4">
-                        <span class="tag has-text-gray-light mb-4">Unintiated</span>
-                        <div class="mb-2 listing-author">
-                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                            <div class="ml-2"><b>HidethePain</b> is offering:</div>
+        <div class='container mt-5'>
+            <div class='box p-5'>
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <div class="ml-4">
+                            <span class="tag has-text-gray-light mb-4">Unintiated</span>
+                            <div class="mb-2 listing-author">
+                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                            </div>
+                            <h1 class='title'>Bishan Nightlife</h1>
+                            <p class="subtitle">Explore the night life of Bishan</p>
+                            <br>
+                            <a href="{{ url_for('bookings') }}" class="has-text-link mt-2">
+                                View Booking details</a>
                         </div>
-                        <h1 class='title'>Bishan Nightlife</h1>
-                        <p class="subtitle">Explore the night life of Bishan</p>
-                        <br>
-                        <a href="{{url_for('bookings')}}" class="has-text-link mt-2">
-                        View Booking details</a>
-                </div>
-            </div>
-                <div class="column is-two-fifths">
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
+                    <div class="column is-two-fifths">
+                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
         <!--END: Card-->
         <!--START: Card -->
-    <div class='container mt-5'>
-        <div class='box p-5'>
-            <div class="columns is-vcentered">
-                <div class="column">
-                    <div class="ml-4">
-                        <span class="tag is-info is-light mb-4">Ordered</span>
-                        <div class="mb-2 listing-author">
-                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                            <div class="ml-2"><b>HidethePain</b> is offering:</div>
+        <div class='container mt-5'>
+            <div class='box p-5'>
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <div class="ml-4">
+                            <span class="tag is-info is-light mb-4">Ordered</span>
+                            <div class="mb-2 listing-author">
+                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                            </div>
+                            <h1 class='title'>Bishan Nightlife</h1>
+                            <p class="subtitle">Explore the night life of Bishan</p>
+                            <br>
+                            <a href="{{ url_for('bookings') }}" class="has-text-link mt-2">
+                                View Booking details</a>
                         </div>
-                        <h1 class='title'>Bishan Nightlife</h1>
-                        <p class="subtitle">Explore the night life of Bishan</p>
-                        <br>
-                        <a href="{{url_for('bookings')}}" class="has-text-link mt-2">
-                        View Booking details</a>
-                </div>
-            </div>
-                <div class="column is-two-fifths">
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
+                    <div class="column is-two-fifths">
+                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
         <!--END: Card-->
         <!--START: Card -->
-    <div class='container mt-5'>
-        <div class='box p-5'>
-            <div class="columns is-vcentered">
-                <div class="column">
-                    <div class="ml-4">
-                        <span class="tag is-success is-light mb-4">Paid</span>
-                        <div class="mb-2 listing-author">
-                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                            <div class="ml-2"><b>HidethePain</b> is offering:</div>
+        <div class='container mt-5'>
+            <div class='box p-5'>
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <div class="ml-4">
+                            <span class="tag is-success is-light mb-4">Paid</span>
+                            <div class="mb-2 listing-author">
+                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                            </div>
+                            <h1 class='title'>Bishan Nightlife</h1>
+                            <p class="subtitle">Explore the night life of Bishan</p>
+                            <br>
+                            <a href="{{ url_for('bookings') }}" class="has-text-link mt-2">
+                                View Booking details</a>
                         </div>
-                        <h1 class='title'>Bishan Nightlife</h1>
-                        <p class="subtitle">Explore the night life of Bishan</p>
-                        <br>
-                        <a href="{{url_for('bookings')}}" class="has-text-link mt-2">
-                        View Booking details</a>
-                </div>
-            </div>
-                <div class="column is-two-fifths">
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
+                    <div class="column is-two-fifths">
+                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
         <!--END: Card-->
         <!--START: Card -->
-    <div class='container mt-5'>
-        <div class='box p-5'>
-            <div class="columns is-vcentered">
-                <div class="column">
-                    <div class="ml-4">
-                        <span class="tag is-warning is-light mb-4">Completed</span>
-                        <div class="mb-2 listing-author">
-                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                            <div class="ml-2"><b>HidethePain</b> is offering:</div>
+        <div class='container mt-5'>
+            <div class='box p-5'>
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <div class="ml-4">
+                            <span class="tag is-warning is-light mb-4">Completed</span>
+                            <div class="mb-2 listing-author">
+                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                            </div>
+                            <h1 class='title'>Bishan Nightlife</h1>
+                            <p class="subtitle">Explore the night life of Bishan</p>
+                            <br>
+                            <a href="{{ url_for('bookings') }}" class="has-text-link mt-2">
+                                View Booking details</a>
                         </div>
-                        <h1 class='title'>Bishan Nightlife</h1>
-                        <p class="subtitle">Explore the night life of Bishan</p>
-                        <br>
-                        <a href="{{url_for('bookings')}}" class="has-text-link mt-2">
-                        View Booking details</a>
-                </div>
-            </div>
-                <div class="column is-two-fifths">
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
+                    <div class="column is-two-fifths">
+                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
         <!--END: Card-->
-    </div>
-</section>
+        </div>
+    </section>
 
 
 {% endblock %}

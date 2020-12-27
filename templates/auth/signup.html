@@ -1,130 +1,130 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<script defer src="/js/signup.js"></script>
+    <script defer src="/js/signup.js"></script>
 {% endblock %}
 
 {% block content %}
-<section id="discover-hero" class="hero is-medium is-black">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
-                Tourisit ID
-            </h1>
-            <h2 class="subtitle is-size-4">
-                Your pass to local tours, by locals.
-            </h2>
+    <section id="discover-hero" class="hero is-medium is-black">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
+                    Tourisit ID
+                </h1>
+                <h2 class="subtitle is-size-4">
+                    Your pass to local tours, by locals.
+                </h2>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="section">
-    <div class="container" id="main">
-        <div id="register">
-            <h1 class="title">Get a Tourisit ID</h1>
-            <h3 class="subtitle">Welcome!</h3>
-            <div id="emailNotValid" class="notification is-danger" style="display: none;">
-                Email address doesn't seem to be valid.
-            </div>
-            <div id="passwordNotValid" class="notification is-danger" style="display: none;">
-                Password should consist of 8 or more characters.
-            </div>
-            <div id="emailDuplicate" class="notification is-danger" style="display: none;">
-                Email is already attached to an existing account.
-            </div>
-            <form id="signupForm" method="POST" action="{{url_for('signup')}}">
-                {{ form.csrf_token }}
-                <div class="field">
-                    <div class="control has-icons-left has-icons-right">
-                        <!-- <input id="registerName" class="input" type="text" placeholder="Full Name"> -->
-                        {{ form.full_name(id="registerName", type="text", class="input", placeholder="Full Name") }}
-                        <span class="icon is-small is-left">
+    <section class="section">
+        <div class="container" id="main">
+            <div id="register">
+                <h1 class="title">Get a Tourisit ID</h1>
+                <h3 class="subtitle">Welcome!</h3>
+                <div id="emailNotValid" class="notification is-danger" style="display: none;">
+                    Email address doesn't seem to be valid.
+                </div>
+                <div id="passwordNotValid" class="notification is-danger" style="display: none;">
+                    Password should consist of 8 or more characters.
+                </div>
+                <div id="emailDuplicate" class="notification is-danger" style="display: none;">
+                    Email is already attached to an existing account.
+                </div>
+                <form id="signupForm" method="POST" action="{{ url_for('signup') }}">
+                    {{ form.csrf_token }}
+                    <div class="field">
+                        <div class="control has-icons-left has-icons-right">
+                            <!-- <input id="registerName" class="input" type="text" placeholder="Full Name"> -->
+                            {{ form.full_name(id="registerName", type="text", class="input", placeholder="Full Name") }}
+                            <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="control has-icons-left has-icons-right">
-                        <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
-                        {{ form.email(id="registerEmail", type="email", class="input", placeholder="Email Address") }}
-                        <span class="icon is-small is-left">
+                    <div class="field">
+                        <div class="control has-icons-left has-icons-right">
+                            <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
+                            {{ form.email(id="registerEmail", type="email", class="input", placeholder="Email Address") }}
+                            <span class="icon is-small is-left">
                             <i class="fas fa-at"></i>
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="control has-icons-left has-icons-right">
-                        <!-- <input id="registerPassword" class="input" type="password" placeholder="Password"> -->
-                        {{ form.password(id="registerPassword", type="password", class="input", placeholder="Password", value="")
-                        }}
-                        <span class="icon is-small is-left">
+                    <div class="field">
+                        <div class="control has-icons-left has-icons-right">
+                            <!-- <input id="registerPassword" class="input" type="password" placeholder="Password"> -->
+                            {{ form.password(id="registerPassword", type="password", class="input", placeholder="Password", value="") }}
+                            <span class="icon is-small is-left">
                             <i class="fas fa-key"></i>
                         </span>
 
-                        <div class="showPasswordContainer">
-                            <small class="has-text-grey unselectable" id="showPassword" style="cursor: pointer;"><i
-                                    id="icon-showPassword" class="fas fa-eye-slash"></i>&ensp;<span
-                                    id="showPasswordText">Hold
+                            <div class="showPasswordContainer">
+                                <small class="has-text-grey unselectable" id="showPassword" style="cursor: pointer;"><i
+                                        id="icon-showPassword" class="fas fa-eye-slash"></i>&ensp;<span
+                                        id="showPasswordText">Hold
                                     to
                                     show
                                     password</span></small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="buttons">
-                    <a class="button is-light has-text-grey" data-pjax='main' href="./login"><i
-                            class="fas fa-key"></i>&ensp;Sign in instead</a>
-                    <button id="registerButton" type="submit" class="button is-primary">Continue&ensp;<i
-                            class="fas fa-arrow-right"></i></button>
-                </div>
-            </form>
-        </div>
-
-        <div id="emailConfirmation" style="display: none;">
-            <h2 class="title is-3">Almost done!</h2>
-            <p id="loginSuccessText" class="subtitle is-6">Please verify your email</p>
-            <div id="tooFastEmail" class="notification is-danger" style="display: none;">
-                Resending emails too quickly.
+                    <div class="buttons">
+                        <a class="button is-light has-text-grey" data-pjax='main' href="./login"><i
+                                class="fas fa-key"></i>&ensp;Sign in instead</a>
+                        <button id="registerButton" type="submit" class="button is-primary">Continue&ensp;<i
+                                class="fas fa-arrow-right"></i></button>
+                    </div>
+                </form>
             </div>
-            <p>We have sent to a verification link to <b id="emailSentTo"></b>. Please click on it to verify your
-                account with your email.<br><br>Afterwards, you may start using your account.</p>
-            <br>
-            <button id="resendEmailButton" class="button is-light"><i class="fas fa-paper-plane"></i>&ensp;Resend
-                Email</button>
-        </div>
-    </div>
-</section>
 
-{% if exist %}
-<div id="errorDuplicateModal" class="modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-card box" style="padding: 3em;">
-        <p class="title is-3 has-text-weight-bold has-text-centered">Account already in existance</p>
-        <p class="has-text-centered"><b>{{ email }}</b> already exists as a Tourisit ID.</p>
-        <br>
-        <span class="buttons">
-        <a href="{{url_for('login')}}" class="button is-primary is-fullwidth"><i
-            class="fas fa-sign-in-alt"></i>&ensp;Login instead</a>
+            <div id="emailConfirmation" style="display: none;">
+                <h2 class="title is-3">Almost done!</h2>
+                <p id="loginSuccessText" class="subtitle is-6">Please verify your email</p>
+                <div id="tooFastEmail" class="notification is-danger" style="display: none;">
+                    Resending emails too quickly.
+                </div>
+                <p>We have sent to a verification link to <b id="emailSentTo"></b>. Please click on it to verify your
+                    account with your email.<br><br>Afterwards, you may start using your account.</p>
+                <br>
+                <button id="resendEmailButton" class="button is-light"><i class="fas fa-paper-plane"></i>&ensp;Resend
+                    Email
+                </button>
+            </div>
+        </div>
+    </section>
+
+    {% if exist %}
+        <div id="errorDuplicateModal" class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-card box" style="padding: 3em;">
+                <p class="title is-3 has-text-weight-bold has-text-centered">Account already in existance</p>
+                <p class="has-text-centered"><b>{{ email }}</b> already exists as a Tourisit ID.</p>
+                <br>
+                <span class="buttons">
+        <a href="{{ url_for('login') }}" class="button is-primary is-fullwidth"><i
+                class="fas fa-sign-in-alt"></i>&ensp;Login instead</a>
         <a onclick="$('#errorDuplicateModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
                 class="fas fa-times"></i>&ensp;Close</a>
             </span>
-    </div>
-</div>
-{% endif %}
+            </div>
+        </div>
+    {% endif %}
 
-{% if acc_creation %}
-<div id="createModal" class="modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-card box" style="padding: 3em;">
-        <p class="title is-3 has-text-weight-bold has-text-centered">Please verify your email</p>
-        <p class="has-text-centered">We have sent a verification email to <b>{{ email }}</b>.
-            <br><small>Please check your spam folder if you do not receive our email within a minute.</small>
-        </p>
-        <br>
-        <a onclick="$('#createModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
-                class="fas fa-times"></i>&ensp;Close</a>
-    </div>
-</div>
-{% endif %}
+    {% if acc_creation %}
+        <div id="createModal" class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-card box" style="padding: 3em;">
+                <p class="title is-3 has-text-weight-bold has-text-centered">Please verify your email</p>
+                <p class="has-text-centered">We have sent a verification email to <b>{{ email }}</b>.
+                    <br><small>Please check your spam folder if you do not receive our email within a minute.</small>
+                </p>
+                <br>
+                <a onclick="$('#createModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
+                        class="fas fa-times"></i>&ensp;Close</a>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}

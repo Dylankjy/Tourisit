@@ -1,5 +1,3 @@
-import models.Validation as validation
-
 class Support:
     def __init__(self, uid, support_type, content, status):
         self.__uid = uid
