@@ -21,7 +21,7 @@ class User:
         name,
         password,
         email,
-        phone_number='1234564',
+        phone_number='',
         bio='',
         profile_img='',
         last_seen='',
@@ -67,6 +67,7 @@ class User:
             print(f"{password} must be less than {30} characters!")
         else:
             self.__password = password
+
 
     def return_obj(self):
         return {
