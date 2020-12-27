@@ -32,21 +32,34 @@
             <div id="badLogin" class="notification is-danger" style="display: none;">
                 Email or password is invalid.
             </div>
-            <form id="loginForm">
+            <form id="loginForm" method="POST" action="{{url_for('login')}}">
+                {{ form.csrf_token }}
                 <div class="field">
-                    <div class="control has-icons-left">
-                        <input id="loginEmail" class="input" type="text" placeholder="Email">
+                    <div class="control has-icons-left has-icons-right">
+                        <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
+                        {{ form.email(id="loginEmail", type="email", class="input", placeholder="Email Address") }}
                         <span class="icon is-small is-left">
                             <i class="fas fa-at"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
-                    <div class="control has-icons-left">
-                        <input id="loginPassword" class="input" type="password" placeholder="Password">
+                    <div class="control has-icons-left has-icons-right">
+                        <!-- <input id="registerPassword" class="input" type="password" placeholder="Password"> -->
+                        {{ form.password(id="loginPassword", type="password", class="input", placeholder="Password", value="")
+                        }}
                         <span class="icon is-small is-left">
                             <i class="fas fa-key"></i>
                         </span>
+
+                        <div class="showPasswordContainer">
+                            <small class="has-text-grey unselectable" id="showPassword" style="cursor: pointer;"><i
+                                    id="icon-showPassword" class="fas fa-eye-slash"></i>&ensp;<span
+                                    id="showPasswordText">Hold
+                                    to
+                                    show
+                                    password</span></small>
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -55,7 +68,7 @@
                             class="fas fa-user-plus"></i>&ensp;Get an account</a>
                     <a class="button is-light has-text-grey" data-pjax='main' href="./resetpassword"><i
                             class="fas fa-question-circle"></i>&ensp;Lost password</a>
-                    <a class="button is-primary">Login&ensp;<i class="fas fa-arrow-right"></i></a>
+                    <button type="submit" class="button is-primary">Login&ensp;<i class="fas fa-arrow-right"></i></button>
                 </div>
             </form>
         </div>
@@ -86,5 +99,18 @@
         </div>
     </div>
 </section>
+
+{% if acc_login_failed %}
+<div id="accFailedModal" class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card box" style="padding: 3em;">
+        <p class="title is-3 has-text-weight-bold has-text-centered">Invalid Credentials</p>
+        <p class="has-text-centered">We couldn't log you in as the <b>provided Email address or Password is incorrect</b>.<br><small>If you have trouble logging in, please reset your password.</small></p>
+        <br>
+        <a onclick="$('#accFailedModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
+                class="fas fa-times"></i>&ensp;Try again</a>
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}
