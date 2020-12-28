@@ -122,7 +122,17 @@ def accountbilling():
 # Home page
 @app.route('/', methods=['GET'])
 def home():
-    return render_template('customer/index-customer.html', listings=list(shop_db.find()))
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return render_template('customer/index-customer.html',
+                               listings=list(shop_db.find()), loggedin=False)
+    # if logged in
+    else:
+        return render_template('customer/index-customer.html',
+                               listings=list(shop_db.find()), loggedin=True, user=result)
+
 
 # CUSTOMERS
 # Marketplace: Display all listings
@@ -142,9 +152,21 @@ def market():
     #     print('SUBMITTED')
     #     result = request.form['searchResult']
     #     print(result)
-    return render_template('customer/marketplace.html', listings=list(shop_db.find()))
+    # return render_template('customer/marketplace.html', listings=list(shop_db.find()))
     # except:
     #     return 'Error trying to render'
+
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return render_template('customer/marketplace.html',
+                               listings=list(shop_db.find()), loggedin=False)
+    # if logged in
+    else:
+        return render_template('customer/marketplace.html',
+                               listings=list(shop_db.find()), loggedin=True, user=result)
+
 
 # To implement search function
 @app.route('/search')
@@ -158,20 +180,38 @@ def search():
     result_listings = list(shop_db.find({'tour_name': {'$in': result}}))
     return json.dumps({"results": result})
 
+
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from M clicked
 @app.route('/discover/<tour_id>')
 def tourListing(tour_id):
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
-    return render_template('customer/tourListing.html', item=item)
     # except:
     #     return f'Error for Tour_ID: {tour_id}'
+
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return render_template('customer/tourListing.html', item=item, loggedin=False)
+    # if logged in
+    else:
+        return render_template('customer/tourListing.html', item=item, loggedin=True, user=result)
+
 
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
 def ownlisting():
-    return render_template('tourGuides/ownlisting.html', listings=list(shop_db.find()))
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return render_template('tourGuides/ownlisting.html', listings=list(shop_db.find()), loggedin=False)
+    # if logged in
+    else:
+        return render_template('tourGuides/ownlisting.html', listings=list(shop_db.find()), loggedin=True, user=result)
+
 
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
@@ -193,11 +233,13 @@ def makelisting():
             listingInfo = tour_listing.return_obj()
             print(listingInfo)
             shop_db.insert_one(listingInfo)
+
             return render_template('tourGuides/listing-success.html')
         return render_template('tourGuides/makelisting.html', form=lForm)
 
     else:
         return render_template('tourGuides/makelisting.html', form=lForm)
+
 
 # TOUR GUIDES
 # Edit Listings: When click on own listing to edit
@@ -231,6 +273,7 @@ def editListing(id):
         lForm.process()
         return render_template('tourGuides/editListing.html', listing=item, form=lForm)
 
+
 # @app.route('/testImg', methods=['GET', 'POST'])
 # def test_img():
 #     lForm = ListingForm()
@@ -248,11 +291,20 @@ def deleteList(id):
 
     return redirect('/listings')
 
+
 # CUSTOMERS
 # Favourites: Shows all the liked listings
 @app.route('/me/favourites')
 def favourites():
-    return render_template('customer/favourites.html')
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return render_template('customer/favourites.html', loggedin=False)
+    # if logged in
+    else:
+        return render_template('customer/favourites.html', loggedin=True, user=result)
+
 
 # --------------------------------------
 
@@ -263,9 +315,17 @@ def favourites():
 @app.route('/bookings')
 def all_bookings():
     try:
-        return render_template('customer/allBookings.html')
+        # Get login status using accessor argument
+        result = auth.is_auth(True)
+        # if not logged in
+        if not result:
+            return render_template('customer/allBookings.html', loggedin=False)
+        # if logged in
+        else:
+            return render_template('customer/allBookings.html', loggedin=True, user=result)
     except:
         return 'Error trying to render'
+
 
 # CUSTOMER
 # Individual Bookings
@@ -273,27 +333,51 @@ def all_bookings():
 @app.route('/bookings/id')
 def bookings():
     try:
-        return render_template('customer/booking.html')
+        # Get login status using accessor argument
+        result = auth.is_auth(True)
+        # if not logged in
+        if not result:
+            return render_template('customer/booking.html', loggedin=False)
+        # if logged in
+        else:
+            return render_template('customer/booking.html', loggedin=True, user=result)
     except:
         return 'Error trying to render'
+
 
 # SHARED
 # Chats: Render indiv chats
 @app.route('/chat')
 def chat():
     try:
-        return render_template('chat.html')
+        # Get login status using accessor argument
+        result = auth.is_auth(True)
+        # if not logged in
+        if not result:
+            return render_template('chat.html', loggedin=False)
+        # if logged in
+        else:
+            return render_template('chat.html', loggedin=True, user=result)
     except:
         return 'Error trying to render'
+
 
 # TOUR GUIDES
 # My Businesses: Access all gigs
 @app.route('/s/businesses')
 def all_businesses():
     try:
-        return render_template('tourGuides/allBusinesses.html')
+        # Get login status using accessor argument
+        result = auth.is_auth(True)
+        # if not logged in
+        if not result:
+            return render_template('tourGuides/allBusinesses.html', loggedin=False)
+        # if logged in
+        else:
+            return render_template('tourGuides/allBusinesses.html', loggedin=True, user=result)
     except:
         return 'Error trying to render'
+
 
 # TOUR GUIDES
 # Individual gigs  
@@ -301,9 +385,17 @@ def all_businesses():
 @app.route('/s/businesses/id')
 def business():
     try:
-        return render_template('tourGuides/business.html')
+        # Get login status using accessor argument
+        result = auth.is_auth(True)
+        # if not logged in
+        if not result:
+            return render_template('tourGuides/business.html', loggedin=False)
+        # if logged in
+        else:
+            return render_template('tourGuides/business.html', loggedin=True, user=result)
     except:
         return 'Error trying to render'
+
 
 # --------------------------------------
 
@@ -315,34 +407,68 @@ def business():
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
 
+
 # Redirect user to dashboard if attempt to access file of /s/
 @app.route('/s')
 def sellerModeFile():
     return redirect(url_for('sellerDashboard'))
 
+
 # TOUR GUIDE
 # Dashboard sex OH YES FREAK ME, DATA COME ON BABY
 @app.route('/s/dashboard')
 def sellerDashboard():
-    return render_template('tourGuides/dashboard.html')
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    # if logged in
+    else:
+        return render_template('tourGuides/dashboard.html', loggedin=True, user=result)
+
 
 # INTERNAL
 # Admin Dashboard -- Private internal shit
 @app.route('/admin')
 def adminDashboard():
-    return render_template('internal/dashboard.html')
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    # if logged in
+    else:
+        return render_template('internal/dashboard.html', loggedin=True, user=result)
+
 
 # INTERNAL
 # Admin Dashboard -- Manage users
 @app.route('/admin/users')
 def adminUsers():
-    return render_template('internal/users.html')
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    # if logged in
+    else:
+        return render_template('internal/users.html', loggedin=True, user=result)
+
 
 # INTERNAL
 # Admin Dashboard -- Manage listings
 @app.route('/admin/listings')
 def adminListings():
-    return render_template('internal/listings.html')
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    # if logged in
+    else:
+        return render_template('internal/listings.html', loggedin=True, user=result)
+
 
 # SHARED
 # Login Page
