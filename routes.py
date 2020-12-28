@@ -5,7 +5,7 @@ from io import BytesIO
 # Database
 import pymongo
 from bson.objectid import ObjectId
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, make_response
 
 # Authentication library
 import auth as auth
@@ -37,6 +37,7 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 shop_db = client['Listings']
 user_db = client['Users']
 
+
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
     lForm = ListingForm()
@@ -46,6 +47,7 @@ def test_img():
         print(img_string)
         return render_template('tourGuides/testImg.html', form=lForm, imgBase64=img_string)
     return render_template('tourGuides/testImg.html', form=lForm, imgBase64='')
+
 
 # --------------------------------------
 
@@ -60,6 +62,7 @@ def support():
     except:
         return 'Error trying to render'
 
+
 # CUSTOMER
 # Submit Review
 @app.route('/review')
@@ -68,6 +71,7 @@ def review():
         return render_template('customer/review.html')
     except:
         return 'Error trying to render'
+
 
 # SHARED
 # User profile
@@ -78,6 +82,7 @@ def profile():
         return render_template('profile.html', listings=list(shop_db.find()))
     except:
         return 'Error trying to render'
+
 
 # SHARED
 # User account settings
@@ -107,12 +112,14 @@ def accountinfo():
         print(item['name'])
     return render_template('setting.html', user=item, form=uForm)
 
+
 @app.route('/me/billing')
 def accountbilling():
     try:
         return render_template('billing.html')
     except:
         return 'Error trying to render'
+
 
 # --------------------------------------
 
