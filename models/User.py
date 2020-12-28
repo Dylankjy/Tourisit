@@ -56,7 +56,7 @@ class User:
             name,
             password,
             email,
-            phone_number,
+            phone_number="",
             bio="",
             profile_img="",
             last_seen="",
