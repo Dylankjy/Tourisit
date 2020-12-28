@@ -31,9 +31,8 @@
                 <div class="section">
                     <!-- Update account settings -->
                     <h1 class="is-size-4 has-text-left has-text-weight-bold">Account Details</h1>
-                    <form class="form-horizontal" action="/me/settings/{{ user['_id'] }}" method="POST">
+                    <form class="form-horizontal" action="/me/settings" method="POST">
                         {{ form.csrf_token }}
-                        <fieldset>
 
                             <div class="field">
                                 <label class="label" for="name">Name:</label>
@@ -50,7 +49,7 @@
                             <div class="field">
                                 <label class="label" for="password">Password:</label>
                                 <div class="control">
-                                    {{ form.password(id="password", type="text", class="input", placeholder="", value=user.password) }}
+                                    {{ form.password(id="password", type="text", class="input", placeholder="") }}
                                     <ul>
                                         {% for error in form.password.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
@@ -90,8 +89,9 @@
                                            class="button is-success">
                                 </div>
                             </div>
-                        </fieldset>
+
                     </form>
+                        </fieldset>
 
 
                     <!-- Update personal details -->
