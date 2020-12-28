@@ -204,10 +204,10 @@ def is_auth(gib_data=False):
                 query_user = {"_id": ObjectId(query_result[0]['uid'])}
                 query_user_data = [i for i in db_users.find(query_user)]
 
-                user_data = {
-                    "name": query_user_data[0]['name'],
-                    "email": query_user_data[0]['email']
-                }
+                user_data = query_user_data[0]
+                del user_data['password']
+                del user_data['stripe_id']
+
                 return user_data
             elif not gib_data:
                 return True
