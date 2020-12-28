@@ -48,11 +48,11 @@
                             </div>
 
                             <div class="field">
-                                <label class="label" for="name">Password:</label>
+                                <label class="label" for="password">Password:</label>
                                 <div class="control">
-                                    {{ form.name(id="name", type="text", class="input", placeholder="", value=user.password) }}
+                                    {{ form.name(id="password", type="text", class="input", placeholder="", value=user.password) }}
                                     <ul>
-                                        {% for error in form.name.errors %}
+                                        {% for error in form.password.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
                                         {% endfor %}
                                     </ul>
@@ -60,11 +60,11 @@
                             </div>
 
                             <div class="field">
-                                <label class="label" for="name">Email Address:</label>
+                                <label class="label" for="email">Email Address:</label>
                                 <div class="control">
-                                    {{ form.name(id="name", type="text", class="input", placeholder="", value=user.email) }}
+                                    {{ form.name(id="email", type="text", class="input", placeholder="", value=user.email) }}
                                     <ul>
-                                        {% for error in form.name.errors %}
+                                        {% for error in form.email.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
                                         {% endfor %}
                                     </ul>
@@ -72,11 +72,11 @@
                             </div>
 
                             <div class="field">
-                                <label class="label" for="name">Phone Number:</label>
+                                <label class="label" for="phone_number">Phone Number:</label>
                                 <div class="control">
-                                    {{ form.name(id="name", type="text", class="input", placeholder="", value=user.phone_number) }}
+                                    {{ form.name(id="phone_number", type="text", class="input", placeholder="", value=user.phone_number) }}
                                     <ul>
-                                        {% for error in form.name.errors %}
+                                        {% for error in form.phone_number.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
                                         {% endfor %}
                                     </ul>
@@ -90,7 +90,6 @@
                                            class="button is-success">
                                 </div>
                             </div>
-
                         </fieldset>
                     </form>
 

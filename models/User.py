@@ -5,7 +5,10 @@ from wtforms.validators import InputRequired, Length
 
 class UserForm(FlaskForm):
     name = StringField(
-        "name", validators=[InputRequired(), Length(min=1, max=30, message="Testing")]
+        "name",
+        validators=[
+            InputRequired(),
+            Length(min=1, max=30, message="Testing")]
     )
     password = StringField(
         "password",
@@ -17,7 +20,7 @@ class UserForm(FlaskForm):
         "email",
         validators=[
             InputRequired(),
-            Length(min=1, max=30, message="Name can only be 30 characters long!"),
+            Length(min=1, max=30, message="Email can only be 30 characters long!"),
         ],
     )
     phone_number = StringField(
@@ -35,7 +38,7 @@ class User:
             name,
             password,
             email,
-            phone_number="",
+            phone_number,
             bio="",
             profile_img="",
             last_seen="",
@@ -52,10 +55,11 @@ class User:
         self.__password = ""
         self.set_password(password)
 
-        self.__email = email
+        self.__email = ""
+        self.set_email(email)
 
-        self.__phone_number = phone_number
-
+        self.__phone_number = ""
+        self.set_phone_number(phone_number)
         self.__bio = bio
         self.__profile_img = profile_img
         self.__last_seen = last_seen
@@ -75,12 +79,19 @@ class User:
             self.__name = name
 
     def set_password(self, password):
-        # try:
-        #     assert len(password) <= 30
-        # except AssertionError:
-        #     print(f"{password} must be less than {30} characters!")
-        # else:
         self.__password = password
+
+    def set_email(self, email):
+        self.__email = email
+
+    def set_phone_number(self, phone_number):
+        try:
+            assert len(phone_number) == 8
+        except AssertionError:
+            print(f"{phone_number} must be less than {8} characters!")
+        else:
+            self.__phone_number = phone_number
+
 
     def return_obj(self):
         return {

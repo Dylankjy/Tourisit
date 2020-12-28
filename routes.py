@@ -103,14 +103,14 @@ def accountinfo():
             user_db.update_one(query_user, updated)
 
             return render_template('success-user.html', id=user_id)
-        uForm.phone_number.default = item['phone_number']
+        # uForm.phone_number.default = item['phone_number']
         uForm.process()
         return render_template('setting.html', user=item, form=uForm)
 
     else:
         print(item['name'])
         # uForm.tour_desc.default = item['tour_desc']
-        # uForm.process()
+        uForm.process()
         return render_template('setting.html', user=item, form=uForm)
 
 
