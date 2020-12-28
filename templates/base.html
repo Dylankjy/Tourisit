@@ -57,85 +57,84 @@
                     </a>
                 </div>
 
-
-                <div class="navbar-end">
-                    <a class="navbar-item has-text-primary-dark" href="{{ url_for('sellerDashboard') }}">
-                        <i class="fas fa-arrow-right"></i>&ensp;Tour Guide mode
-                    </a>
-                    <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Your Bookings"
-                       href="{{ url_for('all_bookings') }}">
-                        <i class="fas fa-bookmark"></i>
-                    </a>
-                    <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Your Wishlist"
-                       href="{{ url_for('favourites') }}">
-                        <i class="fas fa-heart"></i>
-                    </a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-item">
-                            <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                {% if loggedin %}
+                    <div class="navbar-end">
+                        <a class="navbar-item has-text-primary-dark" href="{{ url_for('sellerDashboard') }}">
+                            <i class="fas fa-arrow-right"></i>&ensp;Tour Guide mode
                         </a>
+                        <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Your Bookings"
+                           href="{{ url_for('all_bookings') }}">
+                            <i class="fas fa-bookmark"></i>
+                        </a>
+                        <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Your Wishlist"
+                           href="{{ url_for('favourites') }}">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-item">
+                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                            </a>
 
-                        <div class="navbar-dropdown is-boxed is-right">
-                            <div class="has-background-light p-4 mb-2 has-text-black">
-                                <p class="has-text-weight-bold">Logged in as</p>
-                                <p>{{ user.name }}</p>
+                            <div class="navbar-dropdown is-boxed is-right">
+                                <div class="has-background-light p-4 mb-2 has-text-black">
+                                    <p class="has-text-weight-bold">Logged in as</p>
+                                    <p>{{ user.name }}</p>
+                                </div>
+                                <a class="navbar-item" href="{{ url_for('profile') }}">
+                                    Your profile
+                                </a>
+                                <a class="navbar-item" href='{{ url_for("all_bookings") }}'>
+                                    Your bookings
+                                </a>
+                                <a class="navbar-item" href='{{ url_for("accountinfo") }}'>
+                                    Account settings
+                                </a>
+                                <hr class="navbar-divider">
+                                <a onclick="$('#logoutOptionsModal').fadeIn('fast')"
+                                   class="navbar-item has-text-danger-dark">
+                                    <i class="fas fa-sign-out-alt"></i>&ensp;Sign out
+                                </a>
                             </div>
-                            <a class="navbar-item" href="{{ url_for('profile') }}">
-                                Your profile
-                            </a>
-                            <a class="navbar-item" href='{{ url_for("all_bookings") }}'>
-                                Your bookings
-                            </a>
-                            <a class="navbar-item" href='{{ url_for("accountinfo") }}'>
-                                Account settings
-                            </a>
-                            <hr class="navbar-divider">
-                            <a class="navbar-item has-text-danger-dark">
-                            <a onclick="$('#logoutOptionsModal').fadeIn('fast')"
-                                class="navbar-item has-text-danger-dark">
-                                <i class="fas fa-sign-out-alt"></i>&ensp;Sign out
-                            </a>
                         </div>
                     </div>
-                </div>
                 {% else %}
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-info is-light" href='/signup'>
-                                <strong>Sign up</strong>
-                            </a>
-                            <a class="button is-light" href='/login'>
-                                Log in
-                            </a>
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a class="button is-info is-light" href='/signup'>
+                                    <strong>Sign up</strong>
+                                </a>
+                                <a class="button is-light" href='/login'>
+                                    Log in
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% endif %}
             </div>
         </div>
     </nav>
 
-    {% endblock %}
+{% endblock %}
 
-    {% block content %}
-    {% endblock %}
+{% block content %}
+{% endblock %}
 
-    <div id="logoutOptionsModal" class="modal is-active" style="display: none;">
-        <div class="modal-background"></div>
-        <div class="modal-card box" style="padding: 3em;">
-            <p class="title is-3 has-text-weight-bold has-text-centered">See you soon!</p>
-            <p class="subtitle has-text-centered">Where would you like to logout from?</p>
-            <span class="buttons">
+<div id="logoutOptionsModal" class="modal is-active" style="display: none;">
+    <div class="modal-background"></div>
+    <div class="modal-card box" style="padding: 3em;">
+        <p class="title is-3 has-text-weight-bold has-text-centered">See you soon!</p>
+        <p class="subtitle has-text-centered">Where would you like to logout from?</p>
+        <span class="buttons">
                 <a href="{{ url_for('logout') }}" class="button is-danger is-fullwidth"><i
                         class="fas fa-desktop"></i>&ensp;Logout of this device only</a>
                 <a href="{{ url_for('logout_all') }}" class="button is-danger is-light is-fullwidth"><i
                         class="fas fa-laptop-house"></i>&ensp;Logout of all devices</a>
             </span>
-            <a onclick="$('#logoutOptionsModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
-                    class="fas fa-times"></i>&ensp;Cancel</a>
-        </div>
+        <a onclick="$('#logoutOptionsModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
+                class="fas fa-times"></i>&ensp;Cancel</a>
     </div>
+</div>
 </body>
 
 </html>

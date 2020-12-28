@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import InputRequired, Length
 
+
 class UserForm(FlaskForm):
     name = StringField(
         "name",
@@ -47,6 +48,7 @@ class UserForm(FlaskForm):
             Length(max=200, message="Input a valid Instagram link!"),
         ],
     )
+
 
 class User:
     def __init__(
