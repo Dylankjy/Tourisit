@@ -89,11 +89,11 @@ def profile():
 @app.route('/me/settings', methods=['GET', 'POST'])
 def accountinfo():
     uForm = UserForm()
-    user_id = '5fde1b5bdf4fe3bc527058f1'
-    item = user_db.find_one({'_id': ObjectId(user_id)})
+    id = '5fde1b5bdf4fe3bc527058f1'
+    item = user_db.find_one({'_id': ObjectId(id)})
     if request.method == 'POST':
         if uForm.validate_on_submit():
-            query_user = {'_id': ObjectId(user_id)}
+            query_user = {'_id': ObjectId(id)}
             name = request.form['name']
             password = request.form['password']
             email = request.form['email']
@@ -102,14 +102,14 @@ def accountinfo():
                 "$set": {"name": name, "password": password, "email": email, "phone_number": phone_number}}
             user_db.update_one(query_user, updated)
 
-            return render_template('success-user.html', id=user_id)
-        # uForm.phone_number.default = item['phone_number']
+            # return redirect(url_for('accountinfo', id=id))
+            return render_template('success-user.html', id=id)
+        uForm.phone_number.default = item['phone_number']
         uForm.process()
         return render_template('setting.html', user=item, form=uForm)
-
     else:
         print(item['name'])
-        # uForm.tour_desc.default = item['tour_desc']
+        uForm.phone_number.default = item['phone_number']
         uForm.process()
         return render_template('setting.html', user=item, form=uForm)
 

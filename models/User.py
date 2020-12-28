@@ -60,6 +60,7 @@ class User:
 
         self.__phone_number = ""
         self.set_phone_number(phone_number)
+
         self.__bio = bio
         self.__profile_img = profile_img
         self.__last_seen = last_seen
@@ -88,10 +89,17 @@ class User:
         try:
             assert len(phone_number) == 8
         except AssertionError:
-            print(f"{phone_number} must be less than {8} characters!")
+            print(f"{phone_number} must be less than {8} numbers!")
         else:
             self.__phone_number = phone_number
 
+    def set_bio(self, bio):
+        try:
+            assert len(bio) <= 50
+        except AssertionError:
+            print(f"{bio} must be less than {50} characters!")
+        else:
+            self.__bio = bio
 
     def return_obj(self):
         return {
