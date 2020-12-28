@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/index.css">
+{% endblock %}
+
+{% block content %}
+    <section id="discover-hero" class="hero is-medium is-black">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
+                    Tourisit ID
+                </h1>
+                <h2 class="subtitle is-size-4">
+                    Your pass to local tours, by locals.
+                </h2>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container" id="main">
+            <h1 class="title">See you again soon!</h1>
+            <h3 class="subtitle">You have been successfully logged out.</h3>
+            <a href="{{ url_for('home') }}" class="button is-light"><i class="fas fa-home"></i>&ensp;Return to homepage</a>
+            <a href="{{ url_for('login') }}" class="button is-primary is-light"><i class="fas fa-sign-in-alt"></i>&ensp;Login again</a>
+        </div>
+    </section>
+
+{% endblock %}

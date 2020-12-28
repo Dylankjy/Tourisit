@@ -380,9 +380,29 @@ def signup():
 
     if not auth.is_auth():
         return render_template('auth/signup.html', form=form)
+# MEMBERS
+# Logout page
+@app.route('/logout')
+def logout():
+    if auth.get_sid() is not None:
+        auth.logout_account(auth.get_sid())
+        resp = make_response(render_template('auth/logout.html'))
+        resp.set_cookie('tourisitapp-sid', '', expires=0)
+        return resp
     else:
         return redirect(url_for('home'))
-    # return render_template('auth/signup.html')
+
+
+@app.route('/logout-expireSessions')
+def logout_all():
+    if auth.get_sid() is not None:
+        auth.logout_account(auth.get_sid(), True)
+        resp = make_response(render_template('auth/logout.html'))
+        resp.set_cookie('tourisitapp-sid', '', expires=0)
+        return resp
+    else:
+        return redirect(url_for('home'))
+
 
 # Run app
 if __name__ == '__main__':
