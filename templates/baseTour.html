@@ -91,6 +91,8 @@
                             </a>
                             <hr class="navbar-divider">
                             <a class="navbar-item has-text-danger-dark">
+                            <a onclick="$('#logoutOptionsModal').fadeIn('fast')"
+                                class="navbar-item has-text-danger-dark">
                                 <i class="fas fa-sign-out-alt"></i>&ensp;Sign out
                             </a>
                         </div>
@@ -106,6 +108,21 @@
 
 {% block content %}
 {% endblock %}
+<div id="logoutOptionsModal" class="modal is-active" style="display: none;">
+    <div class="modal-background"></div>
+    <div class="modal-card box" style="padding: 3em;">
+        <p class="title is-3 has-text-weight-bold has-text-centered">See you soon!</p>
+        <p class="subtitle has-text-centered">Where would you like to logout from?</p>
+        <span class="buttons">
+            <a href="{{ url_for('logout') }}" class="button is-danger is-fullwidth"><i
+                    class="fas fa-desktop"></i>&ensp;Logout of this device only</a>
+            <a href="{{ url_for('logout_all') }}" class="button is-danger is-light is-fullwidth"><i
+                    class="fas fa-laptop-house"></i>&ensp;Logout of all devices</a>
+        </span>
+        <a onclick="$('#logoutOptionsModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
+                class="fas fa-times"></i>&ensp;Cancel</a>
+    </div>
+</div>
 </body>
 
 </html>
