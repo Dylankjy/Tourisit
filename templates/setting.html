@@ -33,7 +33,7 @@
                     <h1 class="is-size-4 has-text-left has-text-weight-bold">Account Details</h1>
                     <form class="form-horizontal" action="/me/settings" method="POST">
                         {{ form.csrf_token }}
-
+                        <fieldset>
                             <div class="field">
                                 <label class="label" for="name">Name:</label>
                                 <div class="control">
@@ -81,7 +81,40 @@
                                     </ul>
                                 </div>
                             </div>
-
+                            <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3">Social Media</h1>
+                            <div class="field">
+                                <label class="label" for="name">Facebook:</label>
+                                <div class="control">
+                                    {{ form.fb(id="fb", type="text", class="input", placeholder="", value=user.fb) }}
+                                    <ul>
+                                        {% for error in form.fb.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="insta">Instagram:</label>
+                                <div class="control">
+                                    {{ form.insta(id="insta", type="text", class="input", placeholder="", value=user.insta) }}
+                                    <ul>
+                                        {% for error in form.insta.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="linkedin">LinkedIn:</label>
+                                <div class="control">
+                                    {{ form.linkedin(id="linkedin", type="text", class="input", placeholder="", value=user.linkedin) }}
+                                    <ul>
+                                        {% for error in form.linkedin.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
                             <div class="field">
                                 <label class="label" for="user-submit"></label>
                                 <div class="control">
@@ -89,44 +122,8 @@
                                            class="button is-success">
                                 </div>
                             </div>
-
-                    </form>
                         </fieldset>
-
-
-                    <!-- Update personal details -->
-                    <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3">Personal</h1>
-
-                    <div class="field is-grouped is-grouped-centered is-align-items-center">
-                        <label class="control-label pr-3">Birthday</label>
-                        <p class="control is-expanded">
-                            <input class="input" type="date">
-                        </p>
-                    </div>
-
-                    <p class="is-size-5">Gender</p>
-                    <p class="is-size-5">Language</p>
-
-                    <!-- Social Media -->
-                    <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3">Social Media</h1>
-                    <div class="field">
-                        <label class="label">Facebook</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="e.g. www.facebook.com/Derpy">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Instagram</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="e.g. www.instagram.com/Derpy">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">LinkedIn</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="e.g. www.linkedin.com/Derpy">
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

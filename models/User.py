@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import InputRequired, Length
 
-
 class UserForm(FlaskForm):
     name = StringField(
         "name",
@@ -30,7 +29,24 @@ class UserForm(FlaskForm):
             Length(min=8, max=8, message="Phone number can only be 8 long"),
         ],
     )
-
+    fb = StringField(
+        "fb",
+        validators=[
+            Length(max=200, message='Input a valid Facebook link!'),
+        ],
+    )
+    insta = StringField(
+        "insta",
+        validators=[
+            Length(max=200, message="Input a valid Instagram link!"),
+        ],
+    )
+    linkedin = StringField(
+        "linkedin",
+        validators=[
+            Length(max=200, message="Input a valid Instagram link!"),
+        ],
+    )
 
 class User:
     def __init__(
@@ -62,14 +78,23 @@ class User:
         self.set_phone_number(phone_number)
 
         self.__bio = bio
+
         self.__profile_img = profile_img
+
         self.__last_seen = last_seen
+
         self.__last_activity = last_activity
         self.__stripe_ID = stripe_ID
         self.__wishlist = wishlist
-        self.__fb = fb
-        self.__insta = insta
-        self.__linkedin = linkedin
+
+        self.__fb = ""
+        self.set_fb(fb)
+
+        self.__insta = ""
+        self.set_insta(insta)
+
+        self.__linkedin = ""
+        self.set_linkedin(linkedin)
 
     def set_name(self, name):
         try:
@@ -100,6 +125,30 @@ class User:
             print(f"{bio} must be less than {50} characters!")
         else:
             self.__bio = bio
+
+    def set_fb(self, fb):
+        try:
+            assert len(fb) <= 50
+        except AssertionError:
+            print(f"{fb} must be less than {50} characters!")
+        else:
+            self.__fb = fb
+
+    def set_insta(self, insta):
+        try:
+            assert len(insta) <= 50
+        except AssertionError:
+            print(f"{insta} must be less than {50} characters!")
+        else:
+            self.__insta = insta
+
+    def set_linkedin(self, linkedin):
+        try:
+            assert len(linkedin) <= 50
+        except AssertionError:
+            print(f"{linkedin} must be less than {50} characters!")
+        else:
+            self.__linkedin = linkedin
 
     def return_obj(self):
         return {
