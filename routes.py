@@ -348,38 +348,64 @@ def adminListings():
 # Login Page
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    # Login form
     form = auth.LoginForm()
+
+    # If user is NOT logged in
     if not auth.is_auth():
+        # Do if POST response // Form submission
         if form.validate_on_submit():
             email = form.data['email']
             password = form.data['password']
 
-            if not auth.login_account(email, password):
+            # login_account implements auth
+            result = auth.login_account(email, password)
+
+            # Check for response from auth handler
+            if not result:
+                # If fail, show failure modal
                 return render_template('auth/login.html', form=form, acc_login_failed=True)
             else:
-                return redirect(url_for('home'))
+                # If pass, set cookie and redirect
+                resp = redirect(url_for('home'))
+                resp.set_cookie('tourisitapp-sid', result)
+                return resp
 
-        return render_template('auth/login.html', form=form)
+        # If GET request // Show page
+        return render_template('auth/login.html', form=form, denied_access=request.args.get('user'))
+    # If user is ALREADY logged in
     else:
         return redirect(url_for('home'))
+
 
 # SHARED
 # Sign up page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    # Sign up form
     form = auth.SignupForm()
-    if form.validate_on_submit():
-        name = form.data['full_name']
-        email = form.data['email']
-        password = form.data['password']
 
-        if auth.create_account(name, password, email):
-            return render_template('auth/signup.html', form=form, acc_creation=True, email=email)
-        else:
-            return render_template('auth/signup.html', form=form, exist=True, email=email)
-
+    # If user is NOT logged in
     if not auth.is_auth():
+        # Do if POST response // Form submission
+        if form.validate_on_submit():
+            name = form.data['full_name']
+            email = form.data['email']
+            password = form.data['password']
+
+            # create_account implements auth
+            if auth.create_account(name, password, email):
+                return render_template('auth/signup.html', form=form, acc_creation=True, email=email)
+            else:
+                return render_template('auth/signup.html', form=form, exist=True, email=email)
+
+        # If GET request // Show page
         return render_template('auth/signup.html', form=form)
+    # If user is ALREADY logged in
+    else:
+        return redirect(url_for('home'))
+
+
 # MEMBERS
 # Logout page
 @app.route('/logout')
