@@ -181,7 +181,7 @@ def send_confirmation_email():
 def get_sid():
     try:
         # Get SID
-        sid = request.cookies.get('sid')
+        sid = request.cookies.get('tourisitapp-sid')
         return sid
     except:
         return None
