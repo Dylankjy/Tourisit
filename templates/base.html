@@ -98,22 +98,20 @@
                         </div>
                     </div>
                 </div>
-
-
-                <!-- <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-info is-light" href='/signup'>
-                <strong>Sign up</strong>
-              </a>
-              <a class="button is-light" href='/login'>
-                Log in
-              </a>
-            </div>
-          </div>
-        </div> -->
-
-
+                {% else %}
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-info is-light" href='/signup'>
+                                <strong>Sign up</strong>
+                            </a>
+                            <a class="button is-light" href='/login'>
+                                Log in
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </nav>
