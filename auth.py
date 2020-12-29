@@ -217,6 +217,16 @@ def is_auth(gib_data=False):
         raise Exception('auth.py: Cannot authenticate user due to an unknown error')
 
 
+def generate_password_hash(raw_password):
+    # Encode password in byte literals
+    password = raw_password.encode('utf-8')
+
+    # Hash password using bcrypt
+    hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+
+    return hashed_password
+
+
 class SignupForm(FlaskForm):
     full_name = StringField(
         'Full Name',
