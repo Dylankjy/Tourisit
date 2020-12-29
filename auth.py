@@ -9,6 +9,7 @@ from email.utils import formataddr
 
 import bcrypt
 import pymongo
+import quantumrandom
 from bson import ObjectId
 from flask import request
 from flask_wtf import FlaskForm
@@ -24,6 +25,7 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 env = client['Environment']
 db_users = client['Users']
 db_sessions = client['Sessions']
+db_tokens = client['Tokens']
 db_listings = client['Listings']
 
 # Email Templates & API Key
@@ -84,6 +86,36 @@ def add_session(uid):
     return hashed_sid
 
 
+def add_token(token_type, uid):
+    # Empty string
+    raw_sid = ""
+
+    # Initial variables
+    machine_readable_type = None
+    token_value = None
+
+    if token_type == "email_verification":
+        machine_readable_type = 1
+
+        # Using UUID4 to generate random strings
+        for i in range(10):
+            raw_sid += str(uuid.uuid4())
+
+        # Generate even more random SID by using SHA3-512
+        token_value = hashlib.sha3_512(raw_sid.encode('utf-8')).hexdigest()
+
+    elif token_type == "phone_verification":
+        machine_readable_type = 2
+
+        # Generate 6 digit number
+        token_value = quantumrandom.randint(100000, 999999)
+    else:
+        Exception("Invalid token type.")
+
+    # Dictionary for BSON
+    token_dict = {
+        "type": machine_readable_type,
+        "token": token_value,
 def login_account(email, unencoded_password):
     password = unencoded_password.encode('utf-8')
 
