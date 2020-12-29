@@ -116,6 +116,14 @@ def add_token(token_type, uid):
     token_dict = {
         "type": machine_readable_type,
         "token": token_value,
+    }
+
+    # Database Ops: Insert into session
+    db_sessions.insert_one(token_dict)
+
+    return token_value
+
+
 def login_account(email, unencoded_password):
     password = unencoded_password.encode('utf-8')
 
