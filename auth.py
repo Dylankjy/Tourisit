@@ -106,6 +106,15 @@ def add_token(token_type, uid):
     else:
         return Exception("Invalid token type.")
 
+    # Query for finding all tokens of same type with uid
+    query_for_deletion_tokens = {
+        "uid": ObjectId(uid),
+        "type": token_type
+    }
+
+    # Database Ops: Delete any preexisting tokens of same type
+    db_tokens.delete_many(query_for_deletion_tokens)
+
     # Dictionary for BSON
     token_dict = {
         "type": token_type,
@@ -117,6 +126,64 @@ def add_token(token_type, uid):
     db_tokens.insert_one(token_dict)
 
     return token_value
+
+
+# print(add_token("phone_verification", "5fe8c3fe1fb459db658e6d4e"))
+
+
+def verify_remove_token(token_type, token):
+    # Prevent database exploit by rejecting blank entries
+    if token is None or token == "":
+        return False
+
+    # Query to check token's existance
+    query_for_token = {
+        "token": token,
+        "type": token_type
+    }
+
+    # Database Ops: Get list of tokens with query
+    query_result = [i for i in db_tokens.find(query_for_token)]
+
+    # Pre-initialise payload for later use
+    payload = None
+
+    # Do if exist
+    if len(query_result) == 1:
+        if token_type == "email_verification":
+            payload = {
+                "$set": {
+                    "email_status": True
+                }
+            }
+        elif token_type == "phone_verification":
+            payload = {
+                "$set": {
+                    "phone_status": True
+                }
+            }
+
+        # Query account from database
+        query_for_account = {
+            "_id": ObjectId(query_result[0]["uid"])
+        }
+
+        # Query select any preexisting tokens
+        query_for_deletion_tokens = {
+            "uid": ObjectId(query_result[0]["uid"]),
+            "type": token_type
+        }
+
+        # Database Ops: Update status
+        db_users.update_one(query_for_account, payload)
+
+        # Database Ops: Delete any existing tokens of same type
+        db_tokens.delete_many(query_for_deletion_tokens)
+
+        return True
+
+
+# verify_remove_token("phone_verification", 622548)
 
 
 def login_account(email, unencoded_password):
