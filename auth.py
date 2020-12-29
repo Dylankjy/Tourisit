@@ -114,7 +114,7 @@ def add_token(token_type, uid):
     }
 
     # Database Ops: Insert into session
-    db_sessions.insert_one(token_dict)
+    db_tokens.insert_one(token_dict)
 
     return token_value
 
