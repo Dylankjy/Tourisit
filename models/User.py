@@ -63,8 +63,10 @@ class User:
             wishlist=[],
             fb="",
             insta="",
-            linkedin=""
+            linkedin="",
+            socialmedia={}
     ):
+
         self.__name = ""
         self.set_name(name)
 
@@ -77,23 +79,26 @@ class User:
         self.__phone_number = ""
         self.set_phone_number(phone_number)
 
-        self.__bio = bio
+        self.__bio = ""
+        self.set_bio(bio)
 
         self.__profile_img = profile_img
-
         self.__last_seen = last_seen
-
         self.__last_activity = last_activity
         self.__stripe_ID = stripe_ID
         self.__wishlist = wishlist
 
-        self.socialmedia = {}
         self.__fb = ""
-        self.add_fb(fb)
+        self.set_fb(fb)
+
         self.__insta = ""
-        self.add_insta(insta)
+        self.set_insta(insta)
+
         self.__linkedin = ""
-        self.add_linkedin(linkedin)
+        self.set_linkedin(linkedin)
+
+        self.__socialmedia = {}
+        self.set_socialmedia(socialmedia)
 
     def set_name(self, name):
         try:
@@ -125,17 +130,19 @@ class User:
         else:
             self.__bio = bio
 
-    def add_fb(self, fb):
+    def set_socialmedia(self, fb, insta, linkedin):
+        self.__socialmedia.update({"fb": fb})
+        self.__socialmedia.update({"insta": insta})
+        self.__socialmedia.update({"linkedin": linkedin})
+
+    def set_fb(self, fb):
         self.__fb = fb
-        self.socialmedia[fb] = fb
 
-    def add_insta(self, insta):
+    def set_insta(self, insta):
         self.__insta = insta
-        self.socialmedia[insta] = insta
 
-    def add_linkedin(self, linkedin):
+    def set_linkedin(self, linkedin):
         self.__linkedin = linkedin
-        self.socialmedia[linkedin] = linkedin
 
     def return_obj(self):
         return {
