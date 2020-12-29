@@ -64,7 +64,6 @@ class User:
             fb="",
             insta="",
             linkedin="",
-            socialmedia={}
             socialmedia={},
             status = 0
     ):
