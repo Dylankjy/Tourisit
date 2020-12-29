@@ -106,6 +106,15 @@ def add_token(token_type, uid):
     else:
         return Exception("Invalid token type.")
 
+    # Query for finding all tokens of same type with uid
+    query_for_deletion_tokens = {
+        "uid": ObjectId(uid),
+        "type": token_type
+    }
+
+    # Database Ops: Delete any preexisting tokens of same type
+    db_tokens.delete_many(query_for_deletion_tokens)
+
     # Dictionary for BSON
     token_dict = {
         "type": token_type,
