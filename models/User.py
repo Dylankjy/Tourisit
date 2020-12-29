@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import InputRequired, Length
 
+
 class UserForm(FlaskForm):
     name = StringField(
         "name",
@@ -48,6 +49,7 @@ class UserForm(FlaskForm):
         ],
     )
 
+
 class User:
     def __init__(
             self,
@@ -65,7 +67,9 @@ class User:
             insta="",
             linkedin="",
             socialmedia={},
-            status = 0
+            email_status=False,
+            phone_status=False
+
     ):
 
         self.__name = ""
@@ -101,7 +105,8 @@ class User:
         self.__socialmedia = {}
         self.set_socialmedia(socialmedia)
 
-        self.status = status
+        self.phone_status = phone_status
+        self.email_status = email_status
 
     def set_name(self, name):
         try:
