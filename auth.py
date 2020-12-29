@@ -128,6 +128,7 @@ def add_token(token_type, uid):
     return token_value
 
 
+# print(add_token("phone_verification", "5fe8c3fe1fb459db658e6d4e"))
 
 
 def verify_remove_token(token_type, token):
