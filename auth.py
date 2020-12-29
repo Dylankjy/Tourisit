@@ -102,7 +102,7 @@ def add_token(token_type, uid):
 
     elif token_type == "phone_verification":
         # Generate 6 digit number
-        token_value = quantumrandom.randint(100000, 999999)
+        token_value = int(quantumrandom.randint(100000, 999999))
     else:
         return Exception("Invalid token type.")
 
