@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/shop.css">
     <link rel="stylesheet" href="/css/bulma-timeline.min.css">
     <link rel="stylesheet" href="/css/bulma-steps.css">
+    <link rel="stylesheet" href="/css/chat.css">
     <!--<link rel="stylesheet" href="/css/booking.css">-->
 {% endblock %}
 
@@ -47,8 +48,6 @@
 <!--END: Top-->
 
 <!--START: Tabs-->
-<section class='section p-1'>
-    <div class='container'>
         <div class="tabs is-centered is-boxed">
             <ul>
               <li class="tab is-active" onclick="openTab(event,'Overview')">
@@ -65,8 +64,7 @@
               </li>
             </ul>
           </div>
-    </div>
-</section>
+    
 <!--END: Tabs-->
 
 <!--START: Content-->
@@ -78,7 +76,7 @@
         <div class="has-text-centered m-5 is-size-5">
             Next Step: 
             <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
-                Review Custom Itinerary</span>
+                Review Custom Itinerary & Charges</span>
         </div>
         <!--END: Action req-->
         <!--START: Steps-->
@@ -266,13 +264,151 @@
 
     <!--START: Chat-->
     <div id="Chat" class="content-tab" style="display:none">
-        <p>Chat</p>
+        <section class="section">
+            <div class="container chat-main">
+                   <!--START: Chat console (help)-->
+                    <div class="container chat-main">
+                        <div class="box">
+                            <!--START: Messages-->
+                            <!--Experimental (monke brain)-->
+                            <div class="jumbotron m-0 p-0 bg-transparent">
+                                <div class="row m-0 p-0 position-relative">
+                                    <div class="col-12 p-0 m-0 position-absolute" style="right: 0px;">
+                                        <div class="card border-0 rounded"
+                                             style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 6px 10px 0 rgba(0, 0, 0, 0.01); overflow: hidden; height: 50vh;">
+
+                                            <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0"
+                                                 style="color: rgba(96, 125, 139,1.0);">
+                                                <div class="profile-img"
+                                                     style="background-image: url('/pfp.jpg')"></div>
+                                                <h6 class="float-left" style="margin: 0px; margin-left: 10px;">
+                                                    HideThePain69 </h6>
+                                            </div>
+
+                                            <div class="card border-0 m-0 p-0" style="height: 100vh;">
+                                                <div id="sohbet"
+                                                     class="card border-0 m-0 p-0 position-relative bg-transparent"
+                                                     style="overflow-y: auto; height: 50vh;">
+
+                                                    <div class="balon1 p-2 m-0 position-relative">
+                                                        <div class="float-left"> Hey there! What's up?</div>
+                                                    </div>
+
+                                                    <div class="balon2 p-2 m-0 position-relative">
+                                                        <div class="float-right"> Hey there! What's up?</div>
+                                                    </div>
+
+                                                    <div class="balon1 p-2 m-0 position-relative">
+                                                        <div class="float-left"> Hey there! What's up?</div>
+                                                    </div>
+
+                                                    <div class="balon2 p-2 m-0 position-relative">
+                                                        <div class="float-right"> Hey there! What's up?</div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--End experimental-->
+                            <!--END: Messages-->
+
+                            <!--START: Input field-->
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <!--Dropup-->
+                                            <button
+                                                    class="button"
+                                            >
+                    <span class="icon is-small">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                                            </button>
+                                        
+                                    <!--END: Dropup-->
+                                    </div>
+                                <div class="control is-expanded">
+                                    <input
+                                            class="input is-fullwidth"
+                                            type="text"
+                                            placeholder="Enter your message.."
+                                    />
+                                </div>
+                                <div class="control">
+                                    <button class="button is-primary">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!--END: Input Field-->
+                        </div>
+                    </div>
+                   <!--END: Chat console-->
+            </div>
+        </section>
     </div>
     <!--END: Chat-->
 
     <!--START: BIllinng-->
     <div id="Billing" class="content-tab" style="display:none">
-        <p>Billing</p>
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                    <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
+                    <br>
+                    <div class="container box">
+                            <div class="heading">10% Booking Fee</div>
+                            <div class="title">$16.50 <span class="tag is-success is-light">Paid</span></div>
+                    </div>
+                    <div class="container box">
+                            <div class="heading">Base Price (90%)</div>
+                            <div class="title">$148.50</div>
+                    </div>
+                    <div class="container box">
+                            <div class="heading">Add-ons</div>
+                            <table class="table is-fullwidth">
+                                <tbody>
+                                    <tr>
+                                        <td><b>Extra Thing 1</b></td>
+                                        <td>+ $10.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Extra Thing 2</b></td>
+                                        <td>+ $12.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    <div class="container box">
+                            <div class="heading">Reductions</div>
+                            <table class="table is-fullwidth">
+                                <tbody>
+                                    <tr>
+                                        <td><b>Remove Thing 1</b></td>
+                                        <td>- $10.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Remove Thing 2</b></td>
+                                        <td>- $12.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+
+                </div>
+                <div class="column">
+                    <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Summary</h1>
+                    <br>
+                    <div class="container box">
+                        Final cost: oop lmao
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!--END: Billing-->
 
