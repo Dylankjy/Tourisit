@@ -116,6 +116,7 @@ def add_token(token_type, uid):
     token_dict = {
         "type": machine_readable_type,
         "token": token_value,
+        "uid": ObjectId(uid)
     }
 
     # Database Ops: Insert into session
