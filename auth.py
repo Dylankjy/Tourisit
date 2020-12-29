@@ -91,12 +91,16 @@ def login_account(email, unencoded_password):
     query = {
         "email": email
     }
-    query_result = [i for i in db_users.find(query)][0]
 
-    if not bcrypt.checkpw(password, query_result["password"]):
+    try:
+        query_result = [i for i in db_users.find(query)][0]
+
+        if not bcrypt.checkpw(password, query_result["password"]):
+            return False
+
+        return add_session(query_result["_id"])
+    except IndexError:
         return False
-
-    return add_session(query_result["_id"])
 
 
 def logout_account(sid, all_sessions=False):
