@@ -89,7 +89,7 @@ def profile():
 @app.route('/me/settings', methods=['GET', 'POST'])
 def accountinfo():
     uForm = UserForm()
-    id = '5fde1b5bdf4fe3bc527058f1'
+    id = "5fea3933356b2d46d52055e8"
     item = user_db.find_one({'_id': ObjectId(id)})
     if request.method == 'POST':
         if uForm.validate_on_submit():
@@ -109,8 +109,8 @@ def accountinfo():
         return render_template('setting.html', user=item, form=uForm)
 
     else:
-        print(item['name'])
-    return render_template('setting.html', user=item, form=uForm)
+
+        return render_template('setting.html', user=item, form=uForm)
 
 
 @app.route('/me/billing')
