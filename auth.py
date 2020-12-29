@@ -90,13 +90,7 @@ def add_token(token_type, uid):
     # Empty string
     raw_sid = ""
 
-    # Initial variables
-    machine_readable_type = None
-    token_value = None
-
     if token_type == "email_verification":
-        machine_readable_type = 1
-
         # Using UUID4 to generate random strings
         for i in range(10):
             raw_sid += str(uuid.uuid4())
@@ -104,17 +98,17 @@ def add_token(token_type, uid):
         # Generate even more random SID by using SHA3-512
         token_value = hashlib.sha3_512(raw_sid.encode('utf-8')).hexdigest()
 
-    elif token_type == "phone_verification":
-        machine_readable_type = 2
+        print("OK")
 
+    elif token_type == "phone_verification":
         # Generate 6 digit number
         token_value = quantumrandom.randint(100000, 999999)
     else:
-        Exception("Invalid token type.")
+        return Exception("Invalid token type.")
 
     # Dictionary for BSON
     token_dict = {
-        "type": machine_readable_type,
+        "type": token_type,
         "token": token_value,
         "uid": ObjectId(uid)
     }
