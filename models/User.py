@@ -65,6 +65,8 @@ class User:
             insta="",
             linkedin="",
             socialmedia={}
+            socialmedia={},
+            status = 0
     ):
 
         self.__name = ""
@@ -99,6 +101,8 @@ class User:
 
         self.__socialmedia = {}
         self.set_socialmedia(socialmedia)
+
+        self.status = status
 
     def set_name(self, name):
         try:
