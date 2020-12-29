@@ -103,7 +103,7 @@ def accountinfo():
             insta = request.form['insta']
             linkedin = request.form['linkedin']
             updated = {
-                "$set": {"name": name, "password": password, "email": email, "phone_number": phone_number,
+                "$set": {"name": name, "password": auth.generate_password_hash(password), "email": email, "phone_number": phone_number,
                          "fb": fb, "insta": insta, "linkedin": linkedin}}
             user_db.update_one(query_user, updated)
             return render_template('success-user.html', id=id)
