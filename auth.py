@@ -34,8 +34,6 @@ template_email_confirmation = open("email/confirmation.html", "r").read()
 
 
 def create_account(name, raw_password, email):
-    # TODO: Change this to dynamic ^^^^^
-
     # Convert password into byte literals
     password = raw_password.encode('utf-8')
 
@@ -87,8 +85,6 @@ def add_session(uid):
 
 
 def login_account(email, unencoded_password):
-    # TODO: Change this to dynamic ^^^^^
-
     password = unencoded_password.encode('utf-8')
 
     # Get user data from db by email
