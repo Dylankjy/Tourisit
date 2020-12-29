@@ -11,123 +11,158 @@
 
 
 {% block content %}
-
-
-
-    <section class="section">
-        <div class="container mt-5">
-            <!-- START: Card 1 -->
-            <div class='box p-5'>
-                <a href="{{ url_for('all_bookings') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to Bookings</a>
+<!--START: Top-->
+<section class='section'>
+    <div class="container mt-5 p-5">
+        <a href="{{ url_for('all_bookings') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to Bookings</a>
                 <h1 class="title is-size-1 m-0">Bishan Nightlife</h1>
+                <!--START: More options dropdown-->
+                <div class="dropdown post-options is-hoverable is-right is-pulled-right">
+                    <div class="dropdown-trigger">
+                        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
+              <span class="icon is-small">
+                <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+              </span>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
+                        <div class="dropdown-content">
+                            <a class="dropdown-item">
+                                Request Cancellation
+                            </a>
+                            <a href="{{ url_for('support') }}" class="dropdown-item">
+                                Report Abuse
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--END: More options dropdown-->
                 <div class="listing-author">
                     <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                     <div class="ml-2">By <b>HidethePain</b></div>
                 </div>
+        
+    </div>
+</section>
+<!--END: Top-->
 
-                <div class='columns my-5 is-vcentered'>
-                    <div class='column'>
-                        <h2 class='is-size-4'><b>About this Tour</b></h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                            a galley of type and scrambled it to make a type specimen book. It has survived not only
-                            five centuries, but also the leap into electronic typesetting, remaining essentially
-                            unchanged. </p>
-                    </div>
-                    <div class='column'>
-                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- END: Card 1 -->
+<!--START: Tabs-->
+<section class='section p-1'>
+    <div class='container'>
+        <div class="tabs is-centered is-boxed">
+            <ul>
+              <li class="tab is-active" onclick="openTab(event,'Overview')">
+                <a>Overview</a>
+              </li>
+              <li class="tab" onclick="openTab(event,'Details')">
+                <a>Details</a>
+              </li>
+              <li class="tab" onclick="openTab(event,'Chat')">
+                <a>Chat</a>
+              </li>
+              <li class="tab" onclick="openTab(event,'Billing')">
+                <a>Billing</a>
+              </li>
+            </ul>
+          </div>
+    </div>
+</section>
+<!--END: Tabs-->
+
+<!--START: Content-->
+<div class="container section">
+
+    <!--START: Overview-->
+    <div id="Overview" class="content-tab">
+        <!--START: Action req-->
+        <div class="has-text-centered m-5 is-size-5">
+            Next Step: 
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
+                Review Custom Itinerary</span>
         </div>
-        <!--START: Card 2-->
-        <div class='container mt-5'>
-            <div class='box p-5'>
-                <div class="mb-4">
-                    <a href="{{ url_for('chat') }}" class='has-text-link mr-4'>
-                        <span class="is-size-5"><i class="fas fa-comment-alt"></i>&ensp;View Chat</span></a>
-                    <!--<span class='is-pulled-right is-size-5'><i class="fas fa-ellipsis-h"></i></span>-->
+        <!--END: Action req-->
+        <!--START: Steps-->
+        <div>
+            <ul class="steps has-content-centered">
 
-                    <!--START: More options dropdown-->
-                    <div class="dropdown post-options is-hoverable is-right is-pulled-right">
-                        <div class="dropdown-trigger">
-                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
-                  <span class="icon is-small">
-                    <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
-                  </span>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                            <div class="dropdown-content">
-                                <a class="dropdown-item">
-                                    Make Payment
-                                </a>
-                                <a class="dropdown-item">
-                                    Request Booking Cancellation
-                                </a>
-                                <a href="{{ url_for('support') }}" class="dropdown-item">
-                                    Report Abuse
-                                </a>
-                            </div>
-                        </div>
+                <li class="steps-segment is-active">
+          <span class="steps-marker">
+            <i class="fas fa-book"></i>
+          </span>
+                    <div class="steps-content">
+                        <p class="is-size-5">Requirements</p>
                     </div>
-                    <!--END: More options dropdown-->
+                </li>
 
-                </div>
-                <!--START: Steps-->
-                <div>
-                    <ul class="steps has-content-centered">
+                <li class="steps-segment">
+          <span class="steps-marker">
+            <i class="fas fa-route"></i>
+          </span>
+                    <div class="steps-content">
+                        <p class="is-size-5">Planning Itinerary</p>
+                    </div>
+                </li>
 
-                        <li class="steps-segment">
-                  <span class="steps-marker">
-                    <i class="fas fa-book"></i>
-                  </span>
-                            <div class="steps-content">
-                                <p class="is-size-5">Initiate Booking</p>
-                            </div>
-                        </li>
+                <li class="steps-segment">
+                    <span class="steps-marker">
+                      <i class="fas fa-dollar-sign"></i>
+                    </span>
+                              <div class="steps-content">
+                                  <p class="is-size-5">Confirmation & Payment</p>
+                              </div>
+                          </li>
 
-                        <li class="steps-segment is-active">
-                  <span class="steps-marker">
-                    <i class="fas fa-route"></i>
-                  </span>
-                            <div class="steps-content">
-                                <p class="is-size-5">Approve Itinerary</p>
-                            </div>
-                        </li>
+                <li class="steps-segment">
+          <span class="steps-marker">
+            <i class="fas fa-check"></i>
+          </span>
+                    <div class="steps-content">
+                        <p class="is-size-5">Complete Tour</p>
+                    </div>
+                </li>
 
-                        <li class="steps-segment">
-                  <span class="steps-marker">
-                    <i class="fas fa-dollar-sign"></i>
-                  </span>
-                            <div class="steps-content">
-                                <p class="is-size-5 has-text-link">Make Payment</p>
-                            </div>
-                        </li>
+                <li class="steps-segment">
+                    <a href="{{ url_for('review') }}"><span class="steps-marker">
+            <i class="fas fa-comments"></i>
+          </span>
+                        <div class="steps-content">
+                            <p class="is-size-5 has-text-black">Leave Feedback</p>
+                        </div>
+                    </a>
+                </li>
 
-                        <li class="steps-segment">
-                            <a href="{{ url_for('review') }}"><span class="steps-marker">
-                    <i class="fas fa-comments"></i>
-                  </span>
-                                <div class="steps-content">
-                                    <p class="is-size-5 has-text-black">Leave Feedback</p>
-                                </div>
-                            </a>
-                        </li>
+            </ul>
+        </div>
+        <!--END: Steps-->
+    </div>
+    <!--END: Overview-->
 
-                    </ul>
-                </div>
-                <!--END: Steps-->
+    <!--START: Details-->
+    <div id="Details" class="content-tab" style="display:none">
+        <!--START: About-->
+        <div class='columns my-5 is-vcentered'>
+            <div class='column'>
+                <h2 class='is-size-4'><b>About this Tour</b></h2>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                    been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+                    a galley of type and scrambled it to make a type specimen book. It has survived not only
+                    five centuries, but also the leap into electronic typesetting, remaining essentially
+                    unchanged. </p>
+            </div>
+            <div class='column'>
+                <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
             </div>
         </div>
-        <!--END: Card 2-->
+        <!--END: About-->
+        <br>
         <!--START: Card 3-->
         <div class='container mt-5'>
             <div class='box p-5'>
-                <h2 class='is-size-3'><b>Itinerary</b></h2>
-                <a href="#" class="button is-success is-light is-size-6">
-                    <i class="fas fa-check"></i>&ensp;Approved</a>
+                <div class="has-text-centered">
+                <span class='is-size-3 mr-1'><b>Itinerary</b></span>
+                <span class="tag is-grey is-light is-size-6">
+                    Unconfirmed</span>
+                </div>
                 <div class="columns pt-5">
 
                     <!--timeline-->
@@ -151,7 +186,7 @@
                                 </div>
                                 <div class="timeline-content">
                                     <p class="heading">Restaurant Name</p>
-                                    <p>Enjoy tradiitonal Indian cuisine at this hidden gem of a restaurant!</p>
+                                    <p>Enjoy traditional Indian cuisine at this hidden gem of a restaurant!</p>
                                 </div>
                             </div>
                             <div class="timeline-item">
@@ -189,18 +224,61 @@
                                 <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
                                 <td>4 hours</td>
                             </tr>
-                            <tr>
-                                <td><i class="fas fa-dollar-sign"></i>&ensp;<b>Cost</b></td>
-                                <td>$120</td>
-                            </tr>
                         </table>
                     </div>
+                    </div>
                     <!--END: Info Table-->
-
-                </div>
+                    <!--START: Revise/Confirm itinerary buttons-->
+                    <div class="field is-grouped is-pulled-right">
+                        <p class="control">
+                          <button class="button is-warning is-light">
+                            <div class="is-size-5">Request Revision</div><br>
+                            <!--<div class="is-size-6">You have 3 Revision(s) remaining.</div>-->
+                          </button>
+                        </p>
+                        <p class="control">
+                            <button class="button is-success is-light">
+                              <div class="is-size-5">Accept & Confirm</div><br>
+                              <!--<div class="is-size-6">This action cannot be undone.</div>-->
+                            </button>
+                          </p>
+                      </div>
+                      <!--END: Revise/Confirm itinerary buttons-->
             </div>
         </div>
-
         <!--END: Card 3-->
-    </section>
+        <br>
+        <!--START: Additional Info-->
+        <div class='container box p-5'>
+            <div class="has-text-centered">
+                <span class='is-size-3 mr-1'><b>Additional Information</b></span>
+            </div>
+            <p>Bring XXX, Tour includes YYY. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+                a galley of type and scrambled it to make a type specimen book. It has survived not only
+                five centuries, but also the leap into electronic typesetting, remaining essentially
+                unchanged. </p>
+        </div>
+        <!--END: Additional Info-->
+        
+    </div>
+    <!--END: Details-->
+
+    <!--START: Chat-->
+    <div id="Chat" class="content-tab" style="display:none">
+        <p>Chat</p>
+    </div>
+    <!--END: Chat-->
+
+    <!--START: BIllinng-->
+    <div id="Billing" class="content-tab" style="display:none">
+        <p>Billing</p>
+    </div>
+    <!--END: Billing-->
+
+</div>
+<!--END: Content-->
+
+<script defer src="/js/booking.js"></script>
+
 {% endblock %}

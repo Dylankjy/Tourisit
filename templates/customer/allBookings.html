@@ -21,19 +21,53 @@
         </div>
     </section>
 
-    <section class='section'>
-        <div class='container'>
-            <!--START: Dropdown-->
-            <div class="control">
-                <div class="select">
-                    <select>
-                        <option>All Bookings</option>
-                        <option>Current Bookings</option>
-                        <option>Uninitiated</option>
-                        <option>Archived</option>
-                    </select>
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <div class="columns">
+                    <div class="column is-half">
+                        <p class="subtitle">Upcoming Tours</p>
+                        <table class='table is-striped is-fullwidth'>
+                            <tr>
+                                <td>07 Jan</td>
+                                <td><a href="{{ url_for('bookings') }}">Bishan Nightlife</a></td>
+                            </tr>
+                            <tr>
+                                <td>07 Jan</td>
+                                <td><a href="{{ url_for('bookings') }}">Bishan Nightlife</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="column is-half">
+                        <p class="subtitle">Required Action</p>
+                        <table class='table is-striped is-fullwidth'>
+                            <tr>
+                                <td><b>Chinatown - A New View</b></td>
+                                <td><a href="{{ url_for('bookings') }}">Confirm Tour</a></td>
+                            </tr>
+                            <tr>
+                                <td><b>Best of Kampong Glam</b></td>
+                                <td><a href="{{ url_for('bookings') }}">Review Custom Itinerary</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!--START: Dropdown-->
+    <section class='section'>
+        <div class='container has-text-centered'>
+                    <div class="control">
+                        <div class="select">
+                            <select>
+                                <option>Current Bookings</option>
+                                <option>Completed</option>
+                            </select>
+                        </div>
+                    </div>
         </div>
     </section>
     <!--END: Dropdown-->
@@ -41,81 +75,55 @@
         <!--START: Card -->
         <div class='container mt-5'>
             <div class='box p-5'>
+                <a href="{{ url_for('bookings') }}">
                 <div class="columns is-vcentered">
                     <div class="column">
                         <div class="ml-4">
-                            <span class="tag has-text-gray-light mb-4">Unintiated</span>
+                            <span class="tag is-info is-light mb-4">Planning</span>
                             <div class="mb-2 listing-author">
                                 <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                                 <div class="ml-2"><b>HidethePain</b> is offering:</div>
                             </div>
                             <h1 class='title'>Bishan Nightlife</h1>
                             <p class="subtitle">Explore the night life of Bishan</p>
-                            <br>
-                            <a href="{{ url_for('bookings') }}" class="has-text-link mt-2">
-                                View Booking details</a>
                         </div>
                     </div>
                     <div class="column is-two-fifths">
                         <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
         <!--END: Card-->
         <!--START: Card -->
         <div class='container mt-5'>
             <div class='box p-5'>
+                <a href="{{ url_for('bookings') }}">
                 <div class="columns is-vcentered">
                     <div class="column">
                         <div class="ml-4">
-                            <span class="tag is-info is-light mb-4">Ordered</span>
+                            <span class="tag is-success is-light mb-4">Confirmed</span>
                             <div class="mb-2 listing-author">
                                 <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                                 <div class="ml-2"><b>HidethePain</b> is offering:</div>
                             </div>
                             <h1 class='title'>Bishan Nightlife</h1>
                             <p class="subtitle">Explore the night life of Bishan</p>
-                            <br>
-                            <a href="{{ url_for('bookings') }}" class="has-text-link mt-2">
-                                View Booking details</a>
                         </div>
                     </div>
                     <div class="column is-two-fifths">
                         <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
         <!--END: Card-->
         <!--START: Card -->
         <div class='container mt-5'>
             <div class='box p-5'>
-                <div class="columns is-vcentered">
-                    <div class="column">
-                        <div class="ml-4">
-                            <span class="tag is-success is-light mb-4">Paid</span>
-                            <div class="mb-2 listing-author">
-                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
-                            </div>
-                            <h1 class='title'>Bishan Nightlife</h1>
-                            <p class="subtitle">Explore the night life of Bishan</p>
-                            <br>
-                            <a href="{{ url_for('bookings') }}" class="has-text-link mt-2">
-                                View Booking details</a>
-                        </div>
-                    </div>
-                    <div class="column is-two-fifths">
-                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--END: Card-->
-        <!--START: Card -->
-        <div class='container mt-5'>
-            <div class='box p-5'>
+                <a href="{{ url_for('bookings') }}">
                 <div class="columns is-vcentered">
                     <div class="column">
                         <div class="ml-4">
@@ -126,15 +134,13 @@
                             </div>
                             <h1 class='title'>Bishan Nightlife</h1>
                             <p class="subtitle">Explore the night life of Bishan</p>
-                            <br>
-                            <a href="{{ url_for('bookings') }}" class="has-text-link mt-2">
-                                View Booking details</a>
                         </div>
                     </div>
                     <div class="column is-two-fifths">
                         <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
         <!--END: Card-->

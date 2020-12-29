@@ -1,5 +1,5 @@
 #chat-hero {
-    background: url("/imgs/chat.jpg") center scroll no-repeat;
+    background: /*url("/imgs/chat.jpg")*/ center scroll no-repeat;
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.55);
     background-blend-mode: overlay;
