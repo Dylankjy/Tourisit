@@ -506,7 +506,7 @@ def login():
                 return resp
 
         # If GET request // Show page
-        return render_template('auth/login.html', form=form, denied_access=request.args.get('user'))
+        return render_template('auth/login.html', form=form, denied_access=request.args.get('denied_access'))
     # If user is ALREADY logged in
     else:
         return redirect(url_for('home'))
