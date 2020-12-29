@@ -89,7 +89,8 @@ def profile():
 @app.route('/me/settings', methods=['GET', 'POST'])
 def accountinfo():
     uForm = UserForm()
-    id = "5fea3933356b2d46d52055e8"
+    result = auth.is_auth(True)
+    id = result["_id"]
     item = user_db.find_one({'_id': ObjectId(id)})
     if request.method == 'POST':
         if uForm.validate_on_submit():
