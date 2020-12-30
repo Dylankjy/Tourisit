@@ -11,7 +11,7 @@ from flask import Flask, render_template, request, redirect, url_for, make_respo
 import auth as auth
 # Custom class imports
 from models.Listing import ListingForm, Listing
-from models.User import UserForm
+from models.User import UserForm, User
 
 # For Images
 buffered = BytesIO()
@@ -104,7 +104,9 @@ def accountinfo():
             linkedin = request.form['linkedin']
             updated = {
                 "$set": {"name": name, "password": auth.generate_password_hash(password), "email": email, "phone_number": phone_number,
-                         "fb": fb, "insta": insta, "linkedin": linkedin}}
+                         "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin}
+                         }
+            }
             user_db.update_one(query_user, updated)
             return render_template('success-user.html', id=id)
         return render_template('setting.html', user=item, form=uForm)

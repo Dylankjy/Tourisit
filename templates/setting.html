@@ -85,7 +85,7 @@
                             <div class="field">
                                 <label class="label" for="name">Facebook:</label>
                                 <div class="control">
-                                    {{ form.fb(id="fb", type="text", class="input", placeholder="", value=user.socialmedia[fb]) }}
+                                    {{ form.fb(id="fb", type="text", class="input", placeholder="", value=user.socialmedia["fb"]) }}
                                     <ul>
                                         {% for error in form.fb.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
@@ -96,7 +96,7 @@
                             <div class="field">
                                 <label class="label" for="insta">Instagram:</label>
                                 <div class="control">
-                                    {{ form.insta(id="insta", type="text", class="input", placeholder="", value=user.socialmedia[insta]) }}
+                                    {{ form.insta(id="insta", type="text", class="input", placeholder="", value=user.socialmedia["insta"]) }}
                                     <ul>
                                         {% for error in form.insta.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
@@ -107,7 +107,7 @@
                             <div class="field">
                                 <label class="label" for="linkedin">LinkedIn:</label>
                                 <div class="control">
-                                    {{ form.linkedin(id="linkedin", type="text", class="input", placeholder="", value=user.socialmedia[linkedin]) }}
+                                    {{ form.linkedin(id="linkedin", type="text", class="input", placeholder="", value=user.socialmedia["linkedin"]) }}
                                     <ul>
                                         {% for error in form.linkedin.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
