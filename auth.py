@@ -49,7 +49,6 @@ def create_account(name, raw_password, email):
 
     # Hash password
     hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
-    print(hashed_password)
 
     # Construct an object implements User class
     user_obj = User.User(name, hashed_password, email)
@@ -98,8 +97,6 @@ def add_token(token_type, uid):
         # Generate even more random SID by using SHA3-512
         token_value = hashlib.sha3_512(raw_sid.encode('utf-8')).hexdigest()
 
-        print("OK")
-
     elif token_type == "phone_verification":
         # Generate 6 digit number
         token_value = int(quantumrandom.randint(100000, 999999))
@@ -136,7 +133,7 @@ def verify_remove_token(token_type, token):
     if token is None or token == "":
         return False
 
-    # Query to check token's existance
+    # Query to check token's existence
     query_for_token = {
         "token": token,
         "type": token_type
