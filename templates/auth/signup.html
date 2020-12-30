@@ -23,14 +23,6 @@
             <div id="register">
                 <h1 class="title">Get a Tourisit ID</h1>
                 <h3 class="subtitle">Welcome!</h3>
-                <div id="emailNotValid" class="notification is-danger" style="display: none;">
-                    Email address doesn't seem to be valid.
-                </div>
-                <div id="passwordNotValid" class="notification is-danger" style="display: none;">
-                    Password should consist of 8 or more characters.
-                </div>
-                <div id="emailDuplicate" class="notification is-danger" style="display: none;">
-                    Email is already attached to an existing account.
                 </div>
                 <form id="signupForm" method="POST" action="{{ url_for('signup') }}">
                     {{ form.csrf_token }}
