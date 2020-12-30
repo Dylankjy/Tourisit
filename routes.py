@@ -542,6 +542,25 @@ def signup():
         return redirect(url_for('home'))
 
 
+@app.route('/system/resendEmail', methods=['POST'])
+def resend_email():
+    resend_email_form = auth.ResendEmailForm()
+    # if resend_email_form.validate_on_submit():
+    email = resend_email_form.data["email"]
+    print(email)
+
+    # if auth.get_sid() is not None:
+    #     sid = auth.get_sid()
+    #     if auth.send_confirmation_email(sid, None):
+    #         print("Email sent via SID")
+    #         return redirect(url_for('signup', email_sent=True))
+
+    if email is not None:
+        if auth.send_confirmation_email(None, email):
+            print("Email sent via Email Address")
+            return redirect(url_for('signup', email_sent=True))
+
+
 # MEMBERS
 # Logout page
 @app.route('/logout')
