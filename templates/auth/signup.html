@@ -118,8 +118,16 @@
                     <br><small>Please check your spam folder if you do not receive our email within a minute.</small>
                 </p>
                 <br>
+                <span class="buttons">
+                    <form id="resendEmail" method="POST" action="{{ url_for('resend_email') }}">
+                        {{ resend_email.email(type="text", style="display:none", value=email) }}
+                        <button type="submit" class="button is-light is-dark"><i class="fas fa-paper-plane"></i>&ensp;Resend
+                            Email
+                        </button>
+                    </form>
                 <a onclick="$('#createModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
                         class="fas fa-times"></i>&ensp;Close</a>
+                    </span>
             </div>
         </div>
     {% endif %}
