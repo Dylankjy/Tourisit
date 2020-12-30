@@ -356,6 +356,23 @@ def bookings():
     except:
         return 'Error trying to render'
 
+# CUSTOMER
+# Book Now Page
+# @app.route('/bookings/<id>')
+@app.route('/listings/id/booknow')
+def book_now():
+    try:
+        # Get login status using accessor argument
+        result = auth.is_auth(True)
+        # if not logged in
+        if not result:
+            return render_template('customer/book-now.html', loggedin=False)
+        # if logged in
+        else:
+            return render_template('customer/book-now.html', loggedin=True, user=result)
+    except:
+        return 'Error trying to render'
+
 
 # SHARED
 # Chats: Render indiv chats
