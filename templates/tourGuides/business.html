@@ -6,245 +6,293 @@
     <link rel="stylesheet" href="/css/shop.css">
     <link rel="stylesheet" href="/css/bulma-timeline.min.css">
     <link rel="stylesheet" href="/css/bulma-steps.css">
-    <!--<link rel="stylesheet" href="/css/booking.css">-->
+    <link rel="stylesheet" href="/css/chat.css">
+    <link rel="stylesheet" href="/css/bulma-badge.css">
 {% endblock %}
 
 
 {% block content %}
-
-
-
-    <section class="section">
-        <div class="container mt-5">
-            <!-- START: Card 1 -->
-            <div class='box p-5'>
-                <a href="{{ url_for('all_businesses') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to Your Business</a>
+<!--START: Top-->
+<section class='section mb-0 pb-0'>
+    <div class="container mt-5 p-5">
+        <a href="{{ url_for('all_businesses') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to My Business</a>
                 <h1 class="title is-size-1 m-0">Bishan Nightlife</h1>
+                <!--START: More options dropdown-->
+                <div class="dropdown post-options is-hoverable is-right is-pulled-right">
+                    <div class="dropdown-trigger">
+                        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
+              <span class="icon is-small">
+                <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+              </span>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
+                        <div class="dropdown-content">
+                            <a href="{{ url_for('support') }}" class="dropdown-item">
+                                Report Abuse
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--END: More options dropdown-->
                 <div class="listing-author">
                     <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
                     <div class="ml-2">By <b>HidethePain</b></div>
                 </div>
+        
+    </div>
+</section>
+<!--END: Top-->
 
-                <div class='columns my-5 is-vcentered'>
-                    <div class='column'>
-                        <h2 class='is-size-4'><b>About this Tour</b></h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                            a galley of type and scrambled it to make a type specimen book. It has survived not only
-                            five centuries, but also the leap into electronic typesetting, remaining essentially
-                            unchanged. </p>
-                    </div>
-                    <div class='column'>
-                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- END: Card 1 -->
+<!--START: Tabs-->
+        <div class="tabs is-centered is-boxed pt-4">
+            <ul>
+              <li class="tab is-active" onclick="openTab(event,'Overview')">
+                <span title="Badge top right" class="badge is-danger"></span>
+                <a>Overview</a>
+              </li>
+              <li class="tab" onclick="openTab(event,'Details')">
+                <span title="Badge top right" class="badge is-danger"></span>
+                <a>Details</a>
+              </li>
+              <li class="tab" onclick="openTab(event,'Chat')">
+                <span title="Badge top right" class="badge is-danger"></span>
+                <a>Chat</a>
+              </li>
+              <li class="tab" onclick="openTab(event,'Charges')">
+                <span title="Badge top right" class="badge is-danger"></span>
+                <a>Charges</a>
+              </li>
+            </ul>
+          </div>
+    
+<!--END: Tabs-->
+
+<!--START: Content-->
+<div class="container section pt-2">
+
+    <!--START: Overview-->
+    <div id="Overview" class="content-tab">
+        <!--START: Action req-->
+        <div class="has-text-centered m-2 is-size-6">
+            You are now ready to host your Tour!
         </div>
-        <!--START: Card 2-->
-        <div class='container mt-5'>
-            <div class='box p-5'>
-                <div class="mb-4">
-                    <a href="{{ url_for('chat') }}" class='has-text-link mr-4'>
-                        <span class="is-size-5"><i class="fas fa-comment-alt"></i>&ensp;View Chat</span></a>
-                    <!--<span class='is-pulled-right is-size-5'><i class="fas fa-ellipsis-h"></i></span>-->
+        <div class="has-text-centered m-5 is-size-5">
+            Waiting for Customer to: 
+            <span class="tag is-white-ter is-size-5 is-clickable">
+                Submit Requirements</span>
+            <span class="tag is-white-ter is-size-5 is-clickable">
+                Review Custom Itinerary & Charges</span>
+            <span class="tag is-white-ter is-size-5 is-clickable">
+                Make Payment</span>
+            <span class="tag is-white-ter is-size-5 is-clickable">
+                Complete Tour</span>
+        </div>
+        <div class="has-text-centered m-5 is-size-5">
+            Next Step:
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
+                Plan Custom Package</span>
+            <span class="tag is-warning is-light is-size-5 is-clickable"><a href="{{ url_for('review') }}">
+                Leave Feedback</a></span>
+        </div>
+        <!--END: Action req-->
+        <!--START: Steps-->
+        <div>
+            <ul class="steps has-content-centered">
 
-                    <!--START: More options dropdown-->
-                    <div class="dropdown post-options is-hoverable is-pulled-right">
-                        <div class="dropdown-trigger">
-                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
-                  <span class="icon is-small">
-                    <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
-                  </span>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                            <div class="dropdown-content">
-                                <a class="dropdown-item">
-                                    Terminate Job
-                                </a>
-                                <a href="{{ url_for('support') }}" class="dropdown-item">
-                                    Report Abuse
-                                </a>
-                            </div>
-                        </div>
+                <li class="steps-segment is-active">
+          <span class="steps-marker">
+            <i class="fas fa-book"></i>
+          </span>
+                    <div class="steps-content">
+                        <p class="is-size-5">Requirements</p>
                     </div>
-                    <!--END: More options dropdown-->
+                </li>
 
-                </div>
-                <!--START: Steps-->
-                <div>
-                    <ul class="steps has-content-centered">
+                <li class="steps-segment">
+          <span class="steps-marker">
+            <i class="fas fa-route"></i>
+          </span>
+                    <div class="steps-content">
+                        <p class="is-size-5">Planning Itinerary</p>
+                    </div>
+                </li>
 
-                        <li class="steps-segment">
-                  <span class="steps-marker">
-                    <i class="fas fa-book"></i>
-                  </span>
-                            <div class="steps-content">
-                                <p class="is-size-5">Booking Initiated</p>
-                            </div>
-                        </li>
-
-                        <li class="steps-segment">
+                <li class="steps-segment">
                     <span class="steps-marker">
-                      <i class="fas fa-route"></i>
+                      <i class="fas fa-dollar-sign"></i>
                     </span>
-                            <div class="steps-content">
-                                <p class="is-size-5">Propose Itinerary</p>
-                            </div>
-                        </li>
+                              <div class="steps-content">
+                                  <p class="is-size-5">Confirmation & Payment</p>
+                              </div>
+                          </li>
 
-                        <li class="steps-segment is-active">
-                  <span class="steps-marker">
-                    <i class="fas fa-route"></i>
-                  </span>
-                            <div class="steps-content">
-                                <p class="is-size-5">Itinerary Approved</p>
-                            </div>
-                        </li>
+                <li class="steps-segment">
+          <span class="steps-marker">
+            <i class="fas fa-check"></i>
+          </span>
+                    <div class="steps-content">
+                        <p class="is-size-5">Complete Tour</p>
+                    </div>
+                </li>
 
-                        <li class="steps-segment">
-                  <span class="steps-marker">
-                    <i class="fas fa-dollar-sign"></i>
-                  </span>
-                            <div class="steps-content">
-                                <p class="is-size-5">Payment</p>
-                            </div>
-                        </li>
+                <li class="steps-segment">
+                    <a href="{{ url_for('review') }}"><span class="steps-marker">
+            <i class="fas fa-comments"></i>
+          </span>
+                        <div class="steps-content">
+                            <p class="is-size-5 has-text-black">Leave Feedback</p>
+                        </div>
+                    </a>
+                </li>
 
-                        <li class="steps-segment">
-                            <a href="{{ url_for('review') }}"><span class="steps-marker">
-                    <i class="fas fa-comments"></i>
-                  </span></a>
-                            <div class="steps-content">
-                                <p class="is-size-5">Leave Feedback</p>
-                            </div>
-                        </li>
+            </ul>
+        </div>
+        <!--END: Steps-->
 
-                    </ul>
+        <!--START: Submit itinerary & proposed charges-->
+        <div class="section">
+            <div class="container has-text-centered">
+                <div class="field">
+                    <p class="control">
+                        <button class="button is-success is-light">
+                            <div class="is-size-5">Submit Proposed Itinerary & Charges</div>
+                        </button>
+                    </p>
                 </div>
-                <!--END: Steps-->
+            </div>
+            </div>
+            <!--END: Submit itinerary & proposed charges-->
+            <!--START:(Modal) Confirm that tour completed-->
+            <div class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                  <div class="box has-text-centered">
+                      <p class="is-size-5 has-text-weight-bold">Submit your currently saved Itinerary & Charges to the Customer?</p>
+                      <p>This action cannot be undone.</p>
+                      <div class="field is-grouped is-grouped-centered mt-5">
+                        <p class="control">
+                            <button class="button is-danger is-light">
+                                <div class="is-size-5">Cancel</div>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="button is-success is-light">
+                                <div class="is-size-5">Confirm</div>
+                            </button>
+                        </p>
+                    </div>
+                  </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close"></button>
+              </div>
+            <!--END:(Modal) Confirm that tour completed-->
+
+        <!--START: Customer Revision request-->
+        <div class="section">
+        <div class="container">
+        <div class="card">
+            <header class="card-header">
+              <p class="card-header-title has-background-grey-lighter">
+                Customer Revision Request
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <p>
+                blah blah make better ples
+                </p>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <p class="m-4">4 free Revision(s) remaining.</p>
+            </footer>
+          </div>
+          </div>
+          </div>
+        <!--END: Customer Revision request-->
+    </div>
+    <!--END: Overview-->
+
+    <!--START: Details-->
+    <div id="Details" class="content-tab" style="display:none">
+        <!--START: About-->
+        <div class='columns my-5 is-vcentered'>
+            <div class='column'>
+                <h2 class='is-size-4'><b>About this Tour</b></h2>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                    been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+                    a galley of type and scrambled it to make a type specimen book. It has survived not only
+                    five centuries, but also the leap into electronic typesetting, remaining essentially
+                    unchanged. </p>
+                <p class="mt-5 is-size-6"><a href="">Edit Listing</a></p>
+            </div>
+            <div class='column'>
+                <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
             </div>
         </div>
-        <!--END: Card 2-->
+        <!--END: About-->
+        <br>
         <!--START: Card 3-->
         <div class='container mt-5'>
             <div class='box p-5'>
-                <h2 class='is-size-3'><b>Itinerary</b></h2>
-                <button onclick="toggleEdit()" class="button is-success is-light is-size-6" id="toggleButton">
-                    <i class="fas fa-edit"></i>&ensp;Edit
-                </button>
-
-                <!--START: Edit section-->
-                <div id="editform" style="display:none;">
-                    <section class="section">
-                        <div class="container">
-                            <div class="columns">
-                                <!--START: Form-->
-                                <div class="column">
-                                    <form class="form-horizontal" enctype="multipart/form-data">
-
-                                        <div class="field">
-                                            <label class="label">Date & Time</label>
-                                            <div class="control has-icons-left">
-                                                <input class="input" id="input_dateTime" type="text"
-                                                       placeholder="Date & Time" value="27/11/20, 6pm">
-                                                <span class="icon is-small is-left"><i
-                                                        class="far fa-calendar"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <label class="label">Meetup Point</label>
-                                            <div class="control has-icons-left">
-                                                <input class="input" id="input_meeting" type="text"
-                                                       placeholder="Meetup Point" value="Bishan MRT Station">
-                                                <span class="icon is-small is-left"><i
-                                                        class="fas fa-map-marker-alt"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <label class="label">Duration</label>
-                                            <div class="control has-icons-left">
-                                                <input class="input" id="input_duration" type="text"
-                                                       placeholder="Duration" value="4 hours">
-                                                <span class="icon is-small is-left"><i
-                                                        class="fas fa-hourglass-half"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <label class="label">Cost</label>
-                                            <div class="control has-icons-left">
-                                                <input class="input" id="input_cost" type="text" placeholder="Cost"
-                                                       value="$120">
-                                                <span class="icon is-small is-left"><i
-                                                        class="fas fa-dollar-sign"></i></span>
-                                            </div>
-                                        </div>
-                                        <!--START: itinerary fields (wip)-->
-                                        <!--END: itinerary fields-->
-                                    </form>
-                                </div>
-                                <!-- END: Form-->
-                                <!--START: map iframe-->
-                                <div class='column is-two-fifths'>
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d510561.04654116975!2d103.5695466557071!3d1.3208489830657906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da11238a8b9375%3A0x887869cf52abf5c4!2sSingapore!5e0!3m2!1sen!2ssg!4v1606391738781!5m2!1sen!2ssg"
-                                            width="350" height="350"
-                                            frameborder="0" style="border:0;"
-                                            allowfullscreen=""
-                                            aria-hidden="false"
-                                            tabindex="0" class="is-pulled-right"></iframe>
-                                </div>
-                                <!--END: map iframe-->
-                            </div>
-                        </div>
-                    </section>
+                <div class="has-text-centered">
+                <span class='is-size-3 mr-1'><b>Itinerary</b></span>
+                <span class="tag is-success is-light is-size-6">
+                    Confirmed</span>
                 </div>
-                <!--END: Edit section-->
-
+                    <!--START: Edit button-->
+                    <div class="field is-grouped is-grouped-left">
+                        <p class="control">
+                          <button class="button is-success is-light">
+                            <i class="fas fa-edit"></i>
+                            <div class="is-size-4 ml-3">Edit Itinerary</div><br>
+                          </button>
+                        </p>
+                      </div>
+                      <!--END: Edit button-->               
                 <div class="columns pt-5">
 
                     <!--timeline-->
-                    <div id="timeline" style="display:block;">
-                        <div class="column">
-                            <div class="timeline">
-                                <header class="timeline-header">
-                                    <span class="tag is-medium is-success">Start</span>
-                                </header>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker is-icon">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Meeting Point</p>
-                                        <p>Bishan MRT Station</p>
-                                    </div>
+                    <div class="column">
+                        <div class="timeline">
+                            <header class="timeline-header">
+                                <span class="tag is-medium is-success">Start</span>
+                            </header>
+                            <div class="timeline-item">
+                                <div class="timeline-marker is-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
                                 </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker is-icon">
-                                        <i class="fas fa-utensils"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Restaurant Name</p>
-                                        <p>Enjoy tradiitonal Indian cuisine at this hidden gem of a restaurant!</p>
-                                    </div>
+                                <div class="timeline-content">
+                                    <p class="heading">Meeting Point</p>
+                                    <p>Bishan MRT Station</p>
                                 </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Location</p>
-                                        <p>Activity</p>
-                                    </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker is-icon">
+                                    <i class="fas fa-utensils"></i>
                                 </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Location</p>
-                                        <p>Activity</p>
-                                    </div>
+                                <div class="timeline-content">
+                                    <p class="heading">Restaurant Name</p>
+                                    <p>Enjoy traditional Indian cuisine at this hidden gem of a restaurant!</p>
                                 </div>
-                                <div class="timeline-header">
-                                    <span class="tag is-medium is-success">End</span>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <p class="heading">Location</p>
+                                    <p>Activity</p>
                                 </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <p class="heading">Location</p>
+                                    <p>Activity</p>
+                                </div>
+                            </div>
+                            <div class="timeline-header">
+                                <span class="tag is-medium is-success">End</span>
                             </div>
                         </div>
                     </div>
@@ -253,8 +301,7 @@
                     <div class="column is-one-third">
                         <table class='table'>
                             <tr>
-                                <td><i class="far fa-calendar"></i>&ensp;<b><span id="dateTime">Date & Time</span></b>
-                                </td>
+                                <td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
                                 <td>27/11/20, 6pm</td>
                             </tr>
                             <tr>
@@ -265,19 +312,345 @@
                                 <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
                                 <td>4 hours</td>
                             </tr>
-                            <tr>
-                                <td><i class="fas fa-dollar-sign"></i>&ensp;<b>Cost</b></td>
-                                <td>$120</td>
-                            </tr>
                         </table>
                     </div>
+                    </div>
                     <!--END: Info Table-->
+                    <div class="is-pulled-right">
+                    <span class="tag is-size-4">Price: $1000</span><br>
+                    <a class="has-text-link is-size-7 pl-6" onclick="openTab(event,'Charges')">Edit Charges</a>
+                    </div>
+                    <br><br><br><br>
+                    <!--START: cancel changes/draft/submit itinerary buttons-->
+                    <div class="field is-grouped is-grouped-right">
+                        <p class="control">
+                          <button class="button is-warning is-light">
+                            <div class="is-size-5">Cancel Changes</div><br>
+                          </button>
+                        </p>
+                        <p class="control">
+                            <button class="button is-success is-light">
+                              <div class="is-size-5">Save</div><br>
+                            </button>
+                          </p>
+                      </div>
+                      <div class="is-pulled-right mb-4">
+                        <a class="has-text-link is-size-6" onclick="openTab(event,'Overview')">Submit Proposed Itinerary & Charges</a>
+                      </div>
+                      <!--END: cancel changes/draft/submit itinerary buttons-->
+                      <!--START: (Modal) cancel-->        
+                        <div class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                            <div class="box has-text-centered">
+                                <p class="is-size-5 has-text-weight-bold">You will lose any unsaved changes!</p>
+                                <div class="field is-grouped is-grouped-centered mt-5">
+                                    <p class="control">
+                                        <button class="button is-danger is-light">
+                                            <div class="is-size-5">Back</div>
+                                        </button>
+                                    </p>
+                                    <p class="control">
+                                        <button class="button is-success is-light">
+                                            <div class="is-size-5">Continue</div>
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                            </div>
+                            <button class="modal-close is-large" aria-label="close"></button>
+                        </div>
+                      <!--END: (Modal) cancel-->
+            </div>
+        </div>
+        <!--END: Card 3-->
+        <br>
+        <!--START: Additional Info-->
+        <div class='container box p-5'>
+            <div class="has-text-centered">
+                <span class='is-size-3 mr-1'><b>Additional Information</b></span>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <textarea class="textarea" placeholder="Enter Additional Information you would like your Customer to know." readonly
+                    value="bb"></textarea>
+                </div>
+            </div>
+            <div class="field is-grouped is-grouped-right">
+                <p class="control">
+                    <button class="button is-success is-light">
+                        <i class="fas fa-edit"></i>
+                        <div class="is-size-5 ml-3">Edit</div><br>
+                    </button>
+                  </p>
+                  <p class="control">
+                    <button class="button is-success is-light">
+                        <div class="is-size-5">Save</div><br>
+                    </button>
+                  </p>                  
+            </div>
+        </div>
+        <!--END: Additional Info-->
+        
+    </div>
+    <!--END: Details-->
 
+    <!--START: Chat-->
+    <div id="Chat" class="content-tab" style="display:none">
+            <div class="container">
+                   <!--START: Chat console-->
+                    <div class="box p-0">
+                        <!--START: Messages-->
+                                    <div class="card" style="height: 60vh;">
+                                        <div class="card-header p-1 has-background-grey-light">
+                                            <div class="profile-img"
+                                                 style="background-image: url('/pfp.jpg')"></div>
+                                            <p class="ml-3 is-size-5 has-text-weight-bold">
+                                                HideThePain69 </p>
+                                        </div>
+
+                                        <div class="p-3" style="overflow-y: scroll; height: 55vh;">
+                                             <!--START: message-->
+                         <div class="box is-pulled-left mt-3 p-3 has-background-grey-lighter" style="max-width:70%; border-radius:20px 20px 20px 0px;">
+                            <article class="media">
+                                <figure class="media-left">
+                                  <p class="image is-48x48"><img src="/pfp.jpg"></p>
+                                  <span class="is-size-7">31m</span>
+                                </figure>
+                                <div class="media-content">
+                                  <div class="content m-0">
+                                    <p>
+                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                                    </p>
+                                  </div>
+                                </div>
+                              </article>
+                              </div>
+                              <!--END: message-->
+                              <!--START: message-->
+                            <div class="box is-pulled-right mt-3 p-3 has-background-primary is-bold" style="max-width:70%; border-radius:20px 20px 0px 20px;">
+                                <article class="media">
+                                    <div class="media-content">
+                                      <div class="content m-0">
+                                        <p>
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <figure class="media-right">
+                                        <p class="image is-48x48"><img src="/pfp.jpg"></p>
+                                        <span class="is-size-7">31m</span>
+                                      </figure>
+                                  </article>
+                                  </div>
+                                  <!--END: message-->
+                                  <!--START: message-->
+                            <div class="box is-pulled-right mt-3 p-3 has-background-primary is-bold" style="max-width:70%; border-radius:20px 20px 0px 20px;">
+                                <article class="media">
+                                    <div class="media-content">
+                                      <div class="content m-0">
+                                        <p>
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <figure class="media-right">
+                                        <p class="image is-48x48"><img src="/pfp.jpg"></p>
+                                        <span class="is-size-7">31m</span>
+                                      </figure>
+                                  </article>
+                                  </div>
+                                  <!--END: message-->
+                                        </div>
+
+                                </div>
+                        <!--END: Messages-->
+
+                        <!--START: Input field-->
+                        <div class="field has-addons">
+                            <div class="control">
+                                <button class="button is-white-ter">
+                                    <i class="fas fa-photo-video"></i>
+                                </button>
+                            </div>
+                            <div class="control is-expanded">
+                                <input
+                                        class="input is-fullwidth"
+                                        type="text"
+                                        placeholder="Enter your message.."
+                                />
+                            </div>
+                            <div class="control">
+                                <button class="button is-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!--END: Input Field-->
+                   <!--END: Chat console-->
+            </div>
+    </div>
+    </div>
+    <!--END: Chat-->
+
+    <!--START: charges-->
+    <div id="Charges" class="content-tab" style="display:none">
+        <div class="container">
+                    <div class="is-size-3 has-text-centered has-text-weight-semibold">Proposed Cost
+                    <span class="tag is-grey is-light">Unconfirmed</span></div>
+                    <br>
+                    <!--START: Edit button-->
+                    <div class="has-text-centered mb-2">
+                        <p class="control">
+                            <button class="button is-success is-light">
+                            <i class="fas fa-edit"></i>
+                            <div class="is-size-5 ml-3">Edit</div><br>
+                            </button>
+                        </p>
+                        </div>
+                        <!--END: Edit button-->
+                    <!--START: Save button-->
+                    <div class="has-text-centered mb-2">
+                        <p class="control">
+                            <button class="button is-success is-light">
+                            <div class="is-size-5">Save</div><br>
+                            </button>
+                        </p>
+                        </div>
+                        <!--END: Save button-->
+                    <!--START: form Display proposed cost-->
+                    <div class="container box">
+                        <!--START: Base price field-->
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                              <label class="label">Base Price</label>
+                            </div>
+                            <div class="field-body">
+                              <div class="field">
+                                <div class="control is-expanded has-icons-left">
+                                  <input class="input" type="text" placeholder="Base Price">
+                                  <span class="icon is-small is-left">
+                                    <i class="fas fa-dollar-sign"></i>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <!--END: Base price field-->
+                        <!--START: Add-on form field-->
+                        <div class="field is-horizontal">
+                            <div class="field-label"></div>
+                            <div class="field-body">
+                              <div class="field has-addons">
+                                <p class="control">
+                                    <span class="select">
+                                      <select>
+                                        <option><i class="fas fa-plus"></i> Add-on</option>
+                                        <option><i class="fas fa-minus"></i> Reduction</option>
+                                      </select>
+                                    </span>
+                                  </p>
+                                <p class="control is-expanded">
+                                  <input class="input" type="text" placeholder="Caption">
+                                </p>
+                              </div>
+                              <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                  <input class="input" placeholder="Cost">
+                                  <span class="icon is-small is-left">
+                                    <i class="fas fa-dollar-sign"></i>
+                                  </span>
+                                </p>
+                              </div>
+                              <div class="field">
+                                <p class="control">
+                                    <a class="button is-danger is-light">
+                                        <i class="fas fa-minus"></i>
+                                    </a>
+                                  </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--insert plus/minus buttons div here-->
+                          <!--START: plus button-->
+                          <div class="field is-grouped is-grouped-right">
+                              <p class="control">
+                                <a class="button is-success is-light">
+                                    <i class="fas fa-plus"></i>
+                                    <span class="ml-3">Add Field</span>
+                                </a>
+                              </p>
+                          </div>
+                          <!--END: plus button-->
+                          <!--END: Add-on form field-->
+                    </div>
+                    <!--END: form Display proposed cost-->
+                    <!--START: Display proposed cost-->
+                    <div class="container box">
+                        <div class="heading">Base Price</div>
+                        <div class="title">$148.50</div>
+                    </div>
+                    <div class="container box">
+                        <div class="heading">Add-ons</div>
+                        <table class="table is-fullwidth">
+                            <tbody>
+                                <tr>
+                                    <td><b>Extra Thing 1</b></td>
+                                    <td>+ $10.00</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Extra Thing 2</b></td>
+                                    <td>+ $12.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="container box">
+                        <div class="heading">Reductions</div>
+                        <table class="table is-fullwidth">
+                            <tbody>
+                                <tr>
+                                    <td><b>Remove Thing 1</b></td>
+                                    <td>- $10.00</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Remove Thing 2</b></td>
+                                    <td>- $12.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--START: Display proposed cost-->
+            <div class="columns">
+                <div class="column">
+                    <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
+                    <br>
+                    <div class="container box">
+                            <div class="heading">Booking Fee</div>
+                            <div class="title">$16.50 <span class="tag is-success is-light">Paid</span></div>
+                    </div>
+                </div>
+                <div class="column">
+                    <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Summary</h1>
+                    <br>
+                    <div class="container box">
+                        <div class="heading">Final Cost</div>
+                        To-Be Confirmed
+                    </div>
+                    <div class="container box">
+                        <div class="heading">Final Cost</div>
+                        <div class="title">$165</div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <!--END: charges-->
 
-        <!--END: Card 3-->
-    </section>
-    <script src="/js/ItineraryEdit.js" defer></script>
+</div>
+<!--END: Content-->
+
+<script defer src="/js/booking.js"></script>
+
 {% endblock %}

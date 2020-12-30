@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/bulma-timeline.min.css">
     <link rel="stylesheet" href="/css/bulma-steps.css">
     <link rel="stylesheet" href="/css/chat.css">
+    <link rel="stylesheet" href="/css/bulma-badge.css">
 {% endblock %}
 
 
@@ -47,18 +48,22 @@
 <!--END: Top-->
 
 <!--START: Tabs-->
-        <div class="tabs is-centered is-boxed">
+        <div class="tabs is-centered is-boxed pt-4">
             <ul>
               <li class="tab is-active" onclick="openTab(event,'Overview')">
+                <span title="Badge top right" class="badge is-danger"></span>
                 <a>Overview</a>
               </li>
               <li class="tab" onclick="openTab(event,'Details')">
+                <span title="Badge top right" class="badge is-danger"></span>
                 <a>Details</a>
               </li>
               <li class="tab" onclick="openTab(event,'Chat')">
+                <span title="Badge top right" class="badge is-danger"></span>
                 <a>Chat</a>
               </li>
               <li class="tab" onclick="openTab(event,'Billing')">
+                <span title="Badge top right" class="badge is-danger"></span>
                 <a>Billing</a>
               </li>
             </ul>
@@ -72,10 +77,26 @@
     <!--START: Overview-->
     <div id="Overview" class="content-tab">
         <!--START: Action req-->
+        <div class="has-text-centered m-2 is-size-6">
+            You are now ready to go for your Tour!
+        </div>
         <div class="has-text-centered m-5 is-size-5">
             Next Step: 
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
+                Submit Requirements</span>
             <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
                 Review Custom Itinerary & Charges</span>
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
+                Make Payment</span>
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
+                Complete Tour</span>
+            <span class="tag is-warning is-light is-size-5 is-clickable"><a href="{{ url_for('review') }}">
+                Leave Feedback</a></span>
+        </div>
+        <div class="has-text-centered m-5 is-size-5">
+            Waiting for Tour Guide to:
+            <span class="tag is-white-ter is-size-5 is-clickable">
+                Plan Custom Package</span>
         </div>
         <!--END: Action req-->
         <!--START: Steps-->
@@ -131,6 +152,43 @@
             </ul>
         </div>
         <!--END: Steps-->
+        <!--START: Confirm if tour completed-->
+        <div class="section">
+        <div class="container has-text-centered">
+            <div class="field">
+                <p class="control">
+                    <button class="button is-success is-light">
+                        <div class="is-size-5">I Have Completed My Tour!</div>
+                    </button>
+                </p>
+            </div>
+        </div>
+        </div>
+        <!--END: Confirm if tour completed-->
+        <!--START:(Modal) Confirm that tour completed-->
+        <div class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+              <div class="box has-text-centered">
+                  <p class="is-size-5 has-text-weight-bold">Confirm that your tour has been completed?</p>
+                  <p>This action cannot be undone.</p>
+                  <div class="field is-grouped is-grouped-centered mt-5">
+                    <p class="control">
+                        <button class="button is-danger is-light">
+                            <div class="is-size-5">Cancel</div>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button class="button is-success is-light">
+                            <div class="is-size-5">Confirm</div>
+                        </button>
+                    </p>
+                </div>
+              </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+          </div>
+        <!--END:(Modal) Confirm that tour completed-->
     </div>
     <!--END: Overview-->
 
@@ -159,6 +217,8 @@
                 <span class='is-size-3 mr-1'><b>Itinerary</b></span>
                 <span class="tag is-grey is-light is-size-6">
                     Unconfirmed</span>
+                <span class="tag is-success is-light is-size-6">
+                    Confirmed</span>
                 </div>
                 <div class="columns pt-5">
 
@@ -246,6 +306,54 @@
                           </p>
                       </div>
                       <!--END: Revise/Confirm itinerary buttons-->
+                      <!--START: (Modal) Confirm revision of itinerary-->        
+                        <div class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                            <div class="box has-text-centered">
+                                <p class="is-size-5 has-text-weight-bold">Request a revision of the Proposed Itinerary and Charges?</p>
+                                <p>You have 4 free revision(s) left.</p>
+                                <div class="field is-grouped is-grouped-centered mt-5">
+                                    <p class="control">
+                                        <button class="button is-danger is-light">
+                                            <div class="is-size-5">Cancel</div>
+                                        </button>
+                                    </p>
+                                    <p class="control">
+                                        <button class="button is-success is-light">
+                                            <div class="is-size-5">Request A Revision</div>
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                            </div>
+                            <button class="modal-close is-large" aria-label="close"></button>
+                        </div>
+                      <!--END: (Modal) Confirm revision of itinerary-->
+                      <!--START: (Modal) Confirm accepting itinerary-->        
+                      <div class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                        <div class="box has-text-centered">
+                            <p class="is-size-5 has-text-weight-bold">Confirm Tour Itinerary and Proposed Cost?</p>
+                            <p>This action cannot be undone.</p>
+                            <div class="field is-grouped is-grouped-centered mt-5">
+                                <p class="control">
+                                    <button class="button is-danger is-light">
+                                        <div class="is-size-5">Cancel</div>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button class="button is-success is-light">
+                                        <div class="is-size-5">Accept & Confirm</div>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+                        <button class="modal-close is-large" aria-label="close"></button>
+                    </div>
+                  <!--END: (Modal) Confirm accepting itinerary-->
             </div>
         </div>
         <!--END: Card 3-->
@@ -420,8 +528,21 @@
                         <div class="heading">Final Cost</div>
                         To-Be Confirmed
                     </div>
+                    <div class="container box">
+                        <div class="heading">Final Cost</div>
+                        <div class="title">$165</div>
+                    </div>
                 </div>
             </div>
+            <!--START: Payment button-->
+            <div class="field is-grouped is-grouped-right">
+                <p class="control">
+                  <button class="button is-success is-light">
+                    <div class="is-size-4">Make Payment</div><br>
+                  </button>
+                </p>
+              </div>
+            <!--END: Payment button-->
         </div>
     </div>
     <!--END: Billing-->
