@@ -105,8 +105,8 @@ class User:
         self.__socialmedia = {}
         self.set_socialmedia(socialmedia, fb, insta, linkedin)
 
-        self.phone_status = phone_status
-        self.email_status = email_status
+        self.__phone_status = phone_status
+        self.__email_status = email_status
 
     def set_name(self, name):
         try:
