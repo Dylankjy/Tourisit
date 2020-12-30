@@ -382,3 +382,8 @@ class LoginForm(FlaskForm):
         'Password',
         [DataRequired()]
     )
+
+class ResendEmailForm(FlaskForm):
+    email = StringField(
+        'system email'
+    )
