@@ -23,7 +23,11 @@
             <div id="register">
                 <h1 class="title">Get a Tourisit ID</h1>
                 <h3 class="subtitle">Welcome!</h3>
+                {% if newEmailSent %}
+                <div id="newEmailSent" class="notification is-success">
+                    <i class="fas fa-truck"></i>&ensp;A new link is on its way. Please check your inbox.
                 </div>
+                {% endif %}
                 <form id="signupForm" method="POST" action="{{ url_for('signup') }}">
                     {{ form.csrf_token }}
                     <div class="field">
