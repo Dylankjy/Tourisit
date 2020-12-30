@@ -253,7 +253,31 @@ def delete_account(uid):
         return Exception("Couldn't yeet user account due to an error.")
 
 
-def send_confirmation_email():
+def send_confirmation_email(sid=None, user_email=None):
+
+    if sid is not None and user_email is None:
+        # Find UID from SID
+        query = {
+            "sid": sid
+        }
+        query_result = [i for i in db_sessions.find(query)]
+
+        # Get UID
+        if len(query_result) == 1:
+            uid = query_result[0]["uid"]
+
+            # Get user from uid
+            query_user = {
+                "_id": ObjectId(uid)
+            }
+
+            user = [i for i in db_users.find(query_user)]
+
+            # User's email
+            user_email = user[0]["email"]
+        else:
+            return False
+
     port = 465  # For SSL
     password = sendgrid_key
 
@@ -264,9 +288,9 @@ def send_confirmation_email():
     message = MIMEMultipart("alternative")
     message["Subject"] = "Tourisit - Confirm your Email"
     message["From"] = formataddr((str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
-    message["To"] = "tenkotofu@gmail.com"
+    message["To"] = user_email
 
-    code = 'https://tourisit.ichiharu.com/confirmEmail/code'
+    code = 'https://tourisit.ichiharu.com/system/confirmEmail/' + add_token("email_verification", sid)
 
     # Build email HTML from 2 parts. Format with URL
     content = template_header + template_email_confirmation.format(
@@ -281,6 +305,8 @@ def send_confirmation_email():
         server.sendmail(
             "notifications@tourisit.ichiharu.com", "tenkotofu@gmail.com", message.as_string()
         )
+
+    return True
 
 
 def get_sid():
