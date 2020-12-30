@@ -142,7 +142,7 @@ class User:
         self.__socialmedia.update({"fb": fb})
         self.__socialmedia.update({"insta": insta})
         self.__socialmedia.update({"linkedin": linkedin})
-        self.__socialmedia = socialmedia
+        self.__socialmedia = self.socialmedia
 
     def set_fb(self, fb):
         self.__fb = fb
