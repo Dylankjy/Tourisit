@@ -103,7 +103,7 @@ class User:
         self.set_linkedin(linkedin)
 
         self.__socialmedia = {}
-        self.set_socialmedia(socialmedia)
+        self.set_socialmedia(socialmedia, fb, insta, linkedin)
 
         self.phone_status = phone_status
         self.email_status = email_status
@@ -138,10 +138,11 @@ class User:
         else:
             self.__bio = bio
 
-    def set_socialmedia(self, fb, insta, linkedin):
+    def set_socialmedia(self, socialmedia, fb, insta, linkedin):
         self.__socialmedia.update({"fb": fb})
         self.__socialmedia.update({"insta": insta})
         self.__socialmedia.update({"linkedin": linkedin})
+        self.__socialmedia = socialmedia
 
     def set_fb(self, fb):
         self.__fb = fb
