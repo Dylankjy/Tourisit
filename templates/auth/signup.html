@@ -29,11 +29,11 @@
                 </div>
                 {% endif %}
                 <form id="signupForm" method="POST" action="{{ url_for('signup') }}">
-                    {{ form.csrf_token }}
+                    {{ signupform.csrf_token }}
                     <div class="field">
                         <div class="control has-icons-left has-icons-right">
                             <!-- <input id="registerName" class="input" type="text" placeholder="Full Name"> -->
-                            {{ form.full_name(id="registerName", type="text", class="input", placeholder="Full Name") }}
+                            {{ signupform.full_name(id="registerName", type="text", class="input", placeholder="Full Name") }}
                             <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
@@ -42,7 +42,7 @@
                     <div class="field">
                         <div class="control has-icons-left has-icons-right">
                             <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
-                            {{ form.email(id="registerEmail", type="email", class="input", placeholder="Email Address") }}
+                            {{ signupform.email(id="registerEmail", type="email", class="input", placeholder="Email Address") }}
                             <span class="icon is-small is-left">
                             <i class="fas fa-at"></i>
                         </span>
@@ -51,7 +51,7 @@
                     <div class="field">
                         <div class="control has-icons-left has-icons-right">
                             <!-- <input id="registerPassword" class="input" type="password" placeholder="Password"> -->
-                            {{ form.password(id="registerPassword", type="password", class="input", placeholder="Password", value="") }}
+                            {{ signupform.password(id="registerPassword", type="password", class="input", placeholder="Password", value="") }}
                             <span class="icon is-small is-left">
                             <i class="fas fa-key"></i>
                         </span>
@@ -113,6 +113,7 @@
             <div class="modal-background"></div>
             <div class="modal-card box" style="padding: 3em;">
                 <p class="title is-3 has-text-weight-bold has-text-centered">Please verify your email</p>
+
                 <p class="has-text-centered">We have sent a verification email to <b>{{ email }}</b>.
                     <br><small>Please check your spam folder if you do not receive our email within a minute.</small>
                 </p>
