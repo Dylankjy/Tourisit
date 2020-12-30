@@ -3,8 +3,7 @@
 {% block scripts %}
     <link rel="stylesheet" href="/css/chat.css"/>
     <link rel="stylesheet" href="/css/shop.css"/>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <link rel="stylesheet" href="/css/bulma-divider.css"/>
 {% endblock %}
 
 {% block content %}
@@ -50,7 +49,7 @@
                         <ul class="menu-list">
                             <!-- START: Horizontal Card -->
                             <li>
-                                <div class="box mt-4 p-0 has-background-primary-light">
+                                <div class="box mt-4 p-0 has-background-white-ter">
                                     <a><div>
                                         <div class="p-2 listing-author">
                                             <div
@@ -87,57 +86,76 @@
                 </div>
                 <!--End: Menu Column-->
 
+                <div class="divider is-vertical is-right"></div>
+
                 <!--Start: Console Column-->
                 <div class="column">
-                    <section class="section">
                         <div class="container chat-main">
-                            <div class="box">
+                            <div class="box p-0">
                                 <!--START: Messages-->
-                                <!--Experimental (monke brain)-->
-                                <div class="jumbotron m-0 p-0 bg-transparent">
-                                    <div class="row m-0 p-0 position-relative">
-                                        <div class="col-12 p-0 m-0 position-absolute" style="right: 0px;">
-                                            <div class="card border-0 rounded"
-                                                 style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 6px 10px 0 rgba(0, 0, 0, 0.01); overflow: hidden; height: 50vh;">
-
-                                                <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0"
-                                                     style="color: rgba(96, 125, 139,1.0);">
+                                            <div class="card" style="height: 60vh;">
+                                                <div class="card-header p-1 has-background-grey-light">
                                                     <div class="profile-img"
                                                          style="background-image: url('/pfp.jpg')"></div>
-                                                    <h6 class="float-left" style="margin: 0px; margin-left: 10px;">
-                                                        HideThePain69 </h6>
+                                                    <p class="ml-3 is-size-5 has-text-weight-bold">
+                                                        HideThePain69 </p>
                                                 </div>
 
-                                                <div class="card border-0 m-0 p-0" style="height: 100vh;">
-                                                    <div id="sohbet"
-                                                         class="card border-0 m-0 p-0 position-relative bg-transparent"
-                                                         style="overflow-y: auto; height: 50vh;">
-
-                                                        <div class="balon1 p-2 m-0 position-relative">
-                                                            <div class="float-left"> Hey there! What's up?</div>
-                                                        </div>
-
-                                                        <div class="balon2 p-2 m-0 position-relative">
-                                                            <div class="float-right"> Hey there! What's up?</div>
-                                                        </div>
-
-                                                        <div class="balon1 p-2 m-0 position-relative">
-                                                            <div class="float-left"> Hey there! What's up?</div>
-                                                        </div>
-
-                                                        <div class="balon2 p-2 m-0 position-relative">
-                                                            <div class="float-right"> Hey there! What's up?</div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                                <div class="p-3" style="overflow-y: scroll; height: 55vh;">
+                                                     <!--START: message-->
+                                 <div class="box is-pulled-left mt-3 p-3 has-background-grey-lighter" style="max-width:70%; border-radius:20px 20px 20px 0px;">
+                                    <article class="media">
+                                        <figure class="media-left">
+                                          <p class="image is-48x48"><img src="/pfp.jpg"></p>
+                                          <span class="is-size-7">31m</span>
+                                        </figure>
+                                        <div class="media-content">
+                                          <div class="content m-0">
+                                            <p>
+                                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                                            </p>
+                                          </div>
                                         </div>
+                                      </article>
+                                      </div>
+                                      <!--END: message-->
+                                      <!--START: message-->
+                                    <div class="box is-pulled-right mt-3 p-3 has-background-primary is-bold" style="max-width:70%; border-radius:20px 20px 0px 20px;">
+                                        <article class="media">
+                                            <div class="media-content">
+                                              <div class="content m-0">
+                                                <p>
+                                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                                                </p>
+                                              </div>
+                                            </div>
+                                            <figure class="media-right">
+                                                <p class="image is-48x48"><img src="/pfp.jpg"></p>
+                                                <span class="is-size-7">31m</span>
+                                              </figure>
+                                          </article>
+                                          </div>
+                                          <!--END: message-->
+                                          <!--START: message-->
+                                    <div class="box is-pulled-right mt-3 p-3 has-background-primary is-bold" style="max-width:70%; border-radius:20px 20px 0px 20px;">
+                                        <article class="media">
+                                            <div class="media-content">
+                                              <div class="content m-0">
+                                                <p>
+                                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                                                </p>
+                                              </div>
+                                            </div>
+                                            <figure class="media-right">
+                                                <p class="image is-48x48"><img src="/pfp.jpg"></p>
+                                                <span class="is-size-7">31m</span>
+                                              </figure>
+                                          </article>
+                                          </div>
+                                          <!--END: message-->
+                                                </div>
 
-                                    </div>
-                                </div>
-                                <!--End experimental-->
+                                        </div>
                                 <!--END: Messages-->
 
                                 <!--START: Input field-->
@@ -151,9 +169,9 @@
                                                         aria-haspopup="true"
                                                         aria-controls="dropdown-menu-post"
                                                 >
-                        <span class="icon is-small">
-                          <i class="fas fa-paperclip"></i>
-                        </span>
+                                                <span class="icon is-small">
+                                                <i class="fas fa-paperclip"></i>
+                                                </span>
                                                 </button>
                                             </div>
                                             <div
@@ -188,9 +206,7 @@
                                     </div>
                                 </div>
                                 <!--END: Input Field-->
-                            </div>
                         </div>
-                    </section>
                 </div>
                 <!--End: Console Column-->
             </div>
