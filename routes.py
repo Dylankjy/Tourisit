@@ -3,6 +3,7 @@
 from io import BytesIO
 
 # Database
+import flask
 import pymongo
 from bson.objectid import ObjectId
 from flask import Flask, render_template, request, redirect, url_for, make_response
@@ -103,7 +104,8 @@ def accountinfo():
             insta = request.form['insta']
             linkedin = request.form['linkedin']
             updated = {
-                "$set": {"name": name, "password": auth.generate_password_hash(password), "email": email, "phone_number": phone_number,
+                "$set": {"name": name, "password": auth.generate_password_hash(password), "email": email,
+                         "phone_number": phone_number,
                          "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin}
                          }
             }
@@ -501,6 +503,8 @@ def login():
             if not result:
                 # If fail, show failure modal
                 return render_template('auth/login.html', form=form, acc_login_failed=True)
+            elif result == "UNVERIFIED":
+                return redirect(url_for('signup', unverified_email_ref=True, email=email))
             else:
                 # If pass, set cookie and redirect
                 resp = redirect(url_for('home'))
@@ -519,24 +523,32 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     # Sign up form
-    form = auth.SignupForm()
+    signup_form = auth.SignupForm()
+    resend_email_form = auth.ResendEmailForm()
+
+    # Check was this a ref from login because user hasn't gotten their email verified.
+    if request.args.get('unverified_email_ref') == "True" and request.args.get('email') is not None:
+        return render_template('auth/signup.html', signupform=signup_form, resend_email=resend_email_form,
+                               acc_creation=True, email=request.args.get('email'))
 
     # If user is NOT logged in
     if not auth.is_auth():
         # Do if POST response // Form submission
-        if form.validate_on_submit():
-            name = form.data['full_name']
-            email = form.data['email']
-            password = form.data['password']
+        if signup_form.validate_on_submit():
+            name = signup_form.data['full_name']
+            email = signup_form.data['email']
+            password = signup_form.data['password']
 
             # create_account implements auth
             if auth.create_account(name, password, email):
-                return render_template('auth/signup.html', form=form, acc_creation=True, email=email)
+                return render_template('auth/signup.html', signupform=signup_form, resend_email=resend_email_form,
+                                       acc_creation=True, email=email)
             else:
-                return render_template('auth/signup.html', form=form, exist=True, email=email)
+                return render_template('auth/signup.html', signupform=signup_form, exist=True, email=email)
 
         # If GET request // Show page
-        return render_template('auth/signup.html', form=form)
+        return render_template('auth/signup.html', signupform=signup_form, resend_email=resend_email_form,
+                               newEmailSent=request.args.get('email_sent'))
     # If user is ALREADY logged in
     else:
         return redirect(url_for('home'))
