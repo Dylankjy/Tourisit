@@ -200,6 +200,9 @@ def login_account(email, unencoded_password):
         if not bcrypt.checkpw(password, query_result["password"]):
             return False
 
+        if query_result["email_status"] is False:
+            return "UNVERIFIED"
+
         return add_session(query_result["_id"])
     except IndexError:
         return False
