@@ -358,7 +358,6 @@ def bookings():
 
 # CUSTOMER
 # Book Now Page
-# @app.route('/bookings/<id>')
 @app.route('/listings/id/booknow')
 def book_now():
     try:
@@ -370,6 +369,23 @@ def book_now():
         # if logged in
         else:
             return render_template('customer/book-now.html', loggedin=True, user=result)
+    except:
+        return 'Error trying to render'
+
+# CUSTOMER
+# Checkout page (placeholder)
+# @app.route('/checkout/<id>')
+@app.route('/checkout/id')
+def checkout():
+    try:
+        # Get login status using accessor argument
+        result = auth.is_auth(True)
+        # if not logged in
+        if not result:
+            return render_template('customer/checkout.html', loggedin=False)
+        # if logged in
+        else:
+            return render_template('customer/checkout.html', loggedin=True, user=result)
     except:
         return 'Error trying to render'
 
