@@ -79,7 +79,7 @@ class User:
         self.set_password(password)
 
         self.__email = ""
-        self.set_email(email)
+        self.set_email(email.lower())
 
         self.__phone_number = ""
         self.set_phone_number(phone_number)
