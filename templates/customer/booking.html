@@ -12,7 +12,7 @@
 
 {% block content %}
 <!--START: Top-->
-<section class='section'>
+<section class='section mb-0 pb-0'>
     <div class="container mt-5 p-5">
         <a href="{{ url_for('all_bookings') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to Bookings</a>
                 <h1 class="title is-size-1 m-0">Bishan Nightlife</h1>
@@ -67,7 +67,7 @@
 <!--END: Tabs-->
 
 <!--START: Content-->
-<div class="container section">
+<div class="container section pt-2">
 
     <!--START: Overview-->
     <div id="Overview" class="content-tab">
@@ -225,8 +225,13 @@
                     </div>
                     </div>
                     <!--END: Info Table-->
+                    <div class="is-pulled-right">
+                    <span class="tag is-size-4">Price: $1000</span><br>
+                    <a class="has-text-link is-size-7 pl-5" onclick="openTab(event,'Billing')">View Price Breakdown</a>
+                    </div>
+                    <br><br><br><br>
                     <!--START: Revise/Confirm itinerary buttons-->
-                    <div class="field is-grouped is-pulled-right">
+                    <div class="field is-grouped is-grouped-right">
                         <p class="control">
                           <button class="button is-warning is-light">
                             <div class="is-size-5">Request Revision</div><br>
@@ -263,147 +268,157 @@
 
     <!--START: Chat-->
     <div id="Chat" class="content-tab" style="display:none">
-        <section class="section">
-            <div class="container chat-main">
-                   <!--START: Chat console (help)-->
-                    <div class="container chat-main">
-                        <div class="box">
-                            <!--START: Messages-->
-                            <!--Experimental (monke brain)-->
-                            <div class="jumbotron m-0 p-0 bg-transparent">
-                                <div class="row m-0 p-0 position-relative">
-                                    <div class="col-12 p-0 m-0 position-absolute" style="right: 0px;">
-                                        <div class="card border-0 rounded"
-                                             style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 6px 10px 0 rgba(0, 0, 0, 0.01); overflow: hidden; height: 50vh;">
-
-                                            <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0"
-                                                 style="color: rgba(96, 125, 139,1.0);">
-                                                <div class="profile-img"
-                                                     style="background-image: url('/pfp.jpg')"></div>
-                                                <h6 class="float-left" style="margin: 0px; margin-left: 10px;">
-                                                    HideThePain69 </h6>
-                                            </div>
-
-                                            <div class="card border-0 m-0 p-0" style="height: 100vh;">
-                                                <div id="sohbet"
-                                                     class="card border-0 m-0 p-0 position-relative bg-transparent"
-                                                     style="overflow-y: auto; height: 50vh;">
-
-                                                    <div class="balon1 p-2 m-0 position-relative">
-                                                        <div class="float-left"> Hey there! What's up?</div>
-                                                    </div>
-
-                                                    <div class="balon2 p-2 m-0 position-relative">
-                                                        <div class="float-right"> Hey there! What's up?</div>
-                                                    </div>
-
-                                                    <div class="balon1 p-2 m-0 position-relative">
-                                                        <div class="float-left"> Hey there! What's up?</div>
-                                                    </div>
-
-                                                    <div class="balon2 p-2 m-0 position-relative">
-                                                        <div class="float-right"> Hey there! What's up?</div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
+            <div class="container">
+                   <!--START: Chat console-->
+                    <div class="box p-0">
+                        <!--START: Messages-->
+                                    <div class="card" style="height: 60vh;">
+                                        <div class="card-header p-1 has-background-grey-light">
+                                            <div class="profile-img"
+                                                 style="background-image: url('/pfp.jpg')"></div>
+                                            <p class="ml-3 is-size-5 has-text-weight-bold">
+                                                HideThePain69 </p>
                                         </div>
+
+                                        <div class="p-3" style="overflow-y: scroll; height: 55vh;">
+                                             <!--START: message-->
+                         <div class="box is-pulled-left mt-3 p-3 has-background-grey-lighter" style="max-width:70%; border-radius:20px 20px 20px 0px;">
+                            <article class="media">
+                                <figure class="media-left">
+                                  <p class="image is-48x48"><img src="/pfp.jpg"></p>
+                                  <span class="is-size-7">31m</span>
+                                </figure>
+                                <div class="media-content">
+                                  <div class="content m-0">
+                                    <p>
+                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                                    </p>
+                                  </div>
+                                </div>
+                              </article>
+                              </div>
+                              <!--END: message-->
+                              <!--START: message-->
+                            <div class="box is-pulled-right mt-3 p-3 has-background-primary is-bold" style="max-width:70%; border-radius:20px 20px 0px 20px;">
+                                <article class="media">
+                                    <div class="media-content">
+                                      <div class="content m-0">
+                                        <p>
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                                        </p>
+                                      </div>
                                     </div>
+                                    <figure class="media-right">
+                                        <p class="image is-48x48"><img src="/pfp.jpg"></p>
+                                        <span class="is-size-7">31m</span>
+                                      </figure>
+                                  </article>
+                                  </div>
+                                  <!--END: message-->
+                                  <!--START: message-->
+                            <div class="box is-pulled-right mt-3 p-3 has-background-primary is-bold" style="max-width:70%; border-radius:20px 20px 0px 20px;">
+                                <article class="media">
+                                    <div class="media-content">
+                                      <div class="content m-0">
+                                        <p>
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <figure class="media-right">
+                                        <p class="image is-48x48"><img src="/pfp.jpg"></p>
+                                        <span class="is-size-7">31m</span>
+                                      </figure>
+                                  </article>
+                                  </div>
+                                  <!--END: message-->
+                                        </div>
 
                                 </div>
-                            </div>
-                            <!--End experimental-->
-                            <!--END: Messages-->
+                        <!--END: Messages-->
 
-                            <!--START: Input field-->
-                            <div class="field has-addons">
-                                <div class="control">
-                                    <!--Dropup-->
-                                            <button
-                                                    class="button"
-                                            >
-                    <span class="icon is-small">
-                      <i class="fas fa-plus"></i>
-                    </span>
-                                            </button>
-                                        
-                                    <!--END: Dropup-->
-                                    </div>
-                                <div class="control is-expanded">
-                                    <input
-                                            class="input is-fullwidth"
-                                            type="text"
-                                            placeholder="Enter your message.."
-                                    />
-                                </div>
-                                <div class="control">
-                                    <button class="button is-primary">
-                                        <i class="fas fa-paper-plane"></i>
-                                    </button>
-                                </div>
+                        <!--START: Input field-->
+                        <div class="field has-addons">
+                            <div class="control">
+                                <button class="button is-white-ter">
+                                    <i class="fas fa-photo-video"></i>
+                                </button>
                             </div>
-                            <!--END: Input Field-->
+                            <div class="control is-expanded">
+                                <input
+                                        class="input is-fullwidth"
+                                        type="text"
+                                        placeholder="Enter your message.."
+                                />
+                            </div>
+                            <div class="control">
+                                <button class="button is-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                        <!--END: Input Field-->
                    <!--END: Chat console-->
             </div>
-        </section>
+    </div>
     </div>
     <!--END: Chat-->
 
     <!--START: BIllinng-->
     <div id="Billing" class="content-tab" style="display:none">
         <div class="container">
+                    <div class="is-size-3 has-text-centered has-text-weight-semibold">Proposed Cost
+                    <span class="tag is-grey is-light">Unconfirmed</span></div>
+                    <br>
+                    <div class="container box">
+                        <div class="heading">Base Price</div>
+                        <div class="title">$148.50</div>
+                    </div>
+                    <div class="container box">
+                        <div class="heading">Add-ons</div>
+                        <table class="table is-fullwidth">
+                            <tbody>
+                                <tr>
+                                    <td><b>Extra Thing 1</b></td>
+                                    <td>+ $10.00</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Extra Thing 2</b></td>
+                                    <td>+ $12.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="container box">
+                        <div class="heading">Reductions</div>
+                        <table class="table is-fullwidth">
+                            <tbody>
+                                <tr>
+                                    <td><b>Remove Thing 1</b></td>
+                                    <td>- $10.00</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Remove Thing 2</b></td>
+                                    <td>- $12.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
             <div class="columns">
                 <div class="column">
                     <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
                     <br>
                     <div class="container box">
-                            <div class="heading">10% Booking Fee</div>
+                            <div class="heading">Booking Fee</div>
                             <div class="title">$16.50 <span class="tag is-success is-light">Paid</span></div>
                     </div>
-                    <div class="container box">
-                            <div class="heading">Base Price (90%)</div>
-                            <div class="title">$148.50</div>
-                    </div>
-                    <div class="container box">
-                            <div class="heading">Add-ons</div>
-                            <table class="table is-fullwidth">
-                                <tbody>
-                                    <tr>
-                                        <td><b>Extra Thing 1</b></td>
-                                        <td>+ $10.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Extra Thing 2</b></td>
-                                        <td>+ $12.00</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                    </div>
-                    <div class="container box">
-                            <div class="heading">Reductions</div>
-                            <table class="table is-fullwidth">
-                                <tbody>
-                                    <tr>
-                                        <td><b>Remove Thing 1</b></td>
-                                        <td>- $10.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Remove Thing 2</b></td>
-                                        <td>- $12.00</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                    </div>
-
                 </div>
                 <div class="column">
                     <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Summary</h1>
                     <br>
                     <div class="container box">
-                        Final cost: oop lmao
+                        <div class="heading">Final Cost</div>
+                        To-Be Confirmed
                     </div>
                 </div>
             </div>
