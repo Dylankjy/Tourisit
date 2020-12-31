@@ -463,7 +463,7 @@ def sellerModeFile():
 
 
 # TOUR GUIDE
-# Dashboard sex OH YES FREAK ME, DATA COME ON BABY
+# Dashboard
 @app.route('/s/dashboard')
 def sellerDashboard():
     # Get login status using accessor argument

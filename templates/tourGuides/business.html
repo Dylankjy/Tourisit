@@ -94,31 +94,42 @@
         </div>
         {% endif %}
 
-        <div class="has-text-centered m-5 is-size-5">
-            Waiting for Customer to: 
-            <span class="tag is-white-ter is-size-5 is-clickable">
-                Submit Requirements</span>
-            <span class="tag is-white-ter is-size-5 is-clickable">
-                Review Custom Itinerary & Charges</span>
-            <span class="tag is-white-ter is-size-5 is-clickable">
-                Make Payment</span>
-            <span class="tag is-white-ter is-size-5 is-clickable">
-                Complete Tour</span>
-        </div>
+        {% if process_step == 2 or process_step == 4 or process_step == 7 %}
         <div class="has-text-centered m-5 is-size-5">
             Next Step:
+            {% if process_step == 2 or process_step == 4 %}
             <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
                 Plan Custom Package</span>
+            {% elif process_step == 7 %}
             <span class="tag is-warning is-light is-size-5 is-clickable"><a href="{{ url_for('review') }}">
                 Leave Feedback</a></span>
+            {% endif %}
         </div>
+        {% elif process_step != 8 %}
+        <div class="has-text-centered m-5 is-size-5">
+            Waiting for Customer to: 
+            {% if process_step == 1 %}
+            <span class="tag is-white-ter is-size-5 is-clickable">
+                Submit Requirements</span>
+            {% elif process_step == 3 %}
+            <span class="tag is-white-ter is-size-5 is-clickable">
+                Review Custom Itinerary & Charges</span>
+            {% elif process_step == 5 %}
+            <span class="tag is-white-ter is-size-5 is-clickable">
+                Make Payment</span>
+            {% elif process_step == 6 %}
+            <span class="tag is-white-ter is-size-5 is-clickable">
+                Complete Tour</span>
+            {% endif %}
+        </div>
+        {% endif %}
         <!--END: Action req-->
         <!--START: Steps-->
         <div>
             <ul class="steps has-content-centered">
 
-                <li class="steps-segment is-active">
-          <span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (process_step == 1)}}">
+          <span class="steps-marker {{'is-link' if (process_step == 1)}}">
             <i class="fas fa-book"></i>
           </span>
                     <div class="steps-content">
@@ -126,8 +137,8 @@
                     </div>
                 </li>
 
-                <li class="steps-segment">
-          <span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (2 <= process_step <= 4)}}">
+          <span class="steps-marker {{'is-link' if (2 <= process_step <= 4)}}">
             <i class="fas fa-route"></i>
           </span>
                     <div class="steps-content">
@@ -135,8 +146,8 @@
                     </div>
                 </li>
 
-                <li class="steps-segment">
-                    <span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (process_step == 5)}}">
+                    <span class="steps-marker {{'is-link' if (process_step == 5)}}">
                       <i class="fas fa-dollar-sign"></i>
                     </span>
                               <div class="steps-content">
@@ -144,8 +155,8 @@
                               </div>
                           </li>
 
-                <li class="steps-segment">
-          <span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (process_step == 6)}}">
+          <span class="steps-marker {{'is-link' if (process_step == 6)}}">
             <i class="fas fa-check"></i>
           </span>
                     <div class="steps-content">
@@ -153,8 +164,9 @@
                     </div>
                 </li>
 
-                <li class="steps-segment">
-                    <a href="{{ url_for('review') }}"><span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (process_step == 7)}}">
+                    <a class="{{'inactiveLink' if (process_step != 7)}}" href="{{ url_for('review') }}">
+                        <span class="steps-marker {{'is-link' if(process_step == 7)}}">
             <i class="fas fa-comments"></i>
           </span>
                         <div class="steps-content">
@@ -167,6 +179,7 @@
         </div>
         <!--END: Steps-->
 
+        {% if process_step == 2 or process_step == 4 %}
         <!--START: Submit itinerary & proposed charges-->
         <div class="section">
             <div class="container has-text-centered">
@@ -180,7 +193,8 @@
             </div>
             </div>
             <!--END: Submit itinerary & proposed charges-->
-            <!--START:(Modal) Confirm that tour completed-->
+        {% endif %}
+            <!--START:(Modal) Confirm submit plan-->
             <div class="modal">
                 <div class="modal-background"></div>
                 <div class="modal-content">
@@ -203,8 +217,9 @@
                 </div>
                 <button class="modal-close is-large" aria-label="close"></button>
               </div>
-            <!--END:(Modal) Confirm that tour completed-->
+            <!--END:(Modal) Confirm submit plan-->
 
+        {% if process_step == 4 %}    
         <!--START: Customer Revision request-->
         <div class="section">
         <div class="container">
@@ -228,6 +243,7 @@
           </div>
           </div>
         <!--END: Customer Revision request-->
+        {% endif %}
     </div>
     <!--END: Overview-->
 
@@ -255,9 +271,16 @@
             <div class='box p-5'>
                 <div class="has-text-centered">
                 <span class='is-size-3 mr-1'><b>Itinerary</b></span>
+                {% if process_step == 5 %}
                 <span class="tag is-success is-light is-size-6">
                     Confirmed</span>
+                {% endif %}
+                {% if process_step == 3 %}
+                <span class="tag is-link is-light is-size-6">
+                    Submitted</span>
+                {% endif %}
                 </div>
+                {% if process_step == 2 or process_step == 4%}
                     <!--START: Edit button-->
                     <div class="field is-grouped is-grouped-left">
                         <p class="control">
@@ -267,7 +290,8 @@
                           </button>
                         </p>
                       </div>
-                      <!--END: Edit button-->               
+                      <!--END: Edit button--> 
+                {% endif %}              
                 <div class="columns pt-5">
 
                     <!--timeline-->
@@ -335,9 +359,12 @@
                     <!--END: Info Table-->
                     <div class="is-pulled-right">
                     <span class="tag is-size-4">Price: $1000</span><br>
+                    {% if process_step == 2 or process_step == 4 %}
                     <a class="has-text-link is-size-7 pl-6" onclick="openTab(event,'Charges')">Edit Charges</a>
+                    {% endif %}
                     </div>
                     <br><br><br><br>
+                    {% if process_step == 2 or process_step == 4 %}
                     <!--START: cancel changes/draft/submit itinerary buttons-->
                     <div class="field is-grouped is-grouped-right">
                         <p class="control">
@@ -355,6 +382,7 @@
                         <a class="has-text-link is-size-6" onclick="openTab(event,'Overview')">Submit Proposed Itinerary & Charges</a>
                       </div>
                       <!--END: cancel changes/draft/submit itinerary buttons-->
+                    {% endif %}
                       <!--START: (Modal) cancel-->        
                         <div class="modal">
                             <div class="modal-background"></div>
@@ -389,17 +417,11 @@
             </div>
             <div class="field">
                 <div class="control">
-                    <textarea class="textarea" placeholder="Enter Additional Information you would like your Customer to know." readonly
-                    value="bb"></textarea>
+                    <textarea class="textarea" placeholder="Enter Additional Information you would like your Customer to know."
+                    ></textarea>
                 </div>
             </div>
             <div class="field is-grouped is-grouped-right">
-                <p class="control">
-                    <button class="button is-success is-light">
-                        <i class="fas fa-edit"></i>
-                        <div class="is-size-5 ml-3">Edit</div><br>
-                    </button>
-                  </p>
                   <p class="control">
                     <button class="button is-success is-light">
                         <div class="is-size-5">Save</div><br>
