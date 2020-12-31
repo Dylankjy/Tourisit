@@ -15,13 +15,16 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 
 db = client['Listings']
 
-all_listings = list(i['tour_name'] for i in db.find())
-print(all_listings)
+x = list(db.find({'tg_uid': 'testing'}))
+print(x)
 
-text = 'i'
-result = [c for c in all_listings if str(text).lower() in c.lower()]
-x = list(i for i in db.find({'tour_name': {'$in': result}}))
-print(x[1])
+# all_listings = list(i['tour_name'] for i in db.find())
+# print(all_listings)
+#
+# text = 'i'
+# result = [c for c in all_listings if str(text).lower() in c.lower()]
+# x = list(i for i in db.find({'tour_name': {'$in': result}}))
+# print(x[1])
 
 # co = True
 # while co:

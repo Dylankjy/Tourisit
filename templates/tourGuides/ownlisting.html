@@ -23,7 +23,10 @@
         <div class="container">
 
             <!-- START: Horizontal Card -->
-            {% for item in listings|reverse %}
+            {% if listings == None %}
+                <h1 class="'has-text-dark">Nothing to show here.</h1>
+            {% else %}
+                {% for item in listings|reverse %}
                 <a href='/discover/{{ item["_id"] }}'>
                     <div class='box p-5'>
                         <div class="columns is-vcentered">
@@ -50,13 +53,13 @@
                             <div class="column">
                                 <div class="box listing-img"
                                      style="background-image: url('data:image/jpeg;base64, {{ item.tour_img }}');"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
                 <!-- END: Horizontal Card -->
-
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
 
 
         </div>

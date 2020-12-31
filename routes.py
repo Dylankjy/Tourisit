@@ -150,24 +150,6 @@ def home():
 # Marketplace: Display all listings
 @app.route('/discover')
 def market():
-    # all_listings = list(i['tour_name'] for i in shop_db.find())
-    # # try:
-    # text = request.args['search']
-    # if text != '':
-    #     result = [c for c in all_listings if str(text).lower() in c.lower()]
-    #     result_listings = list(i for i in shop_db.find({'tour_name': {'$in': result}}))
-    #     return render_template('customer/marketplace.html', listings=result_listings)
-    # else:
-    #     return render_template('customer/marketplace.html', listings=list(shop_db.find()))
-    # except:
-    # if request.method == 'POST':
-    #     print('SUBMITTED')
-    #     result = request.form['searchResult']
-    #     print(result)
-    # return render_template('customer/marketplace.html', listings=list(shop_db.find()))
-    # except:
-    #     return 'Error trying to render'
-
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
@@ -190,7 +172,7 @@ def search():
     # Get all the listings that fulfil the criteria
     result = [c for c in all_listings if str(text).lower() in c.lower()]
     result_listings = list(shop_db.find({'tour_name': {'$in': result}}))
-    return json.dumps({"results": result})
+    return json.dumps({"results": result_listings})
 
 
 # CUSTOMERS
@@ -219,38 +201,45 @@ def ownlisting():
     result = auth.is_auth(True)
     # if not logged in
     if not result:
-        return render_template('tourGuides/ownlisting.html', listings=list(shop_db.find()), loggedin=False)
+        return render_template('tourGuides/ownlisting.html', listings=None, loggedin=False)
     # if logged in
     else:
-        return render_template('tourGuides/ownlisting.html', listings=list(shop_db.find()), loggedin=True, user=result)
+        tourGuide_id = result['_id']
+        tour_listings = list(shop_db.find({'tg_uid': tourGuide_id}))
+        return render_template('tourGuides/ownlisting.html', listings=tour_listings, loggedin=True, user=result)
 
 
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
-    lForm = ListingForm()
-    if request.method == 'POST':
-        if lForm.validate_on_submit():
-            tour_name = request.form['tour_name']
-            brief_desc = request.form['tour_brief']
-            detail_desc = request.form['tour_desc']
-            tour_img = request.files['tour_img']
-            img_string = img_to_base64(tour_img)
-            tour_price = request.form['tour_price']
-            print(tour_name)
+    result = auth.is_auth(True)
+    #If result is not None (User is logged in)
+    if result:
+        lForm = ListingForm()
+        if request.method == 'POST':
+            if lForm.validate_on_submit():
+                tour_name = request.form['tour_name']
+                brief_desc = request.form['tour_brief']
+                detail_desc = request.form['tour_desc']
+                tour_img = request.files['tour_img']
+                img_string = img_to_base64(tour_img)
+                tour_price = request.form['tour_price']
+                print(tour_name)
 
-            tour_listing = Listing(tour_name=tour_name, tour_brief=brief_desc, tour_desc=detail_desc,
-                                   tour_price=tour_price,
-                                   tour_img=img_string, tg_uid='testing')
+                tour_listing = Listing(tour_name=tour_name, tour_brief=brief_desc, tour_desc=detail_desc,
+                                       tour_price=tour_price,
+                                       tour_img=img_string, tg_uid=result['_id'])
 
-            listingInfo = tour_listing.return_obj()
-            print(listingInfo)
-            shop_db.insert_one(listingInfo)
+                listingInfo = tour_listing.return_obj()
+                print(listingInfo)
+                shop_db.insert_one(listingInfo)
 
-            return render_template('tourGuides/listing-success.html')
-        return render_template('tourGuides/makelisting.html', form=lForm)
+                return render_template('tourGuides/listing-success.html')
+            return render_template('tourGuides/makelisting.html', form=lForm)
 
+        else:
+            return render_template('tourGuides/makelisting.html', form=lForm)
     else:
-        return render_template('tourGuides/makelisting.html', form=lForm)
+        return 'Need to login/create account first!'
 
 
 # TOUR GUIDES
