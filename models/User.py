@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, TextAreaField
 from wtforms.validators import InputRequired, Length
 
 
@@ -49,6 +49,13 @@ class UserForm(FlaskForm):
         ],
     )
 
+class BioForm(FlaskForm):
+    bio = TextAreaField(
+        "bio",
+        validators=[
+            Length(min=0, max=75, message="Bio can only be 75 characters long!")
+        ]
+    )
 
 class User:
     def __init__(
@@ -132,9 +139,9 @@ class User:
 
     def set_bio(self, bio):
         try:
-            assert len(bio) <= 50
+            assert len(bio) <= 75
         except AssertionError:
-            print(f"{bio} must be less than {50} characters!")
+            print(f"{bio} must be less than {75} characters!")
         else:
             self.__bio = bio
 
