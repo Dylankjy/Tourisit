@@ -28,8 +28,7 @@ for listing in result_listings:
 #
 #     listing = [value.encode('utf-8') for value in listing]
 
-y = json.dumps({"results": result_listings[0]['tour_img']})
-print(y)
+y = json.dumps({"results": result_listings})
 
 # all_listings = list(i['tour_name'] for i in db.find())
 # print(all_listings)
