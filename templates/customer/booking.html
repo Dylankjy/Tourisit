@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/bulma-steps.css">
     <link rel="stylesheet" href="/css/chat.css">
     <link rel="stylesheet" href="/css/bulma-badge.css">
+    <link rel="stylesheet" href="/css/all_bookings.css">
 {% endblock %}
 
 
@@ -51,19 +52,27 @@
         <div class="tabs is-centered is-boxed pt-4">
             <ul>
               <li class="tab is-active" onclick="openTab(event,'Overview')">
+                {% if process_step == 6 or process_step == 7 %}
                 <span title="Badge top right" class="badge is-danger"></span>
+                {% endif %}
                 <a>Overview</a>
               </li>
               <li class="tab" onclick="openTab(event,'Details')">
+                {% if process_step == 3 %}
                 <span title="Badge top right" class="badge is-danger"></span>
+                {% endif %}
                 <a>Details</a>
               </li>
               <li class="tab" onclick="openTab(event,'Chat')">
+                {% if process_step == 1 %}
                 <span title="Badge top right" class="badge is-danger"></span>
+                {% endif %}
                 <a>Chat</a>
               </li>
               <li class="tab" onclick="openTab(event,'Billing')">
+                {% if process_step == 3 or process_step == 5 %}
                 <span title="Badge top right" class="badge is-danger"></span>
+                {% endif %}
                 <a>Billing</a>
               </li>
             </ul>
@@ -77,38 +86,53 @@
     <!--START: Overview-->
     <div id="Overview" class="content-tab">
         <!--START: Action req-->
+        {% if process_step == 6 %}
         <div class="has-text-centered m-2 is-size-6">
             You are now ready to go for your Tour!
         </div>
-        <div class="has-text-centered m-5 is-size-5">
-            Next Step: 
-            {% if process_step == 1 %}
-            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
-                Submit Requirements</span>
-            {% elif process_step == 2 %}
-            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
-                Review Custom Itinerary & Charges</span>
-            {% elif process_step == 3 %}
-            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
-                Make Payment</span>
-            {% endif %}
-            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
-                Complete Tour</span>
-            <span class="tag is-warning is-light is-size-5 is-clickable"><a href="{{ url_for('review') }}">
-                Leave Feedback</a></span>
+        {% endif %}
+
+        {% if process_step >= 7 %}
+        <div class="has-text-centered m-2 is-size-4">
+            You have completed your Tour!
         </div>
+        {% endif %}
+
+        {% if process_step == 2 or process_step == 4 %}
         <div class="has-text-centered m-5 is-size-5">
             Waiting for Tour Guide to:
             <span class="tag is-white-ter is-size-5 is-clickable">
                 Plan Custom Package</span>
         </div>
+        {% elif process_step != 8 %}
+
+        <div class="has-text-centered m-5 is-size-5">
+            Next Step: 
+            {% if process_step == 1 %}
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
+                Submit Requirements</span>
+            {% elif process_step == 3 %}
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
+                Review Custom Itinerary & Charges</span>
+            {% elif process_step == 5 %}
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
+                Make Payment</span>
+            {% elif process_step == 6 %}
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
+                Complete Tour</span>
+            {% elif process_step == 7 %}
+            <span class="tag is-warning is-light is-size-5 is-clickable"><a href="{{ url_for('review') }}">
+                Leave Feedback</a></span>
+            {% endif %}
+        </div>
+        {% endif %}
         <!--END: Action req-->
         <!--START: Steps-->
         <div>
             <ul class="steps has-content-centered">
 
-                <li class="steps-segment is-active">
-          <span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (process_step == 1)}}">
+          <span class="steps-marker {{'is-link' if (process_step == 1)}}">
             <i class="fas fa-book"></i>
           </span>
                     <div class="steps-content">
@@ -116,8 +140,8 @@
                     </div>
                 </li>
 
-                <li class="steps-segment">
-          <span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (2 <= process_step <= 4)}}">
+          <span class="steps-marker {{'is-link' if (2 <= process_step <= 4)}}">
             <i class="fas fa-route"></i>
           </span>
                     <div class="steps-content">
@@ -125,8 +149,8 @@
                     </div>
                 </li>
 
-                <li class="steps-segment">
-                    <span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (process_step == 5)}}">
+                    <span class="steps-marker {{'is-link' if (process_step == 5)}}">
                       <i class="fas fa-dollar-sign"></i>
                     </span>
                               <div class="steps-content">
@@ -134,8 +158,8 @@
                               </div>
                           </li>
 
-                <li class="steps-segment">
-          <span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (process_step == 6)}}">
+          <span class="steps-marker {{'is-link' if (process_step == 6)}}">
             <i class="fas fa-check"></i>
           </span>
                     <div class="steps-content">
@@ -143,8 +167,9 @@
                     </div>
                 </li>
 
-                <li class="steps-segment">
-                    <a href="{{ url_for('review') }}"><span class="steps-marker">
+                <li class="steps-segment {{'is-active' if (process_step == 7)}}">
+                    <a class="{{'inactiveLink' if (process_step != 7)}}" href="{{ url_for('review') }}">
+                        <span class="steps-marker {{'is-link' if(process_step == 7)}}">
             <i class="fas fa-comments"></i>
           </span>
                         <div class="steps-content">
@@ -156,6 +181,7 @@
             </ul>
         </div>
         <!--END: Steps-->
+        {% if process_step == 6 %}
         <!--START: Confirm if tour completed-->
         <div class="section">
         <div class="container has-text-centered">
@@ -169,6 +195,7 @@
         </div>
         </div>
         <!--END: Confirm if tour completed-->
+        {% endif %}
         <!--START:(Modal) Confirm that tour completed-->
         <div class="modal">
             <div class="modal-background"></div>
@@ -219,10 +246,16 @@
             <div class='box p-5'>
                 <div class="has-text-centered">
                 <span class='is-size-3 mr-1'><b>Itinerary</b></span>
+                {% if process_step == 2 or process_step == 4 %}
+                <span class="tag is-warning is-light is-size-6">
+                    Needs Revision</span>
+                {% elif process_step == 3 %}
                 <span class="tag is-grey is-light is-size-6">
                     Unconfirmed</span>
+                {% elif process_step >= 5 %}
                 <span class="tag is-success is-light is-size-6">
                     Confirmed</span>
+                {% endif %}
                 </div>
                 <div class="columns pt-5">
 
@@ -289,27 +322,29 @@
                     </div>
                     </div>
                     <!--END: Info Table-->
+                    {% if process_step >= 3 %}
                     <div class="is-pulled-right">
                     <span class="tag is-size-4">Price: $1000</span><br>
                     <a class="has-text-link is-size-7 pl-5" onclick="openTab(event,'Billing')">View Price Breakdown</a>
                     </div>
                     <br><br><br><br>
+                    {% endif %}
+                    {% if process_step == 3 %}
                     <!--START: Revise/Confirm itinerary buttons-->
                     <div class="field is-grouped is-grouped-right">
                         <p class="control">
                           <button class="button is-warning is-light">
                             <div class="is-size-5">Request Revision</div><br>
-                            <!--<div class="is-size-6">You have 3 Revision(s) remaining.</div>-->
                           </button>
                         </p>
                         <p class="control">
                             <button class="button is-success is-light">
                               <div class="is-size-5">Accept & Confirm</div><br>
-                              <!--<div class="is-size-6">This action cannot be undone.</div>-->
                             </button>
                           </p>
                       </div>
                       <!--END: Revise/Confirm itinerary buttons-->
+                      {% endif %}
                       <!--START: (Modal) Confirm revision of itinerary-->        
                         <div class="modal">
                             <div class="modal-background"></div>
@@ -479,6 +514,9 @@
     <!--START: BIllinng-->
     <div id="Billing" class="content-tab" style="display:none">
         <div class="container">
+            {% if process_step == 3 or process_step == 4 %}
+            <!--START: Proposed Cost-->
+            <div>
                     <div class="is-size-3 has-text-centered has-text-weight-semibold">Proposed Cost
                     <span class="tag is-grey is-light">Unconfirmed</span></div>
                     <br>
@@ -486,6 +524,8 @@
                         <div class="heading">Base Price</div>
                         <div class="title">$148.50</div>
                     </div>
+                    {% if process_step >= 3 %}
+                    <!--START: Addons & Reductions-->
                     <div class="container box">
                         <div class="heading">Add-ons</div>
                         <table class="table is-fullwidth">
@@ -516,6 +556,11 @@
                             </tbody>
                         </table>
                     </div>
+                    <!--END: Addons & Reduction-->
+                    {% endif %}
+                </div>
+                <!--END: Proposed Cost-->
+                {% endif %}
             <div class="columns">
                 <div class="column">
                     <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
@@ -528,16 +573,24 @@
                 <div class="column">
                     <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Summary</h1>
                     <br>
+                    {% if process_step < 5 %}
                     <div class="container box">
                         <div class="heading">Final Cost</div>
                         To-Be Confirmed
                     </div>
+                    {% elif process_step >= 5 %}
                     <div class="container box">
                         <div class="heading">Final Cost</div>
-                        <div class="title">$165</div>
+                        <div class="title">$165
+                            {% if process_step >=6 %}
+                            <span class="tag is-success is-light">Paid</span>
+                            {% endif %}
+                        </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
+            {% if process_step == 5 %}
             <!--START: Payment button-->
             <div class="field is-grouped is-grouped-right">
                 <p class="control">
@@ -547,6 +600,7 @@
                 </p>
               </div>
             <!--END: Payment button-->
+            {% endif %}
         </div>
     </div>
     <!--END: Billing-->
