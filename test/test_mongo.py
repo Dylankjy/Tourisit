@@ -17,18 +17,22 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 
 db = client['Listings']
 
-result_listings = list(db.find())
-for listing in result_listings:
-    listing['_id'] = JSONEncoder().encode(listing['_id'])
-    listing['date_created'] = str(listing['date_created'])
-    listing['tour_img'] = str(listing['tour_img'])
+x = list(db.find())[:12]
+y = len(x)
+print(y)
+
+# result_listings = list(db.find())
+# for listing in result_listings:
+#     listing['_id'] = JSONEncoder().encode(listing['_id'])
+#     listing['date_created'] = str(listing['date_created'])
+#     listing['tour_img'] = str(listing['tour_img'])
 # print(result_id)
 
 # for listing in result_listings:
 #
 #     listing = [value.encode('utf-8') for value in listing]
 
-y = json.dumps({"results": result_listings})
+# y = json.dumps({"results": result_listings})
 
 # all_listings = list(i['tour_name'] for i in db.find())
 # print(all_listings)
