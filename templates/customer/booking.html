@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 
     {% block title %}Tourisit - Tours By Locals {% endblock %}
 
@@ -15,9 +10,7 @@
     <link rel="stylesheet" href="/css/bulma-badge.css">
     <link rel="stylesheet" href="/css/all_bookings.css">
     {% endblock %}
-</head>
 
-<body>
     {% block content %}
     <!--START: Top-->
     <section class='section mb-0 pb-0'>
@@ -193,7 +186,7 @@
                 <div class="container has-text-centered">
                     <div class="field">
                         <p class="control">
-                            <button onclick="$('#logoutOptionsModal1').fadeIn('fast')"
+                            <button onclick="$('#TourCompleteModal').fadeIn('fast')"
                                 class="button is-success is-light">
                                 <div class="is-size-5">I Have Completed My Tour!</div>
                             </button>
@@ -605,7 +598,7 @@
     <script defer src="/js/booking.js"></script>
 
     <!--START:(Modal) Confirm that tour completed-->
-    <div class="modal is-active" id="confirmationModal" style="display: none;">
+    <div class="modal is-active" id="TourCompleteModal" style="display: none;">
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="box has-text-centered">
@@ -613,7 +606,7 @@
                 <p>This action cannot be undone.</p>
                 <div class="field is-grouped is-grouped-centered mt-5">
                     <p class="control">
-                        <button class="button is-danger is-light">
+                        <button class="button is-danger is-light" onclick="$('#TourCompleteModal').fadeOut('fast');">
                             <div class="is-size-5">Cancel</div>
                         </button>
                     </p>
@@ -625,14 +618,8 @@
                 </div>
             </div>
         </div>
-        <a onclick="$('#confirmationModal').fadeOut('fast');">
-            <button class="modal-close is-large" aria-label="close"></button>
-        </a>
+        <button class="modal-close is-large" aria-label="close" onclick="$('#TourCompleteModal').fadeOut('fast');"></button>
     </div>
     <!--END:(Modal) Confirm that tour completed-->
 
     {% endblock %}
-
-</body>
-
-</html>
