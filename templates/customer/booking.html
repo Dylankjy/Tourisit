@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
 {% extends 'base.html' %}
 
 {% block title %}Tourisit - Tours By Locals {% endblock %}
@@ -10,8 +15,8 @@
     <link rel="stylesheet" href="/css/bulma-badge.css">
     <link rel="stylesheet" href="/css/all_bookings.css">
 {% endblock %}
-
-
+</head>
+<body>
 {% block content %}
 <!--START: Top-->
 <section class='section mb-0 pb-0'>
@@ -118,7 +123,7 @@
             <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
                 Make Payment</span>
             {% elif process_step == 6 %}
-            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
+            <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Overview')">
                 Complete Tour</span>
             {% elif process_step == 7 %}
             <span class="tag is-warning is-light is-size-5 is-clickable"><a href="{{ url_for('review') }}">
@@ -188,7 +193,9 @@
             <div class="field">
                 <p class="control">
                     <button class="button is-success is-light">
+                        <a onclick="$('#logoutOptionsModal1').fadeIn('fast')">
                         <div class="is-size-5">I Have Completed My Tour!</div>
+                        </a>
                     </button>
                 </p>
             </div>
@@ -196,30 +203,6 @@
         </div>
         <!--END: Confirm if tour completed-->
         {% endif %}
-        <!--START:(Modal) Confirm that tour completed-->
-        <div class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-              <div class="box has-text-centered">
-                  <p class="is-size-5 has-text-weight-bold">Confirm that your tour has been completed?</p>
-                  <p>This action cannot be undone.</p>
-                  <div class="field is-grouped is-grouped-centered mt-5">
-                    <p class="control">
-                        <button class="button is-danger is-light">
-                            <div class="is-size-5">Cancel</div>
-                        </button>
-                    </p>
-                    <p class="control">
-                        <button class="button is-success is-light">
-                            <div class="is-size-5">Confirm</div>
-                        </button>
-                    </p>
-                </div>
-              </div>
-            </div>
-            <button class="modal-close is-large" aria-label="close"></button>
-          </div>
-        <!--END:(Modal) Confirm that tour completed-->
     </div>
     <!--END: Overview-->
 
@@ -352,6 +335,9 @@
                             <div class="box has-text-centered">
                                 <p class="is-size-5 has-text-weight-bold">Request a revision of the Proposed Itinerary and Charges?</p>
                                 <p>You have 4 free revision(s) left.</p>
+                                <div class="field">
+                                    <textarea class="textarea" placeholder="Enter the changes you would like to see.."></textarea>
+                                </div>
                                 <div class="field is-grouped is-grouped-centered mt-5">
                                     <p class="control">
                                         <button class="button is-danger is-light">
@@ -611,3 +597,33 @@
 <script defer src="/js/booking.js"></script>
 
 {% endblock %}
+
+<!--START:(Modal) Confirm that tour completed-->
+<div class="modal is-active" id="logoutOptionsModal1" style="display: none;">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box has-text-centered">
+          <p class="is-size-5 has-text-weight-bold">Confirm that your tour has been completed?</p>
+          <p>This action cannot be undone.</p>
+          <div class="field is-grouped is-grouped-centered mt-5">
+            <p class="control">
+                <button class="button is-danger is-light">
+                    <div class="is-size-5">Cancel</div>
+                </button>
+            </p>
+            <p class="control">
+                <button class="button is-success is-light">
+                    <div class="is-size-5">Confirm</div>
+                </button>
+            </p>
+        </div>
+      </div>
+    </div>
+    <a onclick="$('#logoutOptionsModal1').fadeOut('fast');">
+    <button class="modal-close is-large" aria-label="close"></button>
+    </a>
+  </div>
+<!--END:(Modal) Confirm that tour completed-->
+
+</body>
+</html>
