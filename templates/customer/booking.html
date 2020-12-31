@@ -189,17 +189,15 @@
         {% if process_step == 6 %}
         <!--START: Confirm if tour completed-->
         <div class="section">
-        <div class="container has-text-centered">
-            <div class="field">
-                <p class="control">
-                    <button class="button is-success is-light">
-                        <a onclick="$('#logoutOptionsModal1').fadeIn('fast')">
-                        <div class="is-size-5">I Have Completed My Tour!</div>
-                        </a>
-                    </button>
-                </p>
+            <div class="container has-text-centered">
+                <div class="field">
+                    <p class="control">
+                        <button onclick="$('#logoutOptionsModal1').fadeIn('fast')" class="button is-success is-light">
+                            <div class="is-size-5">I Have Completed My Tour!</div>
+                        </button>
+                    </p>
+                </div>
             </div>
-        </div>
         </div>
         <!--END: Confirm if tour completed-->
         {% endif %}
@@ -599,7 +597,7 @@
 {% endblock %}
 
 <!--START:(Modal) Confirm that tour completed-->
-<div class="modal is-active" id="logoutOptionsModal1" style="display: none;">
+<div class="modal is-active" id="confirmationModal" style="display: none;">
     <div class="modal-background"></div>
     <div class="modal-content">
       <div class="box has-text-centered">
@@ -619,7 +617,7 @@
         </div>
       </div>
     </div>
-    <a onclick="$('#logoutOptionsModal1').fadeOut('fast');">
+    <a onclick="$('#confirmationModal').fadeOut('fast');">
     <button class="modal-close is-large" aria-label="close"></button>
     </a>
   </div>
