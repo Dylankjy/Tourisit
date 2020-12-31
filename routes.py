@@ -38,6 +38,7 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 shop_db = client['Listings']
 user_db = client['Users']
 
+
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
     lForm = ListingForm()
@@ -47,6 +48,7 @@ def test_img():
         print(img_string)
         return render_template('tourGuides/testImg.html', form=lForm, imgBase64=img_string)
     return render_template('tourGuides/testImg.html', form=lForm, imgBase64='')
+
 
 # --------------------------------------
 
@@ -61,6 +63,7 @@ def support():
     except:
         return 'Error trying to render'
 
+
 # CUSTOMER
 # Submit Review
 @app.route('/review')
@@ -69,6 +72,7 @@ def review():
         return render_template('customer/review.html')
     except:
         return 'Error trying to render'
+
 
 # SHARED
 # User profile
@@ -91,6 +95,7 @@ def profile():
         return render_template('profile.html', user=item, form=bForm)
     else:
         return render_template('profile.html', user=item, form=bForm)
+
 
 # SHARED
 # User account settings
@@ -123,12 +128,14 @@ def accountinfo():
     else:
         return render_template('setting.html', user=item, form=uForm)
 
+
 @app.route('/me/billing')
 def accountbilling():
     try:
         return render_template('billing.html')
     except:
         return 'Error trying to render'
+
 
 # --------------------------------------
 
@@ -149,6 +156,7 @@ def home():
         return render_template('customer/index-customer.html',
                                listings=list(shop_db.find()), loggedin=True, user=result)
 
+
 # CUSTOMERS
 # Marketplace: Display all listings
 @app.route('/discover')
@@ -163,6 +171,7 @@ def market():
     else:
         return render_template('customer/marketplace.html',
                                listings=list(shop_db.find()), loggedin=True, user=result)
+
 
 # To implement search function
 @app.route('/search')
@@ -182,6 +191,7 @@ def search():
 
         return json.dumps({"results": result_listings})
 
+
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from M clicked
 @app.route('/discover/<tour_id>')
@@ -199,6 +209,7 @@ def tourListing(tour_id):
     else:
         return render_template('customer/tourListing.html', item=item, loggedin=True, user=result)
 
+
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
@@ -214,10 +225,12 @@ def ownlisting():
         tour_listings = list(shop_db.find({'tg_uid': tourGuide_id}))
         return render_template('tourGuides/ownlisting.html', listings=tour_listings, loggedin=True, user=result)
 
+
 @app.route('/apis/upImg')
 def updateImg():
     text = request.args['currentImg']
     return json.dumps({"results": text})
+
 
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
@@ -251,6 +264,7 @@ def makelisting():
     else:
         return 'Need to login/create account first!'
 
+
 # TOUR GUIDES
 # Edit Listings: When click on own listing to edit
 @app.route('/listings/edit/<id>', methods=['GET', 'POST'])
@@ -283,6 +297,7 @@ def editListing(id):
         lForm.process()
         return render_template('tourGuides/editListing.html', listing=item, form=lForm)
 
+
 # @app.route('/testImg', methods=['GET', 'POST'])
 # def test_img():
 #     lForm = ListingForm()
@@ -300,6 +315,7 @@ def deleteList(id):
 
     return redirect('/listings')
 
+
 # CUSTOMERS
 # Favourites: Shows all the liked listings
 @app.route('/me/favourites')
@@ -312,6 +328,7 @@ def favourites():
     # if logged in
     else:
         return render_template('customer/favourites.html', loggedin=True, user=result)
+
 
 # --------------------------------------
 
@@ -333,6 +350,7 @@ def all_bookings():
     except:
         return 'Error trying to render'
 
+
 # CUSTOMER
 # Individual Bookings
 # @app.route('/bookings/<id>')
@@ -350,6 +368,7 @@ def bookings():
     except:
         return 'Error trying to render'
 
+
 # CUSTOMER
 # Book Now Page
 @app.route('/listings/id/booknow')
@@ -365,6 +384,7 @@ def book_now():
             return render_template('customer/book-now.html', loggedin=True, user=result)
     except:
         return 'Error trying to render'
+
 
 # CUSTOMER
 # Checkout page (placeholder)
@@ -383,6 +403,7 @@ def checkout():
     except:
         return 'Error trying to render'
 
+
 # SHARED
 # Chats: Render indiv chats
 @app.route('/chat')
@@ -399,6 +420,7 @@ def chat():
     except:
         return 'Error trying to render'
 
+
 # TOUR GUIDES
 # My Businesses: Access all gigs
 @app.route('/s/businesses')
@@ -414,6 +436,7 @@ def all_businesses():
             return render_template('tourGuides/allBusinesses.html', loggedin=True, user=result)
     except:
         return 'Error trying to render'
+
 
 # TOUR GUIDES
 # Individual gigs  
@@ -432,6 +455,7 @@ def business():
     except:
         return 'Error trying to render'
 
+
 # --------------------------------------
 
 # Dylan
@@ -442,10 +466,12 @@ def business():
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
 
+
 # Redirect user to dashboard if attempt to access file of /s/
 @app.route('/s')
 def sellerModeFile():
     return redirect(url_for('sellerDashboard'))
+
 
 # TOUR GUIDE
 # Dashboard
@@ -460,6 +486,7 @@ def sellerDashboard():
     else:
         return render_template('tourGuides/dashboard.html', loggedin=True, user=result)
 
+
 # INTERNAL
 # Admin Dashboard -- Private internal shit
 @app.route('/admin')
@@ -472,6 +499,7 @@ def adminDashboard():
     # if logged in
     else:
         return render_template('internal/dashboard.html', loggedin=True, user=result)
+
 
 # INTERNAL
 # Admin Dashboard -- Manage users
@@ -486,6 +514,7 @@ def adminUsers():
     else:
         return render_template('internal/users.html', loggedin=True, user=result)
 
+
 # INTERNAL
 # Admin Dashboard -- Manage listings
 @app.route('/admin/listings')
@@ -498,6 +527,7 @@ def adminListings():
     # if logged in
     else:
         return render_template('internal/listings.html', loggedin=True, user=result)
+
 
 # SHARED
 # Login Page
@@ -534,6 +564,7 @@ def login():
     else:
         return redirect(url_for('home'))
 
+
 # SHARED
 # Sign up page
 @app.route('/signup', methods=['GET', 'POST'])
@@ -569,6 +600,7 @@ def signup():
     else:
         return redirect(url_for('home'))
 
+
 @app.route('/system/resendEmail', methods=['POST'])
 def resend_email():
     resend_email_form = auth.ResendEmailForm()
@@ -585,6 +617,7 @@ def resend_email():
         if auth.send_confirmation_email(None, email):
             return redirect(url_for('signup', email_sent=True))
 
+
 # MEMBERS
 # Logout page
 @app.route('/logout')
@@ -597,6 +630,7 @@ def logout():
     else:
         return redirect(url_for('home'))
 
+
 @app.route('/logout-expireSessions')
 def logout_all():
     if auth.get_sid() is not None:
@@ -606,6 +640,7 @@ def logout_all():
         return resp
     else:
         return redirect(url_for('home'))
+
 
 # Run app
 if __name__ == '__main__':
