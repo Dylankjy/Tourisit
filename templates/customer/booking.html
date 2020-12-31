@@ -310,12 +310,12 @@
                     <!--START: Revise/Confirm itinerary buttons-->
                     <div class="field is-grouped is-grouped-right">
                         <p class="control">
-                            <button class="button is-warning is-light">
+                            <button class="button is-warning is-light" onclick="$('#ReqRevisionModal').fadeIn('fast')">
                                 <div class="is-size-5">Request Revision</div><br>
                             </button>
                         </p>
                         <p class="control">
-                            <button class="button is-success is-light">
+                            <button class="button is-success is-light" onclick="$('#AcceptItinModal').fadeIn('fast')">
                                 <div class="is-size-5">Accept & Confirm</div><br>
                             </button>
                         </p>
@@ -323,7 +323,7 @@
                     <!--END: Revise/Confirm itinerary buttons-->
                     {% endif %}
                     <!--START: (Modal) Confirm revision of itinerary-->
-                    <div class="modal">
+                    <div class="modal is-active" id="ReqRevisionModal" style="display: none;">
                         <div class="modal-background"></div>
                         <div class="modal-content">
                             <div class="box has-text-centered">
@@ -336,7 +336,7 @@
                                 </div>
                                 <div class="field is-grouped is-grouped-centered mt-5">
                                     <p class="control">
-                                        <button class="button is-danger is-light">
+                                        <button class="button is-danger is-light" onclick="$('#ReqRevisionModal').fadeOut('fast');">
                                             <div class="is-size-5">Cancel</div>
                                         </button>
                                     </p>
@@ -348,11 +348,11 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="modal-close is-large" aria-label="close"></button>
+                        <button class="modal-close is-large" aria-label="close" onclick="$('#ReqRevisionModal').fadeOut('fast');"></button>
                     </div>
                     <!--END: (Modal) Confirm revision of itinerary-->
                     <!--START: (Modal) Confirm accepting itinerary-->
-                    <div class="modal">
+                    <div class="modal is-active" id="AcceptItinModal" style="display: none;">
                         <div class="modal-background"></div>
                         <div class="modal-content">
                             <div class="box has-text-centered">
@@ -360,7 +360,7 @@
                                 <p>This action cannot be undone.</p>
                                 <div class="field is-grouped is-grouped-centered mt-5">
                                     <p class="control">
-                                        <button class="button is-danger is-light">
+                                        <button class="button is-danger is-light" onclick="$('#AcceptItinModal').fadeOut('fast');">
                                             <div class="is-size-5">Cancel</div>
                                         </button>
                                     </p>
@@ -372,7 +372,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="modal-close is-large" aria-label="close"></button>
+                        <button class="modal-close is-large" aria-label="close" onclick="$('#AcceptItinModal').fadeOut('fast');"></button>
                     </div>
                     <!--END: (Modal) Confirm accepting itinerary-->
                 </div>
@@ -561,7 +561,8 @@
                     <div class="column">
                         <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Summary</h1>
                         <br>
-                        {% if process_step < 5 %} <div class="container box">
+                        {% if process_step < 5 %} 
+                        <div class="container box">
                             <div class="heading">Final Cost</div>
                             To-Be Confirmed
                     </div>

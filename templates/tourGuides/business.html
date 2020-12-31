@@ -185,7 +185,7 @@
             <div class="container has-text-centered">
                 <div class="field">
                     <p class="control">
-                        <button class="button is-success is-light">
+                        <button class="button is-success is-light" onclick="$('#SubmitPlanModal').fadeIn('fast')">
                             <div class="is-size-5">Submit Proposed Itinerary & Charges</div>
                         </button>
                     </p>
@@ -195,7 +195,7 @@
             <!--END: Submit itinerary & proposed charges-->
         {% endif %}
             <!--START:(Modal) Confirm submit plan-->
-            <div class="modal">
+            <div class="modal is-active" id="SubmitPlanModal" style="display: none;">
                 <div class="modal-background"></div>
                 <div class="modal-content">
                   <div class="box has-text-centered">
@@ -203,7 +203,7 @@
                       <p>This action cannot be undone.</p>
                       <div class="field is-grouped is-grouped-centered mt-5">
                         <p class="control">
-                            <button class="button is-danger is-light">
+                            <button class="button is-danger is-light" onclick="$('#SubmitPlanModal').fadeOut('fast');">
                                 <div class="is-size-5">Cancel</div>
                             </button>
                         </p>
@@ -215,7 +215,7 @@
                     </div>
                   </div>
                 </div>
-                <button class="modal-close is-large" aria-label="close"></button>
+                <button class="modal-close is-large" aria-label="close" onclick="$('#SubmitPlanModal').fadeOut('fast');"></button>
               </div>
             <!--END:(Modal) Confirm submit plan-->
 
@@ -232,7 +232,7 @@
             <div class="card-content">
               <div class="content">
                 <p>
-                blah blah make better ples
+                insert request here
                 </p>
               </div>
             </div>
@@ -271,7 +271,7 @@
             <div class='box p-5'>
                 <div class="has-text-centered">
                 <span class='is-size-3 mr-1'><b>Itinerary</b></span>
-                {% if process_step == 5 %}
+                {% if process_step >= 5 %}
                 <span class="tag is-success is-light is-size-6">
                     Confirmed</span>
                 {% endif %}
@@ -282,9 +282,9 @@
                 </div>
                 {% if process_step == 2 or process_step == 4%}
                     <!--START: Edit button-->
-                    <div class="field is-grouped is-grouped-left">
+                    <div class="field is-grouped is-grouped-left" id="editButton">
                         <p class="control">
-                          <button class="button is-success is-light">
+                          <button class="button is-success is-light" onclick="editItinerary();">
                             <i class="fas fa-edit"></i>
                             <div class="is-size-4 ml-3">Edit Itinerary</div><br>
                           </button>
@@ -366,14 +366,14 @@
                     <br><br><br><br>
                     {% if process_step == 2 or process_step == 4 %}
                     <!--START: cancel changes/draft/submit itinerary buttons-->
-                    <div class="field is-grouped is-grouped-right">
+                    <div class="field is-grouped is-grouped-right is-hidden" id="editItineraryButtons">
                         <p class="control">
-                          <button class="button is-warning is-light">
+                          <button class="button is-warning is-light" onclick="$('#CancelItineraryModal').fadeIn('fast');">
                             <div class="is-size-5">Cancel Changes</div><br>
                           </button>
                         </p>
                         <p class="control">
-                            <button class="button is-success is-light">
+                            <button class="button is-success is-light" onclick="SaveItinerary()">
                               <div class="is-size-5">Save</div><br>
                             </button>
                           </p>
@@ -384,14 +384,14 @@
                       <!--END: cancel changes/draft/submit itinerary buttons-->
                     {% endif %}
                       <!--START: (Modal) cancel-->        
-                        <div class="modal">
+                        <div class="modal is-active" id="CancelItineraryModal" style="display:none">
                             <div class="modal-background"></div>
                             <div class="modal-content">
                             <div class="box has-text-centered">
                                 <p class="is-size-5 has-text-weight-bold">You will lose any unsaved changes!</p>
                                 <div class="field is-grouped is-grouped-centered mt-5">
                                     <p class="control">
-                                        <button class="button is-danger is-light">
+                                        <button class="button is-danger is-light" onclick="$('#CancelItineraryModal').fadeOut('fast');">
                                             <div class="is-size-5">Back</div>
                                         </button>
                                     </p>
@@ -403,7 +403,7 @@
                                 </div>
                             </div>
                             </div>
-                            <button class="modal-close is-large" aria-label="close"></button>
+                            <button class="modal-close is-large" aria-label="close" onclick="$('#CancelItineraryModal').fadeOut('fast');"></button>
                         </div>
                       <!--END: (Modal) cancel-->
             </div>
@@ -535,13 +535,15 @@
     <!--START: charges-->
     <div id="Charges" class="content-tab" style="display:none">
         <div class="container">
-                    <div class="is-size-3 has-text-centered has-text-weight-semibold">Proposed Cost
-                    <span class="tag is-grey is-light">Unconfirmed</span></div>
+                    {% if 2 <= process_step <= 4 %}
+                    <div class="is-size-3 has-text-centered has-text-weight-semibold">Proposed Cost</div>
+                    {% endif %}
                     <br>
+                    {% if process_step == 2 or process_step == 4 %}
                     <!--START: Edit button-->
-                    <div class="has-text-centered mb-2">
+                    <div class="has-text-centered mb-2" id="Cost_EditButton">
                         <p class="control">
-                            <button class="button is-success is-light">
+                            <button class="button is-success is-light" onclick="editCost()">
                             <i class="fas fa-edit"></i>
                             <div class="is-size-5 ml-3">Edit</div><br>
                             </button>
@@ -549,16 +551,17 @@
                         </div>
                         <!--END: Edit button-->
                     <!--START: Save button-->
-                    <div class="has-text-centered mb-2">
+                    <div class="has-text-centered mb-2 is-hidden" id="Cost_SaveButton">
                         <p class="control">
-                            <button class="button is-success is-light">
+                            <button class="button is-success is-light" onclick="SaveCost()">
                             <div class="is-size-5">Save</div><br>
                             </button>
                         </p>
                         </div>
                         <!--END: Save button-->
+                    {% endif %}
                     <!--START: form Display proposed cost-->
-                    <div class="container box">
+                    <div class="container box is-hidden" id="editCostForm">
                         <!--START: Base price field-->
                         <div class="field is-horizontal">
                             <div class="field-label is-normal">
@@ -625,6 +628,7 @@
                           <!--END: Add-on form field-->
                     </div>
                     <!--END: form Display proposed cost-->
+                    {% if 2 <= process_step <= 4 %}
                     <!--START: Display proposed cost-->
                     <div class="container box">
                         <div class="heading">Base Price</div>
@@ -660,7 +664,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <!--START: Display proposed cost-->
+                    <!--END: Display proposed cost-->
+                    {% endif %}
             <div class="columns">
                 <div class="column">
                     <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
@@ -673,14 +678,21 @@
                 <div class="column">
                     <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Summary</h1>
                     <br>
+                    {% if process_step < 5 %}
                     <div class="container box">
                         <div class="heading">Final Cost</div>
                         To-Be Confirmed
                     </div>
+                    {% elif process_step >= 5 %}
                     <div class="container box">
                         <div class="heading">Final Cost</div>
-                        <div class="title">$165</div>
+                        <div class="title">$165
+                            {% if process_step >=6 %}
+                            <span class="tag is-success is-light">Paid</span>
+                            {% endif %}
+                        </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
