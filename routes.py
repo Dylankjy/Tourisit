@@ -178,16 +178,8 @@ def search():
             listing['_id'] = JSONEncoder().encode(listing['_id'])
             listing['date_created'] = str(listing['date_created'])
             listing['tour_img'] = str(listing['tour_img'])
-            # i['_id'] = JSONEncoder().encode(i['_id'])
         print(result_listings)
         return json.dumps({"results": result_listings})
-
-
-@app.route('/renderSearch')
-def searchListing():
-    result = auth.is_auth(True)
-    return render_template('customer/marketplace-search.html',
-                           listings=list(shop_db.find()), loggedin=True, user=result)
 
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from M clicked

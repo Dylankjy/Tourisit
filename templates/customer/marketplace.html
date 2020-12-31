@@ -60,10 +60,9 @@
                     }
 
                 });
-            } else {
-                $("#displayListings").html(""); // set the results empty in case of empty string
             }
         }
+
 
     </script>
 {% endblock %}
@@ -149,8 +148,47 @@
             </div>
 
             <div class="columns is-multiline" id='displayListings'>
+                {% for item in listings %}
+                    <div class="column is-one-third">
+                        <!-- START: Vertical Card -->
+                        <a href='/discover/{{ item["_id"] }}'>
+                            <div class='p-5 vertical'>
+                                <div class="box listing-img"
+                                     style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}') ;"></div>
+                                <div class="ml-4">
+                                    <div class="mb-2 listing-author">
+                                        <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                        <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                                    </div>
+                                    <h1 class='title is-4'>{{ item.tour_name }}</h1>
+                                    <p class="subtitle is-6">{{ item.tour_brief }}</p>
+                                    <p class="has-text-weight-light is-size-3 has-text-dark"><small
+                                            class="is-size-5">From</small>
+                                        ${{ item.tour_price }}
+                                    </p>
+                                    <br>
+                                </div>
+                                <div class="buttons">
+                                    <a class="button is-white" style="color:rgb(73, 27, 35)"
+                                       href={{ url_for('favourites') }}><i
+                                            class="fas fa-heart"></i>&ensp;Add
+                                        to wishlist</a>
+                                    <a class="button is-white has-text-primary" href="{{ url_for('book_now')}}"><i
+                                            class="fas fa-arrow-right"></i>&ensp;Book
+                                        now</a>
+                                </div>
+                            </div>
+                            <!-- END: Vertical Card -->
+                        </a>
+                    </div>
+                {% endfor %}
             </div>
 
         </div>
     </section>
+
+    <script>
+         window.onload = liveSearch(" ")
+         window.onload = () =>{console.log('this')}
+    </script>
 {% endblock %}
