@@ -9,10 +9,14 @@
 
 
 {% block content %}
-<div>
-    Placeholder check-out page until Stripe is implemented.
+<section class="section">
+    <div class="container">
+        Placeholder check-out page until Stripe is implemented.
     <div class="control">
-        <button class="button is-primary">Pay</button>
+        <a href="{{ url_for('bookings')}}">
+        <button class="button is-primary">Pay & Proceed</button>
+    </a>
       </div>
-</div>
+    </div>
+</section>
 {% endblock %}
