@@ -48,19 +48,27 @@
         <div class="tabs is-centered is-boxed pt-4">
             <ul>
               <li class="tab is-active" onclick="openTab(event,'Overview')">
+                {% if process_step == 7 %}
                 <span title="Badge top right" class="badge is-danger"></span>
+                {% endif %}
                 <a>Overview</a>
               </li>
               <li class="tab" onclick="openTab(event,'Details')">
+                {% if process_step == 2 or process_step == 4 %}
                 <span title="Badge top right" class="badge is-danger"></span>
+                {% endif %}
                 <a>Details</a>
               </li>
               <li class="tab" onclick="openTab(event,'Chat')">
+                {% if process_step == 0 %}
                 <span title="Badge top right" class="badge is-danger"></span>
+                {% endif %}
                 <a>Chat</a>
               </li>
               <li class="tab" onclick="openTab(event,'Charges')">
+                {% if process_step == 2 or process_step == 4 %}
                 <span title="Badge top right" class="badge is-danger"></span>
+                {% endif %}
                 <a>Charges</a>
               </li>
             </ul>
@@ -74,9 +82,18 @@
     <!--START: Overview-->
     <div id="Overview" class="content-tab">
         <!--START: Action req-->
+        {% if process_step == 6 %}
         <div class="has-text-centered m-2 is-size-6">
             You are now ready to host your Tour!
         </div>
+        {% endif %}
+
+        {% if process_step >= 7 %}
+        <div class="has-text-centered m-2 is-size-4">
+            You have completed your Tour!
+        </div>
+        {% endif %}
+
         <div class="has-text-centered m-5 is-size-5">
             Waiting for Customer to: 
             <span class="tag is-white-ter is-size-5 is-clickable">
