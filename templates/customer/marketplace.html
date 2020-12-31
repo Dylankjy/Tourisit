@@ -22,7 +22,7 @@
                                     <p class="subtitle is-6">${listing['tour_brief']}</p>
                                     <p class="has-text-weight-light is-size-3 has-text-dark"><small
                                             class="is-size-5">From</small>
-                                            $${listing['tour_price']}
+                                            $${listing['tour_price']}.0
                                     </p>
                                     <br>
                                 </div>
@@ -49,17 +49,63 @@
                     data: {searchListing: value},
                     dataType: "json",
                     success: (data) => {
-                        var res = "";
-                        for (i in data.results) {
-                            console.log(data.results[i]['_id'].replace(/"/g, ''))
-                            data.results[i]['_id'] = data.results[i]['_id'].replace(/"/g, '')
-                            listing = generateListing(data.results[i])
-                            res += "<div class='column is-one-third'>" + listing + "</div>";
+
+                        if (data.results.length > 0) {
+                            var res = "";
+                            for (i in data.results) {
+                                console.log(data.results[i]['_id'].replace(/"/g, ''))
+                                data.results[i]['_id'] = data.results[i]['_id'].replace(/"/g, '')
+                                listing = generateListing(data.results[i])
+                                res += "<div class='column is-one-third'>" + listing + "</div>";
+                            }
+                            $("#displayListings").html(res);
+                        }  else {
+                            $("#displayListings").html('<h1>Cannot find!</h1>')
                         }
-                        $("#displayListings").html(res);
                     }
 
                 });
+            }
+            // Else if there is nothing searched for, then return everything 
+            else {
+                defaultShow = 
+                `
+                {% for item in listings %}
+                    <div class="column is-one-third">
+                        <!-- START: Vertical Card -->
+                        <a href='/discover/{{ item["_id"] }}'>
+                            <div class='p-5 vertical'>
+                                <div class="box listing-img"
+                                     style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}') ;"></div>
+                                <div class="ml-4">
+                                    <div class="mb-2 listing-author">
+                                        <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                                        <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                                    </div>
+                                    <h1 class='title is-4'>{{ item.tour_name }}</h1>
+                                    <p class="subtitle is-6">{{ item.tour_brief }}</p>
+                                    <p class="has-text-weight-light is-size-3 has-text-dark"><small
+                                            class="is-size-5">From</small>
+                                        ${{ item['tour_price'] }}
+                                    </p>
+                                    <br>
+                                </div>
+                                <div class="buttons">
+                                    <a class="button is-white" style="color:rgb(73, 27, 35)"
+                                       href={{ url_for('favourites') }}><i
+                                            class="fas fa-heart"></i>&ensp;Add
+                                        to wishlist</a>
+                                    <a class="button is-white has-text-primary" href="{{ url_for('book_now')}}"><i
+                                            class="fas fa-arrow-right"></i>&ensp;Book
+                                        now</a>
+                                </div>
+                            </div>
+                            <!-- END: Vertical Card -->
+                        </a>
+                    </div>
+                {% endfor %}
+                `
+                $("#displayListings").html(defaultShow)
             }
         }
 
@@ -148,47 +194,15 @@
             </div>
 
             <div class="columns is-multiline" id='displayListings'>
-                {% for item in listings %}
-                    <div class="column is-one-third">
-                        <!-- START: Vertical Card -->
-                        <a href='/discover/{{ item["_id"] }}'>
-                            <div class='p-5 vertical'>
-                                <div class="box listing-img"
-                                     style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}') ;"></div>
-                                <div class="ml-4">
-                                    <div class="mb-2 listing-author">
-                                        <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                        <div class="ml-2"><b>HidethePain</b> is offering:</div>
-                                    </div>
-                                    <h1 class='title is-4'>{{ item.tour_name }}</h1>
-                                    <p class="subtitle is-6">{{ item.tour_brief }}</p>
-                                    <p class="has-text-weight-light is-size-3 has-text-dark"><small
-                                            class="is-size-5">From</small>
-                                        ${{ item.tour_price }}
-                                    </p>
-                                    <br>
-                                </div>
-                                <div class="buttons">
-                                    <a class="button is-white" style="color:rgb(73, 27, 35)"
-                                       href={{ url_for('favourites') }}><i
-                                            class="fas fa-heart"></i>&ensp;Add
-                                        to wishlist</a>
-                                    <a class="button is-white has-text-primary" href="{{ url_for('book_now')}}"><i
-                                            class="fas fa-arrow-right"></i>&ensp;Book
-                                        now</a>
-                                </div>
-                            </div>
-                            <!-- END: Vertical Card -->
-                        </a>
-                    </div>
-                {% endfor %}
+        
             </div>
 
         </div>
     </section>
 
     <script>
-         window.onload = liveSearch(" ")
-         window.onload = () =>{console.log('this')}
+        window.onload = liveSearch('')
     </script>
+
+
 {% endblock %}

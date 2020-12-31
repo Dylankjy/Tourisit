@@ -163,6 +163,8 @@ def market():
                                listings=list(shop_db.find()), loggedin=True, user=result)
 
 
+
+
 # To implement search function
 @app.route('/search')
 def search():
@@ -178,7 +180,7 @@ def search():
             listing['_id'] = JSONEncoder().encode(listing['_id'])
             listing['date_created'] = str(listing['date_created'])
             listing['tour_img'] = str(listing['tour_img'])
-        print(result_listings)
+
         return json.dumps({"results": result_listings})
 
 # CUSTOMERS

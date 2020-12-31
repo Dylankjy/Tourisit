@@ -16,10 +16,12 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 # tour_img = 'hi'
 
 db = client['Listings']
+x = list(db.find({'tour_name': ''}))
+print(x)
 
-x = list(db.find())[:12]
-y = len(x)
-print(y)
+# x = list(db.find())[:12]
+# y = len(x)
+# print(y)
 
 # result_listings = list(db.find())
 # for listing in result_listings:
