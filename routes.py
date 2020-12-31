@@ -425,10 +425,10 @@ def business():
         result = auth.is_auth(True)
         # if not logged in
         if not result:
-            return render_template('tourGuides/business.html', loggedin=False)
+            return render_template('tourGuides/business.html', process_step=1, loggedin=False)
         # if logged in
         else:
-            return render_template('tourGuides/business.html', loggedin=True, user=result)
+            return render_template('tourGuides/business.html', process_step=1, loggedin=True, user=result)
     except:
         return 'Error trying to render'
 
@@ -448,7 +448,7 @@ def sellerModeFile():
     return redirect(url_for('sellerDashboard'))
 
 # TOUR GUIDE
-# Dashboard sex OH YES FREAK ME, DATA COME ON BABY
+# Dashboard
 @app.route('/s/dashboard')
 def sellerDashboard():
     # Get login status using accessor argument

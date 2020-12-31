@@ -4,3 +4,8 @@
     background-color: rgba(0, 0, 0, 0.55);
     background-blend-mode: overlay;
 }
+
+.inactiveLink {
+    pointer-events: none;
+    cursor: default;
+ }
