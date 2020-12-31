@@ -1,6 +1,8 @@
 from io import BytesIO
+import json
 
 import pymongo
+from models.formatting import JSONEncoder
 
 buffered = BytesIO()
 
@@ -15,8 +17,19 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 
 db = client['Listings']
 
-x = list(db.find({'tg_uid': 'testing'}))
-print(x)
+result_listings = list(db.find())
+for listing in result_listings:
+    listing['_id'] = JSONEncoder().encode(listing['_id'])
+    listing['date_created'] = str(listing['date_created'])
+    listing['tour_img'] = str(listing['tour_img'])
+# print(result_id)
+
+# for listing in result_listings:
+#
+#     listing = [value.encode('utf-8') for value in listing]
+
+y = json.dumps({"results": result_listings[0]['tour_img']})
+print(y)
 
 # all_listings = list(i['tour_name'] for i in db.find())
 # print(all_listings)

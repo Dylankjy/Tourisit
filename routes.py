@@ -13,6 +13,7 @@ import auth as auth
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.User import UserForm, User
+from models.formatting import JSONEncoder
 
 # For Images
 buffered = BytesIO()
@@ -168,12 +169,25 @@ def search():
     all_listings = list(i['tour_name'] for i in shop_db.find())
     # Get the string that is typed in the search bar
     text = request.args['searchListing']
-    # Get all the listing names from db
-    # Get all the listings that fulfil the criteria
-    result = [c for c in all_listings if str(text).lower() in c.lower()]
-    result_listings = list(shop_db.find({'tour_name': {'$in': result}}))
-    return json.dumps({"results": result_listings})
+    if text:
+        # Get all the listing names from db
+        # Get all the listings that fulfil the criteria
+        result = [c for c in all_listings if str(text).lower() in c.lower()]
+        result_listings = list(shop_db.find({'tour_name': {'$in': result}}))
+        for listing in result_listings:
+            listing['_id'] = JSONEncoder().encode(listing['_id'])
+            listing['date_created'] = str(listing['date_created'])
+            listing['tour_img'] = str(listing['tour_img'])
+            # i['_id'] = JSONEncoder().encode(i['_id'])
+        print(result_listings)
+        return json.dumps({"results": result_listings})
 
+
+@app.route('/renderSearch')
+def searchListing():
+    result = auth.is_auth(True)
+    return render_template('customer/marketplace-search.html',
+                           listings=list(shop_db.find()), loggedin=True, user=result)
 
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from M clicked
@@ -209,6 +223,12 @@ def ownlisting():
         return render_template('tourGuides/ownlisting.html', listings=tour_listings, loggedin=True, user=result)
 
 
+@app.route('/apis/upImg')
+def updateImg():
+    text = request.args['currentImg']
+    return json.dumps({"results": text})
+
+
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
     result = auth.is_auth(True)
@@ -227,17 +247,17 @@ def makelisting():
 
                 tour_listing = Listing(tour_name=tour_name, tour_brief=brief_desc, tour_desc=detail_desc,
                                        tour_price=tour_price,
-                                       tour_img=img_string, tg_uid=result['_id'])
+                                       tour_img=img_string, tg_uid=result['_id'], user=result)
 
                 listingInfo = tour_listing.return_obj()
                 print(listingInfo)
                 shop_db.insert_one(listingInfo)
 
                 return render_template('tourGuides/listing-success.html')
-            return render_template('tourGuides/makelisting.html', form=lForm)
+            return render_template('tourGuides/makelisting.html', form=lForm, user=result)
 
         else:
-            return render_template('tourGuides/makelisting.html', form=lForm)
+            return render_template('tourGuides/makelisting.html', form=lForm, user=result)
     else:
         return 'Need to login/create account first!'
 
