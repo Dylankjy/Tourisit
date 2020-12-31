@@ -82,12 +82,16 @@
         </div>
         <div class="has-text-centered m-5 is-size-5">
             Next Step: 
+            {% if process_step == 1 %}
             <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
                 Submit Requirements</span>
+            {% elif process_step == 2 %}
             <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
                 Review Custom Itinerary & Charges</span>
+            {% elif process_step == 3 %}
             <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
                 Make Payment</span>
+            {% endif %}
             <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
                 Complete Tour</span>
             <span class="tag is-warning is-light is-size-5 is-clickable"><a href="{{ url_for('review') }}">

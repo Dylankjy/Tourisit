@@ -352,10 +352,10 @@ def bookings():
         result = auth.is_auth(True)
         # if not logged in
         if not result:
-            return render_template('customer/booking.html', loggedin=False)
+            return render_template('customer/booking.html', process_step=1, loggedin=False)
         # if logged in
         else:
-            return render_template('customer/booking.html', loggedin=True, user=result)
+            return render_template('customer/booking.html', process_step=1, loggedin=True, user=result)
     except:
         return 'Error trying to render'
 
