@@ -62,6 +62,9 @@ def create_account(name, raw_password, email):
     return True
 
 
+# create_account("Takahashi Yamaro", "HelloWorld123", "takahashi@example.com")
+
+
 def add_session(uid):
     # Empty string
     raw_sid = ""
