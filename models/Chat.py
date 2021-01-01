@@ -1,3 +1,18 @@
+class ChatRoom:
+    def __init__(self, participants, chat_type, messages=[]):
+        self.__participants = participants
+        self.__chat_type = chat_type
+        self.__messages = messages
+
+    def return_obj(self):
+        return {
+            "participants": self.__participants,
+            "chat_type": self.__chat_type
+        }
+
+
+class Message:  # TODO: Add timestamp!!
+    def __init__(self, sender_id, timestamp, msg_content):
         self.__sender_id = sender_id
         self.__msg_content = msg_content
 
