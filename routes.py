@@ -565,6 +565,7 @@ def login():
                 # If pass, set cookie and redirect
                 resp = redirect(url_for('home'))
                 resp.set_cookie('tourisitapp-sid', result)
+                # resp.set_cookie('tourisitapp-uid', auth.get_user_id(result))
                 return resp
 
         # If GET request // Show page
@@ -638,6 +639,7 @@ def logout():
             auth.logout_account(auth.get_sid())
         resp = make_response(render_template('auth/logout.html'))
         resp.set_cookie('tourisitapp-sid', '', expires=0)
+        # resp.set_cookie('tourisitapp-uid', '', expires=0)
         return resp
     else:
         return redirect(url_for('home'))
