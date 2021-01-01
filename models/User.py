@@ -193,4 +193,6 @@ class User:
                 "insta": self.__insta,
                 "linkedin": self.__linkedin,
             },
+            "email_status": self.__email_status,
+            "phone_status": self.__phone_status
         }
