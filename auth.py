@@ -211,6 +211,21 @@ def login_account(email, unencoded_password):
         return False
 
 
+def get_user_id(sid):
+    # Find UID from SID
+    query = {
+        "sid": sid
+    }
+    query_result = [i for i in db_sessions.find(query)]
+
+    # Get UID
+    if len(query_result) == 1:
+        uid = query_result[0]["uid"]
+        return uid
+    else:
+        return False
+
+
 def logout_account(sid, all_sessions=False):
     # Get session from database
     query = {
