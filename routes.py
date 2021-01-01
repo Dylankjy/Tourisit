@@ -223,10 +223,12 @@ def ownlisting():
         tour_listings = list(shop_db.find({'tg_uid': tourGuide_id}))
         return render_template('tourGuides/ownlisting.html', listings=tour_listings, loggedin=True, user=result)
 
+
 @app.route('/apis/upImg')
 def updateImg():
     text = request.args['currentImg']
     return json.dumps({"results": text})
+
 
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():

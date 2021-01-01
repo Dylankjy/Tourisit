@@ -20,6 +20,15 @@
     background-size: cover;
 }
 
+.listing-card {
+    height: 90%;
+}
+
+.listing-card-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .vertical .listing-img {
     width: 100%;
     height: 10rem;
