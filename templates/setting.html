@@ -10,150 +10,124 @@
 
 {% block content %}>
 
-        <div class="container">
-            <h1 class="is-size-1 has-text-weight-bold mt-6">My Settings</h1>
-            <div class="columns">
+    <div class="container">
+        <h1 class="is-size-1 has-text-weight-bold mt-6">My Settings</h1>
+        <div class="columns">
 
-                <!-- Side Profile Page -->
-                <div class="column is-one-fifth">
-                    <div class="section">
-                        <div class="box is-centered p-0">
-                            <p>
-                                <button class="button is-fullwidth is-active">Account Info</button>
-                            </p>
-                            <p>
-                                <button class="button is-fullwidth">Billing</button>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Content -->
-                <div class="column">
-                    <div class="section">
-                        <!-- Update account settings -->
-                        <h1 class="is-size-4 has-text-left has-text-weight-bold">Account Details</h1>
-                        <form class="form-horizontal" action="/me/settings" method="POST">
-                            {{ form.csrf_token }}
-                            <fieldset>
-                                <div class="field">
-                                    <label class="label" for="name">Name:</label>
-                                    <div class="control">
-                                        {{ form.name(id="name", type="text", class="input", placeholder="", value=user.name) }}
-                                        <ul>
-                                            {% for error in form.name.errors %}
-                                                <li class="has-text-danger"> {{ error }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="field">
-                                    <label class="label" for="password">Password:</label>
-                                    <div class="control">
-                                        {{ form.password(id="password", type="text", class="input", placeholder="") }}
-                                        <ul>
-                                            {% for error in form.password.errors %}
-                                                <li class="has-text-danger"> {{ error }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="field">
-                                    <label class="label" for="email">Email Address:</label>
-                                    <div class="control">
-                                        {{ form.email(id="email", type="text", class="input", placeholder="", value=user.email) }}
-                                        <ul>
-                                            {% for error in form.email.errors %}
-                                                <li class="has-text-danger"> {{ error }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="field">
-                                    <label class="label" for="phone_number">Phone Number:</label>
-                                    <div class="control">
-                                        {{ form.phone_number(id="phone_number", type="text", class="input", placeholder="", value=user.phone_number) }}
-                                        <ul>
-                                            {% for error in form.phone_number.errors %}
-                                                <li class="has-text-danger"> {{ error }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-                                <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3">Social Media</h1>
-                                <div class="field">
-                                    <label class="label" for="name">Facebook:</label>
-                                    <div class="control">
-                                        {{ form.fb(id="fb", type="text", class="input", placeholder="", value=user.socialmedia["fb"]) }}
-                                        <ul>
-                                            {% for error in form.fb.errors %}
-                                                <li class="has-text-danger"> {{ error }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <label class="label" for="insta">Instagram:</label>
-                                    <div class="control">
-                                        {{ form.insta(id="insta", type="text", class="input", placeholder="", value=user.socialmedia["insta"]) }}
-                                        <ul>
-                                            {% for error in form.insta.errors %}
-                                                <li class="has-text-danger"> {{ error }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <label class="label" for="linkedin">LinkedIn:</label>
-                                    <div class="control">
-                                        {{ form.linkedin(id="linkedin", type="text", class="input", placeholder="", value=user.socialmedia["linkedin"]) }}
-                                        <ul>
-                                            {% for error in form.linkedin.errors %}
-                                                <li class="has-text-danger"> {{ error }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <label class="label" for="user-submit"></label>
-                                    <div class="control">
-                                        <input type='submit' value='Update!' id="user-submit" name="user-submit"
-                                               class="button is-success">
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
+            <!-- Side Profile Page -->
+            <div class="column is-one-fifth">
+                <div class="section">
+                    <div class="box is-centered p-0">
+                        <p>
+                            <button class="button is-fullwidth is-active">Account Info</button>
+                        </p>
+                        <p>
+                            <button class="button is-fullwidth">Billing</button>
+                        </p>
                     </div>
                 </div>
             </div>
+            <!-- Content -->
+            <div class="column">
+                <div class="section">
+                    <!-- Update account settings -->
+                    <h1 class="is-size-4 has-text-left has-text-weight-bold">Account Details</h1>
+                    <form class="form-horizontal" action="/me/settings" method="POST">
+                        {{ form.csrf_token }}
+                        <fieldset>
+                            <div class="field">
+                                <label class="label" for="name">Name:</label>
+                                <div class="control">
+                                    {{ form.name(id="name", type="text", class="input", placeholder="", value=user.name) }}
+                                    <ul>
+                                        {% for error in form.name.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
 
+                            <div class="field">
+                                <label class="label" for="password">Password:</label>
+                                <div class="control">
+                                    {{ form.password(id="password", type="text", class="input", placeholder="") }}
+                                    <ul>
+                                        {% for error in form.password.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="email">Email Address:</label>
+                                <div class="control">
+                                    {{ form.email(id="email", type="text", class="input", placeholder="", value=user.email) }}
+                                    <ul>
+                                        {% for error in form.email.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="phone_number">Phone Number:</label>
+                                <div class="control">
+                                    {{ form.phone_number(id="phone_number", type="text", class="input", placeholder="", value=user.phone_number) }}
+                                    <ul>
+                                        {% for error in form.phone_number.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3">Social Media</h1>
+                            <div class="field">
+                                <label class="label" for="name">Facebook:</label>
+                                <div class="control">
+                                    {{ form.fb(id="fb", type="text", class="input", placeholder="", value=user.socialmedia["fb"]) }}
+                                    <ul>
+                                        {% for error in form.fb.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="insta">Instagram:</label>
+                                <div class="control">
+                                    {{ form.insta(id="insta", type="text", class="input", placeholder="", value=user.socialmedia["insta"]) }}
+                                    <ul>
+                                        {% for error in form.insta.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="linkedin">LinkedIn:</label>
+                                <div class="control">
+                                    {{ form.linkedin(id="linkedin", type="text", class="input", placeholder="", value=user.socialmedia["linkedin"]) }}
+                                    <ul>
+                                        {% for error in form.linkedin.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="user-submit"></label>
+                                <div class="control">
+                                    <input type='submit' value='Update!' id="user-submit" name="user-submit"
+                                           class="button is-success">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
         </div>
 
-        <h1> Nothing to show</h1>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/js/bulma-calendar.min.js"></script>
-    <script>
-        // Initialize all input of date type.
-        const calendars = bulmaCalendar.attach('[type="date"]', options);
-
-        // Loop on each calendar initialized
-        calendars.forEach(calendar => {
-            // Add listener to select event
-            calendar.on('select', date => {
-                console.log(date);
-            });
-        });
-
-        // To access to bulmaCalendar instance of an element
-        const element = document.querySelector('#my-element');
-        if (element) {
-            // bulmaCalendar instance is available as element.bulmaCalendar
-            element.bulmaCalendar.on('select', datepicker => {
-                console.log(datepicker.data.value());
-            });
-        }
-    </script>
+    </div>
 {% endblock %}
