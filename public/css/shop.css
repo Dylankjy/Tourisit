@@ -20,11 +20,12 @@
     background-size: cover;
 }
 
-.listing-card {
-    height: 90%;
-}
+/*.listing-card {*/
+/*    height: 90%;*/
+/*}*/
 
 .listing-card-text {
+    height: 4rem;
     overflow: hidden;
     text-overflow: ellipsis;
 }
