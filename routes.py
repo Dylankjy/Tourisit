@@ -94,6 +94,8 @@ def profile():
             # return render_template('profile.html', user=item, form=bForm)
         return render_template('profile.html', user=item, form=bForm)
     else:
+        bForm.bio.default = item['bio']
+        bForm.process()
         return render_template('profile.html', user=item, form=bForm)
 
 
