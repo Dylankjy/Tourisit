@@ -59,6 +59,9 @@ def create_account(name, raw_password, email):
     # Database Ops: Insert user
     db_users.insert_one(user_dict)
 
+    # Automatically send confirmation email to user
+    send_confirmation_email(None, email)
+
     return True
 
 
