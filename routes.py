@@ -632,67 +632,18 @@ def resend_email():
 @app.route('/logout')
 def logout():
     if auth.get_sid() is not None:
-        auth.logout_account(auth.get_sid())
+        if request.args.get('all'):
+            auth.logout_account(auth.get_sid(), True)
+        else:
+            auth.logout_account(auth.get_sid())
         resp = make_response(render_template('auth/logout.html'))
         resp.set_cookie('tourisitapp-sid', '', expires=0)
         return resp
     else:
         return redirect(url_for('home'))
 
-
-@app.route('/logout-expireSessions')
-def logout_all():
-    if auth.get_sid() is not None:
-        auth.logout_account(auth.get_sid(), True)
-        resp = make_response(render_template('auth/logout.html'))
-        resp.set_cookie('tourisitapp-sid', '', expires=0)
-        return resp
-    else:
-        return redirect(url_for('home'))
 
 
 # Run app
 if __name__ == '__main__':
     app.run(debug=True)
-
-# This edits the tour_name of the 4th listing
-# listing = Listing.query.filter_by(tour_id=4).first()
-# listing.tour_name = 'New nreame'
-# db.session.commit()
-
-
-# Get the last listing (The most recent one)
-# print(Listing.query.all()[-1])
-
-
-# class User():
-#     __tablename__ = 'users'
-#     user_id = db.Column(db.Integer, primary_key=True, unique=True)
-#     user_name = db.Column(db.String(30), nullable=False, unique=True)
-#     user_password = db.Column(db.String(30), nullable=False)
-#     user_rating = db.Column(db.String(30), nullable=False)
-#     user_img = db.Column(db.String(30))
-#
-#
-# class Customer(db.Model, User):
-#     __tablename__ = 'cutomers'
-#     wishlist = db.Column(db.String(30), nullable=False, unique=True)
-#
-#
-# class TourGuides(db.Model, User):
-#     __tablename__ = 'tourguides'
-#     #Creates an artificial column in 'Listing' table called 'tour_guide'.
-#     # TourGuides['tours'] = Listing
-#     # Listing['tour_guide'] = TourGuides
-#     tours = db.relationship('Listing', backref='tour_guide')
-#
-#
-# class Listing(db.Model):
-#     __tablename__ = 'listings'
-#     tour_id = db.Column(db.Integer, primary_key=True)
-#     tour_name = db.Column(db.String(30), nullable=False, unique=True)
-#     tour_brief = db.Column(db.String(50), nullable=False)
-#     tour_desc = db.Column(db.String(300), nullable=False)
-#     tour_price = db.Column(db.Integer, nullable=False)
-#     tour_img = db.Column(db.String(10), unique=True)
-#     date_created = db.Column(db.DateTime, default=datetime.now)

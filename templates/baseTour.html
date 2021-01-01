@@ -119,7 +119,7 @@
         <span class="buttons">
             <a href="{{ url_for('logout') }}" class="button is-danger is-fullwidth"><i
                     class="fas fa-desktop"></i>&ensp;Logout of this device only</a>
-            <a href="{{ url_for('logout_all') }}" class="button is-danger is-light is-fullwidth"><i
+            <a href="{{ url_for('logout', all=True) }}" class="button is-danger is-light is-fullwidth"><i
                     class="fas fa-laptop-house"></i>&ensp;Logout of all devices</a>
         </span>
         <a onclick="$('#logoutOptionsModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
