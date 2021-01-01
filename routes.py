@@ -610,7 +610,7 @@ def signup():
         return redirect(url_for('home'))
 
 
-@app.route('/system/resendEmail', methods=['POST'])
+@app.route('/endpoint/resendEmail', methods=['POST'])
 def resend_email():
     resend_email_form = auth.ResendEmailForm()
     # if resend_email_form.validate_on_submit():
