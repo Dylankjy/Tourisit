@@ -632,23 +632,16 @@ def resend_email():
 @app.route('/logout')
 def logout():
     if auth.get_sid() is not None:
-        auth.logout_account(auth.get_sid())
+        if request.args.get('all'):
+            auth.logout_account(auth.get_sid(), True)
+        else:
+            auth.logout_account(auth.get_sid())
         resp = make_response(render_template('auth/logout.html'))
         resp.set_cookie('tourisitapp-sid', '', expires=0)
         return resp
     else:
         return redirect(url_for('home'))
 
-
-@app.route('/logout-expireSessions')
-def logout_all():
-    if auth.get_sid() is not None:
-        auth.logout_account(auth.get_sid(), True)
-        resp = make_response(render_template('auth/logout.html'))
-        resp.set_cookie('tourisitapp-sid', '', expires=0)
-        return resp
-    else:
-        return redirect(url_for('home'))
 
 
 # Run app
