@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField
 from wtforms.validators import InputRequired, Length
 
-
 class UserForm(FlaskForm):
     name = StringField(
         "name",
@@ -74,8 +73,8 @@ class User:
             insta="",
             linkedin="",
             socialmedia={},
-            email_status=False,
-            phone_status=False
+            email_status=0,
+            phone_status=0
 
     ):
 
@@ -112,8 +111,11 @@ class User:
         self.__socialmedia = {}
         self.set_socialmedia(socialmedia, fb, insta, linkedin)
 
-        self.__phone_status = phone_status
-        self.__email_status = email_status
+        self.__email_status = 0
+        self.set_email_status(email_status)
+
+        self.__phone_status = 0
+        self.set_phone_status(phone_status)
 
     def set_name(self, name):
         try:
@@ -159,6 +161,17 @@ class User:
 
     def set_linkedin(self, linkedin):
         self.__linkedin = linkedin
+
+    def set_email_status(self, email_status):
+        try:
+            assert bool(email_status)
+        except AssertionError:
+            print(f"{email_status} must be less than {75} characters!")
+        else:
+            self.__email_status = email_status
+
+    def set_phone_status(self, phone_status):
+        self.__phone_status = phone_status
 
     def return_obj(self):
         return {
