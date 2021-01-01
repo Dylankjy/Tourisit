@@ -105,30 +105,37 @@ def profile():
 def accountinfo():
     uForm = UserForm()
     result = auth.is_auth(True)
-    id = result["_id"]
-    item = user_db.find_one({'_id': ObjectId(id)})
-    if request.method == 'POST':
-        if uForm.validate_on_submit():
-            query_user = {'_id': ObjectId(id)}
-            name = request.form['name']
-            password = request.form['password']
-            email = request.form['email']
-            phone_number = request.form['phone_number']
-            fb = request.form['fb']
-            insta = request.form['insta']
-            linkedin = request.form['linkedin']
-            updated = {
-                "$set": {"name": name, "password": auth.generate_password_hash(password), "email": email,
-                         "phone_number": phone_number,
-                         "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin}
-                         }
-            }
-            user_db.update_one(query_user, updated)
-            return render_template('success-user.html', id=id)
-        return render_template('setting.html', user=item, form=uForm)
+    # If user is logged in and makes changes to the settings
+    if result:
+        id = result["_id"]
+        item = user_db.find_one({'_id': ObjectId(id)})
+        if request.method == 'POST':
+            if uForm.validate_on_submit():
+                query_user = {'_id': ObjectId(id)}
+                name = request.form['name']
+                password = request.form['password']
+                email = request.form['email']
+                phone_number = request.form['phone_number']
+                fb = request.form['fb']
+                insta = request.form['insta']
+                linkedin = request.form['linkedin']
+                updated = {
+                    "$set": {"name": name, "password": auth.generate_password_hash(password), "email": email,
+                             "phone_number": phone_number,
+                             "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin}
+                             }
+                }
+                user_db.update_one(query_user, updated)
+                return render_template('success-user.html', id=id)
+            return render_template('setting.html', user=item, form=uForm)
+
+        #Else if not logged in
+        else:
+            return render_template('setting.html', user=item, form=uForm)
 
     else:
-        return render_template('setting.html', user=item, form=uForm)
+        #Render the pls log in template here
+        return 'Pls log in'
 
 
 @app.route('/me/billing')
