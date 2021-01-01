@@ -1,9 +1,11 @@
 from datetime import datetime
 
+import bson
 import pymongo
 
 # MongoDB connection string
 from bson import ObjectId
+from flask import request
 
 client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongodb.net/test')['Tourisit']
 
@@ -38,9 +40,11 @@ def create_chat_room(participants, is_booking_chat):
     chat_obj = Chat.ChatRoom(participants_bson, chat_type)
     chat_dict = chat_obj.return_obj()
 
-    db_chats.insert_one(chat_dict)
+    # Database Ops: Insert chatroom dict
+    inserted_dict = db_chats.insert_one(chat_dict)
 
-    return True
+    # Return chatroom id
+    return inserted_dict.inserted_id
 
 
 # create_chat_room(["5feafbbf4dbad8d4b8614958", "5fec8a85b11a8931d7656f06"], True)
