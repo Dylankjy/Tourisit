@@ -77,16 +77,21 @@
                                                 ></div>
                                                 <div class="ml-2"><b>HideThePain69</b></div>
                                             </div>
+                        {% for dict in list %}
+                        <!-- START: Horizontal Card -->
+                        <li>
+                            <div class="box mt-4 p-0 has-background-white-ter">
+                                <a>
+                                    <div>
+                                        <div class="p-2 listing-author">
+                                            <div class="profile-img" style="background-image: url('/pfp.jpg')"></div>
+                                            <div class="ml-2"><b>{{dict["name"]}}</b></div>
                                         </div>
-                                    </a>
-                                </div>
-                            </li>
-                            <!-- END: Horizontal Card -->
-                        </ul>
-                        <!--End: Chat Thumbnails-->
-                    </aside>
-                </div>
-                <!--End: Menu Column-->
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        {% endfor %}
 
                 <div class="divider is-vertical is-right"></div>
 
