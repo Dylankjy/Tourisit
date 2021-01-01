@@ -413,23 +413,6 @@ def checkout():
         return 'Error trying to render'
 
 
-# SHARED
-# Chats: Render indiv chats
-@app.route('/chat')
-def chat():
-    try:
-        # Get login status using accessor argument
-        result = auth.is_auth(True)
-        # if not logged in
-        if not result:
-            return render_template('chat.html', loggedin=False)
-        # if logged in
-        else:
-            return render_template('chat.html', loggedin=True, user=result)
-    except:
-        return 'Error trying to render'
-
-
 # TOUR GUIDES
 # My Businesses: Access all gigs
 @app.route('/s/businesses')
@@ -536,6 +519,23 @@ def adminListings():
     # if logged in
     else:
         return render_template('internal/listings.html', loggedin=True, user=result)
+
+
+# SHARED
+# Chats: Render individual chats -- Stolen from Chloe
+@app.route('/chat')
+def chat():
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    # if logged in
+    else:
+        # TODO: Add dynamic chat to right side of page! おやすみなさい。。。ｚｚｚZZZ
+        chat_list = msg.get_chat_list(auth.get_sid(), 'BOOKING')
+        print(chat_list)
+        return render_template('chat.html', loggedin=True, user=result, list=chat_list)
 
 
 # SHARED
