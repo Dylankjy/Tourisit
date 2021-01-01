@@ -73,8 +73,8 @@ class User:
             insta="",
             linkedin="",
             socialmedia={},
-            email_status=0,
-            phone_status=0
+            email_status=False,
+            phone_status=False
 
     ):
 
@@ -111,10 +111,10 @@ class User:
         self.__socialmedia = {}
         self.set_socialmedia(socialmedia, fb, insta, linkedin)
 
-        self.__email_status = 0
+        self.__email_status = False
         self.set_email_status(email_status)
 
-        self.__phone_status = 0
+        self.__phone_status = False
         self.set_phone_status(phone_status)
 
     def set_name(self, name):
