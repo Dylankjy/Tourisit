@@ -8,7 +8,7 @@
 
         function generateListing(listing) {
             var listingTemplate =
-            `
+                `
                     <a href='/discover/${listing['_id']}'>
                         <div class='p-5 vertical listing-card'>
                             <div class="box listing-img"
@@ -59,7 +59,7 @@
                                 res += "<div class='column is-one-third'>" + listing + "</div>";
                             }
                             $("#displayListings").html(res);
-                        }  else {
+                        } else {
                             $("#displayListings").html('<h1>Cannot find!</h1>')
                         }
                     }
@@ -68,8 +68,8 @@
             }
             // Else if there is nothing searched for, then return everything 
             else {
-                defaultShow = 
-                `
+                defaultShow =
+                    `
                 {% for item in listings %}
                     <div class="column is-one-third">
                         <!-- START: Vertical Card -->
@@ -194,7 +194,7 @@
             </div>
 
             <div class="columns is-multiline" id='displayListings'>
-        
+
             </div>
 
         </div>

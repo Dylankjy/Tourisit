@@ -4,15 +4,15 @@
     <link rel="stylesheet" href="/css/shop.css">
     <link rel="stylesheet" href="/css/index.css">
     $("#currentImg").change(function(){
-        var img = $(this).val();
-        $.ajax({
-            medthod: 'POST',
-            url:'/apis/upImg',
-            data: JSON.stringify({currentImg: img}),
-            success: function(data){
-                $("#currentImg").attr('src', 'data:image/png;base64, ' + data);
-            }
-        });
+    var img = $(this).val();
+    $.ajax({
+    medthod: 'POST',
+    url:'/apis/upImg',
+    data: JSON.stringify({currentImg: img}),
+    success: function(data){
+    $("#currentImg").attr('src', 'data:image/png;base64, ' + data);
+    }
+    });
     });
 {% endblock %}
 

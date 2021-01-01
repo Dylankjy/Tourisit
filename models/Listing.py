@@ -5,7 +5,8 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, TextAreaField, FloatField
 from wtforms.validators import InputRequired, Length, NumberRange
 
-#Add no. of revisions, itineary, location
+
+# Add no. of revisions, itineary, location
 class ListingForm(FlaskForm):
     tour_name = StringField('tour_name', validators=[InputRequired(), Length(min=1, max=30,
                                                                              message='Name can only be 30 characters long!')])

@@ -1,8 +1,6 @@
 from io import BytesIO
-import json
 
 import pymongo
-from models.formatting import JSONEncoder
 
 buffered = BytesIO()
 

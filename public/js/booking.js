@@ -10,25 +10,25 @@ function openTab(evt, tabName) {
     }
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " is-active";
-  }
+}
 
-function editItinerary(){
+function editItinerary() {
     document.getElementById("editItineraryButtons").classList.remove("is-hidden");
     document.getElementById("editButton").classList.add("is-hidden");
 }
 
-function SaveItinerary(){
+function SaveItinerary() {
     document.getElementById("editItineraryButtons").classList.add("is-hidden");
     document.getElementById("editButton").classList.remove("is-hidden");
 }
 
-function editCost(){
+function editCost() {
     document.getElementById("Cost_EditButton").classList.add("is-hidden");
     document.getElementById("Cost_SaveButton").classList.remove("is-hidden");
     document.getElementById("editCostForm").classList.remove("is-hidden");
 }
 
-function SaveCost(){
+function SaveCost() {
     document.getElementById("Cost_EditButton").classList.remove("is-hidden");
     document.getElementById("Cost_SaveButton").classList.add("is-hidden");
     document.getElementById("editCostForm").classList.add("is-hidden");

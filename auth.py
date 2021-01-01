@@ -251,7 +251,6 @@ def delete_account(uid):
 
 
 def send_confirmation_email(sid=None, user_email=None):
-
     if sid is not None and user_email is None:
         # Find UID from SID
         query = {
@@ -379,6 +378,7 @@ class LoginForm(FlaskForm):
         'Password',
         [DataRequired()]
     )
+
 
 class ResendEmailForm(FlaskForm):
     email = StringField(

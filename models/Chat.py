@@ -8,8 +8,8 @@ class Chat:
             "sender_id": self.__sender_id,
             "msg_content": self.__msg_content,
             "is_booking_chat": False,
-            "chat_id": self.__chat_id  
-            
+            "chat_id": self.__chat_id
+
             # NEED NOT CHECK. THIS IS JUST MERELY A NOTE TO SELF.
             # If is_booking_chat, then chat id is your booking id
             # If NOT is_booking_chat, random string

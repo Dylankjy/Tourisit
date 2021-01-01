@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField
 from wtforms.validators import InputRequired, Length
 
+
 class UserForm(FlaskForm):
     name = StringField(
         "name",
@@ -48,6 +49,7 @@ class UserForm(FlaskForm):
         ],
     )
 
+
 class BioForm(FlaskForm):
     bio = TextAreaField(
         "bio",
@@ -55,6 +57,7 @@ class BioForm(FlaskForm):
             Length(min=0, max=75, message="Bio can only be 75 characters long!")
         ]
     )
+
 
 class User:
     def __init__(
