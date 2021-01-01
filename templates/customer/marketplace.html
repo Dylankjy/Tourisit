@@ -74,7 +74,7 @@
                     <div class="column is-one-third">
                         <!-- START: Vertical Card -->
                         <a href='/discover/{{ item["_id"] }}'>
-                            <div class='p-5 vertical'>
+                            <div class='p-5 vertical listing-card'>
                                 <div class="box listing-img"
                                      style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}') ;"></div>
                                 <div class="ml-4">
@@ -83,7 +83,7 @@
                                         <div class="ml-2"><b>HidethePain</b> is offering:</div>
                                     </div>
                                     <h1 class='title is-4'>{{ item.tour_name }}</h1>
-                                    <p class="subtitle is-6">{{ item.tour_brief }}</p>
+                                    <p class="subtitle is-6 listing-card-text">{{ item.tour_brief }}</p>
                                     <p class="has-text-weight-light is-size-3 has-text-dark"><small
                                             class="is-size-5">From</small>
                                         ${{ item['tour_price'] }}
