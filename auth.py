@@ -235,8 +235,8 @@ def delete_account(uid):
             '$or': {
                 "_id": ObjectId(uid),
                 "uid": ObjectId(uid),
-                'tg_uid': ObjectId(uid),
-                'cust_uid': ObjectId(uid)
+                # 'tg_uid': ObjectId(uid),
+                # 'cust_uid': ObjectId(uid)
             }
         }
 
