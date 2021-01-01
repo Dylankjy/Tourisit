@@ -647,9 +647,9 @@ def logout():
 
 # MEMBERS
 # Chat endpoint
-@app.route('/system/chat')
 def chat_endpoint():
     return "Tourisit Chat Endpoint UwU"
+@app.route('/endpoint/chat')
 
 # Run app
 if __name__ == '__main__':
