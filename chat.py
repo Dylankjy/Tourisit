@@ -50,6 +50,101 @@ def create_chat_room(participants, is_booking_chat):
 # create_chat_room(["5feafbbf4dbad8d4b8614958", "5fec8a85b11a8931d7656f06"], True)
 # create_chat_room(["5feafbbf4dbad8d4b8614958", "5fec8a85b11a8931d7656f06"], False)
 
+def get_chat_list(sid, chat_type):
+    # Query SID
+    query_sid = {
+        "sid": sid
+    }
+
+    # Find sender uid by sid
+    try:
+        uid = [i for i in db_sessions.find(query_sid)][0]["uid"]
+    except IndexError:
+        return False
+
+    # Query to find all chats of user
+    query_uid_in_chats = {
+        '$and': [
+            {
+                'participants': {
+                    "$in": [uid]
+                }
+            }
+        ]
+    }
+
+    if chat_type != 'ALL':
+        query_uid_in_chats['$and'].append({
+            'chat_type': chat_type
+        })
+
+    # Get list of chat messages from database
+    list_of_chats = [i for i in db_chats.find(query_uid_in_chats)]
+
+    # Initialised variables
+    recipient_uid = ""
+    compiled_list = []
+
+    # Get recipient's uid
+    for i in range(len(list_of_chats)):
+        for u in range(len(list_of_chats[i]["participants"])):
+            if list_of_chats[i]["participants"][u] != uid:
+                recipient_uid = list_of_chats[i]["participants"][u]
+                chat_type = list_of_chats[i]['chat_type']
+
+                query_recipient_uid = {
+                    "_id": recipient_uid
+                }
+
+                recipient_name = [a for a in db_users.find(query_recipient_uid)][0]["name"]
+
+                print(recipient_name)
+
+                compiled_list.append({"name": recipient_name, "uid": recipient_uid, "chat_type": chat_type})
+
+    return compiled_list
+
+
+# get_chat_list(test_sid, "ALL")
+
+
+def get_chat_room(sid, chat_id):
+    # Query SID
+    query_sid = {
+        "sid": sid
+    }
+
+    # Find sender uid by sid
+    try:
+        uid = [i for i in db_sessions.find(query_sid)][0]["uid"]
+    except IndexError:
+        return False
+
+    try:
+        # Query to find specific chat user is wanting to push message into
+        query_uid_in_chats = {
+            '$and': [
+                {
+                    '_id': ObjectId(chat_id)
+                },
+                {
+                    'participants': {
+                        "$in": [uid]
+                    }
+                }
+            ]
+        }
+    except bson.errors.InvalidId:
+        return False
+
+    # Get list of chat messages from database
+    chatroom_data = [i for i in db_chats.find(query_uid_in_chats)][0]
+
+    return chatroom_data
+
+
+# print(get_chat_room(test_sid, "5fef54775c7ba372a70fa0b0"))
+
 
 def add_message(chat_id, sender_sid, message):
     # Query SID
