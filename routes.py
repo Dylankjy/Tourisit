@@ -647,9 +647,30 @@ def logout():
 
 # MEMBERS
 # Chat endpoint
-def chat_endpoint():
-    return "Tourisit Chat Endpoint UwU"
 @app.route('/endpoint/chat')
+def chatroom_endpoint():
+    chat_id = request.args.get('chat_id')
+    resp = make_response()
+    resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
+
+    if auth.is_auth():
+        if chat_id:
+            sid = auth.get_sid()
+            chatroom_data = msg.get_chat_room(sid, chat_id)
+
+            if not chatroom_data:
+                resp = make_response('Tourisit API Endpoint - Error 500', 500)
+                return resp
+            else:
+                resp = make_response(JSONEncoder().encode(chatroom_data))
+                return resp
+        else:
+            resp = make_response('Tourisit API Endpoint - Error 400', 400)
+            return resp
+    else:
+        resp = make_response('Tourisit API Endpoint - Error 403', 403)
+        return resp
+
 
 # Run app
 if __name__ == '__main__':
