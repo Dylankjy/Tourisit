@@ -14,6 +14,9 @@ db_users = client['Users']
 db_sessions = client['Sessions']
 db_chats = client['Chats']
 
+test_sid = "b687c32ba5cbcde4ddb20504d832a0e7857cbff22bd6df1137097a78f0752" \
+           "060ab64074de7acc8933c073f219fe30f62044bb1618e798e1d77703bfaf15827cd"
+
 
 def create_chat_room(participants, is_booking_chat):
     if is_booking_chat:
@@ -103,9 +106,4 @@ def add_message(chat_id, sender_sid, message):
 
         return True
 
-
-# test_sid = "b687c32ba5cbcde4ddb20504d832a0e7857cbff22bd6df1137097a78f0752" \
-#            "060ab64074de7acc8933c073f219fe30f62044bb1618e798e1d77703bfaf15827cd"
-
-# add_message("5fef2988e6c43266f55b00cf", test_sid, "Hello")
-# add_message("5fef29dd9816824d7f214c45", test_sid, "Hello")
+# add_message("5fef54775c7ba372a70fa0b0", test_sid, "Hello")
