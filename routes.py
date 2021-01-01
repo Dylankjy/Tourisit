@@ -9,6 +9,9 @@ from flask import Flask, render_template, request, redirect, url_for, make_respo
 
 # Authentication library
 import auth as auth
+# Chat Library
+import chat as msg
+
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.User import UserForm, BioForm
