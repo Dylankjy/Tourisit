@@ -50,7 +50,7 @@ def create_chat_room(participants, is_booking_chat):
 # create_chat_room(["5feafbbf4dbad8d4b8614958", "5fec8a85b11a8931d7656f06"], True)
 # create_chat_room(["5feafbbf4dbad8d4b8614958", "5fec8a85b11a8931d7656f06"], False)
 
-def get_chat_list(sid, chat_type):
+def get_chat_list_for_ui(sid, chat_type):
     # Query SID
     query_sid = {
         "sid": sid
