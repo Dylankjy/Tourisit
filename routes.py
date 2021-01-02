@@ -5,19 +5,18 @@ from io import BytesIO
 # Database
 import pymongo
 from bson.objectid import ObjectId
-from flask import Flask, render_template, request, redirect, url_for, make_response
+from flask import Flask, render_template, request, redirect, url_for, make_response, Response
 
-# Authentication library
 import auth as auth
 # Chat Library
 import chat as msg
-
+from models.Booking import BookingForm, Booking
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.User import UserForm, BioForm
 from models.formatting import JSONEncoder, img_to_base64
 
-from models.Booking import BookingForm, Booking
+# Authentication library
 
 # For Images
 buffered = BytesIO()
@@ -215,7 +214,7 @@ def tourListing(tour_id):
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
     result = auth.is_auth(True)
 
-    #Boolean, will be editable if person is the owner of the listing
+    # Boolean, will be editable if person is the owner of the listing
     editable = item['tg_uid'] == result['_id']
     # if not logged in
     if not result:
@@ -268,14 +267,14 @@ def makelisting():
                 detail_desc = request.form['tour_desc']
 
                 tour_itinerary = request.form.getlist('tour_items_list[]')
-                #Convert to a list
+                # Convert to a list
                 print(tour_itinerary)
                 tour_itinerary = tour_itinerary[0].replace("None,", '')
                 tour_itinerary = tour_itinerary.replace(",None", '')
                 tour_itinerary = tour_itinerary.split('#$%^#,')
-                #Remove the special seperators for the last list element
+                # Remove the special seperators for the last list element
                 tour_itinerary[-1] = tour_itinerary[-1].strip('#$%^#')
-                #Make sure there is no empty strings
+                # Make sure there is no empty strings
                 tour_itinerary = [i for i in tour_itinerary if i.strip() != '']
                 print(type(tour_itinerary))
                 print(tour_itinerary)
@@ -337,11 +336,10 @@ def editListing(id):
                 tour_revisions = request.form['tour_revisions']
                 tour_price = request.form['tour_price']
 
-
                 updated = {
-                    "$set": {'tour_name':tour_name, 'tour_desc': detail_desc,
-                                       'tour_price':tour_price, 'tour_img':img_string,
-                                       'tour_loc':tour_locations, 'tour_revs':tour_revisions,'tour_itinerary':tour_itinerary}}
+                    "$set": {'tour_name': tour_name, 'tour_desc': detail_desc,
+                             'tour_price': tour_price, 'tour_img': img_string,
+                             'tour_loc': tour_locations, 'tour_revs': tour_revisions, 'tour_itinerary': tour_itinerary}}
 
                 shop_db.update_one(query_listing, updated)
 
@@ -429,6 +427,7 @@ def bookings():
     except:
         return 'Error trying to render'
 
+
 # @app.route('/listings/id/booknow')
 # def book_now():
 #     try:
@@ -467,7 +466,8 @@ def book_now(tour_id):
                     # bookings_db.insert_one(booking)
                     # return redirect(url_for('checkout'))
 
-            return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item, tour_id=tour_id)
+            return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item,
+                                   tour_id=tour_id)
         # if not logged in
         else:
             return render_template('customer/book-now.html', loggedin=False)
