@@ -86,7 +86,6 @@ def get_chat_list_for_ui(sid, chat_type):
     list_of_chats = [i for i in db_chats.find(query_uid_in_chats)]
 
     # Initialised variables
-    recipient_uid = ""
     compiled_list = []
 
     # Get recipient's uid
@@ -95,6 +94,7 @@ def get_chat_list_for_ui(sid, chat_type):
             if list_of_chats[i]["participants"][u] != uid:
                 recipient_uid = list_of_chats[i]["participants"][u]
                 chat_type = list_of_chats[i]['chat_type']
+                chat_room_id = list_of_chats[i]['_id']
 
                 query_recipient_uid = {
                     "_id": recipient_uid
@@ -102,7 +102,8 @@ def get_chat_list_for_ui(sid, chat_type):
 
                 recipient_name = [a for a in db_users.find(query_recipient_uid)][0]["name"]
 
-                compiled_list.append({"name": recipient_name, "uid": recipient_uid, "chat_type": chat_type})
+                compiled_list.append(
+                    {"id": chat_room_id, "name": recipient_name, "uid": recipient_uid, "chat_type": chat_type})
 
     return compiled_list
 
@@ -142,7 +143,6 @@ def get_chat_room(sid, chat_id):
     # Get list of chat messages from database
     chatroom_data = [i for i in db_chats.find(query_uid_in_chats)][0]
 
-    return chatroom_data
     # Initialised variables
     compiled_chat_room = []
     list_of_participant_names = []
