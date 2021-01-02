@@ -12,6 +12,32 @@
     <div class="container p-5">
         <h1 class="title is-size-1 has-text-weight-bold has-text-white">Inbox</h1>
     </div>
+    <script>
+        setInterval(syncEndpoint = () => {
+            $.ajax({
+                url: "/endpoint/chat?chat_id={{selected_chatroom}}",
+                dataType: "json",
+                success: (data) => {
+                    console.log('Syncing with endpoint data.')
+                    incomingMsgs = data.data
+                    currentList = $('#messagesList').html()
+
+                    if (incomingMsgs != currentList) {
+                        $('#messagesList').html(data.data)
+                        console.log('New data received.')
+                        var $target = $('#messageContainer');
+                        $($target).animate({
+                            scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
+                        }, 0);
+                    } else {
+                        console.log('Nothing new. Ignoring.')
+                    }
+                }
+            })
+        }, 5000)
+
+        syncEndpoint()
+    </script>
 </section>
 <!--End: CHAD HEADER-->
 <!--Main-->
@@ -19,7 +45,7 @@
     <div class="container">
         <div class="columns is-7">
             <!--Start: Menu Column -->
-            <div class="column is-one-third">
+            <div class="column is-one-quarter">
                 <aside class="menu">
                     <!--Start: Dropdown-->
                     <div class="dropdown is-hoverable">
@@ -45,13 +71,17 @@
                         {% for dict in list %}
                         <!-- START: Horizontal Card -->
                         <li>
-                            <div class="box mt-4 p-0 has-background-white-ter">
-                                <a>
-                                    <div>
-                                        <div class="p-2 listing-author">
-                                            <div class="profile-img" style="background-image: url('/pfp.jpg')"></div>
-                                            <div class="ml-2"><b>{{dict["name"]}}</b></div>
-                                        </div>
+                            <div class="box mt-4 p-0
+                            {% if selected_chatroom == dict['id'] %}
+                            has-background-white
+                            {% else %}
+                            has-background-light
+                        {% endif %}
+                            ">
+                                <a href='/chat/{{dict["id"]}}'>
+                                    <div class="p-2 listing-author">
+                                        <div class="profile-img" style="background-image: url('/pfp.jpg')"></div>
+                                        <div class="ml-2"><b>{{dict["name"]}}</b></div>
                                     </div>
                                 </a>
                             </div>
@@ -69,62 +99,40 @@
             <!--Start: Console Column-->
             <div class="column">
                 <div class="container chat-main">
+                    {% if chatroom_display != False %}
                     <div class="box p-0">
-                        <!--START: Messages-->
-                        <div class="card" style="height: 60vh;">
-                            <div class="card-header p-1 has-background-grey-light">
-                                <div class="profile-img" style="background-image: url('/pfp.jpg')"></div>
-                                <p class="ml-3 is-size-5 has-text-weight-bold">
-                                    HideThePain69</p>
+                        <div id="messageContainer" style="height: 40rem; overflow:scroll">
+                            <div class="p-5 has-background-light"
+                                style="border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                <h2 class="title has-text-weight-bold has-text-dark">
+                                    {{chatroom_names|safe}}
+                                </h2>
+                                <p class="subtitle has-text-grey"><i class="fas fa-heart"></i>&ensp;This is the humble
+                                    beginnings of this conversation and the tippy top of it.</p>
                             </div>
-
-                            <div class="p-3" style="overflow-y: scroll; height: 55vh;">
-                                <!--START: message-->
-                                <div class="box is-pulled-left mt-3 p-3 has-background-grey-lighter"
-                                    style="max-width:70%; border-radius:20px 20px 20px 0px;">
-                                    <article class="media">
-                                        <figure class="media-left">
-                                            <p class="image is-48x48"><img src="/pfp.jpg"></p>
-                                            <span class="is-size-7">31m</span>
-                                        </figure>
-                                        <div class="media-content">
-                                            <div class="content m-0">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                                                    ornare magna eros, eu pellentesque tortor vestibulum ut.
-                                                    Maecenas non massa sem. Etiam finibus odio quis feugiat
-                                                    facilisis.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </article>
+                            <div id="messagesList" class="p-5">
+                                {% for i in chatroom_display %}
+                                <div>
+                                    <small><a href="" class="has-text-weight-bold">{{ i["sender_name"] }}</a>
+                                        <span class="has-text-grey">
+                                            {% if i["self"]%}
+                                            — Me
+                                            {% endif %}
+                                        </span>
+                                    </small>
+                                    <p>{{ i["msg_content"] }}</p>
+                                    <hr>
                                 </div>
-                                <!--END: message-->
-                                <!--START: message-->
-                                <div class="box is-pulled-right mt-3 p-3 has-background-primary is-bold"
-                                    style="max-width:70%; border-radius:20px 20px 0px 20px;">
-                                    <article class="media">
-                                        <div class="media-content">
-                                            <div class="content m-0">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                                                    ornare magna eros, eu pellentesque tortor vestibulum ut.
-                                                    Maecenas non massa sem. Etiam finibus odio quis feugiat
-                                                    facilisis.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <figure class="media-right">
-                                            <p class="image is-48x48"><img src="/pfp.jpg"></p>
-                                            <span class="is-size-7">31m</span>
-                                        </figure>
-                                    </article>
-                                </div>
-                                <!--END: message-->
+                                {% endfor %}
                             </div>
-
                         </div>
-                        <!--END: Messages-->
+
+                        <script>
+                            var $target = $('#messageContainer');
+                            $($target).animate({
+                                scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
+                            }, 0);
+                        </script>
 
                         <!--START: Input field-->
                         <div class="field has-addons">
@@ -153,20 +161,31 @@
                                 <!--END: Dropup-->
                             </div>
                             <div class="control is-expanded">
-                                <input class="input is-fullwidth" type="text" placeholder="Enter your message.." />
+                                <form method="POST" style="width: 100%;"
+                                    action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
+                                    {{ form.csrf_token }}
+                                    <!-- <input class="input is-fullwidth" type="text" placeholder="Enter your message.." /> -->
+                                    {{ form.message(id="message", type="text", class="input is-fullwidth",
+                                    placeholder="Enter message", value="") }}
                             </div>
                             <div class="control">
-                                <button class="button is-primary">
+                                <button type="submit" class="button is-primary">
                                     <i class="fas fa-paper-plane"></i>
                                 </button>
+                                </form>
                             </div>
                         </div>
-                        <!--END: Input Field-->
                     </div>
+                    <!--END: Input Field-->
                 </div>
-                <!--End: Console Column-->
+                {% else %}
+                <p class="has-text-centered title mt-6 has-text-grey-light"><i
+                        class="fas fa-hand-point-left"></i>&ensp;Click a chat to display</p>
+                {% endif %}
             </div>
+            <!--End: Console Column-->
         </div>
+    </div>
 </section>
 
 
