@@ -11,7 +11,7 @@ class ChatRoom:
         }
 
 
-class Message:  # TODO: Add timestamp!!
+class Message:
     def __init__(self, sender_id, timestamp, msg_content):
         self.__sender_id = sender_id
         self.__timestamp = timestamp
