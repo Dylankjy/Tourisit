@@ -22,8 +22,6 @@
 
     <section class="section">
         <div class="container">
-
-            <!-- START: Horizontal Card -->
             <div class='box p-5'>
                 <div class="columns is-vcentered">
                     <div class="column">
@@ -31,10 +29,10 @@
                             <div class="ml-4">
                                 <div class="mb-2 listing-author">
                                     <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                    <div class="ml-2"><b>{{ user['name'] }}</b> is offering:</div>
+                                    <div class="ml-2"><b>{{ listings[-1]['tg_name'] }}</b> is offering:</div>
                                 </div>
                                 <h1 class='title'> {{ listings[-1].tour_name }}</h1>
-                                <p class="subtitle">{{ listings[-1].tour_brief }}</p>
+                                <p class="subtitle is-size-5">{{ listings[-1].tour_desc }}</p>
                                 <p class="has-text-weight-light is-size-2 has-text-dark"><small
                                         class="is-size-5">From</small>
                                     ${{ listings[-1].tour_price }}
@@ -55,19 +53,20 @@
                     </div>
                 </div>
             </div>
-            <!-- END: Horizontal Card -->
         </div>
 
         <br>
 
 
+
+
         <div class="container">
-            <div class="columns">
+            <div class="columns is-mulitline">
 
                 {% for item in listings %}
                     {% if loop.index <=3 %}
 
-                        <div class="column">
+                        <div class="column is-one-third">
                             <a href="/discover/{{ item['_id'] }}">
                                 <!-- START: Vertical Card -->
                                 <div class='box p-5 vertical'>
@@ -76,10 +75,10 @@
                                     <div class="ml-4">
                                         <div class="mb-2 listing-author">
                                             <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                            <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                                            <div class="ml-2"><b>{{ item['tg_name'] }}</b> is offering:</div>
                                         </div>
-                                        <h1 class='title is-4'>{{ item.tour_name }}</h1>
-                                        <p class="subtitle is-6">{{ item.tour_brief }}</p>
+                                        <h1 class='title is-4'>{{ item["tour_name"] }}</h1>
+                                        <p class="subtitle is-6 listing-card-text">{{ item["tour_desc"] }}</p>
                                         <p class="has-text-weight-light is-size-3 has-text-dark"><small
                                                 class="is-size-5">From</small>
                                             ${{ item.tour_price }}

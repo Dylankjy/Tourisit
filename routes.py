@@ -15,11 +15,10 @@ import chat as msg
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.User import UserForm, BioForm
-from models.formatting import JSONEncoder
+from models.formatting import JSONEncoder, img_to_base64
 
 # For Images
 buffered = BytesIO()
-from validate_imgs import img_to_base64
 
 import json
 
@@ -272,6 +271,7 @@ def makelisting():
                 tour_revisions = request.form['tour_revisions']
                 tour_price = request.form['tour_price']
                 tg_uid = result['_id']
+                tg_name = result['name']
 
                 print(tg_uid)
 
@@ -306,14 +306,22 @@ def editListing(id):
             if lForm.validate_on_submit():
                 query_listing = {'_id': ObjectId(id)}
                 tour_name = request.form['tour_name']
-                tour_desc = request.form['tour_desc']
+                detail_desc = request.form['tour_desc']
+                tour_itinerary = []
+                tour_itinerary.append(request.form['tour_items'])
+                tour_locations = []
+                tour_locations.append(request.form['tour_loc'])
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
+                tour_revisions = request.form['tour_revisions']
                 tour_price = request.form['tour_price']
+
+
                 updated = {
-                    "$set": {"tour_name": tour_name, "tour_desc": tour_desc,
-                             "tour_img": img_string,
-                             "tour_price": tour_price}}
+                    "$set": {'tour_name':tour_name, 'tour_desc': detail_desc,
+                                       'tour_price':tour_price, 'tour_img':img_string,
+                                       'tour_loc':tour_locations, 'tour_revs':tour_revisions,'tour_itinerary':tour_itinerary}}
+
                 shop_db.update_one(query_listing, updated)
 
                 return render_template('tourGuides/editing-success.html', id=id, user=result)
