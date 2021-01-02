@@ -101,12 +101,15 @@
                 <div class="container chat-main">
                     {% if chatroom_display != False %}
                     <div class="box p-0">
-                        <div id="messageContainer" style="height: 40rem; overflow:scroll">
+                        <div class="p-5 has-background-light"
+                            style="border-top-left-radius: 4px; border-top-right-radius: 4px">
+                            <h2 class="title is-4 has-text-weight-bold has-text-dark">
+                                {{chatroom_names|safe}}
+                            </h2>
+                        </div>
+                        <div id="messageContainer" style="height: 40rem; overflow:scroll;">
                             <div class="p-5 has-background-light"
-                                style="border-top-left-radius: 4px; border-top-right-radius: 4px">
-                                <h2 class="title has-text-weight-bold has-text-dark">
-                                    {{chatroom_names|safe}}
-                                </h2>
+                                style="padding-top:0 !important; border-bottom: 4px #fff dashed; ">
                                 <p class="subtitle has-text-grey"><i class="fas fa-heart"></i>&ensp;This is the humble
                                     beginnings of this conversation and the tippy top of it.</p>
                             </div>
