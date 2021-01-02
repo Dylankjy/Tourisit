@@ -7,7 +7,8 @@ class ChatRoom:
     def return_obj(self):
         return {
             "participants": self.__participants,
-            "chat_type": self.__chat_type
+            "chat_type": self.__chat_type,
+            "messages": self.__messages
         }
 
 
