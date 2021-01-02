@@ -143,6 +143,41 @@ def get_chat_room(sid, chat_id):
     chatroom_data = [i for i in db_chats.find(query_uid_in_chats)][0]
 
     return chatroom_data
+    # Initialised variables
+    compiled_chat_room = []
+    list_of_participant_names = []
+
+    for u in chatroom_data["participants"]:
+        query_uid_get_participants = {
+            "_id": u
+        }
+
+        user_name = [a for a in db_users.find(query_uid_get_participants)][0]["name"]
+
+        if user_name not in list_of_participant_names:
+            list_of_participant_names.append(user_name)
+
+    try:
+        for i in range(len(chatroom_data["messages"])):
+            query_uid_get_participants = {
+                "_id": chatroom_data["messages"][i]['sender_id']
+            }
+
+            if chatroom_data["messages"][i]['sender_id'] != uid:
+                is_self = False
+            else:
+                is_self = True
+
+            message = chatroom_data["messages"][i]['msg_content']
+            user_name = [a for a in db_users.find(query_uid_get_participants)][0]["name"]
+
+            compiled_chat_room.append(
+                {"sender_name": user_name, "uid": query_uid_get_participants, "msg_content": message, "self": is_self}
+            )
+    except IndexError:
+        pass
+
+    return {"chatroom": compiled_chat_room, "names": ' ↔ '.join(list_of_participant_names)}
 
 
 # print(get_chat_room(test_sid, "5fef54775c7ba372a70fa0b0"))
