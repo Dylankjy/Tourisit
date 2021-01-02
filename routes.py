@@ -456,18 +456,18 @@ def book_now(tour_id):
             bookform = BookingForm()
             if request.method == 'POST':
                 if bookform.validate_on_submit():
+                    print("submitted")
                     book_date = request.form["book_date"]
                     book_time = request.form["book_time"]
-                    accept_tnc = request.form["accept_tnc"]
-                    print(f"success!{book_date}, at{book_time}, and {accept_tnc}")
-                    # booking = Booking(cust_uid=result['_id'], book_date=book_date, book_time=book_time)
-                    # # tg_uid, cust_uid, listing_id, book_date, book_time, book_duration, timeline_content, process_step
-                    #
-                    # print(booking.return_obj())
-                    # # bookings_db.insert_one(booking)
-                    # # return redirect(url_for('checkout'))
+                    booking = Booking(tg_uid=item['tg_uid'], cust_uid=result['_id'], listing_id=item['_id'],
+                                      book_date=book_date, book_time=book_time, book_duration="", timeline_content=[],
+                                      process_step=5)
+                    # tg_uid, cust_uid, listing_id, book_date, book_time, book_duration, timeline_content, process_step
+                    print(booking.return_obj())
+                    # bookings_db.insert_one(booking)
+                    # return redirect(url_for('checkout'))
 
-            return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item)
+            return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item, tour_id=tour_id)
         # if not logged in
         else:
             return render_template('customer/book-now.html', loggedin=False)

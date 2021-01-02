@@ -25,6 +25,7 @@ class Booking:
         self.__cust_uid = cust_uid
         self.__listing_id = listing_id
         self.__book_chat = []
+        self.__book_datetime = ''
         self.set_book_datetime(book_date, book_time)
         self.__book_duration = book_duration
         self.__book_info = ""
