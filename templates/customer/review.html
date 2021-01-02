@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-    <link rel="stylesheet" href="css/shop.css">
-    <link rel="stylesheet" href="css/rating.css">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="../../public/css/shop.css">
+    <link rel="stylesheet" href="../../public/css/rating.css">
 {% endblock %}
 
 {% block content %}
-    <section class='section pt-3'>
+    <section class='section'>
         <div class="content has-text-centered">
             <h1>Rate your tour experience!</h1>
         </div>
@@ -20,7 +19,7 @@
                             <div class="ml-4">
                                 <div class="mb-2 listing-author">
                                     <div class="profile-img" style="background-image: url('/public/pfp.jpg');"></div>
-                                    <div class="ml-2"><b>HidethePain</b></div>
+                                    <div class="ml-2"><b>HideThePain69</b></div>
                                 </div>
                                 <h1 class='title'>Bishan Nightlife</h1>
                                 <p class="subtitle">Explore the night life of Bishan</p>
@@ -28,29 +27,48 @@
                             </div>
                         </div>
                         <div class="column">
-                            <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                            <div class="box listing-img" style="background-image: url('/public/places/bishan.jpg');"></div>
                         </div>
                     </div>
 
                     <form>
                         <fieldset>
-
+                            <div class="field is-grouped is-grouped-centered">
+                                <div class="score control">
+                                    <label class="radio" for="star5">
+                                        <input type="radio" name="star" id="star5" value="5" class="is-invisible">
+                                        <i class="fas fa-star fa-4x"></i>
+                                    </label>
+                                    <label class="radio" for="star4">
+                                        <input type="radio" name="star" id="star4" value="4" class="is-invisible">
+                                        <i class="fas fa-star fa-4x"></i>
+                                    </label>
+                                    <label class="radio" for="star3">
+                                        <input type="radio" name="star" id="star3" value="3" class="is-invisible">
+                                        <i class="fas fa-star fa-4x"></i>
+                                    </label>
+                                    <label class="radio" for="star2">
+                                        <input type="radio" name="star" id="star2" value="2" class="is-invisible">
+                                        <i class="fas fa-star fa-4x"></i>
+                                    </label>
+                                    <label class="radio" for="star1">
+                                        <input type="radio" name="star" id="star1" value="1" class="is-invisible">
+                                        <i class="fas fa-star fa-4x"></i>
+                                    </label>
+                                </div>
+                            </div>
 
                             <div class="field">
-                                <label class="label is-size-5" for="review">Leave a review</label>
+                                <label class="label" for="review">Leave a review</label>
                                 <div class="control">
-                                    <textarea class="textarea"
-                                              placeholder="What were some things you enjoyed about this experience? How can it be improved?"
-                                              id="review" name="review"></textarea>
+                                    <textarea class="textarea" placeholder="What were some things you enjoyed about this experience? How can it be improved?" id="review" name="review"></textarea>
                                 </div>
                             </div>
 
                             <div class="field">
                                 <label class="label" for="review-submit"></label>
                                 <div class="control">
-                                    <button id="review-submit" name="review-submit"
-                                            class="button is-success is-medium is-fullwidth">Submit your review!
-                                    </button>
+                                    <button id="review-submit" name="review-submit" class="button is-success is-medium is-fullwidth">Submit your review</button>
                                 </div>
                             </div>
                         </fieldset>
