@@ -719,10 +719,8 @@ def chat():
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
-        # TODO: Add dynamic chat to right side of page! おやすみなさい。。。ｚｚｚZZZ
         chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
-        print(chat_list)
-        return render_template('chat.html', loggedin=True, user=result, list=chat_list)
+        return render_template('chat.html', loggedin=True, user=result, list=chat_list, chatroom_display=False)
 
 
 # MEMBERS
