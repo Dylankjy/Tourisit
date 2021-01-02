@@ -758,14 +758,20 @@ def chatroom_endpoint():
 
     if auth.is_auth():
         if chat_id:
-            sid = auth.get_sid()
-            chatroom_data = msg.get_chat_room(sid, chat_id)
+            chat_room_messages = msg.get_chat_room(auth.get_sid(), chat_id)
 
-            if not chatroom_data:
+            if not chat_room_messages:
                 resp = make_response('Tourisit API Endpoint - Error 500', 500)
                 return resp
             else:
-                resp = make_response(JSONEncoder().encode(chatroom_data))
+                shard_payload = render_template('shards/msg.html', chatroom_display=chat_room_messages["chatroom"])
+                resp = Response(
+                    response=JSONEncoder().encode({
+                        "data": shard_payload
+                    }),
+                    mimetype='application/json',
+                    status=200
+                )
                 return resp
         else:
             resp = make_response('Tourisit API Endpoint - Error 400', 400)
