@@ -427,9 +427,10 @@ def bookings():
 
 # CUSTOMER
 # Book Now Page
-@app.route('/listings/id/booknow', methods=['GET', 'POST'])
-def book_now():
+@app.route('/discover/<tour_id>/booknow', methods=['GET', 'POST'])
+def book_now(tour_id):
     try:
+        item = shop_db.find_one({'_id': ObjectId(tour_id)})
         # Get login status using accessor argument
         result = auth.is_auth(True)
         # if logged in
@@ -448,12 +449,13 @@ def book_now():
                     # # bookings_db.insert_one(booking)
                     # # return redirect(url_for('checkout'))
 
-            return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform)
+            return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item)
         # if not logged in
         else:
             return render_template('customer/book-now.html', loggedin=False)
     except:
         return 'Error trying to render'
+
 
 # CUSTOMER
 # Checkout page (placeholder)

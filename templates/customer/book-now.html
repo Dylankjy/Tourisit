@@ -26,7 +26,7 @@
                     <!--END: Customise tour button-->
                     <div class="divider">OR</div>
                     <!--START: Book now form-->
-                    <form id="book_form" method="POST" action="{{ url_for('book_now') }}">
+                    <form id="book_form" method="POST" action="/listings/{{ item['_id'] }}/booknow">
                         {{ form.csrf_token }}
                     <div class="field">
                         <label class="label">Select Date</label>
