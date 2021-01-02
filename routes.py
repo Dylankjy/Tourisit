@@ -723,6 +723,31 @@ def chat():
         return render_template('chat.html', loggedin=True, user=result, list=chat_list, chatroom_display=False)
 
 
+@app.route('/chat/<room_id>', methods=['GET', 'POST'])
+def chat_room(room_id):
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    # if logged in
+    else:
+        # Chat form
+        chat_form = msg.ChatForm()
+
+        if chat_form.validate_on_submit():
+            # print(chat_form.data["message"])
+            print(msg.add_message(room_id, auth.get_sid(), chat_form.data["message"]))
+
+        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
+        chat_room_messages = msg.get_chat_room(auth.get_sid(), room_id)
+
+        return render_template('chat.html', loggedin=True, user=result, list=chat_list, form=chat_form,
+                               chatroom_display=chat_room_messages["chatroom"],
+                               chatroom_names=chat_room_messages["names"],
+                               selected_chatroom=ObjectId(room_id))
+
+
 # MEMBERS
 # Chat endpoint
 @app.route('/endpoint/chat')
