@@ -245,3 +245,8 @@ def add_message(chat_id, sender_sid, message):
 
 # add_message("5ff0b727041631a155c77dea", test_sid, "I want to book this")
 
+class ChatForm(FlaskForm):
+    message = StringField(
+        'Chat',
+        [DataRequired()]
+    )
