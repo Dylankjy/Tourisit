@@ -44,20 +44,6 @@
                             </div>
 
 
-                            <legend class='label'>Brief Description</legend>
-                            <div class="field">
-                                <label class="label" for="tour-brief"></label>
-                                <div class="control">
-                                    {{ form.tour_brief(id="tour-brief", type="text", class="input", placeholder="Explore the Nature aspects of Bishan", value=listing.tour_brief ) }}
-                                    <ul>
-                                        {% for error in form.tour_brief.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-
-
                             <label class="label" for="tour-img">Tour Image</label>
                             <div class="file">
                                 <label class="file-label">
@@ -84,6 +70,51 @@
                                     {{ form.tour_desc(class='textarea', id="tour-desc") }}
                                     <ul>
                                         {% for error in form.tour_desc.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <label class="label" for="tour-items">Tour itinerary</label>
+                            <div class="field has-addons">
+                              <div class="control">
+                                <a class="button is-static">
+                                  Add Itinerary
+                                </a>
+                              </div>
+                              <div class="control is-expanded">
+                                {{ form.tour_items(class='input', id='tour-items', placeholder='Visit famous museum at Newton: Newton War Memorial Museum', type='text', value=listing.tour_itinerary[0]) }}
+                              </div>
+                            </div>
+
+
+                            <div class="field">
+                              <label class="label" for="tour-loc">Tour Location</label>
+                              <div class="control has-icons-left">
+                                  <div class="select">
+                                      {{ form.tour_loc(id="tour-loc", value=listing.tour_location[0]) }}
+                                  </div>
+                                    <ul>
+                                        {% for error in form.tour_desc.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                  <span class="icon is-large is-left">
+                                        <i class="fas fa-globe"></i>
+                                  </span>
+
+                              </div>
+                            </div>
+
+
+                            <div class="field">
+                                <label class="label" for="tour-revs">Maximum Tour Revisions</label>
+                                <div class="control">
+                                    {{ form.tour_revisions(id="tour-revs", type="number", class="input", value=listing.tour_revisions) }}
+                                    <ul>
+                                        {% for error in form.tour_revisions.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
                                         {% endfor %}
                                     </ul>

@@ -19,7 +19,7 @@
                                         <div class="ml-2"><b>HidethePain</b> is offering:</div>
                                     </div>
                                     <h1 class='title is-4'>${listing['tour_name']}</h1>
-                                    <p class="subtitle is-6 listing-card-text">${listing['tour_brief']}</p>
+                                    <p class="subtitle is-6 listing-card-text">${listing['tour_desc']}</p>
                                     <p class="has-text-weight-light is-size-3 has-text-dark"><small
                                             class="is-size-5">From</small>
                                             $${listing['tour_price']}.0
@@ -72,7 +72,6 @@
                     `
                 {% for item in listings %}
                     <div class="column is-one-third">
-                        <!-- START: Vertical Card -->
                         <a href='/discover/{{ item["_id"] }}'>
                             <div class='p-5 vertical listing-card'>
                                 <div class="box listing-img"
@@ -83,7 +82,7 @@
                                         <div class="ml-2"><b>HidethePain</b> is offering:</div>
                                     </div>
                                     <h1 class='title is-4'>{{ item.tour_name }}</h1>
-                                    <p class="subtitle is-6 listing-card-text">{{ item.tour_brief }}</p>
+                                    <p class="subtitle is-6 listing-card-text">{{ item.tour_desc }}</p>
                                     <p class="has-text-weight-light is-size-3 has-text-dark"><small
                                             class="is-size-5">From</small>
                                         ${{ item['tour_price'] }}
@@ -100,7 +99,6 @@
                                         now</a>
                                 </div>
                             </div>
-                            <!-- END: Vertical Card -->
                         </a>
                     </div>
                 {% endfor %}
