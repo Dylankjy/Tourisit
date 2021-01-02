@@ -2,10 +2,11 @@ from datetime import datetime
 
 import bson
 import pymongo
-
 # MongoDB connection string
 from bson import ObjectId
-from flask import request
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
 
 client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongodb.net/test')['Tourisit']
 
@@ -20,7 +21,7 @@ test_sid = "b687c32ba5cbcde4ddb20504d832a0e7857cbff22bd6df1137097a78f0752" \
            "060ab64074de7acc8933c073f219fe30f62044bb1618e798e1d77703bfaf15827cd"
 
 test_sid2 = '9d1c1cff7e66b604cc8df66a075e61fcd239a1fc5154def7964bf87ea99772f13e' \
-           '7886d986180bab9194e9bd089d2cb364a3f8fc22e5ff68a97c3e7a1b928327'
+            '7886d986180bab9194e9bd089d2cb364a3f8fc22e5ff68a97c3e7a1b928327'
 
 
 def create_chat_room(participants, is_booking_chat):
@@ -50,7 +51,7 @@ def create_chat_room(participants, is_booking_chat):
     return inserted_dict.inserted_id
 
 
-# create_chat_room(["5feafbbf4dbad8d4b8614958", "5fec8a85b11a8931d7656f06"], True)
+# create_chat_room(["5feafbbf4dbad8d4b8614958", "5feec7b2adbcd32780a3a758"], True)
 # create_chat_room(["5feafbbf4dbad8d4b8614958", "5fec8a85b11a8931d7656f06"], False)
 
 def get_chat_list_for_ui(sid, chat_type):
@@ -144,7 +145,7 @@ def get_chat_room(sid, chat_id):
     return chatroom_data
 
 
-print(get_chat_room(test_sid, "5fef54775c7ba372a70fa0b0"))
+# print(get_chat_room(test_sid, "5fef54775c7ba372a70fa0b0"))
 
 
 def add_message(chat_id, sender_sid, message):
@@ -206,4 +207,6 @@ def add_message(chat_id, sender_sid, message):
 
         return True
 
-# add_message("5fef54775c7ba372a70fa0b0", test_sid2, "I want to book this")
+
+# add_message("5ff0b727041631a155c77dea", test_sid, "I want to book this")
+
