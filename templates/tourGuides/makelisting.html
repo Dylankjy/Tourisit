@@ -38,16 +38,15 @@
         function AddItinerary() {
 
             current_item = document.getElementById('tour-items')
-            $(`#item-${listno}`).change(console.log('Changed!'))
             text = 
             `
-                <li id='item-${listno}'>
+                <li id='list_${listno}'>
                     <div class="field has-addons" >
                         <div class="control is-expanded">
-                            <input class='input' type=text value="${current_item.value}">
+                            <input id='item_${listno}' class='input' type=text value="${current_item.value}" onkeyup="$('#item_${listno}').val($('#item_${listno}').val()); console.log($('#item_${listno}').val()); itemList.splice(${listno}, 1, $('#item_${listno}').val() + '#$%^#')">
                         </div>
                         <div class="control">
-                            <button class="button" onclick="$('#item-${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
+                            <button class="button" onclick="$('#list_${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
                                 Delete
                             </button>
                         </div>
