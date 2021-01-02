@@ -114,6 +114,12 @@
                                     beginnings of this conversation and the tippy top of it.</p>
                             </div>
                             <div id="messagesList" class="p-5">
+                                {% if chatroom_display|count == 0 %}
+                                <div>
+                                    <p class="has-text-centered has-text-grey has-text-weight-light">This chat is empty.
+                                    </p>
+                                </div>
+                                {% else %}
                                 {% for i in chatroom_display %}
                                 <div>
                                     <small><a href="" class="has-text-weight-bold">{{ i["sender_name"] }}</a>
@@ -127,6 +133,7 @@
                                     <hr>
                                 </div>
                                 {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
 
