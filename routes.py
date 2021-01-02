@@ -525,23 +525,6 @@ def adminListings():
 
 
 # SHARED
-# Chats: Render individual chats -- Stolen from Chloe
-@app.route('/chat')
-def chat():
-    # Get login status using accessor argument
-    result = auth.is_auth(True)
-    # if not logged in
-    if not result:
-        return redirect(url_for('login', denied_access=True))
-    # if logged in
-    else:
-        # TODO: Add dynamic chat to right side of page! おやすみなさい。。。ｚｚｚZZZ
-        chat_list = msg.get_chat_list(auth.get_sid(), 'BOOKING')
-        print(chat_list)
-        return render_template('chat.html', loggedin=True, user=result, list=chat_list)
-
-
-# SHARED
 # Login Page
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -646,6 +629,23 @@ def logout():
         return resp
     else:
         return redirect(url_for('home'))
+
+
+# SHARED
+# Chats: Render individual chats -- Stolen from Chloe
+@app.route('/chat')
+def chat():
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    # if logged in
+    else:
+        # TODO: Add dynamic chat to right side of page! おやすみなさい。。。ｚｚｚZZZ
+        chat_list = msg.get_chat_list(auth.get_sid(), 'BOOKING')
+        print(chat_list)
+        return render_template('chat.html', loggedin=True, user=result, list=chat_list)
 
 
 # MEMBERS
