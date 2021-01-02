@@ -23,7 +23,8 @@ class ListingForm(FlaskForm):
 
     tour_img = FileField('tour_img', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Only Images are allowed!')])
 
-    tour_revisions = IntegerField('tour_rev', validators=[InputRequired(), Length(min=1, max=2, message='Must be filled in!')])
+    tour_revisions = IntegerField('tour_rev', validators=[InputRequired(), NumberRange(min=0, max=None,
+                                                                                   message='Tour Revision must be at least 1')])
 
     tour_price = FloatField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None,
                                                                                    message='Price cannot be below $0!')])
@@ -88,7 +89,7 @@ class Listing:
         except AssertionError:
             print(f"{tour_itinerary} must be of type {list}")
         else:
-            self.__tour_review.append(tour_itinerary)
+            self.__tour_itinerary = tour_itinerary
 
     def add_tour_itinerary(self, itinerary):
         try:

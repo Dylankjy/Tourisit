@@ -165,6 +165,7 @@ def home():
                                listings=list(shop_db.find()), loggedin=False)
     # if logged in
     else:
+        print(result)
         return render_template('customer/index-customer.html',
                                listings=list(shop_db.find()), loggedin=True, user=result)
 
@@ -198,6 +199,7 @@ def search():
         result_listings = list(shop_db.find({'tour_name': {'$in': result}}))
         for listing in result_listings:
             listing['_id'] = JSONEncoder().encode(listing['_id'])
+            listing['tg_uid'] = JSONEncoder().encode(listing['tg_uid'])
             listing['date_created'] = str(listing['date_created'])
             listing['tour_img'] = str(listing['tour_img'])
 
@@ -209,17 +211,16 @@ def search():
 @app.route('/discover/<tour_id>')
 def tourListing(tour_id):
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
-    # except:
-    #     return f'Error for Tour_ID: {tour_id}'
-
-    # Get login status using accessor argument
     result = auth.is_auth(True)
+
+    #Boolean, will be editable if person is the owner of the listing
+    editable = item['tg_uid'] == result['_id']
     # if not logged in
     if not result:
-        return render_template('customer/tourListing.html', item=item, loggedin=False)
+        return render_template('customer/tourListing.html', item=item, loggedin=False, editable=editable)
     # if logged in
     else:
-        return render_template('customer/tourListing.html', item=item, loggedin=True, user=result)
+        return render_template('customer/tourListing.html', item=item, loggedin=True, user=result, editable=editable)
 
 
 # TOUR GUIDES
@@ -244,6 +245,14 @@ def updateImg():
     return json.dumps({"results": text})
 
 
+@app.route('/test/result')
+def testing():
+    result = auth.is_auth(True)
+    id = result['_id']
+    print(str(id))
+    return str(id)
+
+
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
     result = auth.is_auth(True)
@@ -254,20 +263,28 @@ def makelisting():
             if lForm.validate_on_submit():
                 tour_name = request.form['tour_name']
                 detail_desc = request.form['tour_desc']
+                tour_itinerary = []
+                tour_itinerary.append(request.form['tour_items'])
+                tour_locations = []
+                tour_locations.append(request.form['tour_loc'])
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
+                tour_revisions = request.form['tour_revisions']
                 tour_price = request.form['tour_price']
-                print(tour_name)
+                tg_uid = result['_id']
+
+                print(tg_uid)
 
                 tour_listing = Listing(tour_name=tour_name, tour_desc=detail_desc,
                                        tour_price=tour_price,
-                                       tour_img=img_string, tg_uid=result['_id'], user=result)
+                                       tour_img=img_string, tg_uid=tg_uid,
+                                       tour_loc=tour_locations, tour_revs=tour_revisions, tour_itinerary=tour_itinerary)
 
                 listingInfo = tour_listing.return_obj()
                 print(listingInfo)
                 shop_db.insert_one(listingInfo)
 
-                return render_template('tourGuides/listing-success.html')
+                return render_template('tourGuides/listing-success.html', user=result)
             return render_template('tourGuides/makelisting.html', form=lForm, user=result)
 
         else:
@@ -280,32 +297,37 @@ def makelisting():
 # Edit Listings: When click on own listing to edit
 @app.route('/listings/edit/<id>', methods=['GET', 'POST'])
 def editListing(id):
+    result = auth.is_auth(True)
     lForm = ListingForm()
     item = shop_db.find_one({'_id': ObjectId(id)})
-    if request.method == 'POST':
-        if lForm.validate_on_submit():
-            query_listing = {'_id': ObjectId(id)}
-            tour_name = request.form['tour_name']
-            tour_desc = request.form['tour_desc']
-            tour_img = request.files['tour_img']
-            img_string = img_to_base64(tour_img)
-            tour_price = request.form['tour_price']
-            updated = {
-                "$set": {"tour_name": tour_name, "tour_desc": tour_desc,
-                         "tour_img": img_string,
-                         "tour_price": tour_price}}
-            shop_db.update_one(query_listing, updated)
+    editable = item['tg_uid'] == result['_id']
+    if editable == True:
+        if request.method == 'POST':
+            if lForm.validate_on_submit():
+                query_listing = {'_id': ObjectId(id)}
+                tour_name = request.form['tour_name']
+                tour_desc = request.form['tour_desc']
+                tour_img = request.files['tour_img']
+                img_string = img_to_base64(tour_img)
+                tour_price = request.form['tour_price']
+                updated = {
+                    "$set": {"tour_name": tour_name, "tour_desc": tour_desc,
+                             "tour_img": img_string,
+                             "tour_price": tour_price}}
+                shop_db.update_one(query_listing, updated)
 
-            return render_template('tourGuides/editing-success.html', id=id)
-        lForm.tour_desc.default = item['tour_desc']
-        lForm.process()
-        return render_template('tourGuides/editListing.html', listing=item, form=lForm)
+                return render_template('tourGuides/editing-success.html', id=id, user=result)
+            lForm.tour_desc.default = item['tour_desc']
+            lForm.process()
+            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result)
 
+        else:
+            # print(item['tour_name'])
+            lForm.tour_desc.default = item['tour_desc']
+            lForm.process()
+            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result)
     else:
-        # print(item['tour_name'])
-        lForm.tour_desc.default = item['tour_desc']
-        lForm.process()
-        return render_template('tourGuides/editListing.html', listing=item, form=lForm)
+        return 'Not allowed to edit!'
 
 
 # @app.route('/testImg', methods=['GET', 'POST'])

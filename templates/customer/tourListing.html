@@ -20,7 +20,6 @@
                                 <div class="ml-2"><b>HidethePain</b> is offering:</div>
                             </div>
                             <h1 class='title'>{{ item.tour_name }}</h1>
-                            <p class="subtitle">{{ item.tour_brief }}</p>
                             <p class="has-text-weight-light is-size-2 has-text-dark"><small
                                     class="is-size-5">From</small>
                                 ${{ item.tour_price }}
@@ -58,6 +57,14 @@
                             <a class="button is-white has-text-primary" href="{{ url_for('book_now') }}"><i
                                     class="fas fa-arrow-right"></i>&ensp;Book now</a>
                         </div>
+
+                        {%if editable == True%}
+                        <br>
+                        <div class="buttons is-centered">
+                            <a class="button is-white" style="color:rgb(226, 48, 78)"
+                               href='/listings/edit/{{ item["_id"] }}'><i class="fas fa-wrench"></i>&ensp;Update Listing</a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
