@@ -275,6 +275,8 @@ def makelisting():
                 tour_itinerary = tour_itinerary.split('#$%^#,')
                 #Remove the special seperators for the last list element
                 tour_itinerary[-1] = tour_itinerary[-1].strip('#$%^#')
+                #Make sure there is no empty strings
+                tour_itinerary = [i for i in tour_itinerary if i.strip() != '']
                 print(type(tour_itinerary))
                 print(tour_itinerary)
 
