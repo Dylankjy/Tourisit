@@ -3,17 +3,66 @@
 {% block scripts %}
     <link rel="stylesheet" href="/css/shop.css">
     <link rel="stylesheet" href="/css/index.css">
-    $("#currentImg").change(function(){
-    var img = $(this).val();
-    $.ajax({
-    medthod: 'POST',
-    url:'/apis/upImg',
-    data: JSON.stringify({currentImg: img}),
-    success: function(data){
-    $("#currentImg").attr('src', 'data:image/png;base64, ' + data);
-    }
-    });
-    });
+        $("#currentImg").change(function(){
+        var img = $(this).val();
+        $.ajax({
+        medthod: 'POST',
+        url:'/apis/upImg',
+        data: JSON.stringify({currentImg: img}),
+        success: function(data){
+        $("#currentImg").attr('src', 'data:image/png;base64, ' + data);
+        }
+        });
+        });
+
+    <script>
+
+        let listno = 0
+        var itemList = []
+
+        // function AppendtoItem() {
+        //     current_list = document.getElementById('tour-item-list')
+        //     itemJson = {'items': itemList}
+        //     current_list.value = itemJson
+        // }
+
+        function AppendtoItem() {
+            current_list = document.getElementById('tour-item-list')
+            current_list.value = Array.from(itemList)
+            console.log(current_list)
+        }
+
+
+
+
+        function AddItinerary() {
+
+            current_item = document.getElementById('tour-items')
+            $(`#item-${listno}`).change(console.log('Changed!'))
+            text = 
+            `
+                <li id='item-${listno}'>
+                    <div class="field has-addons" >
+                        <div class="control is-expanded">
+                            <input class='input' type=text value="${current_item.value}">
+                        </div>
+                        <div class="control">
+                            <button class="button" onclick="$('#item-${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            `
+            $("#itinerary-list").append(`${text}`)
+            itemList.push(current_item.value + '#$%^#')
+            current_item.value = ''
+            listno += 1
+        }
+    </script>
+
+    
+
 {% endblock %}
 
 {% block content %}
@@ -97,7 +146,7 @@
                             <label class="label" for="tour-items">Tour itinerary</label>
                             <div class="field has-addons">
                               <div class="control">
-                                <a class="button is-static">
+                                <a class="button" onclick="AddItinerary();AppendtoItem()">
                                   Add Itinerary
                                 </a>
                               </div>
@@ -106,9 +155,22 @@
                               </div>
                             </div>
 
+                            <div>
+                                <ol id='itinerary-list'></ol>
+                            </div>
+                            
 
-                            <div class="field">
-                              <label class="label" for="tour-loc">Tour Location</label>
+
+                            <div class='field'>
+                                <div class='control'>
+                                    <input name='tour_items_list[]', class='input', id='tour-item-list', type='hidden'>
+                                </div>
+                            </div>
+
+
+
+                            <label class="label" for="tour-loc">Tour Location</label>
+                            <div class="field has-addons">
                               <div class="control has-icons-left">
                                   <div class="select">
                                       {{ form.tour_loc(id="tour-loc") }}
@@ -121,7 +183,11 @@
                                   <span class="icon is-large is-left">
                                         <i class="fas fa-globe"></i>
                                   </span>
-
+                              </div>
+                              <div class="control">
+                                <a class="button"">
+                                  Add Location
+                                </a>
                               </div>
                             </div>
 
@@ -137,6 +203,7 @@
                                     </ul>
                                 </div>
                             </div>
+
 
 
                             <div class="field">

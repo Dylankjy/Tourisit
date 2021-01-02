@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField
+from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField, HiddenField, FieldList
 from wtforms.validators import InputRequired, Length, NumberRange
 
 
@@ -14,7 +14,9 @@ class ListingForm(FlaskForm):
     tour_desc = TextAreaField('tour_desc', validators=[InputRequired()])
 
     #Tour itinerary
-    tour_items = StringField('tour_items', validators=[InputRequired()])
+    tour_items = StringField('tour_items')
+
+    # tour_items_list = FieldList(HiddenField('tour_items_list', validators=[InputRequired()]))
 
     tour_loc = SelectField('tour_loc', choices=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah', 'Bukit Panjang', 'Bukit Timah',
                                                  'Choa Chu Kang', 'Clementi', 'Changi', 'Geylang', 'Hougang', 'Jurong East', 'Jurong West',
@@ -23,7 +25,7 @@ class ListingForm(FlaskForm):
 
     tour_img = FileField('tour_img', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Only Images are allowed!')])
 
-    tour_revisions = IntegerField('tour_rev', validators=[InputRequired(), Length(min=1, max=2, message='Must be filled in!')])
+    tour_revisions = IntegerField('tour_rev', validators=[InputRequired(), NumberRange(min=0, max=20, message='Need a minimum of 1 revision!')])
 
     tour_price = FloatField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None,
                                                                                    message='Price cannot be below $0!')])
@@ -52,13 +54,13 @@ class Listing:
         self.__tour_price = 0
         self.set_tour_price(tour_price)
 
-        self.__tour_location = []
+        self.__tour_location = ''
         self.set_tour_location(tour_loc)
 
         self.__tour_revisions = 0
         self.set_tour_revisions(tour_revs)
 
-        self.__tour_itinerary = []
+        self.__tour_itinerary = ''
         self.set_tour_itinerary(tour_itinerary)
 
         self.__tour_img = ''
@@ -90,7 +92,7 @@ class Listing:
         except AssertionError:
             print(f"{tour_itinerary} must be of type {list}")
         else:
-            self.__tour_review.append(tour_itinerary)
+            self.__tour_itinerary = tour_itinerary
 
     def add_tour_itinerary(self, itinerary):
         try:
@@ -106,7 +108,7 @@ class Listing:
         except AssertionError:
             print(f"{tour_location} must be of type {list}")
         else:
-            self.__tour_location.append(tour_location)
+            self.__tour_location = tour_location
 
     def set_tour_revisions(self, tour_revisions):
         try:

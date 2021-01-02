@@ -264,23 +264,39 @@ def makelisting():
         if request.method == 'POST':
             if lForm.validate_on_submit():
                 tour_name = request.form['tour_name']
+
                 detail_desc = request.form['tour_desc']
-                tour_itinerary = []
-                tour_itinerary.append(request.form['tour_items'])
+
+                tour_itinerary = request.form.getlist('tour_items_list[]')
+                #Convert to a list
+                print(tour_itinerary)
+                tour_itinerary = tour_itinerary[0].replace("None,", '')
+                tour_itinerary = tour_itinerary.replace(",None", '')
+                tour_itinerary = tour_itinerary.split('#$%^#,')
+                #Remove the special seperators for the last list element
+                tour_itinerary[-1] = tour_itinerary[-1].strip('#$%^#')
+                print(type(tour_itinerary))
+                print(tour_itinerary)
+
                 tour_locations = []
                 tour_locations.append(request.form['tour_loc'])
+
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
+
                 tour_revisions = request.form['tour_revisions']
+
                 tour_price = request.form['tour_price']
+
                 tg_uid = result['_id']
+
                 tg_name = result['name']
 
-                print(tg_uid)
+                print(tour_itinerary)
 
                 tour_listing = Listing(tour_name=tour_name, tour_desc=detail_desc,
                                        tour_price=tour_price,
-                                       tour_img=img_string, tg_uid=tg_uid,
+                                       tour_img=img_string, tg_uid=tg_uid, tg_name=tg_name,
                                        tour_loc=tour_locations, tour_revs=tour_revisions, tour_itinerary=tour_itinerary)
 
                 listingInfo = tour_listing.return_obj()
