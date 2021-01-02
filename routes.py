@@ -253,14 +253,13 @@ def makelisting():
         if request.method == 'POST':
             if lForm.validate_on_submit():
                 tour_name = request.form['tour_name']
-                brief_desc = request.form['tour_brief']
                 detail_desc = request.form['tour_desc']
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
                 tour_price = request.form['tour_price']
                 print(tour_name)
 
-                tour_listing = Listing(tour_name=tour_name, tour_brief=brief_desc, tour_desc=detail_desc,
+                tour_listing = Listing(tour_name=tour_name, tour_desc=detail_desc,
                                        tour_price=tour_price,
                                        tour_img=img_string, tg_uid=result['_id'], user=result)
 
@@ -287,13 +286,12 @@ def editListing(id):
         if lForm.validate_on_submit():
             query_listing = {'_id': ObjectId(id)}
             tour_name = request.form['tour_name']
-            tour_brief = request.form['tour_brief']
             tour_desc = request.form['tour_desc']
             tour_img = request.files['tour_img']
             img_string = img_to_base64(tour_img)
             tour_price = request.form['tour_price']
             updated = {
-                "$set": {"tour_name": tour_name, "tour_brief": tour_brief, "tour_desc": tour_desc,
+                "$set": {"tour_name": tour_name, "tour_desc": tour_desc,
                          "tour_img": img_string,
                          "tour_price": tour_price}}
             shop_db.update_one(query_listing, updated)
