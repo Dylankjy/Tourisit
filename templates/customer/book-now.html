@@ -9,6 +9,7 @@
 
 
 {% block content %}
+{% from "_formhelper.html" import render_field %}
     <section class="section mt-6">
         <div class="columns is-centered">
             <div class="column is-two-fifths">
@@ -26,6 +27,9 @@
                     <!--END: Customise tour button-->
                     <div class="divider">OR</div>
                     <!--START: Book now form-->
+                    <form enctype="multipart/form-data" action="{{ url_for('book_now') }}" method="POST">
+                        {{ form.csrf_token }}
+
                     <div class="field">
                         <label class="label">Select Date</label>
                         <div class="control">
@@ -60,6 +64,7 @@
                         <p class="is-grey has-text-centered">Not sure if this tour is for you? <a
                                 href="{{ url_for('chat') }}"> Chat with HidethePain first.</a></p>
                     </div>
+                    </form>
                     <!--END: Book now form-->
                 </div>
             </div>

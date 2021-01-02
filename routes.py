@@ -16,6 +16,7 @@ import chat as msg
 from models.Listing import ListingForm, Listing
 from models.User import UserForm, BioForm
 from models.formatting import JSONEncoder
+from models.Booking import BookingForm, Booking
 
 # For Images
 buffered = BytesIO()
@@ -40,6 +41,7 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 # Initialize all DBs here
 shop_db = client['Listings']
 user_db = client['Users']
+bookings_db = client['Bookings']
 
 
 @app.route('/testImg', methods=['GET', 'POST'])
@@ -403,20 +405,33 @@ def bookings():
 
 # CUSTOMER
 # Book Now Page
-@app.route('/listings/id/booknow')
+@app.route('/listings/id/booknow', methods=['GET', 'POST'])
 def book_now():
     try:
         # Get login status using accessor argument
         result = auth.is_auth(True)
-        # if not logged in
-        if not result:
-            return render_template('customer/book-now.html', loggedin=False)
         # if logged in
-        else:
+        if result:
+            bookform = BookingForm()
+            if request.method == 'POST':
+                if bookform.validate_on_submit():
+                    book_date = request.form["book_date"]
+                    book_time = request.form["book_time"]
+                    accept_tnc = request.form["accept_tnc"]
+
+                    booking = Booking(cust_uid=result['_id'], book_date=book_date, book_time=book_time)
+                    # tg_uid, cust_uid, listing_id, book_date, book_time, book_duration, timeline_content, process_step
+
+                    print(booking.return_obj())
+                    # bookings_db.insert_one(booking)
+                    # return render_template('customer/checkout.html')
+
             return render_template('customer/book-now.html', loggedin=True, user=result)
+        # if not logged in
+        else:
+            return render_template('customer/book-now.html', loggedin=False)
     except:
         return 'Error trying to render'
-
 
 # CUSTOMER
 # Checkout page (placeholder)
@@ -463,10 +478,10 @@ def business():
         result = auth.is_auth(True)
         # if not logged in
         if not result:
-            return render_template('tourGuides/business.html', process_step=1, loggedin=False)
+            return render_template('tourGuides/business.html', process_step=4, loggedin=False)
         # if logged in
         else:
-            return render_template('tourGuides/business.html', process_step=1, loggedin=True, user=result)
+            return render_template('tourGuides/business.html', process_step=4, loggedin=True, user=result)
     except:
         return 'Error trying to render'
 
