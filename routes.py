@@ -402,6 +402,19 @@ def bookings():
     except:
         return 'Error trying to render'
 
+# @app.route('/listings/id/booknow')
+# def book_now():
+#     try:
+#         # Get login status using accessor argument
+#         result = auth.is_auth(True)
+#         # if not logged in
+#         if not result:
+#             return render_template('customer/book-now.html', loggedin=False)
+#         # if logged in
+#         else:
+#             return render_template('customer/book-now.html', loggedin=True, user=result)
+#     except:
+#         return 'Error trying to render'
 
 # CUSTOMER
 # Book Now Page
@@ -418,15 +431,15 @@ def book_now():
                     book_date = request.form["book_date"]
                     book_time = request.form["book_time"]
                     accept_tnc = request.form["accept_tnc"]
+                    print(f"success!{book_date}, at{book_time}, and {accept_tnc}")
+                    # booking = Booking(cust_uid=result['_id'], book_date=book_date, book_time=book_time)
+                    # # tg_uid, cust_uid, listing_id, book_date, book_time, book_duration, timeline_content, process_step
+                    #
+                    # print(booking.return_obj())
+                    # # bookings_db.insert_one(booking)
+                    # # return redirect(url_for('checkout'))
 
-                    booking = Booking(cust_uid=result['_id'], book_date=book_date, book_time=book_time)
-                    # tg_uid, cust_uid, listing_id, book_date, book_time, book_duration, timeline_content, process_step
-
-                    print(booking.return_obj())
-                    # bookings_db.insert_one(booking)
-                    # return render_template('customer/checkout.html')
-
-            return render_template('customer/book-now.html', loggedin=True, user=result)
+            return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform)
         # if not logged in
         else:
             return render_template('customer/book-now.html', loggedin=False)
