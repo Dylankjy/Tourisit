@@ -3,6 +3,7 @@
 {% block scripts %}
     <link rel="stylesheet" href="../../public/css/shop.css">
     <link rel="stylesheet" href="../../public/css/rating.css">
+    <script src="js/jquery.raty.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -33,8 +34,7 @@
 
                     <form>
                         <fieldset>
-
-
+                            <div class="star"></div>
                             <div class="field">
                                 <label class="label" for="review">Leave a review</label>
                                 <div class="control">
@@ -54,6 +54,8 @@
             </div>
         </div>
     </section>
-
+    <script>
+        $('.star').raty({ path: '/imgs' });
+    </script>
 
 {% endblock %}
