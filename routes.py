@@ -7,6 +7,7 @@ import pymongo
 from bson.objectid import ObjectId
 from flask import Flask, render_template, request, redirect, url_for, make_response, Response
 
+import admin as admin
 import auth as auth
 # Chat Library
 import chat as msg
@@ -584,7 +585,9 @@ def adminUsers():
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
-        return render_template('internal/users.html', loggedin=True, user=result)
+        user_accounts = admin.list_user_accounts()
+        print(user_accounts)
+        return render_template('internal/users.html', loggedin=True, user=result, user_list=user_accounts)
 
 
 # INTERNAL

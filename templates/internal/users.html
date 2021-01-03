@@ -32,13 +32,24 @@
                     <th>Last login</th>
                     <th>&nbsp;</th>
                 </tr>
+                {% for person in user_list %}
                 <tr>
-                    <td>HidethePain</td>
+                    <td>{{person['name']}}</td>
+                    {% if person['email_status'] == 1 %}
                     <td><i class="fas fa-check"></i></td>
-                    <td>1 year ago</td>
-                    <td>Just now</td>
+                    {% else %}
+                    <td><i class="fas fa-times"></i></td>
+                    {% endif %}
+                    
+                    <td>{{person['registration_time']|iso8601_to_time|datetimeformat('%a, %B %d')}}</td>
+                    <td>{{person['last_seen']}}</td>
+                    {% if person['account_type'] == 1 %}
                     <td>Administrator</td>
+                    {% else %}
+                    <td>Member</td>
+                    {% endif %}
                 </tr>
+                {% endfor %}
             </table>
         </div>
     </section>
