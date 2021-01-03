@@ -632,7 +632,10 @@ def login():
                 return resp
 
         # If GET request // Show page
-        return render_template('auth/login.html', form=form, denied_access=request.args.get('denied_access'))
+        return render_template('auth/login.html', form=form, denied_access=request.args.get('denied_access'),
+                               verification_code_OK=request.args.get('verification_code_OK'),
+                               verification_code_denied=request.args.get('verification_code_denied')
+                               )
     # If user is ALREADY logged in
     else:
         return redirect(url_for('home'))
@@ -779,6 +782,16 @@ def chatroom_endpoint():
     else:
         resp = make_response('Tourisit API Endpoint - Error 403', 403)
         return resp
+
+
+# Email confirmation endpoint:
+@app.route('/endpoint/email_confirmation')
+def email_confirmation_endpoint():
+    email_token = request.args.get('token')
+    if auth.verify_remove_token("email_verification", email_token):
+        return redirect(url_for('login', verification_code_OK=True))
+    else:
+        return redirect(url_for('login', verification_code_denied=True))
 
 
 # Run app
