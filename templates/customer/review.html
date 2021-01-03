@@ -34,7 +34,10 @@
 
                     <form>
                         <fieldset>
-                            <div class="star"></div>
+                            <div class="field has-text-centered">
+                                <div class="star"></div>
+                            </div>
+
                             <div class="field">
                                 <label class="label" for="review">Leave a review</label>
                                 <div class="control">
@@ -55,7 +58,11 @@
         </div>
     </section>
     <script>
-        $('.star').raty({ path: '/imgs' });
+        $('.star').raty({
+            path: '/imgs',
+            starOn: 'star-on-big.png',
+            starOff: 'star-off-big.png'
+        });
     </script>
 
 {% endblock %}
