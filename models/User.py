@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField
 from wtforms.validators import InputRequired, Length
@@ -68,8 +70,8 @@ class User:
             phone_number="",
             bio="",
             profile_img="",
-            last_seen="",
-            last_activity="",
+            last_seen_time="",
+            registration_time="",
             stripe_ID="",
             wishlist=[],
             fb="",
@@ -77,8 +79,8 @@ class User:
             linkedin="",
             socialmedia={},
             email_status=False,
-            phone_status=False
-
+            phone_status=False,
+            account_type=0,
     ):
 
         self.__name = ""
@@ -97,8 +99,8 @@ class User:
         self.set_bio(bio)
 
         self.__profile_img = profile_img
-        self.__last_seen = last_seen
-        self.__last_activity = last_activity
+        self.__last_seen_time = last_seen_time
+        self.__registration_time = registration_time
         self.__stripe_ID = stripe_ID
         self.__wishlist = wishlist
 
@@ -119,6 +121,14 @@ class User:
 
         self.__phone_status = False
         self.set_phone_status(phone_status)
+
+        self.__account_type = account_type
+
+        # Generate timestamp in ISO format
+        date = datetime.now()
+        current_timestamp = date.isoformat()
+
+        self.__registration_time = current_timestamp
 
     def set_name(self, name):
         try:
@@ -184,8 +194,8 @@ class User:
             "phone_number": self.__phone_number,
             "bio": self.__bio,
             "profile_img": self.__profile_img,
-            "last_seen": self.__last_seen,
-            "last_activity": self.__last_activity,
+            "last_seen_time": self.__last_seen_time,
+            "registration_time": self.__registration_time,
             "stripe_id": self.__stripe_ID,
             "wishlist": self.__wishlist,
             "socialmedia": {
@@ -194,5 +204,6 @@ class User:
                 "linkedin": self.__linkedin,
             },
             "email_status": self.__email_status,
-            "phone_status": self.__phone_status
+            "phone_status": self.__phone_status,
+            "account_type": self.__account_type
         }
