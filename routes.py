@@ -587,6 +587,7 @@ def adminUsers():
     else:
         user_accounts = admin.list_user_accounts()
         print(user_accounts)
+        # TODO: Jinja filter for timestamp to show in Human readable format.
         return render_template('internal/users.html', loggedin=True, user=result, user_list=user_accounts)
 
 
