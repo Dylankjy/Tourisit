@@ -12,7 +12,7 @@ import admin as admin
 import auth as auth
 # Chat Library
 import chat as msg
-from models.Booking import BookingForm, Booking
+from models.Booking import BookingForm, CheckoutForm, Booking
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.User import UserForm, BioForm
@@ -426,34 +426,24 @@ def all_bookings():
 # CUSTOMER
 # Individual Bookings
 # @app.route('/bookings/<id>')
-@app.route('/bookings/id')
-def bookings():
+@app.route('/bookings/<book_id>')
+def bookings(book_id):
     try:
+        booking = bookings_db.find_one({'_id': ObjectId(book_id)})
+        tour = shop_db.find_one({'_id': booking['listing_id']})
+        print(booking)
+        print(tour)
         # Get login status using accessor argument
         result = auth.is_auth(True)
         # if not logged in
         if not result:
-            return render_template('customer/booking.html', process_step=1, loggedin=False)
+            return render_template('customer/booking.html',loggedin=False)
         # if logged in
         else:
-            return render_template('customer/booking.html', process_step=1, loggedin=True, user=result)
+            print(booking['process_step'])
+            return render_template('customer/booking.html', process_step=booking['process_step'], booking=booking, loggedin=True, user=result)
     except:
         return 'Error trying to render'
-
-
-# @app.route('/listings/id/booknow')
-# def book_now():
-#     try:
-#         # Get login status using accessor argument
-#         result = auth.is_auth(True)
-#         # if not logged in
-#         if not result:
-#             return render_template('customer/book-now.html', loggedin=False)
-#         # if logged in
-#         else:
-#             return render_template('customer/book-now.html', loggedin=True, user=result)
-#     except:
-#         return 'Error trying to render'
 
 # CUSTOMER
 # Book Now Page
@@ -466,18 +456,22 @@ def book_now(tour_id):
         # if logged in
         if result:
             bookform = BookingForm()
+            checkoutform = CheckoutForm()
             if request.method == 'POST':
                 if bookform.validate_on_submit():
-                    print("submitted")
                     book_date = request.form["book_date"]
                     book_time = request.form["book_time"]
                     booking = Booking(tg_uid=item['tg_uid'], cust_uid=result['_id'], listing_id=item['_id'],
-                                      book_date=book_date, book_time=book_time, book_duration="", timeline_content=[],
+                                      book_date=book_date, book_time=book_time, book_baseprice=item['tour_price'],
+                                      book_duration="", timeline_content=[],
                                       process_step=5)
-                    # tg_uid, cust_uid, listing_id, book_date, book_time, book_duration, timeline_content, process_step
-                    print(booking.return_obj())
-                    # bookings_db.insert_one(booking)
-                    # return redirect(url_for('checkout'))
+                    # tg_uid, cust_uid, listing_id, book_date, book_time, book_baseprice,
+                    # book_duration, timeline_content, process_step
+                    inserted_booking = bookings_db.insert_one(booking.return_obj())
+                    book_id = inserted_booking.inserted_id
+                    return render_template('customer/checkout.html', book_id=book_id, user=result,
+                                           booking=booking.return_obj(), form=checkoutform)
+                    # return redirect(url_for('checkout'), book_id=book_id)
 
             return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item,
                                    tour_id=tour_id)
@@ -491,19 +485,33 @@ def book_now(tour_id):
 # CUSTOMER
 # Checkout page (placeholder)
 # @app.route('/checkout/<id>')
-@app.route('/checkout/id')
-def checkout():
+@app.route('/checkout/<book_id>', methods=['GET', 'POST'])
+def checkout(book_id):
     try:
+        booking = bookings_db.find_one({'_id': ObjectId(book_id)})
         # Get login status using accessor argument
         result = auth.is_auth(True)
-        # if not logged in
-        if not result:
-            return render_template('customer/checkout.html', loggedin=False)
         # if logged in
+        if result:
+            if request.method == 'POST':
+                if booking['process_step'] == 5:
+                    update_booking = { "$set": { "process_step": 6 } }
+                    bookings_db.update_one(booking, update_booking)
+                    return bookings(book_id)
+                elif booking['process_step'] == 0:
+                    update_booking = {"$set": {"process_step": 1}}
+                    bookings_db.update_one(booking, update_booking)
+                    return bookings()
+                else:
+                    print("Error occurred while trying to pay.")
+
+            # fix needed, booknow and checkout forms processed tgt
+            return render_template('customer/checkout.html', loggedin=True, user=result, booking=booking)
+        # if not logged in
         else:
-            return render_template('customer/checkout.html', loggedin=True, user=result)
+            return render_template('customer/checkout.html', loggedin=False)
     except:
-        return 'Error trying to render'
+        return 'Error trying to render (checkout)'
 
 
 # TOUR GUIDES
