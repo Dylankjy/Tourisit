@@ -6,6 +6,23 @@ from wtforms import StringField, TextAreaField, FloatField, IntegerField, Select
 from wtforms.validators import InputRequired, Length, NumberRange
 
 
+class CustomSelectField(FlaskForm):
+    '''
+        start_name (PARAMS): The start of the id. This is constant for all generated ids
+        options (PARAMS): A list of all the options. This is appended behind the start_name
+    '''
+    def __init__(self, fieldName, start_name, options):
+        self.__fieldName = fieldName
+        self.__start_name = start_name
+        self.__options = options
+
+    def return_Field(self):
+        kws = {'id': f'{self.__start_name}-{self.__options}'}
+        return SelectField(self.__fieldName,  choices=self.__options, render_kw=kws)
+
+
+
+
 # Add no. of revisions, itineary, location
 class ListingForm(FlaskForm):
     tour_name = StringField('tour_name', validators=[InputRequired(), Length(min=1, max=30,
@@ -18,12 +35,13 @@ class ListingForm(FlaskForm):
 
     # tour_items_list = FieldList(HiddenField('tour_items_list', validators=[InputRequired()]))
 
-    tour_loc = SelectField('tour_loc', choices=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah', 'Bukit Panjang', 'Bukit Timah',
+
+    tour_loc = CustomSelectField(fieldName='tour_loc', start_name='loc' , options=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah', 'Bukit Panjang', 'Bukit Timah',
                                                  'Choa Chu Kang', 'Clementi', 'Changi', 'Geylang', 'Hougang', 'Jurong East', 'Jurong West',
                                                 'Kallang', 'Marine Parade', 'Orchard', 'Pasir Ris', 'Punggol', 'Queenstown', 'Sembawang', 'Sengkang',
-                                                'Serangoon', 'Sentosa', 'Tampines', 'Toa Payoh', 'Woodlands', 'Yishun'])
+                                                'Serangoon', 'Sentosa', 'Tampines', 'Toa Payoh', 'Woodlands', 'Yishun']).return_Field()
 
-    tour_img = FileField('tour_img', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Only Images are allowed!')])
+    tour_img = FileField('tour_img', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Only .jpg, .jpeg and .png images are allowed!')])
 
     tour_revisions = IntegerField('tour_rev', validators=[InputRequired(), NumberRange(min=0, max=20, message='Need a minimum of 1 revision!')])
 

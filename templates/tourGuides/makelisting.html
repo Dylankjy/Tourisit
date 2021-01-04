@@ -7,20 +7,31 @@
 
         let listno = 0
         var itemList = []
+        var locList = []
 
-        // function AppendtoItem() {
-        //     current_list = document.getElementById('tour-item-list')
-        //     itemJson = {'items': itemList}
-        //     current_list.value = itemJson
-        // }
+        function AppendtoLocation() {
+            var loc = document.getElementById('tour-loc').value
+            var template = 
+            `
+                <span class="tag is-info">${loc}</span>
+            `
+            current_locs = document.getElementById('locations')
+            current_locs.innerHTML += template
+            locList.push(loc + '#$%^#')
+            console.log(locList)
+        }
+
+        function AppendtoLocationList() {
+            current_list = document.getElementById('tour-locations-list')
+            current_list.value = Array.from(locList)
+            console.log(current_list)
+        }
 
         function AppendtoItem() {
             current_list = document.getElementById('tour-item-list')
             current_list.value = Array.from(itemList)
             console.log(current_list)
         }
-
-
 
 
         function AddItinerary() {
@@ -113,6 +124,10 @@
                                   </div>
                             </div>
 
+                            {% for error in form.tour_img.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+
                             <div>
                                 <img id="currentImg" />
                             </div>
@@ -161,18 +176,27 @@
                             <label class="label" for="tour-loc">Tour Location</label>
                             <div class="field has-addons">
                                 <div class="control">
-                                    <a class="button">
+                                    <a class="button" onclick='AppendtoLocation(); AppendtoLocationList()'>
                                         Add Location
                                     </a>
                                 </div>
                                 <div class='control select'>
                                     {{ form.tour_loc(id="tour-loc") }}
                                 </div>
-                                    <ul>
-                                        {% for error in form.tour_desc.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
+                            </div>
+
+                            <div id='locations'></div>
+
+                            <ul>
+                                {% for error in form.tour_desc.errors %}
+                                    <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
+
+                            <div class='field'>
+                                <div class='control'>
+                                    <input name='tour_locations_list[]', class='input', id='tour-locations-list', type='hidden'>
+                                </div>
                             </div>
 
 

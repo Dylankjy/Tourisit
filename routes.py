@@ -16,7 +16,7 @@ from models.Booking import BookingForm, Booking
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.User import UserForm, BioForm
-from models.formatting import JSONEncoder, img_to_base64
+from models.Format import JSONEncoder, img_to_base64,formToArray
 
 # Authentication library
 
@@ -264,6 +264,7 @@ def testing():
     return render_template('tourGuides/makelisting.html', form=lForm, user=result)
 
 
+
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
     result = auth.is_auth(True)
@@ -276,21 +277,11 @@ def makelisting():
 
                 detail_desc = request.form['tour_desc']
 
-                tour_itinerary = request.form.getlist('tour_items_list[]')
-                # Convert to a list
-                print(tour_itinerary)
-                tour_itinerary = tour_itinerary[0].replace("None,", '')
-                tour_itinerary = tour_itinerary.replace(",None", '')
-                tour_itinerary = tour_itinerary.split('#$%^#,')
-                # Remove the special seperators for the last list element
-                tour_itinerary[-1] = tour_itinerary[-1].strip('#$%^#')
-                # Make sure there is no empty strings
-                tour_itinerary = [i for i in tour_itinerary if i.strip() != '']
-                print(type(tour_itinerary))
-                print(tour_itinerary)
+                itinerary_form_list = request.form.getlist('tour_items_list[]')
+                tour_itinerary = formToArray(itinerary_form_list)
 
-                tour_locations = []
-                tour_locations.append(request.form['tour_loc'])
+                locations_form_list = request.form.getlist('tour_locations_list[]')
+                tour_locations = formToArray(locations_form_list)
 
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
