@@ -579,7 +579,7 @@ def adminDashboard():
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
-    if not result:
+    if not result or result['account_type'] != 1:
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
@@ -593,7 +593,7 @@ def adminUsers():
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
-    if not result:
+    if not result or result['account_type'] != 1:
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
@@ -608,7 +608,7 @@ def adminListings():
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
-    if not result:
+    if not result or result['account_type'] != 1:
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
@@ -737,7 +737,8 @@ def chat():
     # if logged in
     else:
         chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
-        return render_template('chat.html', loggedin=True, user=result, list=chat_list, chatroom_display=False)
+        return render_template('chat.html', loggedin=True, user=result, list=chat_list, chatroom_display=False,
+                               not_found=request.args.get('not_found'))
 
 
 @app.route('/chat/<room_id>', methods=['GET', 'POST'])
