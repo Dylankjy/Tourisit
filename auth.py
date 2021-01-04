@@ -213,8 +213,9 @@ def login_account(email, unencoded_password):
 
         # Set last seen
         payload = {
-            '$set':
+            '$set': {
                 "last_seen_time": current_timestamp
+            }
         }
 
         # Database Ops: Update last seen
