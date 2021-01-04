@@ -3,50 +3,6 @@
 {% block scripts %}
     <link rel="stylesheet" href="/css/shop.css">
     <link rel="stylesheet" href="/css/index.css">
-    <script>
-
-        let listno = 0
-        var itemList = []
-
-        // function AppendtoItem() {
-        //     current_list = document.getElementById('tour-item-list')
-        //     itemJson = {'items': itemList}
-        //     current_list.value = itemJson
-        // }
-
-        function AppendtoItem() {
-            current_list = document.getElementById('tour-item-list')
-            current_list.value = Array.from(itemList)
-            console.log(current_list)
-        }
-
-
-
-
-        function AddItinerary() {
-
-            current_item = document.getElementById('tour-items')
-            text = 
-            `
-                <li id='list_${listno}'>
-                    <div class="field has-addons" >
-                        <div class="control is-expanded">
-                            <input id='item_${listno}' class='input' type=text value="${current_item.value}" onkeyup="$('#item_${listno}').val($('#item_${listno}').val()); console.log($('#item_${listno}').val()); itemList.splice(${listno}, 1, $('#item_${listno}').val() + '#$%^#')">
-                        </div>
-                        <div class="control">
-                            <button class="button" onclick="$('#list_${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </li>
-            `
-            $("#itinerary-list").append(`${text}`)
-            itemList.push(current_item.value + '#$%^#')
-            current_item.value = ''
-            listno += 1
-        }
-    </script>
 
 
 
@@ -113,11 +69,10 @@
                                   </div>
                             </div>
 
+
                             <div>
                                 <img id="currentImg" />
                             </div>
-
-
 
 
                             <label class="label" for="tour-desc">Tour Description</label>
@@ -136,7 +91,7 @@
                             <label class="label" for="tour-items">Tour itinerary</label>
                             <div class="field has-addons">
                               <div class="control">
-                                <a class="button" onclick="AddItinerary();AppendtoItem()">
+                                <a class="button is-static">
                                   Add Itinerary
                                 </a>
                               </div>
@@ -146,38 +101,27 @@
                             </div>
 
 
-                            <div>
-                                <ol id='itinerary-list'></ol>
-                            </div>
-
-                            
-                            <div class='field'>
-                                <div class='control'>
-                                    <input name='tour_items_list[]', class='input', id='tour-item-list', type='hidden'>
-                                </div>
-                            </div>
-
-
-                            <label class="label" for="tour-loc">Tour Location</label>
-                            <div class="field has-addons">
-                                <div class="control">
-                                    <a class="button">
-                                        Add Location
-                                    </a>
-                                </div>
-                                <div class='control select'>
-                                    {{ form.tour_loc(id="tour-loc") }}
-                                </div>
+                            <div class="field">
+                              <label class="label" for="tour-loc">Tour Location</label>
+                              <div class="control has-icons-left">
+                                  <div class="select">
+                                      {{ form.tour_loc(id="tour-loc") }}
+                                  </div>
                                     <ul>
                                         {% for error in form.tour_desc.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
                                         {% endfor %}
                                     </ul>
+                                  <span class="icon is-large is-left">
+                                        <i class="fas fa-globe"></i>
+                                  </span>
+
+                              </div>
                             </div>
 
 
-                            <label class="label" for="tour-revs">Maximum Tour Revisions</label>
                             <div class="field">
+                                <label class="label" for="tour-revs">Maximum Tour Revisions</label>
                                 <div class="control">
                                     {{ form.tour_revisions(id="tour-revs", type="number", class="input", placeholder="3") }}
                                     <ul>
@@ -189,8 +133,8 @@
                             </div>
 
 
-                            <label class="label" for="tour-price">Minimum Price ($SGD)</label>
                             <div class="field">
+                                <label class="label" for="tour-price">Minimum Price ($SGD)</label>
                                 <div class="control">
                                     {{ form.tour_price(id="tour-price", type="number", class="input", placeholder="120") }}
                                     <ul>
@@ -201,8 +145,9 @@
                                 </div>
                             </div>
 
-                            
-                            <div class="field">              
+
+                            <div class="field">
+                                <label class="label" for="tour-submit"></label>
                                 <div class="control">
                                     <input type='submit' value='List!' id="tour-submit" name="tour-submit"
                                            class="button is-success">
