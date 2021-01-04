@@ -54,6 +54,18 @@ def timestamp_iso(s):
         return 'Unknown'
 
 
+# @app.template_filter('parse_uid_name')
+# def parse_uid_name(uid):
+#     query = {
+#         "_id": ObjectId(uid)
+#     }
+#     try:
+#         name = user_db.find_one(query)[0]["name"]
+#     except:
+#         name = ''
+#     return name
+
+
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
     lForm = ListingForm()
@@ -613,7 +625,7 @@ def adminListings():
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
-        return render_template('internal/listings.html', loggedin=True, user=result)
+        return render_template('internal/listings.html', loggedin=True, user=result, listing=admin.list_listings())
 
 
 # SHARED
