@@ -141,7 +141,10 @@ def get_chat_room(sid, chat_id):
         return False
 
     # Get list of chat messages from database
-    chatroom_data = [i for i in db_chats.find(query_uid_in_chats)][0]
+    try:
+        chatroom_data = [i for i in db_chats.find(query_uid_in_chats)][0]
+    except IndexError:
+        return False
 
     # Initialised variables
     compiled_chat_room = []
