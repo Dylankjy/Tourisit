@@ -198,5 +198,18 @@
     </div>
 </section>
 
+{% if not_found %}
+<div id="notFoundModal" class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card box" style="padding: 3em;">
+        <p class="title is-3 has-text-weight-bold has-text-centered">Oh no! Something broke.</p>
+        <p class="has-text-centered">Requested chat was <b>not found</b>.<br>It either does not exist or has been deleted.</p>
+        <br>
+        <a onclick="$('#notFoundModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
+                class="fas fa-times"></i>&ensp;Close</a>
+    </div>
+</div>
+{% endif %}
+
 
 {% endblock %}

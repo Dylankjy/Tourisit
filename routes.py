@@ -760,6 +760,9 @@ def chat_room(room_id):
         chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
         chat_room_messages = msg.get_chat_room(auth.get_sid(), room_id)
 
+        if chat_room_messages == False:
+            return redirect(url_for('chat', not_found=True))
+
         return render_template('chat.html', loggedin=True, user=result, list=chat_list, form=chat_form,
                                chatroom_display=chat_room_messages["chatroom"],
                                chatroom_names=chat_room_messages["names"],
