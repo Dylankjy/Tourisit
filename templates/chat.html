@@ -118,7 +118,12 @@
                             <div id="messagesList" class="p-5">
                                 {% if chatroom_display|count == 0 %}
                                 <div>
-                                    <p class="has-text-centered has-text-grey has-text-weight-light">This chat is empty.
+                                    <p class="has-text-centered has-text-grey has-text-weight-light is-size-5">
+                                        <span class="is-size-1"><i class="far fa-folder-open"></i></span>
+                                        <br>
+                                        <span>Looks like this chat is sparkling clean</span>
+                                        <br>
+                                        <small>This chat is empty</small>
                                     </p>
                                 </div>
                                 {% else %}
