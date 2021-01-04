@@ -12,6 +12,7 @@
     <div class="container p-5">
         <h1 class="title is-size-1 has-text-weight-bold has-text-white">Inbox</h1>
     </div>
+    {%if chatroom_display != False%}
     <script>
         setInterval(syncEndpoint = () => {
             $.ajax({
@@ -38,6 +39,7 @@
 
         syncEndpoint()
     </script>
+    {%endif%}
 </section>
 <!--End: CHAD HEADER-->
 <!--Main-->
