@@ -41,8 +41,8 @@
                     <td><i class="fas fa-times"></i></td>
                     {% endif %}
                     
-                    <td>{{person['registration_time']|iso8601_to_time|datetimeformat('%a, %B %d')}}</td>
-                    <td>{{person['last_seen']}}</td>
+                    <td>{{person['registration_time']|timestamp_iso}}</td>
+                    <td>{{person['last_seen_time']|timestamp_iso}}</td>
                     {% if person['account_type'] == 1 %}
                     <td>Administrator</td>
                     {% else %}
