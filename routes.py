@@ -1,5 +1,6 @@
 # Flask imports
 # Data Generation
+from datetime import datetime
 from io import BytesIO
 
 # Database
@@ -42,6 +43,15 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 shop_db = client['Listings']
 user_db = client['Users']
 bookings_db = client['Bookings']
+
+
+@app.template_filter('timestamp_iso')
+def timestamp_iso(s):
+    try:
+        date = datetime.fromisoformat(s).strftime('%d %B %Y @ %X')
+        return date
+    except ValueError:
+        return 'Unknown'
 
 
 @app.route('/testImg', methods=['GET', 'POST'])
@@ -587,6 +597,8 @@ def adminUsers():
         user_accounts = admin.list_user_accounts()
         print(user_accounts)
         # TODO: Jinja filter for timestamp to show in Human readable format.
+        #  https://code.tutsplus.com/tutorials/templating-with-jinja2-in-flask-date-and-time-formatting-with-momentjs
+        #  --cms-25813
         return render_template('internal/users.html', loggedin=True, user=result, user_list=user_accounts)
 
 
