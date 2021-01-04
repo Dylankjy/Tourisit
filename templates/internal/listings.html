@@ -27,16 +27,18 @@
             <table class="table is-fullwidth">
                 <tr>
                     <th>Listing name</th>
-                    <th>Author</th>
+                    <th>Tour Guide</th>
                     <th>Date of Creation</th>
-                    <th>Last booking</th>
+                    <!-- <th>Last booking</th> -->
                 </tr>
+                {% for list in listing %}
                 <tr>
-                    <td>Bishan Nightlife</td>
-                    <td>HidethePain</td>
-                    <td>5 days ago</td>
-                    <td>1 day ago</td>
+                    <td><a href="{{url_for('market')}}/{{list['_id']|string}}">{{list['tour_name']}}</a></td>
+                    <td>{{list['tg_name']}}</td>
+                    <td>{{list['date_created']|string|timestamp_iso}}</td>
+                    <!-- <td>1 day ago</td> -->
                 </tr>
+                {% endfor %}
             </table>
         </div>
     </section>
