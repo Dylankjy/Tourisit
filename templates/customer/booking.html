@@ -16,7 +16,7 @@
     <section class='section mb-0 pb-0'>
         <div class="container mt-5 p-5">
             <a href="{{ url_for('all_bookings') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to Bookings</a>
-            <h1 class="title is-size-1 m-0">hi</h1>
+            <h1 class="title is-size-1 m-0">{{ tour.tour_name }}</h1>
             <!--START: More options dropdown-->
             <div class="dropdown post-options is-hoverable is-right is-pulled-right">
                 <div class="dropdown-trigger">
@@ -39,8 +39,9 @@
             </div>
             <!--END: More options dropdown-->
             <div class="listing-author">
+                <!--dynamic tg photo-->
                 <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                <div class="ml-2">By <b>HidethePain</b></div>
+                <div class="ml-2">By <b>{{ tour.tg_name }}</b></div>
             </div>
 
         </div>
@@ -206,14 +207,10 @@
             <div class='columns my-5 is-vcentered'>
                 <div class='column'>
                     <h2 class='is-size-4'><b>About this Tour</b></h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                        been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                        a galley of type and scrambled it to make a type specimen book. It has survived not only
-                        five centuries, but also the leap into electronic typesetting, remaining essentially
-                        unchanged. </p>
+                    <p>{{tour.tour_desc}} </p>
                 </div>
                 <div class='column'>
-                    <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
+                    <div class="box listing-img" style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}');"></div>
                 </div>
             </div>
             <!--END: About-->
@@ -242,13 +239,13 @@
                                 <header class="timeline-header">
                                     <span class="tag is-medium is-success">Start</span>
                                 </header>
-                                <div class="timeline-item">
+                                <!-- <div class="timeline-item">
                                     <div class="timeline-marker is-icon">
                                         <i class="fas fa-map-marker-alt"></i>
                                     </div>
                                     <div class="timeline-content">
                                         <p class="heading">Meeting Point</p>
-                                        <p>Bishan MRT Station</p>
+                                        <p>Place</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item">
@@ -259,21 +256,16 @@
                                         <p class="heading">Restaurant Name</p>
                                         <p>Enjoy traditional Indian cuisine at this hidden gem of a restaurant!</p>
                                     </div>
-                                </div>
+                                </div> -->
+                                {% for item in tour.tour_itinerary %}
                                 <div class="timeline-item">
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
                                         <p class="heading">Location</p>
-                                        <p>Activity</p>
+                                        <p>{{item}}</p>
                                     </div>
                                 </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Location</p>
-                                        <p>Activity</p>
-                                    </div>
-                                </div>
+                                {% endfor %}
                                 <div class="timeline-header">
                                     <span class="tag is-medium is-success">End</span>
                                 </div>
@@ -285,15 +277,15 @@
                             <table class='table'>
                                 <tr>
                                     <td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
-                                    <td>27/11/20, 6pm</td>
+                                    <td>{{ booking.book_date }}, {{booking.book_time}}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
-                                    <td>Bishan MRT Station</td>
+                                    <td>{{tour.tour_itinerary[0]}}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
-                                    <td>4 hours</td>
+                                    <td>{{booking.book_duration}}</td>
                                 </tr>
                             </table>
                         </div>
@@ -301,7 +293,9 @@
                     <!--END: Info Table-->
                     {% if process_step >= 3 %}
                         <div class="is-pulled-right">
-                            <span class="tag is-size-4">Price: $1000</span><br>
+                            <span class="tag is-size-4">
+                                Price: ${{booking.book_charges['baseprice']}}
+                            </span><br>
                             <a class="has-text-link is-size-7 pl-5" onclick="openTab(event,'Billing')">View Price
                                 Breakdown</a>
                         </div>
@@ -334,7 +328,7 @@
                             <div class="box has-text-centered">
                                 <p class="is-size-5 has-text-weight-bold">Request a revision of the Proposed Itinerary
                                     and Charges?</p>
-                                <p>You have 4 free revision(s) left.</p>
+                                <p>You have {{tour.tour_revisions}} free revision(s) left.</p>
                                 <div class="field">
                                     <textarea class="textarea"
                                               placeholder="Enter the changes you would like to see.."></textarea>
@@ -393,12 +387,11 @@
                 <div class="has-text-centered">
                     <span class='is-size-3 mr-1'><b>Additional Information</b></span>
                 </div>
-                <p>Bring XXX, Tour includes YYY. Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry. Lorem Ipsum has
-                    been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                    a galley of type and scrambled it to make a type specimen book. It has survived not only
-                    five centuries, but also the leap into electronic typesetting, remaining essentially
-                    unchanged. </p>
+                {% if booking.book_info == '' %}
+                    <p class="has-text-centered has-text-grey m-5">There is no additional information available at the moment.</p>
+                {% else %}
+                    <p>{{booking.book_info}}</p>
+                {% endif %}
             </div>
             <!--END: Additional Info-->
 
@@ -518,11 +511,10 @@
                         </div>
                         <br>
                         <div class="container box">
-                            <div class="heading">Base Price</div>
-                            <div class="title">$148.50</div>
+                            <div class="heading">Tour Price</div>
+                            <div class="title">{{booking.book_charges['baseprice']}}</div>
                         </div>
-                        {% if process_step >= 3 %}
-                            <!--START: Addons & Reductions-->
+                        <!-- {% if process_step >= 3 %}
                             <div class="container box">
                                 <div class="heading">Add-ons</div>
                                 <table class="table is-fullwidth">
@@ -553,8 +545,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!--END: Addons & Reduction-->
-                        {% endif %}
+                        {% endif %} -->
                     </div>
                     <!--END: Proposed Cost-->
                 {% endif %}
@@ -562,23 +553,35 @@
                     <div class="column">
                         <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
                         <br>
+                        {% if booking.book_charges['customfee'] != 0 %}
                         <div class="container box">
-                            <div class="heading">Booking Fee</div>
-                            <div class="title">$16.50 <span class="tag is-success is-light">Paid</span></div>
+                            <div class="heading">Customisation Fee</div>
+                            <div class="title">${{booking.book_charges['customfee']}} <span class="tag is-success is-light">Paid</span></div>
                         </div>
+                        {% endif %}
+                        {% if process_step >= 5 %}
+                        <div class="container box">
+                            <div class="heading">Tour Price</div>
+                            <div class="title">${{booking.book_charges['baseprice']}} 
+                                {% if process_step > 5%}
+                                <span class="tag is-success is-light">Paid</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                     <div class="column">
                         <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Summary</h1>
                         <br>
                         {% if process_step < 5 %}
                             <div class="container box">
-                                <div class="heading">Final Cost</div>
+                                <div class="heading">Total Cost</div>
                                 To-Be Confirmed
                             </div>
                         {% elif process_step >= 5 %}
                             <div class="container box">
-                                <div class="heading">Final Cost</div>
-                                <div class="title">$165
+                                <div class="heading">Total Cost</div>
+                                <div class="title">${{booking.book_charges['baseprice']+booking.book_charges['customfee']}}
                                     {% if process_step >=6 %}
                                         <span class="tag is-success is-light">Paid</span>
                                     {% endif %}

@@ -12,10 +12,10 @@ import admin as admin
 import auth as auth
 # Chat Library
 import chat as msg
-from models.Booking import BookingForm, CheckoutForm, Booking
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.User import UserForm, BioForm
+from models.Booking import BookingForm, CheckoutForm, Booking,  calculate_totalcost
 from models.Format import JSONEncoder, img_to_base64,formToArray
 
 # Authentication library
@@ -437,11 +437,15 @@ def bookings(book_id):
         result = auth.is_auth(True)
         # if not logged in
         if not result:
-            return render_template('customer/booking.html',loggedin=False)
+            return render_template('customer/booking.html', loggedin=False)
         # if logged in
         else:
-            print(booking['process_step'])
-            return render_template('customer/booking.html', process_step=booking['process_step'], booking=booking, loggedin=True, user=result)
+            return render_template('customer/booking.html',
+                                   process_step=booking['process_step'],
+                                   booking=booking,
+                                   tour=tour,
+                                   loggedin=True,
+                                   user=result)
     except:
         return 'Error trying to render'
 
@@ -463,10 +467,8 @@ def book_now(tour_id):
                     book_time = request.form["book_time"]
                     booking = Booking(tg_uid=item['tg_uid'], cust_uid=result['_id'], listing_id=item['_id'],
                                       book_date=book_date, book_time=book_time, book_baseprice=item['tour_price'],
-                                      book_duration="", timeline_content=[],
+                                      book_customfee=0, book_duration="", timeline_content=[],
                                       process_step=5)
-                    # tg_uid, cust_uid, listing_id, book_date, book_time, book_baseprice,
-                    # book_duration, timeline_content, process_step
                     inserted_booking = bookings_db.insert_one(booking.return_obj())
                     book_id = inserted_booking.inserted_id
                     return render_template('customer/checkout.html', book_id=book_id, user=result,
