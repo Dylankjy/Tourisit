@@ -62,6 +62,11 @@
                         <a class="navbar-item has-text-primary-dark" href="{{ url_for('sellerDashboard') }}">
                             <i class="fas fa-arrow-right"></i>&ensp;Tour Guide mode
                         </a>
+                        {% if user.account_type == 1 %}
+                        <a class="navbar-item has-text-danger" href="{{ url_for('adminDashboard') }}">
+                            <i class="fas fa-arrow-right"></i>&ensp;Admin mode
+                        </a>
+                        {% endif %}
                         <a class="navbar-item has-tooltip-arrow has-tooltip-bottom" data-tooltip="Your Bookings"
                            href="{{ url_for('all_bookings') }}">
                             <i class="fas fa-bookmark"></i>
