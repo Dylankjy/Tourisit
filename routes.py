@@ -607,10 +607,6 @@ def adminUsers():
     # if logged in
     else:
         user_accounts = admin.list_user_accounts()
-        print(user_accounts)
-        # TODO: Jinja filter for timestamp to show in Human readable format.
-        #  https://code.tutsplus.com/tutorials/templating-with-jinja2-in-flask-date-and-time-formatting-with-momentjs
-        #  --cms-25813
         return render_template('internal/users.html', loggedin=True, user=result, user_list=user_accounts)
 
 
