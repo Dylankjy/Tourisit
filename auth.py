@@ -2,6 +2,7 @@ import hashlib
 import smtplib
 import ssl
 import uuid
+from datetime import datetime
 from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -205,6 +206,18 @@ def login_account(email, unencoded_password):
 
         if query_result["email_status"] is False:
             return "UNVERIFIED"
+
+        # Generate timestamp in ISO format
+        date = datetime.now()
+        current_timestamp = date.isoformat()
+
+        # Set last seen
+        payload = {
+            "last_seen_time": current_timestamp
+        }
+
+        # Database Ops: Update last seen
+        db_users.update_one(query, payload)
 
         return add_session(query_result["_id"])
     except IndexError:
