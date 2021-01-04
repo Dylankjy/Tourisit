@@ -250,9 +250,8 @@ def updateImg():
 @app.route('/test/result')
 def testing():
     result = auth.is_auth(True)
-    id = result['_id']
-    print(str(id))
-    return str(id)
+    lForm = ListingForm()
+    return render_template('tourGuides/makelisting.html', form=lForm, user=result)
 
 
 @app.route('/listings/add', methods=['GET', 'POST'])
