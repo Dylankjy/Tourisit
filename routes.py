@@ -410,7 +410,7 @@ def favourites():
 # Your Bookings: Access all bookings
 @app.route('/bookings')
 def all_bookings():
-    try:
+    # try:
         # Get login status using accessor argument
         result = auth.is_auth(True)
         # if not logged in
@@ -418,9 +418,12 @@ def all_bookings():
             return render_template('customer/allBookings.html', loggedin=False)
         # if logged in
         else:
+            # cust_uid = result['_id']
+            # booking_list = list(bookings_db.find({'cust_uid': cust_uid}))
+            # print(booking_list)
             return render_template('customer/allBookings.html', loggedin=True, user=result)
-    except:
-        return 'Error trying to render'
+    # except:
+    #     return 'Error trying to render'
 
 
 # CUSTOMER
@@ -471,9 +474,9 @@ def book_now(tour_id):
                                       process_step=5)
                     inserted_booking = bookings_db.insert_one(booking.return_obj())
                     book_id = inserted_booking.inserted_id
-                    return render_template('customer/checkout.html', book_id=book_id, user=result,
-                                           booking=booking.return_obj(), form=checkoutform)
-                    # return redirect(url_for('checkout'), book_id=book_id)
+                    # return render_template('customer/checkout.html', book_id=book_id, user=result,
+                    #                        booking=booking.return_obj(), form=checkoutform)
+                    return redirect(url_for('checkout', book_id=book_id))
 
             return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item,
                                    tour_id=tour_id)
@@ -489,31 +492,32 @@ def book_now(tour_id):
 # @app.route('/checkout/<id>')
 @app.route('/checkout/<book_id>', methods=['GET', 'POST'])
 def checkout(book_id):
-    try:
+    # try:
         booking = bookings_db.find_one({'_id': ObjectId(book_id)})
+        # form = CheckoutForm()
         # Get login status using accessor argument
         result = auth.is_auth(True)
         # if logged in
         if result:
             if request.method == 'POST':
-                if booking['process_step'] == 5:
-                    update_booking = { "$set": { "process_step": 6 } }
-                    bookings_db.update_one(booking, update_booking)
-                    return bookings(book_id)
-                elif booking['process_step'] == 0:
-                    update_booking = {"$set": {"process_step": 1}}
-                    bookings_db.update_one(booking, update_booking)
-                    return bookings()
-                else:
-                    print("Error occurred while trying to pay.")
+                print("yes")
+                # if booking['process_step'] == 5:
+                #     update_booking = { "$set": { "process_step": 6 } }
+                #     bookings_db.update_one(booking, update_booking)
+                #
+                # elif booking['process_step'] == 0:
+                #     update_booking = {"$set": {"process_step": 1}}
+                #     bookings_db.update_one(booking, update_booking)
+                #
+                # else:
+                #     print("Error occurred while trying to pay.")
 
-            # fix needed, booknow and checkout forms processed tgt
             return render_template('customer/checkout.html', loggedin=True, user=result, booking=booking)
         # if not logged in
         else:
             return render_template('customer/checkout.html', loggedin=False)
-    except:
-        return 'Error trying to render (checkout)'
+    # except:
+    #     return 'Error trying to render (checkout)'
 
 
 # TOUR GUIDES
