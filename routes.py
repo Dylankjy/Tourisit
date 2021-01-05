@@ -513,7 +513,8 @@ def checkout(book_id):
                     # else:
                     #     print("Error occurred while trying to pay.")
 
-            return render_template('customer/checkout.html', loggedin=True, user=result, booking=booking, form=form)
+            return render_template('customer/checkout.html', loggedin=True, user=result, booking=booking, form=form,
+                                   book_id=book_id)
         # if not logged in
         else:
             return render_template('customer/checkout.html', loggedin=False)
