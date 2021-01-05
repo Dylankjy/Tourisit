@@ -489,30 +489,31 @@ def book_now(tour_id):
 
 # CUSTOMER
 # Checkout page (placeholder)
-# @app.route('/checkout/<id>')
 @app.route('/checkout/<book_id>', methods=['GET', 'POST'])
 def checkout(book_id):
     # try:
         booking = bookings_db.find_one({'_id': ObjectId(book_id)})
-        # form = CheckoutForm()
+        form = CheckoutForm()
         # Get login status using accessor argument
         result = auth.is_auth(True)
         # if logged in
         if result:
             if request.method == 'POST':
-                print("yes")
-                # if booking['process_step'] == 5:
-                #     update_booking = { "$set": { "process_step": 6 } }
-                #     bookings_db.update_one(booking, update_booking)
-                #
-                # elif booking['process_step'] == 0:
-                #     update_booking = {"$set": {"process_step": 1}}
-                #     bookings_db.update_one(booking, update_booking)
-                #
-                # else:
-                #     print("Error occurred while trying to pay.")
+                print("babushka")
+                if form.validate_on_submit():
+                    print("babushka validated")
+                    # if booking['process_step'] == 5:
+                    #     update_booking = { "$set": { "process_step": 6 } }
+                    #     bookings_db.update_one(booking, update_booking)
+                    #
+                    # elif booking['process_step'] == 0:
+                    #     update_booking = {"$set": {"process_step": 1}}
+                    #     bookings_db.update_one(booking, update_booking)
+                    #
+                    # else:
+                    #     print("Error occurred while trying to pay.")
 
-            return render_template('customer/checkout.html', loggedin=True, user=result, booking=booking)
+            return render_template('customer/checkout.html', loggedin=True, user=result, booking=booking, form=form)
         # if not logged in
         else:
             return render_template('customer/checkout.html', loggedin=False)

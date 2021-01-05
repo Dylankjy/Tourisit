@@ -10,7 +10,7 @@ class BookingForm(FlaskForm):
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
 
 class CheckoutForm(FlaskForm):
-    submit = SubmitField('Pay & Proceed')
+    submit = SubmitField('Pay & Proceed (this is a wtf button)')
 
 # add charges
 class Booking:
