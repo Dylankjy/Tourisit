@@ -238,7 +238,10 @@ def tourListing(tour_id):
     result = auth.is_auth(True)
 
     # Boolean, will be editable if person is the owner of the listing
-    editable = item['tg_uid'] == result['_id']
+    if result:
+        editable = item['tg_uid'] == result['_id']
+    else:
+        editable = False
     # if not logged in
     if not result:
         return render_template('customer/tourListing.html', item=item, loggedin=False, editable=editable)
@@ -282,6 +285,8 @@ def makelisting():
     result = auth.is_auth(True)
     # If result is not None (User is logged in)
     if result:
+        userData = user_db.find_one({'_id': result['_id']})
+        userImg = userData['profile_img']
         lForm = ListingForm()
         if request.method == 'POST':
             if lForm.validate_on_submit():
@@ -306,11 +311,13 @@ def makelisting():
 
                 tg_name = result['name']
 
+                tg_img = userImg
+
                 print(tour_itinerary)
 
                 tour_listing = Listing(tour_name=tour_name, tour_desc=detail_desc,
                                        tour_price=tour_price,
-                                       tour_img=img_string, tg_uid=tg_uid, tg_name=tg_name,
+                                       tour_img=img_string, tg_uid=tg_uid, tg_name=tg_name, tg_img = tg_img,
                                        tour_loc=tour_locations, tour_revs=tour_revisions, tour_itinerary=tour_itinerary)
 
                 listingInfo = tour_listing.return_obj()

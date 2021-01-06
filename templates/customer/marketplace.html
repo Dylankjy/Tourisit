@@ -15,8 +15,8 @@
                                 style="background-image: url('data:image/jpeg;base64,${listing['tour_img']}') ;"></div>
                                 <div class="ml-4">
                                     <div class="mb-2 listing-author">
-                                        <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                        <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                                        <div class="profile-img" style="background-image: url('data:image/jpeg;base64, ${listing['tg_img'] }') ;"></div>
+                                        <div class="ml-2"><b>${listing['tg_name']}</b> is offering:</div>
                                     </div>
                                     <h1 class='title is-4'>${listing['tour_name']}</h1>
                                     <p class="subtitle is-6 listing-card-text">${listing['tour_desc']}</p>
@@ -70,7 +70,7 @@
             else {
                 defaultShow =
                     `
-                {% for item in listings %}
+                {% for item in listings|reverse %}
                     <div class="column is-one-third">
                         <a href='/discover/{{ item["_id"] }}'>
                             <div class='p-5 vertical listing-card'>
@@ -78,8 +78,8 @@
                                      style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}') ;"></div>
                                 <div class="ml-4">
                                     <div class="mb-2 listing-author">
-                                        <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                        <div class="ml-2"><b>HidethePain</b> is offering:</div>
+                                        <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{ item['tg_img'] }}') ;"></div>
+                                        <div class="ml-2"><b>{{ item['tg_name'] }}</b> is offering:</div>
                                     </div>
                                     <h1 class='title is-4'>{{ item.tour_name }}</h1>
                                     <p class="subtitle is-6 listing-card-text">{{ item.tour_desc }}</p>

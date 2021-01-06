@@ -2,6 +2,7 @@
 
 {% block scripts %}
     <link rel="stylesheet" href="/css/shop.css">
+    <link rel='stylesheet' href='/css/bulma-timeline.min.css'>
 {% endblock %}
 
 {% block content %}
@@ -35,8 +36,12 @@
                     </div>
 
                 </div>
+                {% for location in item.tour_location %}
+                <span class="tag is-info">{{ location }}</span>
+                {% endfor %}
                 <br><br>
-
+                
+                
                 <div class='columns'>
                     <div class='column is-half content'>
                         <h2>About this Tour</h2>
@@ -46,7 +51,7 @@
                     </div>
 
                     <div class='column'>
-                        <br>
+                 
                         <div class="buttons is-centered">
                             <a class="button is-white" style="color:rgb(226, 48, 78)"
                                href={{ url_for('favourites') }}><i class="fas fa-heart"></i>&ensp;Add
@@ -70,8 +75,35 @@
             </div>
             <!-- END: Horizontal Card -->
 
+            <div class='box'>
+                <h1 class='title has-text-centered'>Tour Itinerary</h1>
+                <div class='timeline is-centered'>
+                    <header class="timeline-header">
+                        <span class="tag is-medium is-primary">Start Tour!</span>
+                    </header>
+
+                    {% for itinerary in item.tour_itinerary %}
+                    
+                    <div class="timeline-item is-success">
+                        <div class="timeline-marker is-success"></div>
+                        <div class="timeline-content">
+                          <p>{{ itinerary }}</p>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                
+
+                    <div class="timeline-header">
+                        <span class="tag is-medium is-primary">End</span>
+                    </div>
+                </div>
+            </div>
+
             <!--Start of review cards-->
             <div class="box">
+                <h1 class='title has-text-centered'>Tour Reviews</h1>
                 <article class="media">
                     <div class="media-left">
                         <figure class="image is-64x64">

@@ -43,7 +43,7 @@ class ListingForm(FlaskForm):
 
     tour_img = FileField('tour_img', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Only .jpg, .jpeg and .png images are allowed!')])
 
-    tour_revisions = IntegerField('tour_rev', validators=[InputRequired(), NumberRange(min=0, max=20, message='Need a minimum of 1 revision!')])
+    tour_revisions = IntegerField('tour_rev', validators=[InputRequired(), NumberRange(min=0, message='Need a minimum of 1 revision!')])
 
     tour_price = FloatField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None,
                                                                                    message='Price cannot be below $0!')])
@@ -57,7 +57,8 @@ class Listing:
             tour_price,
             tg_uid,
             tg_name,
-            tour_loc,
+            tg_img,
+            tour_location,
             tour_revs,
             tour_itinerary,
             tour_img=''
@@ -73,7 +74,7 @@ class Listing:
         self.set_tour_price(tour_price)
 
         self.__tour_location = ''
-        self.set_tour_location(tour_loc)
+        self.set_tour_location(tour_location)
 
         self.__tour_revisions = 0
         self.set_tour_revisions(tour_revs)
@@ -86,6 +87,7 @@ class Listing:
 
         self.set_tg_uid(tg_uid)
         self.set_tg_name(tg_name)
+        self.set_tg_img(tg_img)
 
         self.__date_created = datetime.now()
         self.__tour_rating = 0
@@ -167,9 +169,11 @@ class Listing:
     def set_tg_uid(self, tg_uid):
         self.__tg_uid = tg_uid
 
-
     def set_tg_name(self, tg_name):
         self.__tg_name = tg_name
+
+    def set_tg_img(self, tg_img):
+        self.__tg_img = tg_img
 
     def return_obj(self):
         return {
@@ -184,5 +188,6 @@ class Listing:
             "tour_rating": self.__tour_rating,
             "tour_review": self.__tour_review,
             "tg_uid": self.__tg_uid,
-            "tg_name": self.__tg_name
+            "tg_name": self.__tg_name,
+            "tg_img": self.__tg_img
         }
