@@ -13,6 +13,40 @@
         <!-- Side Profile Page -->
         <div class="column is-one-quarter mt-6">
             <div class="section">
+                {% if loggedin == false %}
+                    <div class="box is-centered">
+                        <div class="profile-img-onprofile" style="background-image: url('/pfp.jpg');"></div>
+                        <br>
+                        <p class="title is-5 is-spaced">HidethePain</p>
+                        <form class="form-horizontal" action="/users" method="POST">
+                            {{ form.csrf_token }}
+                            <fieldset>
+                                <div class="field">
+                                    <label class="label" for="bio">Bio:</label>
+                                    <div class="control">
+                                        {{ form.bio(id="bio", type="textarea", class="input", rows="5" ,placeholder=user.bio, readonly) }}
+                                        <ul>
+                                            {% for error in form.bio.errors %}
+                                                <li class="has-text-danger"> {{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <span class="tag is-success">Verified</span>
+                    </div>
+                    <div class="box is-centered">
+                        <p class="title is-6"><strong>Description</strong></p>
+                        <p class="subtitle is-6 pb-4">I am a certified tour guide with fluent English and I specialise in
+                            food tours.</p>
+
+                        <p class="title is-6"><strong>Languages</strong></p>
+                        <p class="subtitle is-6">English</p>
+                    </div>
+                {% else %}
+                    {{  super() }}
+                {% endif %}
                 <div class="box is-centered">
                     <div class="profile-img-onprofile" style="background-image: url('/pfp.jpg');"></div>
                     <br>
