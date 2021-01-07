@@ -318,7 +318,7 @@ def makelisting():
                 tour_listing = Listing(tour_name=tour_name, tour_desc=detail_desc,
                                        tour_price=tour_price,
                                        tour_img=img_string, tg_uid=tg_uid, tg_name=tg_name, tg_img = tg_img,
-                                       tour_loc=tour_locations, tour_revs=tour_revisions, tour_itinerary=tour_itinerary)
+                                       tour_location=tour_locations, tour_revs=tour_revisions, tour_itinerary=tour_itinerary)
 
                 listingInfo = tour_listing.return_obj()
                 print(listingInfo)

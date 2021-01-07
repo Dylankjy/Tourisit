@@ -31,7 +31,19 @@
             current_list = document.getElementById('tour-item-list')
             current_list.value = Array.from(itemList)
             console.log(current_list)
+            console.log(current_list)
         }
+
+
+        function UpdateItems () {
+            document.getElementById("addItemButton").click()
+        }
+
+        // Must click the add listing button in order to get the updated version 
+        $('#makeListingForm').submit( ()=>{
+            UpdateItems()
+            return true;
+        });
 
 
         function AddItinerary() {
@@ -84,7 +96,7 @@
         <div class='columns is-centered'>
             <div class='column is-half'>
                 <div class='box'>
-                    <form class="form-horizontal" enctype="multipart/form-data" action="{{ url_for('makelisting') }}"
+                    <form id='makeListingForm' class="form-horizontal" enctype="multipart/form-data" action="{{ url_for('makelisting') }}"
                           method="POST">
                         {{ form.csrf_token }}
                         <fieldset>
@@ -151,7 +163,7 @@
                             <label class="label" for="tour-items">Tour itinerary</label>
                             <div class="field has-addons">
                               <div class="control">
-                                <a class="button" onclick="AddItinerary();AppendtoItem()">
+                                <a id='addItemButton' class="button" onclick="AddItinerary();AppendtoItem()">
                                   Add Itinerary
                                 </a>
                               </div>
@@ -229,7 +241,7 @@
                             <div class="field">              
                                 <div class="control">
                                     <input type='submit' value='List!' id="tour-submit" name="tour-submit"
-                                           class="button is-success">
+                                           class="button is-success" onclick=updateItems()>
                                 </div>
                             </div>
 
