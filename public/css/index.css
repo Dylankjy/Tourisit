@@ -5,7 +5,16 @@
     background-blend-mode: overlay;
 }
 
-#index-hero * {
+#hero-box {
+    padding-top: 6rem;
+}
+
+#hero-content {
+    background: url("/imgs/index.jpg") center scroll no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.4);
+    background-blend-mode: overlay;
+    padding: 8rem 0;
     text-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 

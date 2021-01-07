@@ -1,6 +1,32 @@
-#discover-hero {
+#hero-box {
+    padding-top: 6rem;
+}
+
+.discover-hero {
     background: url("/imgs/discover.jpg") center scroll no-repeat;
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.55);
     background-blend-mode: overlay;
+}
+
+#hero-content {
+    padding: 8rem 0;
+    text-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.searchbar-container {
+    background: rgba(255,255,255,0.7);
+    transition: ease 0.5s all;
+    backdrop-filter: blur(5px);
+}
+
+.searchbar-container:hover {
+    background: rgba(255,255,255,1);
+    backdrop-filter: blur(10px);
+}
+
+.searchbar-container input {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }

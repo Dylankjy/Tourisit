@@ -113,7 +113,35 @@
 
 {% block content %}
 
-    <section id="discover-hero" class="hero is-medium is-black">
+<section id="hero-box" class="section">
+    <div id="hero-content" class="container box has-text-centered discover-hero">
+        <h1 class="title has-text-weight-bold has-text-white" style="font-size: 5rem;">
+            Discover
+        </h1>
+        <h2 class="subtitle is-size-4 has-text-light">
+            There's always a trip for everyone
+        </h2>
+
+        <div class="box searchbar-container" style="margin: 0 8rem;">
+                <div class="field has-addons">
+                    <div class="control is-expanded">
+                        <input id="searchReq" class="input is-fullwidth" type="text" placeholder="Look for a tour"
+                               onkeyup="liveSearch(this.value)">
+                    </div>
+                    <div class="control">
+                        <button class="button is-danger">
+                            Search
+                        </button>
+                        <button class="button is-danger">
+                            <i class="fas fa-dice"></i>
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+    <!-- <section id="discover-hero" class="hero is-medium is-black">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <h1 class="title has-text-weight-bold" style="font-size: 3rem;">
@@ -140,7 +168,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </section>
 
