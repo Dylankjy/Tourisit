@@ -3,23 +3,77 @@
 {% block scripts %}
     <link rel="stylesheet" href="/css/shop.css">
     <link rel="stylesheet" href="/css/index.css">
+    <script src='/js/form-persistence.js'></script>
     <script>
 
         let listno = 0
+        let locno = 0
         var itemList = []
         var locList = []
+        var locationTags = document.getElementById('locations')
 
         function AppendtoLocation() {
             var loc = document.getElementById('tour-loc').value
-            var template = 
-            `
-                <span class="tag is-info">${loc}</span>
-            `
             current_locs = document.getElementById('locations')
-            current_locs.innerHTML += template
+
+            // var template = 
+            // `
+            //     <span class="tag is-info">${loc}</span>
+            // `
+
+            // var template = 
+            // `
+            //     <span class="tag is-info">${loc}<a onclick="locList.splice(${locno}, 1, 'None'); current_locs.removeChild(template)>here</a></span>
+            // `
+
+            var template = document.createElement('span')
+            template.className = "tag is-info"
+            // template.id = `loc_${locno}`
+            template.textContent = loc
+            current_locs.appendChild(template)
+
+
+            let removeElement = document.createElement('a');
+            removeElement.textContent = '\u274c';
+            removeElement.id = locno
+            removeElement.addEventListener('click', () => {
+                current_locs.removeChild(template)
+                console.log(`Loc no is: ${locno}`)
+                locList.splice(removeElement.id, 1, 'None')
+                AppendtoLocationList()
+            });
+            template.appendChild(removeElement);
+
+            // current_locs.innerHTML += template
             locList.push(loc + '#$%^#')
             console.log(locList)
+
+            locno += 1
+
         }
+
+        // function AppendtoLocation() {
+        //     var loc = document.getElementById('tour-loc').value
+        //     var newLocation = document.createElement('span')
+        //     newLocation.className = "tag is-info"
+        //     newLocation.textContent = loc
+        //     locationTags.appendChild(newLocation)
+            
+        //     let removeElement = document.createElement('a');
+        //     removeElement.textContent = '\u274c';
+        //     removeElement.addEventListener('click', () => locationTags.removeChild(newLocation));
+        //     newLocation.appendChild(removeElement);
+
+        //     let tagValue = document.createElement('input');
+        //     tagValue.setAttribute('type', 'hidden');
+        //     tagValue.setAttribute('name', 'tag');
+        //     tagValue.value = loc;
+        //     newLocation.appendChild(tagValue);
+            
+
+        //     locList.push(loc + '#$%^#')
+        //     console.log(locList)
+        // }
 
         function AppendtoLocationList() {
             current_list = document.getElementById('tour-locations-list')
@@ -45,9 +99,94 @@
             return true;
         });
 
+        // window.addEventListener('load', () => {
+        //     let form = document.getElementById('makeListingForm')
+        //     FormPersistence.persist(form, {useSessionStorage: true});
+        //     FormPersistence.save(form, {useSessionStorage: true})
+        // })
+
+        // window.onbeforeunload = ()=>{
+        //     FormPersistence.load(form, {useSessionStorage: true})
+        // }
+
+        // function formToString(filledForm) {
+        //     formObject = new Object
+        //     filledForm.find("input, select, textarea").each(function() {
+        //         if (this.id) {
+        //             elem = $(this);
+        //             if (elem.attr("type") == 'checkbox' || elem.attr("type") == 'radio') {
+        //                 formObject[this.id] = elem.attr("checked");
+        //             } else {
+        //                 formObject[this.id] = elem.val();
+        //             }
+        //         }
+        //     });
+        //     formString = JSON.stringify(formObject);
+        //     return formString;
+        // }
+
+        // function stringToForm(formString, unfilledForm) {
+        //     formObject = JSON.parse(formString);
+        //     unfilledForm.find("input, select, textarea").each(function() {
+        //         if (this.id) {
+        //             id = this.id;
+        //             elem = $(this); 
+        //             if (elem.attr("type") == "checkbox" || elem.attr("type") == "radio" ) {
+        //                 elem.attr("checked", formObject[id]);
+        //             } else {
+        //                 elem.val(formObject[id]);
+        //             }
+        //         }
+        //     });
+        // }
+
+
+        // window.onbeforeunload = function () {
+        //     sessionStorage.setItem("formdata",formToString($("#makeListingForm")))
+        //     var storedform = sessionStorage.getItem("formdata");         
+        //     stringToForm(storedform,$("#makeListingForm"));
+        // }
+
+
+
+
+        // // Incase form has to reload, the user data is still saved to session storage and re displayed
+        // function Persistence() {
+        //     window.onload = function() {
+        //         if (sessionStorage.getItem('name') == "name") {
+        //             return;
+        //         }
+
+        //         // If values are not blank, restore them to the fields
+        //         var saved_itenerary = localStorage.getItem('itenerary_list');
+        //         if (local_itenerary !== null) {
+        //             $('#tour-items').val(saved_itenerary)
+        //             console.log(saved_itenerary)
+        //         };
+
+        //         var saved_locations = localStorage.getItem('location_list');
+        //         if (saved_locations !== null) {
+        //             $('#tour-loc').val(saved_locations)
+        //             console.log(saved_locations)
+        //         };
+        //     }
+
+
+        //         // Before refreshing the page, save the form data to sessionStorage
+        //     window.onbeforeunload = function() {
+        //         localStorage.setItem("itinerary_list", itemList);
+        //         localStorage.setItem("location_list", locList);
+        //     }
+        // }
+
+
+        window.onbeforeunload = () =>{
+            Persistence()
+        }
+
 
         function AddItinerary() {
-
+            // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
             current_item = document.getElementById('tour-items')
             text = 
             `
@@ -69,6 +208,7 @@
             current_item.value = ''
             listno += 1
         }
+
     </script>
 
 
@@ -271,5 +411,7 @@
             flag = toBase64($("#uploadImg").prop('files')[0])
             console.log('this worked')
         });
+
+    
     </script>
 {% endblock %}
