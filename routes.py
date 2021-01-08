@@ -247,9 +247,11 @@ def search():
     all_listings = list(i['tour_name'] for i in shop_db.find())
     # Get the string that is typed in the search bar
     text = request.args['query']
-    if text:
+
+    if text != None:
         # Get all the listing names from db
         # Get all the listings that fulfil the criteria
+
         result = [c for c in all_listings if str(text).lower() in c.lower()]
         result_listings = list(shop_db.find({'tour_name': {'$in': result}}))
 
