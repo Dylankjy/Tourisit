@@ -1,0 +1,28 @@
+
+<div class="column is-one-third listing-card">
+    <a href="/discover/{{ item['_id'] }}">
+        <!-- START: Vertical Card -->
+        <div class='p-5 vertical'>
+            <div class="listing-img" style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');">
+            </div>
+            <div class="pl-4 pr-4">
+                <div class="mb-2 listing-author">
+                    <div class="profile-img mt-4"
+                        style="background-image: url('data:image/jpeg;base64, {{item['tg_img']}} ')"></div>
+                    <div class="ml-2 mt-4"><b>{{ item['tg_name'] }}</b> <span>is offering:</span></div>
+                </div>
+                <h1 class='title is-4'>{{ item["tour_name"] }}</h1>
+                <p class="subtitle is-6 listing-card-text">{{ item["tour_desc"] }}</p>
+                <p class="has-text-weight-light is-size-3 has-text-dark"><small class="is-size-5">From</small>
+                    ${{ item.tour_price }}
+                </p>
+                <br>
+            </div>
+            <!-- color:rgb(226, 48, 78) -->
+            <div class="buttons">
+                <a class="button is-white"><i class="fas fa-heart has-text-grey-lighter"></i>
+                </a>
+            </div>
+        </div>
+    </a>
+</div>
