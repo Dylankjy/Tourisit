@@ -3,8 +3,8 @@
 {% block title %}Tourisit - Tours By Locals {% endblock %}
 
 {% block scripts %}
-    <link rel="stylesheet" href="/css/shop.css">
-    <link rel="stylesheet" href="/css/bulma-divider.css">
+    <link rel="stylesheet" href="/css/global/shop.css">
+    <link rel="stylesheet" href="/css/frameworks/bulma-divider.css">
 {% endblock %}
 
 
@@ -14,12 +14,12 @@
             Placeholder check-out page until Stripe is implemented.
             <form id="payment" method="POST" action="{{ url_for('checkout', book_id=book_id) }}">
                 {{ form.csrf_token }}
-            <div class="control">
-                {{ form.submit(id="submit", class="button is-primary", type="submit") }}
-                <!-- <a href="">
-                    <button type="submit" id="pay_submit" class="button is-primary">Pay & Proceed</button>
-                </a> -->
-            </div>
+                <div class="control">
+                    {{ form.submit(id="submit", class="button is-primary", type="submit") }}
+                    <!-- <a href="">
+                        <button type="submit" id="pay_submit" class="button is-primary">Pay & Proceed</button>
+                    </a> -->
+                </div>
             </form>
         </div>
     </section>
