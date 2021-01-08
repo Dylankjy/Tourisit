@@ -794,7 +794,7 @@ def chatroom_endpoint():
                 resp = make_response('Tourisit API Endpoint - Error 500', 500)
                 return resp
             else:
-                shard_payload = render_template('shards/msg.html', chatroom_display=chat_room_messages["chatroom"])
+                shard_payload = render_template('components/shards/msg.html', chatroom_display=chat_room_messages["chatroom"])
                 resp = Response(
                     response=JSONEncoder().encode({
                         "data": shard_payload
