@@ -1,16 +1,15 @@
 {% extends 'baseTour.html' %}
 
 {% block scripts %}
-    <!--<link rel="stylesheet" href="/css/global/shop.css">-->
-    <link rel="stylesheet" href="/css/global/navbar.css">
-    <link rel="stylesheet" href="/css/workdesk.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
-            integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
-            crossorigin="anonymous"></script>
+<!--<link rel="stylesheet" href="/css/global/shop.css">-->
+<link rel="stylesheet" href="/css/global/navbar.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+    integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+    crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block content %}
-    <section id="workdesk-hero" class="hero is-dark is-medium">
+<!-- <section id="workdesk-hero" class="hero is-dark is-medium">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
@@ -21,117 +20,129 @@
                 </h2>
             </div>
         </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <div class="level">
-                <div class="level-right">
-                    <div class="level-item">
-                        <button type="button" class="button is-success">
-                            <i class="fas fa-download"></i>&ensp;Download report for this month
-                        </button>
-                    </div>
+    </section> -->
+
+<section id="hero-box" class="section">
+    <div id="hero-content" class="container box has-text-centered discover-hero">
+        <h1 class="title has-text-weight-bold has-text-white" style="font-size: 4rem;">
+            <span class="has-text-weight-light">Welcome back</span> {{user.name}}
+        </h1>
+        <h2 class="subtitle is-size-4 has-text-light">
+            Your performance, earnings and ratings
+        </h2>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="level">
+            <div class="level-right">
+                <div class="level-item">
+                    <button type="button" class="button is-success">
+                        <i class="fas fa-download"></i>&ensp;Download report for this month
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <div class="columns is-multiline">
-                <div class="column">
-                    <div class="box">
-                        <div class="heading">Your Net Earnings</div>
-                        <div class="title">$696 <span class="tag is-danger is-light">-$18</span></div>
-                        <div class="level">
-                            <div class="level-item">
-                                <div>
-                                    <div class="heading">Gross Income</div>
-                                    <div class="title is-5">$768</div>
-                                </div>
-                            </div>
-                            <div class="level-item">
-                                <div>
-                                    <div class="heading">Expenses</div>
-                                    <div class="title is-5">$72</div>
-                                </div>
-                            </div>
-                            <div class="level-item">
-                                <div>
-                                    <div class="heading">Expense Ratio</div>
-                                    <div class="title is-5">9.38%</div>
-                                </div>
+        <div class="columns is-multiline">
+            <div class="column">
+                <div class="box">
+                    <div class="heading">Your Net Earnings</div>
+                    <div class="title">$696 <span class="tag is-danger is-light">-$18</span></div>
+                    <div class="level">
+                        <div class="level-item">
+                            <div>
+                                <div class="heading">Gross Income</div>
+                                <div class="title is-5">$768</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="box">
-                        <div class="heading">Your Satisfaction</div>
-                        <div class="title">96.4% <span class="tag is-success is-light">+10%</span></div>
-                        <div class="level">
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Positive</div>
-                                    <div class="title is-5">54</div>
-                                </div>
-                            </div>
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Negative</div>
-                                    <div class="title is-5">2</div>
-                                </div>
-                            </div>
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Overrall rate</div>
-                                    <div class="title is-5">78.6%</div>
-                                </div>
+                        <div class="level-item">
+                            <div>
+                                <div class="heading">Expenses</div>
+                                <div class="title is-5">$72</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="box">
-                        <div class="heading">Impressions</div>
-                        <div class="title">128 <span class="tag is-success is-light">+2</span></div>
-                        <div class="level">
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Click-through rate</div>
-                                    <div class="title is-5">20%</div>
-                                </div>
-                            </div>
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Booking rate</div>
-                                    <div class="title is-5">90%</div>
-                                </div>
+                        <div class="level-item">
+                            <div>
+                                <div class="heading">Expense Ratio</div>
+                                <div class="title is-5">9.38%</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="columns is-multiline">
-                <div class="column is-6">
-                    <div class="panel">
-                        <p class="panel-heading">
-                            Earnings Breakdown
-                        </p>
-                        <div class="panel-block">
-                            <canvas id="incomeChart" width="400" height="200"></canvas>
+            <div class="column">
+                <div class="box">
+                    <div class="heading">Your Satisfaction</div>
+                    <div class="title">96.4% <span class="tag is-success is-light">+10%</span></div>
+                    <div class="level">
+                        <div class="level-item">
+                            <div class="">
+                                <div class="heading">Positive</div>
+                                <div class="title is-5">54</div>
+                            </div>
+                        </div>
+                        <div class="level-item">
+                            <div class="">
+                                <div class="heading">Negative</div>
+                                <div class="title is-5">2</div>
+                            </div>
+                        </div>
+                        <div class="level-item">
+                            <div class="">
+                                <div class="heading">Overrall rate</div>
+                                <div class="title is-5">78.6%</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="column is-6">
-                    <div class="panel">
-                        <p class="panel-heading">
-                            Satisfaction Rate
-                        </p>
-                        <div class="panel-block">
-                            <canvas id="csatChart" width="400" height="200"></canvas>
+            </div>
+            <div class="column">
+                <div class="box">
+                    <div class="heading">Impressions</div>
+                    <div class="title">128 <span class="tag is-success is-light">+2</span></div>
+                    <div class="level">
+                        <div class="level-item">
+                            <div class="">
+                                <div class="heading">Click-through rate</div>
+                                <div class="title is-5">20%</div>
+                            </div>
+                        </div>
+                        <div class="level-item">
+                            <div class="">
+                                <div class="heading">Booking rate</div>
+                                <div class="title is-5">90%</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <script defer src="/js/dashboard.js"></script>
+
+        <div class="columns is-multiline">
+            <div class="column is-6">
+                <div class="panel">
+                    <p class="panel-heading">
+                        Earnings Breakdown
+                    </p>
+                    <div class="panel-block">
+                        <canvas id="incomeChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div class="panel">
+                    <p class="panel-heading">
+                        Satisfaction Rate
+                    </p>
+                    <div class="panel-block">
+                        <canvas id="csatChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script defer src="/js/dashboards/dashboard.js"></script>
 {% endblock %}
