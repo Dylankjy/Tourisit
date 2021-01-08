@@ -18,22 +18,9 @@
         </div>
     </section>
 
-    <!-- <section id="index-hero" class="hero is-large is-black">
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <h1 class="title has-text-weight-bold" style="font-size: 5rem;">
-                    <img src="/logo.png" style="height: 7rem">
-                </h1>
-                <h2 class="subtitle is-size-3">
-                    Tours by Locals, for Locals
-                </h2>
-            </div>
-        </div>
-    </section> -->
-
     <section class="section">
         <div class="container">
-            <div class='box p-5'>
+            <!-- <div class='box p-5'>
                 <div class="columns is-vcentered">
                     <div class="column">
                         <a href='/discover/{{ listings[-1]["_id"] }}'>
@@ -64,26 +51,27 @@
                              style="background-image: url('data:image/jpeg;base64, {{ listings[-1]['tour_img'] }}');"></div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <br>
+            <div class="box p-6">
+            <h2 class="title">Recent listings</h2>
 
-            <div class="columns is-mulitline">
+            <div class="columns is-multiline">
                 
                 {% for item in listings %}
-                    {% if loop.index <=3 %}
+                    {% if loop.index <=6 %}
 
-                        <div class="column is-one-third">
+                        <div class="column is-one-third listing-card">
                             <a href="/discover/{{ item['_id'] }}">
                                 <!-- START: Vertical Card -->
-                                <div class='box p-5 vertical'>
-                                    <div class="box listing-img"
+                                <div class='p-5 vertical'>
+                                    <div class="listing-img"
                                          style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');">
                                         </div>
-                                    <div class="ml-4">
+                                    <div class="pl-4 pr-4">
                                         <div class="mb-2 listing-author">
-                                            <div class="profile-img" style="background-image: url('data:image/jpeg;base64, ${item['tg_img'] }') ;"></div>
-                                            <div class="ml-2"><b>{{ item['tg_name'] }}</b> is offering:</div>
+                                            <div class="profile-img mt-4" style="background-image: url('data:image/jpeg;base64, {{item['tg_img']}} ')"></div>
+                                            <div class="ml-2 mt-4"><b>{{ item['tg_name'] }}</b> <span>is offering:</span></div>
                                         </div>
                                         <h1 class='title is-4'>{{ item["tour_name"] }}</h1>
                                         <p class="subtitle is-6 listing-card-text">{{ item["tour_desc"] }}</p>
@@ -93,12 +81,11 @@
                                         </p>
                                         <br>
                                     </div>
+                                    <!-- color:rgb(226, 48, 78) -->
                                     <div class="buttons">
-                                        <a class="button is-white" style="color:rgb(226, 48, 78)"><i
-                                                class="fas fa-heart"></i>&ensp;Add
-                                            to wishlist</a>
-                                        <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book
-                                            now</a>
+                                        <a class="button is-white"><i
+                                                class="fas fa-heart has-text-grey-lighter"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </a>
@@ -108,5 +95,6 @@
                 {% endfor %}
             </div>
         </div>
+    </div>
     </section>
 {% endblock %}

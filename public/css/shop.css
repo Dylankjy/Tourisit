@@ -20,9 +20,16 @@
     background-size: cover;
 }
 
-/*.listing-card {*/
-/*    height: 90%;*/
-/*}*/
+.listing-card {
+    transition: all 0.35s ease;
+}
+
+.listing-card:hover {
+    background: #fff;
+    transform: scale(1.03);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02);
+    border-radius: 4px;
+}
 
 .listing-card-text {
     height: 4rem;
@@ -42,12 +49,12 @@
     height: 10rem;
 }
 
-.searchbar {
-    padding: 0 20rem
-}
-
 .checked {
     color: orange;
+}
+
+.listing-img {
+    border-radius: 4px;
 }
 
 @media only screen and (max-width: 1215px) {
