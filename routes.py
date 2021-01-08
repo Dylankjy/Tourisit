@@ -192,17 +192,28 @@ def accountbilling():
 # Home page
 @app.route('/', methods=['GET'])
 def home():
+    query = {}
+    all_listings = [i for i in shop_db.find(query)]
+    all_listings.reverse()
+    shown_listings = []
+
+    for i in range(6):
+        shown_listings.append(all_listings[i])
+
+    print(len(shown_listings))
+
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
     if not result:
         return render_template('customer/index-customer.html',
-                               listings=list(shop_db.find()), loggedin=False)
+                               item_list=shown_listings, loggedin=False)
     # if logged in
     else:
         print(result)
         return render_template('customer/index-customer.html',
-                               listings=list(shop_db.find()), loggedin=True, user=result)
+                               item_list=shown_listings, loggedin=True, user=result)
+
 
 # CUSTOMERS
 # Marketplace: Display all listings
