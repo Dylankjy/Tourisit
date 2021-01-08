@@ -60,9 +60,8 @@
     white-space: nowrap;
 }
 
-.vertical .listing-img {
-    width: 100%;
-    height: 10rem;
+.listing-card.small {
+    height: 15rem;
 }
 
 .checked {
