@@ -19,69 +19,41 @@
         <div class='columns is-centered'>
             <div class='column is-half'>
                 <div class='box p-6'>
-                    <form class="form-horizontal" enctype="multipart/form-data">
+                    <form class="form-horizontal" action="/support" method="POST">
+                        {{ form.csrf_token }}
                         <fieldset>
-
                             <div class="field">
-                                <label class="label">Choose a Topic</label>
+                                <label class="label">What can we help you with?</label>
                                 <div class="control">
-                                    <div class="select">
-                                        <select>
-                                            <option>General Enquiry</option>
-                                            <option>Report Tour Guide</option>
-                                            <option>Apply for Verified</option>
-                                        </select>
-                                    </div>
+                                    {{ form.support_type(id="support_type", type="select", class="input") }}
+                                    <ul>
+                                        {% for error in form.support_type.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
-
-
-                            <div class="field">
-                                <label class="label">Name</label>
-                                <div class="control has-icons-left has-icons-right">
-                                    <input class="input" type="text" placeholder="Name">
-                                    <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
-                                    <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <label class="label">Email</label>
-                                <div class="control has-icons-left has-icons-right">
-                                    <input class="input" type="email" placeholder="Email">
-                                    <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
-                                    <span class="icon is-small is-right"><i class="fas fa-check"></i></span>
-                                </div>
-                            </div>
-
 
                             <div class="field">
                                 <label class="label">Message</label>
                                 <div class="control">
-                                    <textarea class="textarea" placeholder="Let us know how we can help you"></textarea>
+                                    {{ form.content(id="content", type="textarea", class="input", rows="5", style="height: 150px;")}}
+                                    <ul>
+                                        {% for error in form.content.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
-
-                            <label class="label" for="support-img"></label>
-                            <div class="file">
-                                <label class="file-label">
-                                    <input class="file-input" type="file" name="tour-img"
-                                           onchange="if (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML = this.files[0].name;">
-                                    <span class="file-cta">
-                            <span class="file-icon">
-                                <i class="fa fa-upload"></i>
-                            </span>
-                            <span class="file-label" id="filename-tour-img">
-                                Choose a file…
-                            </span>
-                            </span>
-                                </label>
-                            </div>
-                            <br>
                             <div class="field">
+                                <label class="label" for="support-submit"></label>
                                 <div class="control">
-                                    <button class="button is-success is-fullwidth">Send us a message</button>
+                                    <input type='submit' value='Submit' id="support-submit" name="support-submit"
+                                           class="button is-success is-fullwidth">
                                 </div>
+{#                                <div class="control">#}
+{#                                    <button class="button is-success is-fullwidth">Submit</button>#}
+{#                                </div>#}
                             </div>
 
                         </fieldset>
