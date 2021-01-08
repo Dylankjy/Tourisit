@@ -221,33 +221,49 @@ def home():
 def market():
     # Get login status using accessor argument
     result = auth.is_auth(True)
+    query = {}
+    all_listings = [i for i in shop_db.find(query)]
     # if not logged in
     if not result:
         return render_template('customer/marketplace.html',
-                               listings=list(shop_db.find()), loggedin=False)
+                               listings=list(shop_db.find()), loggedin=False, item_list=all_listings)
     # if logged in
     else:
         return render_template('customer/marketplace.html',
-                               listings=list(shop_db.find()), loggedin=True, user=result)
+                               listings=list(shop_db.find()), loggedin=True, user=result, item_list=all_listings)
+
 
 # To implement search function
-@app.route('/search')
+@app.route('/endpoint/search')
 def search():
     all_listings = list(i['tour_name'] for i in shop_db.find())
     # Get the string that is typed in the search bar
-    text = request.args['searchListing']
+    text = request.args['query']
     if text:
         # Get all the listing names from db
         # Get all the listings that fulfil the criteria
         result = [c for c in all_listings if str(text).lower() in c.lower()]
         result_listings = list(shop_db.find({'tour_name': {'$in': result}}))
-        for listing in result_listings:
-            listing['_id'] = JSONEncoder().encode(listing['_id'])
-            listing['tg_uid'] = JSONEncoder().encode(listing['tg_uid'])
-            listing['date_created'] = str(listing['date_created'])
-            listing['tour_img'] = str(listing['tour_img'])
 
-        return json.dumps({"results": result_listings})
+        resp = make_response()
+        resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
+
+        shard_payload = render_template('components/listing-card.html', item_list=result_listings)
+
+        resp = Response(
+            response=JSONEncoder().encode({
+                "data": shard_payload
+            }),
+            mimetype='application/json',
+            status=200
+        )
+
+        return resp
+    else:
+        resp = make_response('Tourisit API Endpoint - Error 403', 403)
+        resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
+        return resp
+
 
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from M clicked
