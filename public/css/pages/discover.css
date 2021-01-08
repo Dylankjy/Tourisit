@@ -2,17 +2,19 @@
     padding-top: 6rem;
 }
 
-.discover-hero {
-    background: url("/imgs/discover.jpg") center scroll no-repeat;
-    background-size: cover;
-    background-color: rgba(0, 0, 0, 0.55);
-    background-blend-mode: overlay;
+#hero-box {
+    padding-top: 6rem;
 }
 
 #hero-content {
-    padding: 8rem 0;
+    background: url("/imgs/discover.jpg") center scroll no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.4);
+    background-blend-mode: overlay;
+    padding: 5rem 0;
     text-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
+
 
 .searchbar-container {
     background: rgba(255,255,255,0.7);
@@ -30,3 +32,8 @@
     border: none !important;
     box-shadow: none !important;
 }
+
+.searchbar-container input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #707070;
+    opacity: 1; /* Firefox */
+  }
