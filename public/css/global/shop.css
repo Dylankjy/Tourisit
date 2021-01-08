@@ -27,6 +27,7 @@
 .listing-card {
     transition: all 0.35s ease;
     background-position: center;
+    background-repeat: no-repeat;
     background-size: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     background-blend-mode: overlay;
