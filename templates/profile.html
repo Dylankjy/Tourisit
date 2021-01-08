@@ -13,7 +13,7 @@
         <!-- Side Profile Page -->
         <div class="column is-one-quarter mt-6">
             <div class="section">
-                {% if loggedin == false %}
+                {% if loggedin == False %}
                     <div class="box is-centered">
                         <div class="profile-img-onprofile" style="background-image: url('/pfp.jpg');"></div>
                         <br>
@@ -23,8 +23,8 @@
                             <fieldset>
                                 <div class="field">
                                     <label class="label" for="bio">Bio:</label>
-                                    <div class="control">
-                                        {{ form.bio(id="bio", type="textarea", class="input", rows="5" ,placeholder=user.bio, readonly) }}
+                                    <div class="control" readonly>
+                                        {{ form.bio(id="bio", type="textarea", class="input", rows="5" ,placeholder=user.bio) }}
                                         <ul>
                                             {% for error in form.bio.errors %}
                                                 <li class="has-text-danger"> {{ error }}</li>

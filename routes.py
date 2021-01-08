@@ -108,22 +108,25 @@ def review():
 def profile():
     bForm = BioForm()
     result = auth.is_auth(True)
-    id = result["_id"]
-    item = user_db.find_one({'_id': ObjectId(id)})
-    if request.method == 'POST':
-        if bForm.validate_on_submit():
-            query_user = {'_id': ObjectId(id)}
-            bio = request.form["bio"]
-            updated = {
-                "$set": {"bio": bio}
-            }
-            user_db.update_one(query_user, updated)
-            # return render_template('profile.html', user=item, form=bForm)
-        return render_template('profile.html', user=item, form=bForm)
+    if result:
+        id = result["_id"]
+        item = user_db.find_one({'_id': ObjectId(id)})
+        if request.method == 'POST':
+            if bForm.validate_on_submit():
+                query_user = {'_id': ObjectId(id)}
+                bio = request.form["bio"]
+                updated = {
+                    "$set": {"bio": bio}
+                }
+                user_db.update_one(query_user, updated)
+                # return render_template('profile.html', user=item, form=bForm)
+            return render_template('profile.html', user=item, form=bForm, loggedin=True)
+        else:
+            bForm.bio.default = item['bio']
+            bForm.process()
+            return render_template('profile.html', user=item, form=bForm, loggedin=True)
     else:
-        bForm.bio.default = item['bio']
-        bForm.process()
-        return render_template('profile.html', user=item, form=bForm)
+        return render_template('profile.html', form=bForm, logged_in=False)
 
 
 # SHARED
