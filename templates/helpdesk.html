@@ -1,65 +1,60 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-    <link rel="stylesheet" href="/css/global/shop.css">
+<link rel="stylesheet" href="/css/global/shop.css">
+<link rel="stylesheet" href="/css/pages/support.css">
 {% endblock %}
 
 {% block content %}
-    <section class="hero is-medium is-black">
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <h1 class="title has-text-weight-bold" style="font-size: 3rem;">Hi, How can we help?</h1>
-                <h2 class="subtitle is-size-4">Drop us a message and we will get back to you soon</h2>
-            </div>
-        </div>
-    </section>
+<section class="section">
+    <div class="container">
+        <h1 class="is-size-1 has-text-weight-bold mt-6">Support & Help</h1>
+    </div>
+</section>
 
 
-    <section class='section'>
-        <div class='columns is-centered'>
-            <div class='column is-half'>
-                <div class='box p-6'>
-                    <form class="form-horizontal" action="/support" method="POST">
-                        {{ form.csrf_token }}
-                        <fieldset>
-                            <div class="field">
-                                <label class="label">What can we help you with?</label>
-                                <div class="control">
-                                    {{ form.support_type(id="support_type", type="select", class="input") }}
-                                    <ul>
-                                        {% for error in form.support_type.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <label class="label">Message</label>
-                                <div class="control">
-                                    {{ form.content(id="content", type="textarea", class="input", rows="5", style="height: 150px;")}}
-                                    <ul>
-                                        {% for error in form.content.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label" for="support-submit"></label>
-                                <div class="control">
-                                    <input type='submit' value='Submit' id="support-submit" name="support-submit"
-                                           class="button is-success is-fullwidth">
-                                </div>
-{#                                <div class="control">#}
-{#                                    <button class="button is-success is-fullwidth">Submit</button>#}
-{#                                </div>#}
-                            </div>
-
-                        </fieldset>
-                    </form>
+<section class='section'>
+    <div class="container">
+        <form class="form-horizontal" action="/support" method="POST">
+            {{ form.csrf_token }}
+            <fieldset>
+                <div class="field">
+                    <label class="label">What can we help you with?</label>
+                    <div class="control">
+                        {{ form.support_type(id="support_type", type="select", class="input") }}
+                        <ul>
+                            {% for error in form.support_type.errors %}
+                            <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
+
+                <div class="field">
+                    <label class="label">Message</label>
+                    <div class="control">
+                        {{ form.content(id="content", type="textarea", class="input", rows="5", style="height:
+                        150px;")}}
+                        <ul>
+                            {% for error in form.content.errors %}
+                            <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="support-submit"></label>
+                    <div class="control">
+                        <input type='submit' value='Submit' id="support-submit" name="support-submit"
+                            class="button is-success is-fullwidth">
+                    </div>
+                    {# <div class="control">#}
+                        {# <button class="button is-success is-fullwidth">Submit</button>#}
+                        {# </div>#}
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+</section>
 {% endblock %}

@@ -1,28 +1,17 @@
-
-<div class="column is-one-third listing-card">
-    <a href="/discover/{{ item['_id'] }}">
-        <!-- START: Vertical Card -->
-        <div class='p-5 vertical'>
-            <div class="listing-img" style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');">
-            </div>
-            <div class="pl-4 pr-4">
-                <div class="mb-2 listing-author">
-                    <div class="profile-img mt-4"
-                        style="background-image: url('data:image/jpeg;base64, {{item['tg_img']}} ')"></div>
-                    <div class="ml-2 mt-4"><b>{{ item['tg_name'] }}</b> <span>is offering:</span></div>
+{% for item in item_list %}
+<div class="column is-one-third">
+    <a class="listing-card-a pb-5" href="/discover/{{ item['_id'] }}">
+        <div class="box listing-card small p-6" style="background-image: url('data:image/jpeg;base64, {{item['tour_img']}}')">
+            <div class="listing-card-blur"></div>
+            <div class="listing-author">
+                <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{item['tg_img']}}')">
                 </div>
-                <h1 class='title is-4'>{{ item["tour_name"] }}</h1>
-                <p class="subtitle is-6 listing-card-text">{{ item["tour_desc"] }}</p>
-                <p class="has-text-weight-light is-size-3 has-text-dark"><small class="is-size-5">From</small>
-                    ${{ item.tour_price }}
-                </p>
-                <br>
+                <div class="ml-2 has-text-light"><b>{{ item['tg_name'] }}</b> <span>is offering:</span></div>
             </div>
-            <!-- color:rgb(226, 48, 78) -->
-            <div class="buttons">
-                <a class="button is-white"><i class="fas fa-heart has-text-grey-lighter"></i>
-                </a>
+            <div class="m-2">
+                <h1 class='title is-4 has-text-white'>{{ item["tour_name"] }}</h1>
             </div>
         </div>
     </a>
 </div>
+{% endfor %}

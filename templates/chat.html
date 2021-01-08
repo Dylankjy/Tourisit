@@ -8,9 +8,9 @@
 
 {% block content %}
 <!--Start: CHAD HEADER-->
-<section class="section has-background-primary-dark pb-0" id="chat-hero">
-    <div class="container p-5">
-        <h1 class="title is-size-1 has-text-weight-bold has-text-white">Inbox</h1>
+<section class="section has-background-white pb-0" id="chat-hero">
+    <div class="container">
+        <h1 class="is-size-1 has-text-weight-bold mt-6">Inbox</h1>
     </div>
     {%if chatroom_display != False%}
     <script>
@@ -109,7 +109,7 @@
                                 {{chatroom_names|safe}}
                             </h2>
                         </div>
-                        <div id="messageContainer" style="height: 40rem; overflow:scroll;">
+                        <div id="messageContainer" style="height: 35rem; overflow:scroll;">
                             <div class="p-5 has-background-light"
                                 style="padding-top:0 !important; border-bottom: 4px #fff dashed; ">
                                 <p class="subtitle has-text-grey"><i class="fas fa-heart"></i>&ensp;This is the humble
