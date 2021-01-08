@@ -1,132 +1,106 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-    <link rel="stylesheet" href="/css/shop.css">
-    <link rel='stylesheet' href='/css/bulma-timeline.min.css'>
+<link rel="stylesheet" href="/css/shop.css">
+<link rel="stylesheet" href="/css/tourlisting.css">
+<link rel='stylesheet' href='/css/bulma-timeline.min.css'>
 {% endblock %}
 
 {% block content %}
-    <section class="section">
-        <div class="container">
-
-            <!-- START: Horizontal Card -->
-            <div class='box p-5'>
-                <div class="columns is-vcentered">
-                    <div class="column">
-
-                        <div class="ml-4">
-                            <div class="mb-2 listing-author">
-                                <br><br>
-                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
-                            </div>
-                            <h1 class='title'>{{ item.tour_name }}</h1>
-                            <p class="has-text-weight-light is-size-2 has-text-dark"><small
-                                    class="is-size-5">From</small>
-                                ${{ item.tour_price }}
-                            </p>
-                            <br>
-                        </div>
-
-
+<section class="section" style="padding-top: 5rem">
+    <div class="container">
+        <div class="box">
+            <div class="tour-img" style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');">
+                <h1 class="title has-text-white is-1">{{ item.tour_name }}</h1>
+            </div>
+            <div class="columns pt-3 is-variable is-5 p-5">
+                <div class="column is-one-quarter">
+                    <h3 class="title is-4">Tour guide</h3>
+                    <div class="box mb-2 list-author has-background-black">
+                        <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
+                        <div class="ml-2 has-text-white"><b>HidethePain</b></div>
                     </div>
-                    <div class="column">
-                        <div class="box listing-img"
-                             style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');"></div>
-                    </div>
-
+                    <hr>
+                    <h3 class="title is-4">Pricing</h3>
+                    <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                        ${{ item.tour_price }}
+                    </p>
                 </div>
-                {% for location in item.tour_location %}
-                <span class="tag is-info">{{ location }}</span>
-                {% endfor %}
-                <br><br>
-                
-                
-                <div class='columns'>
-                    <div class='column is-half content'>
-                        <h2>About this Tour</h2>
-                        <p>
-                            {{ item.tour_desc }}
-                        </p>
-                    </div>
-
-                    <div class='column'>
-                 
-                        <div class="buttons is-centered">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)"
-                               href={{ url_for('favourites') }}><i class="fas fa-heart"></i>&ensp;Add
-                                to wishlist</a>
-                        </div>
-                        <br>
-                        <div class="buttons is-centered">
-                            <a class="button is-white has-text-primary" href='/discover/{{ item["_id"] }}/booknow'><i
-                                    class="fas fa-arrow-right"></i>&ensp;Book now</a>
-                        </div>
-
-                        {%if editable == True%}
-                        <br>
-                        <div class="buttons is-centered">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)"
-                               href='/listings/edit/{{ item["_id"] }}'><i class="fas fa-wrench"></i>&ensp;Update Listing</a>
-                        </div>
-                        {% endif %}
+                <div class="column">
+                    <div class="tour-content">
+                        <h3 class="title is-4">About this tour</h3>
+                        <p>{{ item.tour_desc }}</p>
                     </div>
                 </div>
             </div>
-            <!-- END: Horizontal Card -->
-
-            <div class='box'>
-                <h1 class='title has-text-centered'>Tour Itinerary</h1>
-                <div class='timeline is-centered'>
-                    <header class="timeline-header">
-                        <span class="tag is-medium is-primary">Start Tour!</span>
-                    </header>
-
-                    {% for itinerary in item.tour_itinerary %}
-                    
-                    <div class="timeline-item is-success">
-                        <div class="timeline-marker is-success"></div>
-                        <div class="timeline-content">
-                          <p>{{ itinerary }}</p>
-                        </div>
-                    </div>
-
-                    {% endfor %}
-
-                
-
-                    <div class="timeline-header">
-                        <span class="tag is-medium is-primary">End</span>
-                    </div>
+            <div class="tour-footer has-background-light">
+                <div class="buttons">
+                    <a class="button has-text-primary" href='/discover/{{ item["_id"] }}/booknow'><i
+                            class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                    <a class="button" style="color:rgb(226, 48, 78)" href={{ url_for('favourites') }}><i
+                            class="fas fa-heart"></i>&ensp;Add
+                        to wishlist</a>
                 </div>
-            </div>
-
-            <!--Start of review cards-->
-            <div class="box">
-                <h1 class='title has-text-centered'>Tour Reviews</h1>
-                <article class="media">
-                    <div class="media-left">
-                        <figure class="image is-64x64">
-                            <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                        </figure>
-                    </div>
-                    <div class="media-content">
-                        <div class="content">
-                            <p>
-                                <strong class="pr-5">Gordon Lansay</strong>
-                                <span class="fas fa-star checked"></span>
-                                <span class="fas fa-star checked"></span>
-                                <span class="fas fa-star checked"></span>
-                                <span class="fas fa-star"></span>
-                                <span class="fas fa-star"></span>
-                                <br>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
-                                fringilla egestas. Nullam condimentum luctus turpis.
-                            </p>
-                        </div>
-                    </div>
-                </article>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<section class="section" style="">
+    <div class="container">
+
+        <div class='box'>
+            <h1 class='title has-text-centered'>Tour Itinerary</h1>
+            <div class='timeline is-centered'>
+                <header class="timeline-header">
+                    <span class="tag is-medium is-primary">Start Tour!</span>
+                </header>
+
+                {% for itinerary in item.tour_itinerary %}
+
+                <div class="timeline-item is-success">
+                    <div class="timeline-marker is-success"></div>
+                    <div class="timeline-content">
+                        <p>{{ itinerary }}</p>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+
+
+                <div class="timeline-header">
+                    <span class="tag is-medium is-primary">End</span>
+                </div>
+            </div>
+        </div>
+
+        <!--Start of review cards-->
+        <div class="box">
+            <h1 class='title has-text-centered'>Tour Reviews</h1>
+            <article class="media">
+                <div class="media-left">
+                    <figure class="image is-64x64">
+                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong class="pr-5">Gordon Lansay</strong>
+                            <span class="fas fa-star checked"></span>
+                            <span class="fas fa-star checked"></span>
+                            <span class="fas fa-star checked"></span>
+                            <span class="fas fa-star"></span>
+                            <span class="fas fa-star"></span>
+                            <br>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
+                            fringilla egestas. Nullam condimentum luctus turpis.
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
 {% endblock %}
