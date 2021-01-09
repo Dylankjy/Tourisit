@@ -406,6 +406,12 @@ def editListing(id):
                 locations_form_list = request.form.getlist('tour_locations_list[]')
                 tour_locations = formToArray(locations_form_list)
 
+                tour_revisions = request.form['tour_revisions']
+
+                tour_price = request.form['tour_price']
+
+                tg_uid = result['_id']
+
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
                 #If there's no change to image (User doesnt upload new image), keep the current image
@@ -413,17 +419,18 @@ def editListing(id):
                 if img_string == '':
                     img_string = item['tour_img']
                     print('This fired!')
+                    #Don't update the tour image
+                    updated = {
+                        "$set": {'tour_name': tour_name, 'tour_desc': detail_desc,
+                                 'tour_price': tour_price, 'tour_location': tour_locations,
+                                 'tour_revisions': tour_revisions, 'tour_itinerary': tour_itinerary}}
 
-                tour_revisions = request.form['tour_revisions']
-
-                tour_price = request.form['tour_price']
-
-                tg_uid = result['_id']
-
-                updated = {
-                    "$set": {'tour_name': tour_name, 'tour_desc': detail_desc,
-                             'tour_price': tour_price, 'tour_img': img_string,
-                             'tour_location': tour_locations, 'tour_revisions': tour_revisions, 'tour_itinerary': tour_itinerary}}
+                else:
+                    updated = {
+                        "$set": {'tour_name': tour_name, 'tour_desc': detail_desc,
+                                 'tour_price': tour_price, 'tour_img': img_string,
+                                 'tour_location': tour_locations, 'tour_revisions': tour_revisions,
+                                 'tour_itinerary': tour_itinerary}}
 
                 shop_db.update_one(query_listing, updated)
 
