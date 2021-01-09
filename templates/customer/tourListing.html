@@ -17,7 +17,7 @@
                 <div class="column is-one-quarter">
                     <h3 class="title is-4">Tour guide</h3>
                     <div class="box mb-2 list-author has-background-black">
-                        <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{ userData['profile_img'] }}');"></div>
+                        <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{ item['tg_uid']|user_name }}');"></div>
                         <div class="ml-2 has-text-white"><b>{{ item['tg_name'] }}</b></div>
                     </div>
                     <hr>

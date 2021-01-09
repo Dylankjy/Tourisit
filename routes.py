@@ -74,6 +74,23 @@ def user_pfp(uid):
     return pfp_data
 
 
+@app.template_filter('user_name')
+def user_name(uid):
+    try:
+        query = {
+            "_id": ObjectId(uid)
+        }
+    except bson.errors.InvalidId:
+        return ''
+
+    try:
+        tg_name = [i for i in user_db.find(query)][0]["name"]
+    except IndexError:
+        tg_name = ''
+
+    return tg_name
+
+
 # @app.template_filter('parse_uid_name')
 # def parse_uid_name(uid):
 #     query = {

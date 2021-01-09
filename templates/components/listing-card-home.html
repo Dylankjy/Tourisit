@@ -5,7 +5,7 @@
             <div class="listing-author">
                 <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{item['tg_uid']|user_pfp}}')">
                 </div>
-                <div class="ml-2 has-text-light"><b>{{ item['tg_name'] }}</b> <span>is offering:</span></div>
+                <div class="ml-2 has-text-light"><b>{{ item['tg_uid']|user_name }}</b> <span>is offering:</span></div>
             </div>
             <div class="m-2">
                 <h1 class='title is-2 has-text-white'>{{ item["tour_name"] }}</h1>
