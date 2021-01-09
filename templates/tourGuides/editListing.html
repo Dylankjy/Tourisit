@@ -10,6 +10,10 @@
     let locno = 0
     var persisteditemList = Array.from({{ listing.tour_itinerary | tojson }})
     var persistedlocList = Array.from({{ listing.tour_location| tojson }})
+    {% if listing.tour_img != '' %}
+    var persistedTourImg = "{{ listing.tour_img }}"
+    console.log('Got an img beforehand')
+    {% endif %}
     var itemList = []
     var locList = []
     var locationTags = document.getElementById('locations')
@@ -324,7 +328,7 @@
                 <div class="field">
                     <div class="control">
                         <input type='submit' value='Update Listing' id="tour-submit" name="tour-submit" class="button is-success"
-                            onclick=updateItems()>
+                            onclick=UpdateItems()>
                     </div>
                 </div>
 
@@ -335,8 +339,15 @@
 
 <script>
     persisteditemList.forEach(AddItineraryFromList)
+    AppendtoItem()
     persistedlocList.forEach(AddLocationFromList)
+    AppendtoLocationList()
+    {% if listing.tour_img != '' %}
+    $('#currentImg').attr('src','data:image/jpeg;base64,' + persistedTourImg)
+    {% endif %}
+
     console.log('Done!')
+
 
 
     var picture = null

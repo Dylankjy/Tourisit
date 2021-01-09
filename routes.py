@@ -408,6 +408,11 @@ def editListing(id):
 
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
+                #If there's no change to image (User doesnt upload new image), keep the current image
+                print('Img string is:' + img_string)
+                if img_string == '':
+                    img_string = item['tour_img']
+                    print('This fired!')
 
                 tour_revisions = request.form['tour_revisions']
 
