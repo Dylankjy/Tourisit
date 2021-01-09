@@ -4,7 +4,7 @@
         <div class="box listing-card small p-6" style="background-image: url('data:image/jpeg;base64, {{item['tour_img']}}')">
             <div class="listing-card-blur"></div>
             <div class="listing-author">
-                <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{item['tg_img']}}')">
+                <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{item['tg_uid']|user_pfp}}')">
                 </div>
                 <div class="ml-2 has-text-light"><b>{{ item['tg_name'] }}</b> <span>is offering:</span></div>
             </div>

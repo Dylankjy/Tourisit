@@ -4,6 +4,7 @@ from datetime import datetime
 from io import BytesIO
 
 # Database
+import bson
 import pymongo
 from bson.objectid import ObjectId
 from flask import Flask, render_template, request, redirect, url_for, make_response, Response
@@ -54,6 +55,23 @@ def timestamp_iso(s):
         return date
     except ValueError:
         return 'Unknown'
+
+
+@app.template_filter('user_pfp')
+def user_pfp(uid):
+    try:
+        query = {
+            "_id": ObjectId(uid)
+        }
+    except bson.errors.InvalidId:
+        return ''
+
+    try:
+        pfp_data = [i for i in user_db.find(query)][0]["profile_img"]
+    except IndexError:
+        pfp_data = ''
+
+    return pfp_data
 
 
 # @app.template_filter('parse_uid_name')
@@ -246,7 +264,11 @@ def market():
 def search():
     all_listings = list(i['tour_name'] for i in shop_db.find())
     # Get the string that is typed in the search bar
-    text = request.args['query']
+
+    try:
+        text = request.args['query']
+    except KeyError:
+        text = None
 
     if text != None:
         # Get all the listing names from db
@@ -270,7 +292,7 @@ def search():
 
         return resp
     else:
-        resp = make_response('Tourisit API Endpoint - Error 403', 403)
+        resp = make_response('Tourisit API Endpoint - Error 400', 400)
         resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
         return resp
 
@@ -428,12 +450,12 @@ def editListing(id):
 
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
-                #If there's no change to image (User doesnt upload new image), keep the current image
+                # If there's no change to image (User doesnt upload new image), keep the current image
                 print('Img string is:' + img_string)
                 if img_string == '':
                     img_string = item['tour_img']
                     print('This fired!')
-                    #Don't update the tour image
+                    # Don't update the tour image
                     updated = {
                         "$set": {'tour_name': tour_name, 'tour_desc': detail_desc,
                                  'tour_price': tour_price, 'tour_location': tour_locations,
