@@ -81,6 +81,7 @@ class User:
             email_status=False,
             phone_status=False,
             account_type=0,
+            account_mode=-1
     ):
 
         self.__name = ""
@@ -123,6 +124,8 @@ class User:
         self.set_phone_status(phone_status)
 
         self.__account_type = account_type
+
+        self.__account_mode = account_mode
 
         # Generate timestamp in ISO format
         date = datetime.now()
@@ -205,5 +208,6 @@ class User:
             },
             "email_status": self.__email_status,
             "phone_status": self.__phone_status,
-            "account_type": self.__account_type
+            "account_type": self.__account_type,
+            "account_mode": self.__account_mode
         }
