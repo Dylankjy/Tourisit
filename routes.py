@@ -279,8 +279,11 @@ def search():
 # Detailed Listing: More detailed listing when listing from M clicked
 @app.route('/discover/<tour_id>')
 def tourListing(tour_id):
+    #Dynamically load the user data (From the database) so if user info changes, all will change too
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
+    tg_id = item['tg_uid']
     result = auth.is_auth(True)
+    userData = user_db.find_one({'_id': tg_id})
 
     # Boolean, will be editable if person is the owner of the listing
     if result:
@@ -289,10 +292,10 @@ def tourListing(tour_id):
         editable = False
     # if not logged in
     if not result:
-        return render_template('customer/tourListing.html', item=item, loggedin=False, editable=editable)
+        return render_template('customer/tourListing.html', item=item, loggedin=False, editable=editable, userData=userData)
     # if logged in
     else:
-        return render_template('customer/tourListing.html', item=item, loggedin=True, user=result, editable=editable)
+        return render_template('customer/tourListing.html', item=item, loggedin=True, user=result, editable=editable, userData=userData)
 
 
 # TOUR GUIDES
@@ -301,6 +304,13 @@ def tourListing(tour_id):
 def ownlisting():
     # Get login status using accessor argument
     result = auth.is_auth(True)
+    #Get the data of the current user
+    userData = user_db.find_one({'_id': result['_id']})
+    # item = shop_db.find_one({'_id': ObjectId(tour_id)})
+    # tg_id = item['tg_uid']
+    # result = auth.is_auth(True)
+    # userData = user_db.find_one({'_id': tg_id})
+
     # if not logged in
     if not result:
         return render_template('tourGuides/ownlisting.html', listings=None, loggedin=False)
@@ -308,7 +318,7 @@ def ownlisting():
     else:
         tourGuide_id = result['_id']
         tour_listings = list(shop_db.find({'tg_uid': tourGuide_id}))
-        return render_template('tourGuides/ownlisting.html', listings=tour_listings, loggedin=True, user=result)
+        return render_template('tourGuides/ownlisting.html', listings=tour_listings, loggedin=True, user=result, userData=userData)
 
 
 @app.route('/apis/upImg')
@@ -335,7 +345,11 @@ def makelisting():
     # If result is not None (User is logged in)
     if result:
         userData = user_db.find_one({'_id': result['_id']})
+        #Use this, don't hard code the values
         userImg = userData['profile_img']
+        userName = userData['name']
+
+        print(f'User img is: {userImg}')
         lForm = ListingForm()
         if request.method == 'POST':
             if lForm.validate_on_submit():
@@ -358,7 +372,7 @@ def makelisting():
 
                 tg_uid = result['_id']
 
-                tg_name = result['name']
+                tg_name = userName
 
                 tg_img = userImg
 
