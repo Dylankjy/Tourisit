@@ -254,8 +254,6 @@ def home():
     for i in range(6):
         shown_listings.append(all_listings[i])
 
-    print(len(shown_listings))
-
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
@@ -264,7 +262,6 @@ def home():
                                item_list=shown_listings, loggedin=False)
     # if logged in
     else:
-        print(result)
         return render_template('customer/index-customer.html',
                                item_list=shown_listings, loggedin=True, user=result)
 
@@ -999,4 +996,4 @@ def email_confirmation_endpoint():
 
 # Run app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
