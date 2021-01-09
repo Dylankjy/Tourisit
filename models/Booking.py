@@ -10,7 +10,7 @@ class BookingForm(FlaskForm):
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
 
 class CheckoutForm(FlaskForm):
-    submit = SubmitField('Pay & Proceed (this is a wtf button)')
+    submit = SubmitField('Pay & Proceed')
 
 # add charges
 class Booking:
@@ -37,7 +37,7 @@ class Booking:
         self.__book_duration = book_duration
         self.__timeline_content = timeline_content
         self.__process_step = process_step
-        self.__book_charges = {'baseprice': book_baseprice, 'customfee':book_customfee}
+        self.__book_charges = {'baseprice': float(book_baseprice), 'customfee':float(book_customfee)}
         self.__book_info = ""
         self.__book_chat = ''
 

@@ -556,10 +556,15 @@ def all_bookings():
         return render_template('customer/allBookings.html', loggedin=False)
     # if logged in
     else:
-        # cust_uid = result['_id']
-        # booking_list = list(bookings_db.find({'cust_uid': cust_uid}))
-        # print(booking_list)
-        return render_template('customer/allBookings.html', loggedin=True, user=result)
+        cust_uid = result['_id']
+        booking_list = list(bookings_db.find({'cust_uid': cust_uid}))
+        listings = []
+        for item in booking_list:
+            listings.append(shop_db.find_one({'_id': item['listing_id']}))
+        booking_list.reverse()
+        listings.reverse()
+        return render_template('customer/allBookings.html',booking_list=booking_list, listings=listings, loggedin=True,
+                               user=result)
 
 
 # except:
@@ -571,7 +576,7 @@ def all_bookings():
 # @app.route('/bookings/<id>')
 @app.route('/bookings/<book_id>')
 def bookings(book_id):
-    try:
+    # try:
         booking = bookings_db.find_one({'_id': ObjectId(book_id)})
         tour = shop_db.find_one({'_id': booking['listing_id']})
         print(booking)
@@ -583,28 +588,33 @@ def bookings(book_id):
             return render_template('customer/booking.html', loggedin=False)
         # if logged in
         else:
+            if request.method == 'POST':
+                print("yes")
+                # if request.form['TourComplete_submit'] == 'TourComplete':
+                #     update_booking = { "$set": { "process_step": 7 } }
+                #     bookings_db.update_one(booking, update_booking)
+
             return render_template('customer/booking.html',
                                    process_step=booking['process_step'],
                                    booking=booking,
                                    tour=tour,
                                    loggedin=True,
                                    user=result)
-    except:
-        return 'Error trying to render'
+    # except:
+    #     return 'Error trying to render'
 
 
 # CUSTOMER
 # Book Now Page
 @app.route('/discover/<tour_id>/booknow', methods=['GET', 'POST'])
 def book_now(tour_id):
-    try:
+    # try:
         item = shop_db.find_one({'_id': ObjectId(tour_id)})
         # Get login status using accessor argument
         result = auth.is_auth(True)
         # if logged in
         if result:
             bookform = BookingForm()
-            checkoutform = CheckoutForm()
             if request.method == 'POST':
                 if bookform.validate_on_submit():
                     book_date = request.form["book_date"]
@@ -615,8 +625,6 @@ def book_now(tour_id):
                                       process_step=5)
                     inserted_booking = bookings_db.insert_one(booking.return_obj())
                     book_id = inserted_booking.inserted_id
-                    # return render_template('customer/checkout.html', book_id=book_id, user=result,
-                    #                        booking=booking.return_obj(), form=checkoutform)
                     return redirect(url_for('checkout', book_id=book_id))
 
             return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item,
@@ -624,8 +632,8 @@ def book_now(tour_id):
         # if not logged in
         else:
             return render_template('customer/book-now.html', loggedin=False)
-    except:
-        return 'Error trying to render'
+    # except:
+    #     return 'Error trying to render'
 
 
 # CUSTOMER
@@ -640,19 +648,17 @@ def checkout(book_id):
     # if logged in
     if result:
         if request.method == 'POST':
-            print("babushka")
             if form.validate_on_submit():
-                print("babushka validated")
-                # if booking['process_step'] == 5:
-                #     update_booking = { "$set": { "process_step": 6 } }
-                #     bookings_db.update_one(booking, update_booking)
-                #
-                # elif booking['process_step'] == 0:
-                #     update_booking = {"$set": {"process_step": 1}}
-                #     bookings_db.update_one(booking, update_booking)
-                #
-                # else:
-                #     print("Error occurred while trying to pay.")
+                if booking['process_step'] == 5:
+                    update_booking = { "$set": { "process_step": 6 } }
+                    bookings_db.update_one(booking, update_booking)
+                    return redirect(url_for('bookings', book_id=str(book_id)))
+                elif booking['process_step'] == 0:
+                    update_booking = {"$set": {"process_step": 1}}
+                    bookings_db.update_one(booking, update_booking)
+
+                else:
+                    print("Error occurred while trying to pay.")
 
         return render_template('customer/checkout.html', loggedin=True, user=result, booking=booking, form=form,
                                book_id=book_id)
@@ -677,7 +683,16 @@ def all_businesses():
             return render_template('tourGuides/allBusinesses.html', loggedin=False)
         # if logged in
         else:
-            return render_template('tourGuides/allBusinesses.html', loggedin=True, user=result)
+            tg_uid = result['_id']
+            booking_list = list(bookings_db.find({'cust_uid': tg_uid}))
+            listings = []
+            for item in booking_list:
+                listings.append(shop_db.find_one({'_id': item['listing_id']}))
+            booking_list.reverse()
+            listings.reverse()
+            return render_template('tourGuides/allBusinesses.html', booking_list=booking_list, listings=listings,
+                                   loggedin=True,
+                                   user=result)
     except:
         return 'Error trying to render'
 
@@ -685,17 +700,27 @@ def all_businesses():
 # TOUR GUIDES
 # Individual gigs  
 # @app.route('/s/businesses/<id>')
-@app.route('/s/businesses/id')
-def business():
+@app.route('/s/businesses/<book_id>')
+def business(book_id):
     try:
+        booking = bookings_db.find_one({'_id': ObjectId(book_id)})
+        tour = shop_db.find_one({'_id': booking['listing_id']})
         # Get login status using accessor argument
         result = auth.is_auth(True)
         # if not logged in
         if not result:
-            return render_template('tourGuides/business.html', process_step=4, loggedin=False)
+            return render_template('tourGuides/business.html', loggedin=False)
         # if logged in
         else:
-            return render_template('tourGuides/business.html', process_step=4, loggedin=True, user=result)
+            print(booking)
+            print(tour)
+            print(booking['process_step'])
+            return render_template('tourGuides/business.html',
+                                   process_step=booking['process_step'],
+                                   booking=booking,
+                                   tour=tour,
+                                   loggedin=True,
+                                   user=result)
     except:
         return 'Error trying to render'
 

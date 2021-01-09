@@ -40,8 +40,9 @@
             <!--END: More options dropdown-->
             <div class="listing-author">
                 <!--dynamic tg photo-->
-                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                <div class="ml-2">By <b>{{ tour.tg_uid| user_name }}</b></div>
+                <div class="ml-2">By 
+                    <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{tour.tg_img}}');"></div>
+                    <b>{{ tour.tg_uid| user_name }}</b></div>
             </div>
 
         </div>
@@ -261,7 +262,6 @@
                                 <div class="timeline-item">
                                     <div class="timeline-marker"></div>
                                     <div class="timeline-content">
-                                        <p class="heading">Location</p>
                                         <p>{{item}}</p>
                                     </div>
                                 </div>
@@ -624,11 +624,13 @@
                             <div class="is-size-5">Cancel</div>
                         </button>
                     </p>
+                    <form id="TourComplete" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
                     <p class="control">
-                        <button class="button is-success is-light">
+                        <button class="button is-success is-light" type="submit" name="TourComplete_submit" value="TourComplete">
                             <div class="is-size-5">Confirm</div>
                         </button>
                     </p>
+                    </form>
                 </div>
             </div>
         </div>
