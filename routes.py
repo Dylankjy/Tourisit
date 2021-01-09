@@ -971,4 +971,4 @@ def email_confirmation_endpoint():
 
 # Run app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
