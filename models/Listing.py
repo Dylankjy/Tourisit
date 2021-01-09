@@ -56,8 +56,6 @@ class Listing:
             tour_desc,
             tour_price,
             tg_uid,
-            tg_name,
-            tg_img,
             tour_location,
             tour_revs,
             tour_itinerary,
@@ -86,8 +84,6 @@ class Listing:
         self.set_tour_img(tour_img)
 
         self.set_tg_uid(tg_uid)
-        self.set_tg_name(tg_name)
-        self.set_tg_img(tg_img)
 
         self.__date_created = datetime.now()
         self.__tour_rating = 0
@@ -169,11 +165,6 @@ class Listing:
     def set_tg_uid(self, tg_uid):
         self.__tg_uid = tg_uid
 
-    def set_tg_name(self, tg_name):
-        self.__tg_name = tg_name
-
-    def set_tg_img(self, tg_img):
-        self.__tg_img = tg_img
 
     def return_obj(self):
         return {
@@ -187,7 +178,5 @@ class Listing:
             "date_created": self.__date_created,
             "tour_rating": self.__tour_rating,
             "tour_review": self.__tour_review,
-            "tg_uid": self.__tg_uid,
-            "tg_name": self.__tg_name,
-            "tg_img": self.__tg_img
+            "tg_uid": self.__tg_uid
         }
