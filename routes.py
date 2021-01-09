@@ -246,7 +246,11 @@ def market():
 def search():
     all_listings = list(i['tour_name'] for i in shop_db.find())
     # Get the string that is typed in the search bar
-    text = request.args['query']
+
+    try:
+        text = request.args['query']
+    except KeyError:
+        text = None
 
     if text != None:
         # Get all the listing names from db
@@ -270,7 +274,7 @@ def search():
 
         return resp
     else:
-        resp = make_response('Tourisit API Endpoint - Error 403', 403)
+        resp = make_response('Tourisit API Endpoint - Error 400', 400)
         resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
         return resp
 
