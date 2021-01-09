@@ -125,6 +125,9 @@ class User:
 
         self.__account_type = account_type
 
+        # -1 = new account
+        # 0 = tourist
+        # 1 = tour guide
         self.__account_mode = account_mode
 
         # Generate timestamp in ISO format
