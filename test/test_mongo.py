@@ -14,8 +14,8 @@ client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongod
 # tour_img = 'hi'
 
 db = client['Listings']
-x = list(db.find({'tour_name': ''}))
-print(x)
+x = list(db.find({'tour_name': 'new'}))[0]
+print(x['tour_location'])
 
 # x = list(db.find())[:12]
 # y = len(x)

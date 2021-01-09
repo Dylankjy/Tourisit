@@ -397,33 +397,41 @@ def editListing(id):
             if lForm.validate_on_submit():
                 query_listing = {'_id': ObjectId(id)}
                 tour_name = request.form['tour_name']
+
                 detail_desc = request.form['tour_desc']
-                tour_itinerary = []
-                tour_itinerary.append(request.form['tour_items'])
-                tour_locations = []
-                tour_locations.append(request.form['tour_loc'])
+
+                itinerary_form_list = request.form.getlist('tour_items_list[]')
+                tour_itinerary = formToArray(itinerary_form_list)
+
+                locations_form_list = request.form.getlist('tour_locations_list[]')
+                tour_locations = formToArray(locations_form_list)
+
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
+
                 tour_revisions = request.form['tour_revisions']
+
                 tour_price = request.form['tour_price']
+
+                tg_uid = result['_id']
 
                 updated = {
                     "$set": {'tour_name': tour_name, 'tour_desc': detail_desc,
                              'tour_price': tour_price, 'tour_img': img_string,
-                             'tour_loc': tour_locations, 'tour_revs': tour_revisions, 'tour_itinerary': tour_itinerary}}
+                             'tour_location': tour_locations, 'tour_revisions': tour_revisions, 'tour_itinerary': tour_itinerary}}
 
                 shop_db.update_one(query_listing, updated)
 
                 return render_template('tourGuides/editing-success.html', id=id, user=result)
             lForm.tour_desc.default = item['tour_desc']
             lForm.process()
-            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result, item_list=itinerary_list)
+            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result)
 
         else:
             # print(item['tour_name'])
             lForm.tour_desc.default = item['tour_desc']
             lForm.process()
-            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result, item_list=itinerary_list)
+            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result)
     else:
         return 'Not allowed to edit!'
 

@@ -9,7 +9,7 @@
     let listno = 0
     let locno = 0
     var persisteditemList = Array.from({{ listing.tour_itinerary | tojson }})
-    var persistedlocList = Array.from({{ listing.tour_location | tojson }})
+    var persistedlocList = Array.from({{ listing.tour_location| tojson }})
     var itemList = []
     var locList = []
     var locationTags = document.getElementById('locations')
@@ -133,6 +133,34 @@
         listno += 1
     }
 
+
+    function AddLocationFromList(tour_location) {
+        current_locs = document.getElementById('locations')
+
+        var template = document.createElement('span')
+        template.className = "tag is-info"
+        template.textContent = tour_location
+        current_locs.appendChild(template)
+
+
+        let removeElement = document.createElement('a');
+        removeElement.textContent = '\u274c';
+        removeElement.id = locno
+        removeElement.addEventListener('click', () => {
+            current_locs.removeChild(template)
+            console.log(`Loc no is: ${locno}`)
+            locList.splice(removeElement.id, 1, 'None')
+            AppendtoLocationList()
+        });
+        template.appendChild(removeElement);
+
+        // current_locs.innerHTML += template
+        locList.push(tour_location + '#$%^#')
+        console.log(locList)
+
+        locno += 1
+    }
+
 </script>
 
 
@@ -150,7 +178,7 @@
 <section class='section'>
     <div class="container">
         <form id='makeListingForm' class="form-horizontal" enctype="multipart/form-data"
-            action="{{ url_for('makelisting') }}" method="POST">
+            action="/listings/edit/{{ listing['_id'] }}" method="POST">
             {{ form.csrf_token }}
             <fieldset>
 
@@ -295,7 +323,7 @@
 
                 <div class="field">
                     <div class="control">
-                        <input type='submit' value='List tour' id="tour-submit" name="tour-submit" class="button is-success"
+                        <input type='submit' value='Update Listing' id="tour-submit" name="tour-submit" class="button is-success"
                             onclick=updateItems()>
                     </div>
                 </div>
@@ -307,6 +335,7 @@
 
 <script>
     persisteditemList.forEach(AddItineraryFromList)
+    persistedlocList.forEach(AddLocationFromList)
     console.log('Done!')
 
 
