@@ -25,6 +25,17 @@ from models.User import UserForm, BioForm
 # For Images
 buffered = BytesIO()
 
+# db.createUser(
+#   {
+#     user: "tourisitUser",
+#     pwd: "desk-kun_did_nothing_wrong_uwu",
+#     roles: [ { role: "userAdminAnyDatabase", db: "admin" }, "readWriteAnyDatabase" ]
+#   }
+# )
+
+# mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017
+
+
 import json
 
 app = Flask(__name__,
@@ -39,7 +50,7 @@ app.config['SECRET_KEY'] = 'keepthissecret'
 app.config["MAX_IMAGE_FILESIZE"] = 1 * 1024 * 1024
 
 # CHANGE THE PASSWORD TO A GLOBAL VARIABLE
-client = pymongo.MongoClient('mongodb+srv://admin:slapbass@cluster0.a6um0.mongodb.net/test')['Tourisit']
+client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
 
 # Initialize all DBs here
 shop_db = client['Listings']
