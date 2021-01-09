@@ -315,7 +315,7 @@ def search():
 
 
 # CUSTOMERS
-# Detailed Listing: More detailed listing when listing from M clicked
+# Detailed Listing: More detailed listing when listing from Marketplace clicked
 @app.route('/discover/<tour_id>')
 def tourListing(tour_id):
     #Dynamically load the user data (From the database) so if user info changes, all will change too
