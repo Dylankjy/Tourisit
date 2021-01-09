@@ -411,15 +411,11 @@ def makelisting():
 
                 tg_uid = result['_id']
 
-                tg_name = userName
-
-                tg_img = userImg
-
                 print(tour_itinerary)
 
                 tour_listing = Listing(tour_name=tour_name, tour_desc=detail_desc,
                                        tour_price=tour_price,
-                                       tour_img=img_string, tg_uid=tg_uid, tg_name=tg_name, tg_img=tg_img,
+                                       tour_img=img_string, tg_uid=tg_uid,
                                        tour_location=tour_locations, tour_revs=tour_revisions,
                                        tour_itinerary=tour_itinerary)
 
