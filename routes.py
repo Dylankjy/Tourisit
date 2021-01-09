@@ -319,9 +319,14 @@ def updateImg():
 
 @app.route('/test/result')
 def testing():
-    result = auth.is_auth(True)
-    lForm = ListingForm()
-    return render_template('tourGuides/makelisting.html', form=lForm, user=result)
+    listing = list(shop_db.find({'tour_name': 'new'}))
+    items = listing[0]['tour_itinerary']
+    x = json.dumps(items)
+    print(type(x))
+    return x
+    # result = auth.is_auth(True)
+    # lForm = ListingForm()
+    # return render_template('tourGuides/makelisting.html', form=lForm, user=result)
 
 
 @app.route('/listings/add', methods=['GET', 'POST'])
@@ -385,6 +390,7 @@ def editListing(id):
     result = auth.is_auth(True)
     lForm = ListingForm()
     item = shop_db.find_one({'_id': ObjectId(id)})
+    itinerary_list = json.dumps(item['tour_itinerary'])
     editable = item['tg_uid'] == result['_id']
     if editable == True:
         if request.method == 'POST':
@@ -411,13 +417,13 @@ def editListing(id):
                 return render_template('tourGuides/editing-success.html', id=id, user=result)
             lForm.tour_desc.default = item['tour_desc']
             lForm.process()
-            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result)
+            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result, item_list=itinerary_list)
 
         else:
             # print(item['tour_name'])
             lForm.tour_desc.default = item['tour_desc']
             lForm.process()
-            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result)
+            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result, item_list=itinerary_list)
     else:
         return 'Not allowed to edit!'
 

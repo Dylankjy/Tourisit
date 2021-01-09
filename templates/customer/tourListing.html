@@ -17,8 +17,8 @@
                 <div class="column is-one-quarter">
                     <h3 class="title is-4">Tour guide</h3>
                     <div class="box mb-2 list-author has-background-black">
-                        <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                        <div class="ml-2 has-text-white"><b>HidethePain</b></div>
+                        <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{item['tg_img']}}');"></div>
+                        <div class="ml-2 has-text-white"><b>{{ item['tg_name'] }}</b></div>
                     </div>
                     <hr>
                     <h3 class="title is-4">Pricing</h3>
@@ -40,6 +40,10 @@
                     <a class="button" style="color:rgb(226, 48, 78)" href={{ url_for('favourites') }}><i
                             class="fas fa-heart"></i>&ensp;Add
                         to wishlist</a>
+                    {% if editable == True %}                  
+                    <a class="button has-text-link" href='/listings/edit/{{ item["_id"] }}'><i
+                    class="fas fa-clipboard"></i>&ensp;Edit Listing</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
