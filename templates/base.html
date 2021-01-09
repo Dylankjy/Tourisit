@@ -61,9 +61,11 @@
 
                 {% if loggedin %}
                 <div class="navbar-end">
+                    {% if user.account_mode == 1 %}
                     <a class="navbar-item has-text-primary-dark" href="{{ url_for('sellerDashboard') }}">
                         <i class="fas fa-arrow-right"></i>&ensp;Tour Guide mode
                     </a>
+                    {% endif %}
                     {% if user.account_type == 1 %}
                     <a class="navbar-item has-text-danger" href="{{ url_for('adminDashboard') }}">
                         <i class="fas fa-arrow-right"></i>&ensp;Admin mode
