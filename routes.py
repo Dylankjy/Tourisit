@@ -211,7 +211,7 @@ def accountinfo():
                 account_mode = request.form['account_mode']
                 password = request.form['password']
                 #If password is same
-                if password != '':
+                if password == '':
                     updated = {
                         "$set": {"name": name,
                                  "email": email, "phone_number": phone_number,
