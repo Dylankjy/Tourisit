@@ -161,16 +161,6 @@ def support():
         return 'Need to login/create account first!'
 
 
-# CUSTOMER
-# Submit Review
-@app.route('/review')
-def review():
-    try:
-        return render_template('customer/review.html')
-    except:
-        return 'Error trying to render'
-
-
 # SHARED
 # User profile
 # @app.route('/users/<id>)
@@ -584,7 +574,7 @@ def all_bookings():
 # CUSTOMER
 # Individual Bookings
 # @app.route('/bookings/<id>')
-@app.route('/bookings/<book_id>')
+@app.route('/bookings/<book_id>', methods=['GET', 'POST'])
 def bookings(book_id):
     # try:
     booking = bookings_db.find_one({'_id': ObjectId(book_id)})
@@ -738,6 +728,15 @@ def business(book_id):
     except:
         return 'Error trying to render'
 
+
+# CUSTOMER
+# Submit Review
+@app.route('/review')
+def review():
+    try:
+        return render_template('customer/review.html')
+    except:
+        return 'Error trying to render'
 
 # --------------------------------------
 
