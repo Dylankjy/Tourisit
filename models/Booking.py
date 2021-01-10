@@ -1,16 +1,19 @@
+from datetime import datetime
+
 from flask_wtf import FlaskForm
 from wtforms import DateField, TimeField, BooleanField, SubmitField
-from wtforms.validators import InputRequired, DataRequired
-from datetime import datetime
-import time
+from wtforms.validators import InputRequired
+
 
 class BookingForm(FlaskForm):
     book_date = DateField('book_date', validators=[InputRequired()])
     book_time = TimeField('book_time', validators=[InputRequired()])
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
 
+
 class CheckoutForm(FlaskForm):
     submit = SubmitField('Pay & Proceed')
+
 
 # add charges
 class Booking:
@@ -37,13 +40,13 @@ class Booking:
         self.__book_duration = book_duration
         self.__timeline_content = timeline_content
         self.__process_step = process_step
-        self.__book_charges = {'baseprice': float(book_baseprice), 'customfee':float(book_customfee)}
+        self.__book_charges = {'baseprice': float(book_baseprice), 'customfee': float(book_customfee)}
         self.__book_info = ""
         self.__book_chat = ''
 
     def set_book_datetime(self, book_date, book_time):
         try:
-            book_datetime = book_date +" "+ book_time
+            book_datetime = book_date + " " + book_time
             book_datetime = datetime.strptime(book_datetime, '%Y-%m-%d %H:%M')
             book_datetime = book_datetime.isoformat()
         except:
@@ -75,6 +78,7 @@ class Booking:
             "book_info": self.__book_info,
             "book_chat": self.__book_chat,
         }
+
 
 def calculate_totalcost(book_charges):
     try:

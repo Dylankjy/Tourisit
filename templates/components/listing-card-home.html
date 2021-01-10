@@ -1,9 +1,11 @@
 <div class="column is-half">
     <a class="listing-card-a pb-5" href="/discover/{{ item['_id'] }}">
-        <div class="box listing-card p-6" style="background-image: url('data:image/jpeg;base64, {{item['tour_img']}}')">
+        <div class="box listing-card p-6"
+             style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}')">
             <div class="listing-card-blur"></div>
             <div class="listing-author">
-                <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{item['tg_uid']|user_pfp}}')">
+                <div class="profile-img"
+                     style="background-image: url('data:image/jpeg;base64, {{ item['tg_uid']|user_pfp }}')">
                 </div>
                 <div class="ml-2 has-text-light"><b>{{ item['tg_uid']|user_name }}</b> <span>is offering:</span></div>
             </div>

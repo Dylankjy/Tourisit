@@ -87,7 +87,7 @@ const FormPersistence = (function () {
                 continue // do not serialize passwords or files
             }
             if (isNameFiltered(element.name, config.include, config.exclude)
-                    || isElementFiltered(element, config.includeFilter, config.excludeFilter)) {
+                || isElementFiltered(element, config.includeFilter, config.excludeFilter)) {
                 continue
             }
             if (tag === 'INPUT') {
@@ -218,7 +218,7 @@ const FormPersistence = (function () {
             }
             if (!speciallyHandled.includes(name)) {
                 let inputs = [...form.elements].filter(element => element.name === name
-                        && !isElementFiltered(element, config.includeFilter, config.excludeFilter))
+                    && !isElementFiltered(element, config.includeFilter, config.excludeFilter))
                 inputs.forEach((input, i) => {
                     applyValues(input, data[name], i)
                 })

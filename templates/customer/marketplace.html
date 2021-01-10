@@ -1,114 +1,115 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/global/shop.css">
-<link rel="stylesheet" href="/css/pages/discover.css">
-<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script>
-    receiveSearch = (query) => {
-        $.ajax({
-            url: `/endpoint/search?query=${query}`,
-            dataType: "json",
-            success: (data) => {
-                console.log('Retrieving search query')
-                incomingSearchResults = data.data
-                $('#displayListings').html(incomingSearchResults)
-            }
-        })
-    }
-</script>
+    <link rel="stylesheet" href="/css/global/shop.css">
+    <link rel="stylesheet" href="/css/pages/discover.css">
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script>
+        receiveSearch = (query) => {
+            $.ajax({
+                url: `/endpoint/search?query=${query}`,
+                dataType: "json",
+                success: (data) => {
+                    console.log('Retrieving search query')
+                    incomingSearchResults = data.data
+                    $('#displayListings').html(incomingSearchResults)
+                }
+            })
+        }
+    </script>
 {% endblock %}
 
 {% block content %}
 
-<section id="hero-box" class="section">
-    <div id="hero-content" class="container box has-text-centered discover-hero">
-        <h1 class="title has-text-weight-bold has-text-white" style="font-size: 5rem;">
-            Discover
-        </h1>
-        <h2 class="subtitle is-size-4 has-text-light">
-            There's always a trip for everyone
-        </h2>
-    </div>
-</section>
+    <section id="hero-box" class="section">
+        <div id="hero-content" class="container box has-text-centered discover-hero">
+            <h1 class="title has-text-weight-bold has-text-white" style="font-size: 5rem;">
+                Discover
+            </h1>
+            <h2 class="subtitle is-size-4 has-text-light">
+                There's always a trip for everyone
+            </h2>
+        </div>
+    </section>
 
-<section class="section" style="margin-top:-8rem">
-    <div class="container">
-        <div class="box searchbar-container" style="margin: 0 8rem;">
-            <div class="field has-addons">
-                <div class="control is-expanded">
+    <section class="section" style="margin-top:-8rem">
+        <div class="container">
+            <div class="box searchbar-container" style="margin: 0 8rem;">
+                <div class="field has-addons">
+                    <div class="control is-expanded">
 
-                    <div class="field">
-                        <p class="control has-icons-left has-icons-right">
-                            <input id="searchReq" class="input is-fullwidth" type="text" placeholder="Look for a tour"
-                                onkeyup="receiveSearch(this.value)">
-                            <span class="icon is-small is-left">
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input id="searchReq" class="input is-fullwidth" type="text"
+                                       placeholder="Look for a tour"
+                                       onkeyup="receiveSearch(this.value)">
+                                <span class="icon is-small is-left">
                                 <i class="fas fa-search"></i>
                             </span>
-                        </p>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button class="button is-danger">
+                            <i class="fas fa-dice"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="control">
-                    <button class="button is-danger">
-                        <i class="fas fa-dice"></i>
-                    </button>
-                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class='section'>
-    <div class='container'>
-        <div class="dropdown is-hoverable is-pulled-right">
-            <div class="dropdown-trigger">
-                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                    <span>Filter By:</span>
-                    <span class="icon is-small">
+    <section class='section'>
+        <div class='container'>
+            <div class="dropdown is-hoverable is-pulled-right">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Filter By:</span>
+                        <span class="icon is-small">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                     </span>
-                </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                    <a href="#" class="dropdown-item">
-                        Highest Relevance
-                    </a>
-                    <a href="#" class="dropdown-item">
-                        Highest Rating
-                    </a>
-                    <a href="#" class="dropdown-item">
-                        Newest Listings
-                    </a>
-                    <a class="dropdown-item">
-                        Closest Proximity
-                    </a>
-                    <a href="#" class="dropdown-item">
-                        Lowest to Highest Price
-                    </a>
-                    <a class="dropdown-item">
-                        Highest to Lowest Price
-                    </a>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        <a href="#" class="dropdown-item">
+                            Highest Relevance
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            Highest Rating
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            Newest Listings
+                        </a>
+                        <a class="dropdown-item">
+                            Closest Proximity
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            Lowest to Highest Price
+                        </a>
+                        <a class="dropdown-item">
+                            Highest to Lowest Price
+                        </a>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
-<section class="section">
-    <div class="container">
-        <div class="columns is-multiline" id='displayListings'>
-            {% include 'components/listing-card.html' %}
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline" id='displayListings'>
+                {% include 'components/listing-card.html' %}
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- <script>
-        window.onload = liveSearch('')
-    </script> -->
+    <!-- <script>
+            window.onload = liveSearch('')
+        </script> -->
 
 
 {% endblock %}

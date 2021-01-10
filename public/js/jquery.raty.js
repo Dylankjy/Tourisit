@@ -348,7 +348,10 @@
             // TODO: model spec
             _createCancel: function () {
                 var icon = this.opt.path + this.opt.cancelOff;
-                var button = $('<' + this.opt.starType + ' />', {title: this.opt.cancelHint, 'class': this.opt.cancelClass});
+                var button = $('<' + this.opt.starType + ' />', {
+                    title: this.opt.cancelHint,
+                    'class': this.opt.cancelClass
+                });
 
                 if (this.opt.starType === 'img') {
                     button.attr({src: icon, alt: 'x'});

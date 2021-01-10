@@ -15,56 +15,56 @@
                 <div class="container box">
                     <!--START: Customise tour button-->
                     <form id="custom_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
-                    <div class="field">
-                        <div class="control">
-                            <a href="">
-                                <button class="button is-medium is-fullwidth is-success">
-                                    <p class="has-text-weight-semibold">Customise Tour</p>
-                                </button>
-                            </a>
+                        <div class="field">
+                            <div class="control">
+                                <a href="">
+                                    <button class="button is-medium is-fullwidth is-success">
+                                        <p class="has-text-weight-semibold">Customise Tour</p>
+                                    </button>
+                                </a>
+                            </div>
                         </div>
-                    </div>
                     </form>
                     <!--END: Customise tour button-->
                     <div class="divider">OR</div>
                     <!--START: Book now form-->
                     <form id="book_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
                         {{ form.csrf_token }}
-                    <div class="field">
-                        <label class="label">Select Date</label>
-                        <div class="control">
-                            {{ form.book_date(id="book_date", type="date", class="input") }}
-                            <!--<input class="input" type="date" placeholder="">-->
+                        <div class="field">
+                            <label class="label">Select Date</label>
+                            <div class="control">
+                                {{ form.book_date(id="book_date", type="date", class="input") }}
+                                <!--<input class="input" type="date" placeholder="">-->
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <label class="label">Select Time</label>
-                        <div class="control">
-                            {{ form.book_time(id="book_time", type="time", class="input") }}
-                            <!--<input class="input" type="time" placeholder="">-->
+                        <div class="field">
+                            <label class="label">Select Time</label>
+                            <div class="control">
+                                {{ form.book_time(id="book_time", type="time", class="input") }}
+                                <!--<input class="input" type="time" placeholder="">-->
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox">
-                                {{form.accept_tnc(id="accept_tnc")}}
-                                <!--<input type="checkbox">-->
-                                I agree to the <a href="#">terms and conditions.</a>
-                            </label>
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox">
+                                    {{ form.accept_tnc(id="accept_tnc") }}
+                                    <!--<input type="checkbox">-->
+                                    I agree to the <a href="#">terms and conditions.</a>
+                                </label>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <div class="control">
+                        <div class="field">
+                            <div class="control">
                                 <button type="submit" id="book_submit" class="button is-medium is-fullwidth is-link">
                                     <p class="has-text-weight-semibold">Book Now</p>
                                 </button>
+                            </div>
+                            <p class="is-grey has-text-centered">Not sure if this tour is for you? <a
+                                    href="{{ url_for('chat') }}"> Chat with HidethePain first.</a></p>
                         </div>
-                        <p class="is-grey has-text-centered">Not sure if this tour is for you? <a
-                                href="{{ url_for('chat') }}"> Chat with HidethePain first.</a></p>
-                    </div>
                     </form>
                     <!--END: Book now form-->
                 </div>

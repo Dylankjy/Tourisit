@@ -1,90 +1,91 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/global/shop.css">
-<link rel="stylesheet" href="/css/pages/tourlisting.css">
-<link rel='stylesheet' href='/css/frameworks/bulma-timeline.min.css'>
+    <link rel="stylesheet" href="/css/global/shop.css">
+    <link rel="stylesheet" href="/css/pages/tourlisting.css">
+    <link rel='stylesheet' href='/css/frameworks/bulma-timeline.min.css'>
 {% endblock %}
 
 {% block content %}
-<section class="section" style="padding-top: 5rem">
-    <div class="container">
-        <div class="box">
-            <div class="tour-img" style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');">
-                <h1 class="title has-text-white is-1">{{ item.tour_name }}</h1>
-            </div>
-            <div class="columns pt-3 is-variable is-5 p-5">
-                <div class="column is-one-quarter">
-                    <h3 class="title is-4">Tour guide</h3>
-                    <div class="box mb-2 list-author has-background-black">
-                        <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{ item['tg_uid']|user_pfp }}');"></div>
-                        <div class="ml-2 has-text-white"><b>{{ item['tg_uid']| user_name }}</b></div>
-                    </div>
-                    <hr>
-                    <h3 class="title is-4">Pricing</h3>
-                    <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
-                        ${{ item.tour_price }}
-                    </p>
+    <section class="section" style="padding-top: 5rem">
+        <div class="container">
+            <div class="box">
+                <div class="tour-img" style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}');">
+                    <h1 class="title has-text-white is-1">{{ item.tour_name }}</h1>
                 </div>
-                <div class="column">
-                    <div class="tour-content">
-                        <h3 class="title is-4">About this tour</h3>
-                        <p>{{ item.tour_desc }}</p>
-                        <br>
-                        {% for location in item.tour_location %}
-                        <span class="tag is-success">{{ location }}</span>
-                        {% endfor %}
+                <div class="columns pt-3 is-variable is-5 p-5">
+                    <div class="column is-one-quarter">
+                        <h3 class="title is-4">Tour guide</h3>
+                        <div class="box mb-2 list-author has-background-black">
+                            <div class="profile-img"
+                                 style="background-image: url('data:image/jpeg;base64, {{ item['tg_uid']|user_pfp }}');"></div>
+                            <div class="ml-2 has-text-white"><b>{{ item['tg_uid']| user_name }}</b></div>
+                        </div>
+                        <hr>
+                        <h3 class="title is-4">Pricing</h3>
+                        <p class="has-text-weight-light is-size-2 has-text-dark"><small class="is-size-5">From</small>
+                            ${{ item.tour_price }}
+                        </p>
+                    </div>
+                    <div class="column">
+                        <div class="tour-content">
+                            <h3 class="title is-4">About this tour</h3>
+                            <p>{{ item.tour_desc }}</p>
+                            <br>
+                            {% for location in item.tour_location %}
+                                <span class="tag is-success">{{ location }}</span>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="tour-footer has-background-light">
-                <div class="buttons">
-                    <a class="button has-text-primary" href='/discover/{{ item["_id"] }}/booknow'><i
-                            class="fas fa-arrow-right"></i>&ensp;Book now</a>
-                    <a class="button" style="color:rgb(226, 48, 78)" href={{ url_for('favourites') }}><i
-                            class="fas fa-heart"></i>&ensp;Add
-                        to wishlist</a>
-                    {% if editable == True %}                  
-                    <a class="button has-text-link" href='/listings/edit/{{ item["_id"] }}'><i
-                    class="fas fa-clipboard"></i>&ensp;Edit Listing</a>
-                    {% endif %}
+                <div class="tour-footer has-background-light">
+                    <div class="buttons">
+                        <a class="button has-text-primary" href='/discover/{{ item["_id"] }}/booknow'><i
+                                class="fas fa-arrow-right"></i>&ensp;Book now</a>
+                        <a class="button" style="color:rgb(226, 48, 78)" href={{ url_for('favourites') }}><i
+                                class="fas fa-heart"></i>&ensp;Add
+                            to wishlist</a>
+                        {% if editable == True %}
+                            <a class="button has-text-link" href='/listings/edit/{{ item["_id"] }}'><i
+                                    class="fas fa-clipboard"></i>&ensp;Edit Listing</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
-<section class="section" style="padding-top: 5rem">
-    <div class="container">
-        <h1 class='title'>Tour Itinerary</h1>
+    <section class="section" style="padding-top: 5rem">
+        <div class="container">
+            <h1 class='title'>Tour Itinerary</h1>
 
-        <div class='box'>
-            <div class='timeline is-centered'>
-                <header class="timeline-header">
-                    <span class="tag is-medium is-primary">Start Tour!</span>
-                </header>
+            <div class='box'>
+                <div class='timeline is-centered'>
+                    <header class="timeline-header">
+                        <span class="tag is-medium is-primary">Start Tour!</span>
+                    </header>
 
-                {% for itinerary in item.tour_itinerary %}
+                    {% for itinerary in item.tour_itinerary %}
 
-                <div class="timeline-item is-success">
-                    <div class="timeline-marker is-success"></div>
-                    <div class="timeline-content">
-                        <p>{{ itinerary }}</p>
+                        <div class="timeline-item is-success">
+                            <div class="timeline-marker is-success"></div>
+                            <div class="timeline-content">
+                                <p>{{ itinerary }}</p>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+
+
+                    <div class="timeline-header">
+                        <span class="tag is-medium is-primary">End</span>
                     </div>
                 </div>
-
-                {% endfor %}
-
-
-
-                <div class="timeline-header">
-                    <span class="tag is-medium is-primary">End</span>
-                </div>
             </div>
-        </div>
 
-        <!--Start of review cards-->
+            <!--Start of review cards-->
             <h1 class='title'>Reviews for this tour</h1>
             <article class="media box">
                 <div class="media-left">
@@ -108,6 +109,6 @@
                     </div>
                 </div>
             </article>
-    </div>
-</section>
+        </div>
+    </section>
 {% endblock %}

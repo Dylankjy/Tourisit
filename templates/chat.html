@@ -1,221 +1,225 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/pages/chat.css" />
-<link rel="stylesheet" href="/css/global/shop.css" />
-<link rel="stylesheet" href="/css/frameworks/bulma-divider.css" />
+    <link rel="stylesheet" href="/css/pages/chat.css"/>
+    <link rel="stylesheet" href="/css/global/shop.css"/>
+    <link rel="stylesheet" href="/css/frameworks/bulma-divider.css"/>
 {% endblock %}
 
 {% block content %}
-<!--Start: CHAD HEADER-->
-<section class="section has-background-white pb-0" id="chat-hero">
-    <div class="container">
-        <h1 class="is-size-1 has-text-weight-bold mt-6">Inbox</h1>
-    </div>
-    {%if chatroom_display != False%}
-    <script>
-        setInterval(syncEndpoint = () => {
-            $.ajax({
-                url: "/endpoint/chat?chat_id={{selected_chatroom}}",
-                dataType: "json",
-                success: (data) => {
-                    console.log('Syncing with endpoint data.')
-                    incomingMsgs = data.data
-                    currentList = $('#messagesList').html()
+    <!--Start: CHAD HEADER-->
+    <section class="section has-background-white pb-0" id="chat-hero">
+        <div class="container">
+            <h1 class="is-size-1 has-text-weight-bold mt-6">Inbox</h1>
+        </div>
+        {% if chatroom_display != False %}
+            <script>
+                setInterval(syncEndpoint = () => {
+                    $.ajax({
+                        url: "/endpoint/chat?chat_id={{selected_chatroom}}",
+                        dataType: "json",
+                        success: (data) => {
+                            console.log('Syncing with endpoint data.')
+                            incomingMsgs = data.data
+                            currentList = $('#messagesList').html()
 
-                    if (incomingMsgs != currentList) {
-                        $('#messagesList').html(data.data)
-                        console.log('New data received.')
-                        var $target = $('#messageContainer');
-                        $($target).animate({
-                            scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
-                        }, 0);
-                    } else {
-                        console.log('Nothing new. Ignoring.')
-                    }
-                }
-            })
-        }, 2500)
+                            if (incomingMsgs != currentList) {
+                                $('#messagesList').html(data.data)
+                                console.log('New data received.')
+                                var $target = $('#messageContainer');
+                                $($target).animate({
+                                    scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
+                                }, 0);
+                            } else {
+                                console.log('Nothing new. Ignoring.')
+                            }
+                        }
+                    })
+                }, 2500)
 
-        syncEndpoint()
-    </script>
-    {%endif%}
-</section>
-<!--End: CHAD HEADER-->
-<!--Main-->
-<section class="section">
-    <div class="container">
-        <div class="columns is-7">
-            <!--Start: Menu Column -->
-            <div class="column is-one-quarter">
-                <aside class="menu">
-                    <!--Start: Dropdown-->
-                    <div class="dropdown is-hoverable">
-                        <div class="dropdown-trigger">
-                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-                                <span>All</span>
-                                <span class="icon is-small">
+                syncEndpoint()
+            </script>
+        {% endif %}
+    </section>
+    <!--End: CHAD HEADER-->
+    <!--Main-->
+    <section class="section">
+        <div class="container">
+            <div class="columns is-7">
+                <!--Start: Menu Column -->
+                <div class="column is-one-quarter">
+                    <aside class="menu">
+                        <!--Start: Dropdown-->
+                        <div class="dropdown is-hoverable">
+                            <div class="dropdown-trigger">
+                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                    <span>All</span>
+                                    <span class="icon is-small">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </span>
-                            </button>
-                        </div>
-                        <!-- <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-                            <div class="dropdown-content">
-                                <a class="dropdown-item is-active"> All</a>
-                                <a class="dropdown-item"> Archived </a>
+                                </button>
                             </div>
-                        </div> -->
-                    </div>
-                    <!--End: Dropdown-->
+                            <!-- <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                                <div class="dropdown-content">
+                                    <a class="dropdown-item is-active"> All</a>
+                                    <a class="dropdown-item"> Archived </a>
+                                </div>
+                            </div> -->
+                        </div>
+                        <!--End: Dropdown-->
 
-                    <!--Start: Chat Thumbnails-->
-                    <ul class="menu-list">
-                        {% for dict in list %}
-                        <!-- START: Horizontal Card -->
-                        <li>
-                            <div class="box mt-4 p-0
+                        <!--Start: Chat Thumbnails-->
+                        <ul class="menu-list">
+                            {% for dict in list %}
+                                <!-- START: Horizontal Card -->
+                                <li>
+                                    <div class="box mt-4 p-0
                             {% if selected_chatroom == dict['id'] %}
                             has-background-white
                             {% else %}
                             has-background-light
                         {% endif %}
                             ">
-                                <a href='/chat/{{dict["id"]}}'>
-                                    <div class="p-2 listing-author">
-                                        <div class="profile-img" style="background-image: url('/pfp.jpg')"></div>
-                                        <div class="ml-2"><b>{{dict["name"]}}</b></div>
+                                        <a href='/chat/{{ dict["id"] }}'>
+                                            <div class="p-2 listing-author">
+                                                <div class="profile-img"
+                                                     style="background-image: url('/pfp.jpg')"></div>
+                                                <div class="ml-2"><b>{{ dict["name"] }}</b></div>
+                                            </div>
+                                        </a>
                                     </div>
-                                </a>
-                            </div>
-                        </li>
-                        {% endfor %}
-                        <!-- END: Horizontal Card -->
-                    </ul>
-                    <!--End: Chat Thumbnails-->
-                </aside>
-            </div>
-            <!--End: Menu Column-->
+                                </li>
+                            {% endfor %}
+                            <!-- END: Horizontal Card -->
+                        </ul>
+                        <!--End: Chat Thumbnails-->
+                    </aside>
+                </div>
+                <!--End: Menu Column-->
 
-            <div class="divider is-vertical is-right"></div>
+                <div class="divider is-vertical is-right"></div>
 
-            <!--Start: Console Column-->
-            <div class="column">
-                <div class="container chat-main">
-                    {% if chatroom_display != False %}
-                    <div class="box p-0">
-                        <div class="p-5 has-background-light"
-                            style="border-top-left-radius: 4px; border-top-right-radius: 4px">
-                            <h2 class="title is-4 has-text-weight-bold has-text-dark">
-                                {{chatroom_names|safe}}
-                            </h2>
-                        </div>
-                        <div id="messageContainer" style="height: 35rem; overflow:scroll;">
-                            <div class="p-5 has-background-light"
-                                style="padding-top:0 !important; border-bottom: 4px #fff dashed; ">
-                                <p class="subtitle has-text-grey"><i class="fas fa-heart"></i>&ensp;This is the humble
-                                    beginnings of this conversation and the tippy top of it.</p>
-                            </div>
-                            <div id="messagesList" class="p-5">
-                                {% if chatroom_display|count == 0 %}
-                                <div>
-                                    <p class="has-text-centered has-text-grey has-text-weight-light is-size-5">
-                                        <span class="is-size-1"><i class="far fa-folder-open"></i></span>
-                                        <br>
-                                        <span>Looks like this chat is sparkling clean</span>
-                                        <br>
-                                        <small>This chat is empty</small>
-                                    </p>
+                <!--Start: Console Column-->
+                <div class="column">
+                    <div class="container chat-main">
+                        {% if chatroom_display != False %}
+                            <div class="box p-0">
+                                <div class="p-5 has-background-light"
+                                     style="border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                    <h2 class="title is-4 has-text-weight-bold has-text-dark">
+                                        {{ chatroom_names|safe }}
+                                    </h2>
                                 </div>
-                                {% else %}
-                                {% for i in chatroom_display %}
-                                <div>
-                                    <small><a href="" class="has-text-weight-bold">{{ i["sender_name"] }}</a>
-                                        <span class="has-text-grey">
-                                            {% if i["self"]%}
-                                            — Me
+                                <div id="messageContainer" style="height: 35rem; overflow:scroll;">
+                                    <div class="p-5 has-background-light"
+                                         style="padding-top:0 !important; border-bottom: 4px #fff dashed; ">
+                                        <p class="subtitle has-text-grey"><i class="fas fa-heart"></i>&ensp;This is the
+                                            humble
+                                            beginnings of this conversation and the tippy top of it.</p>
+                                    </div>
+                                    <div id="messagesList" class="p-5">
+                                        {% if chatroom_display|count == 0 %}
+                                            <div>
+                                                <p class="has-text-centered has-text-grey has-text-weight-light is-size-5">
+                                                    <span class="is-size-1"><i class="far fa-folder-open"></i></span>
+                                                    <br>
+                                                    <span>Looks like this chat is sparkling clean</span>
+                                                    <br>
+                                                    <small>This chat is empty</small>
+                                                </p>
+                                            </div>
+                                        {% else %}
+                                            {% for i in chatroom_display %}
+                                                <div>
+                                                    <small><a href=""
+                                                              class="has-text-weight-bold">{{ i["sender_name"] }}</a>
+                                                        <span class="has-text-grey">
+                                            {% if i["self"] %}
+                                                — Me
                                             {% endif %}
                                         </span>
-                                    </small>
-                                    <p>{{ i["msg_content"] }}</p>
-                                    <hr>
-                                </div>
-                                {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <script>
-                            var $target = $('#messageContainer');
-                            $($target).animate({
-                                scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
-                            }, 0);
-                        </script>
-
-                        <!--START: Input field-->
-                        <div class="field has-addons">
-                            <!-- <div class="control">
-                                <div class="dropdown post-options is-hoverable is-up">
-                                    <div class="dropdown-trigger">
-                                        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
-                                            <span class="icon is-small">
-                                                <i class="fas fa-paperclip"></i>
-                                            </span>
-                                        </button>
+                                                    </small>
+                                                    <p>{{ i["msg_content"] }}</p>
+                                                    <hr>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
-                                    <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                                        <div class="dropdown-content">
-                                            <a class="dropdown-item">
-                                                Quote a Tour
-                                            </a>
-                                            <a class="dropdown-item">
-                                                <i class="fas fa-photo-video"></i>&ensp;Photos &
-                                                Videos
-                                            </a>
+                                </div>
+
+                                <script>
+                                    var $target = $('#messageContainer');
+                                    $($target).animate({
+                                        scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
+                                    }, 0);
+                                </script>
+
+                                <!--START: Input field-->
+                                <div class="field has-addons">
+                                    <!-- <div class="control">
+                                        <div class="dropdown post-options is-hoverable is-up">
+                                            <div class="dropdown-trigger">
+                                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
+                                                    <span class="icon is-small">
+                                                        <i class="fas fa-paperclip"></i>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
+                                                <div class="dropdown-content">
+                                                    <a class="dropdown-item">
+                                                        Quote a Tour
+                                                    </a>
+                                                    <a class="dropdown-item">
+                                                        <i class="fas fa-photo-video"></i>&ensp;Photos &
+                                                        Videos
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div> -->
+                                    <div class="control is-expanded">
+                                        <form method="POST" style="width: 100%;"
+                                              action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
+                                            {{ form.csrf_token }}
+                                            <!-- <input class="input is-fullwidth" type="text" placeholder="Enter your message.." /> -->
+                                            {{ form.message(id="message", type="text", class="input is-fullwidth",
+                                    placeholder="Enter message", value="", autocomplete="off") }}
+                                    </div>
+                                    <div class="control">
+                                        <button type="submit" class="button is-primary">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                        </form>
                                     </div>
                                 </div>
-                            </div> -->
-                            <div class="control is-expanded">
-                                <form method="POST" style="width: 100%;"
-                                    action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
-                                    {{ form.csrf_token }}
-                                    <!-- <input class="input is-fullwidth" type="text" placeholder="Enter your message.." /> -->
-                                    {{ form.message(id="message", type="text", class="input is-fullwidth",
-                                    placeholder="Enter message", value="", autocomplete="off") }}
                             </div>
-                            <div class="control">
-                                <button type="submit" class="button is-primary">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                                </form>
+                            <!--END: Input Field-->
                             </div>
-                        </div>
-                    </div>
-                    <!--END: Input Field-->
+                        {% else %}
+                            <p class="has-text-centered title mt-6 has-text-grey-light"><i
+                                    class="fas fa-hand-point-left"></i>&ensp;Click a chat to display</p>
+                        {% endif %}
                 </div>
-                {% else %}
-                <p class="has-text-centered title mt-6 has-text-grey-light"><i
-                        class="fas fa-hand-point-left"></i>&ensp;Click a chat to display</p>
-                {% endif %}
+                <!--End: Console Column-->
             </div>
-            <!--End: Console Column-->
         </div>
-    </div>
-</section>
+    </section>
 
-{% if not_found %}
-<div id="notFoundModal" class="modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-card box" style="padding: 3em;">
-        <p class="title is-3 has-text-weight-bold has-text-centered">Oh no! Something broke.</p>
-        <p class="has-text-centered">Requested chat was <b>not found</b>.<br>It either does not exist or has been
-            deleted.</p>
-        <br>
-        <a onclick="$('#notFoundModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
-                class="fas fa-times"></i>&ensp;Close</a>
-    </div>
-</div>
-{% endif %}
+    {% if not_found %}
+        <div id="notFoundModal" class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-card box" style="padding: 3em;">
+                <p class="title is-3 has-text-weight-bold has-text-centered">Oh no! Something broke.</p>
+                <p class="has-text-centered">Requested chat was <b>not found</b>.<br>It either does not exist or has
+                    been
+                    deleted.</p>
+                <br>
+                <a onclick="$('#notFoundModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
+                        class="fas fa-times"></i>&ensp;Close</a>
+            </div>
+        </div>
+    {% endif %}
 
 
 {% endblock %}

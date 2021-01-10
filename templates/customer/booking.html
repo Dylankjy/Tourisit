@@ -40,8 +40,9 @@
             <!--END: More options dropdown-->
             <div class="listing-author">
                 <!--dynamic tg photo-->
-                <div class="ml-2">By 
-                    <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{tour.tg_img}}');"></div>
+                <div class="ml-2">By
+                    <div class="profile-img"
+                         style="background-image: url('data:image/jpeg;base64, {{ tour.tg_img }}');"></div>
                     <b>{{ tour.tg_uid| user_name }}</b></div>
             </div>
 
@@ -191,8 +192,8 @@
                             <p class="control">
                                 <button onclick="$('#TourCompleteModal').fadeIn('fast')"
                                         class="button is-success is-light">
-                                    <div class="is-size-5">I Have Completed My Tour!</div>
-                                </button>
+                            <div class="is-size-5">I Have Completed My Tour!</div>
+                            </button>
                             </p>
                         </div>
                     </div>
@@ -208,10 +209,11 @@
             <div class='columns my-5 is-vcentered'>
                 <div class='column'>
                     <h2 class='is-size-4'><b>About this Tour</b></h2>
-                    <p>{{tour.tour_desc}} </p>
+                    <p>{{ tour.tour_desc }} </p>
                 </div>
                 <div class='column'>
-                    <div class="box listing-img" style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}');"></div>
+                    <div class="box listing-img"
+                         style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}');"></div>
                 </div>
             </div>
             <!--END: About-->
@@ -259,12 +261,12 @@
                                     </div>
                                 </div> -->
                                 {% for item in tour.tour_itinerary %}
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <p>{{item}}</p>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <p>{{ item }}</p>
+                                        </div>
                                     </div>
-                                </div>
                                 {% endfor %}
                                 <div class="timeline-header">
                                     <span class="tag is-medium is-success">End</span>
@@ -277,15 +279,15 @@
                             <table class='table'>
                                 <tr>
                                     <td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
-                                    <td>{{ booking.book_date }}, {{booking.book_time}}</td>
+                                    <td>{{ booking.book_date }}, {{ booking.book_time }}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
-                                    <td>{{tour.tour_itinerary[0]}}</td>
+                                    <td>{{ tour.tour_itinerary[0] }}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
-                                    <td>{{booking.book_duration}}</td>
+                                    <td>{{ booking.book_duration }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -294,7 +296,7 @@
                     {% if process_step >= 3 %}
                         <div class="is-pulled-right">
                             <span class="tag is-size-4">
-                                Price: ${{booking.book_charges['baseprice']}}
+                                Price: ${{ booking.book_charges['baseprice'] }}
                             </span><br>
                             <a class="has-text-link is-size-7 pl-5" onclick="openTab(event,'Billing')">View Price
                                 Breakdown</a>
@@ -307,16 +309,16 @@
                             <p class="control">
                                 <button class="button is-warning is-light"
                                         onclick="$('#ReqRevisionModal').fadeIn('fast')">
-                                    <div class="is-size-5">Request Revision</div>
-                                    <br>
-                                </button>
+                            <div class="is-size-5">Request Revision</div>
+                            <br>
+                            </button>
                             </p>
                             <p class="control">
                                 <button class="button is-success is-light"
                                         onclick="$('#AcceptItinModal').fadeIn('fast')">
-                                    <div class="is-size-5">Accept & Confirm</div>
-                                    <br>
-                                </button>
+                            <div class="is-size-5">Accept & Confirm</div>
+                            <br>
+                            </button>
                             </p>
                         </div>
                         <!--END: Revise/Confirm itinerary buttons-->
@@ -328,7 +330,7 @@
                             <div class="box has-text-centered">
                                 <p class="is-size-5 has-text-weight-bold">Request a revision of the Proposed Itinerary
                                     and Charges?</p>
-                                <p>You have {{tour.tour_revisions}} free revision(s) left.</p>
+                                <p>You have {{ tour.tour_revisions }} free revision(s) left.</p>
                                 <div class="field">
                                     <textarea class="textarea"
                                               placeholder="Enter the changes you would like to see.."></textarea>
@@ -337,13 +339,13 @@
                                     <p class="control">
                                         <button class="button is-danger is-light"
                                                 onclick="$('#ReqRevisionModal').fadeOut('fast');">
-                                            <div class="is-size-5">Cancel</div>
-                                        </button>
+                                    <div class="is-size-5">Cancel</div>
+                                    </button>
                                     </p>
                                     <p class="control">
                                         <button class="button is-success is-light">
-                                            <div class="is-size-5">Request A Revision</div>
-                                        </button>
+                                    <div class="is-size-5">Request A Revision</div>
+                                    </button>
                                     </p>
                                 </div>
                             </div>
@@ -363,13 +365,13 @@
                                     <p class="control">
                                         <button class="button is-danger is-light"
                                                 onclick="$('#AcceptItinModal').fadeOut('fast');">
-                                            <div class="is-size-5">Cancel</div>
-                                        </button>
+                                    <div class="is-size-5">Cancel</div>
+                                    </button>
                                     </p>
                                     <p class="control">
                                         <button class="button is-success is-light">
-                                            <div class="is-size-5">Accept & Confirm</div>
-                                        </button>
+                                    <div class="is-size-5">Accept & Confirm</div>
+                                    </button>
                                     </p>
                                 </div>
                             </div>
@@ -388,9 +390,10 @@
                     <span class='is-size-3 mr-1'><b>Additional Information</b></span>
                 </div>
                 {% if booking.book_info == '' %}
-                    <p class="has-text-centered has-text-grey m-5">There is no additional information available at the moment.</p>
+                    <p class="has-text-centered has-text-grey m-5">There is no additional information available at the
+                        moment.</p>
                 {% else %}
-                    <p>{{booking.book_info}}</p>
+                    <p>{{ booking.book_info }}</p>
                 {% endif %}
             </div>
             <!--END: Additional Info-->
@@ -512,7 +515,7 @@
                         <br>
                         <div class="container box">
                             <div class="heading">Tour Price</div>
-                            <div class="title">{{booking.book_charges['baseprice']}}</div>
+                            <div class="title">{{ booking.book_charges['baseprice'] }}</div>
                         </div>
                         <!-- {% if process_step >= 3 %}
                             <div class="container box">
@@ -554,20 +557,21 @@
                         <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
                         <br>
                         {% if booking.book_charges['customfee'] != 0 %}
-                        <div class="container box">
-                            <div class="heading">Customisation Fee</div>
-                            <div class="title">${{booking.book_charges['customfee']}} <span class="tag is-success is-light">Paid</span></div>
-                        </div>
+                            <div class="container box">
+                                <div class="heading">Customisation Fee</div>
+                                <div class="title">${{ booking.book_charges['customfee'] }} <span
+                                        class="tag is-success is-light">Paid</span></div>
+                            </div>
                         {% endif %}
                         {% if process_step >= 5 %}
-                        <div class="container box">
-                            <div class="heading">Tour Price</div>
-                            <div class="title">${{booking.book_charges['baseprice']}} 
-                                {% if process_step > 5%}
-                                <span class="tag is-success is-light">Paid</span>
-                                {% endif %}
+                            <div class="container box">
+                                <div class="heading">Tour Price</div>
+                                <div class="title">${{ booking.book_charges['baseprice'] }}
+                                    {% if process_step > 5 %}
+                                        <span class="tag is-success is-light">Paid</span>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
                         {% endif %}
                     </div>
                     <div class="column">
@@ -581,7 +585,8 @@
                         {% elif process_step >= 5 %}
                             <div class="container box">
                                 <div class="heading">Total Cost</div>
-                                <div class="title">${{booking.book_charges['baseprice']+booking.book_charges['customfee']}}
+                                <div class="title">
+                                    ${{ booking.book_charges['baseprice']+booking.book_charges['customfee'] }}
                                     {% if process_step >=6 %}
                                         <span class="tag is-success is-light">Paid</span>
                                     {% endif %}
@@ -595,9 +600,9 @@
                     <div class="field is-grouped is-grouped-right">
                         <p class="control">
                             <button class="button is-success is-light">
-                                <div class="is-size-4">Make Payment</div>
-                                <br>
-                            </button>
+                        <div class="is-size-4">Make Payment</div>
+                        <br>
+                        </button>
                         </p>
                     </div>
                     <!--END: Payment button-->
@@ -621,15 +626,16 @@
                 <div class="field is-grouped is-grouped-centered mt-5">
                     <p class="control">
                         <button class="button is-danger is-light" onclick="$('#TourCompleteModal').fadeOut('fast');">
-                            <div class="is-size-5">Cancel</div>
-                        </button>
+                    <div class="is-size-5">Cancel</div>
+                    </button>
                     </p>
                     <form id="TourComplete" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
-                    <p class="control">
-                        <button class="button is-success is-light" type="submit" name="TourComplete_submit" value="TourComplete">
-                            <div class="is-size-5">Confirm</div>
+                        <p class="control">
+                            <button class="button is-success is-light" type="submit" name="TourComplete_submit"
+                                    value="TourComplete">
+                        <div class="is-size-5">Confirm</div>
                         </button>
-                    </p>
+                        </p>
                     </form>
                 </div>
             </div>

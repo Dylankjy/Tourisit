@@ -17,13 +17,13 @@
 
 
 .searchbar-container {
-    background: rgba(255,255,255,0.7);
+    background: rgba(255, 255, 255, 0.7);
     transition: ease 0.5s all;
     backdrop-filter: blur(5px);
 }
 
 .searchbar-container:hover {
-    background: rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
     backdrop-filter: blur(10px);
 }
 
@@ -36,4 +36,4 @@
 .searchbar-container input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #707070;
     opacity: 1; /* Firefox */
-  }
+}

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField, HiddenField, FieldList
+from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField
 from wtforms.validators import InputRequired, Length, NumberRange
 
 
@@ -11,6 +11,7 @@ class CustomSelectField(FlaskForm):
         start_name (PARAMS): The start of the id. This is constant for all generated ids
         options (PARAMS): A list of all the options. This is appended behind the start_name
     '''
+
     def __init__(self, fieldName, start_name, options):
         self.__fieldName = fieldName
         self.__start_name = start_name
@@ -18,9 +19,7 @@ class CustomSelectField(FlaskForm):
 
     def return_Field(self):
         kws = {'id': f'{self.__start_name}-{self.__options}'}
-        return SelectField(self.__fieldName,  choices=self.__options, render_kw=kws)
-
-
+        return SelectField(self.__fieldName, choices=self.__options, render_kw=kws)
 
 
 # Add no. of revisions, itineary, location
@@ -30,20 +29,26 @@ class ListingForm(FlaskForm):
 
     tour_desc = TextAreaField('tour_desc', validators=[InputRequired()])
 
-    #Tour itinerary
+    # Tour itinerary
     tour_items = StringField('tour_items')
 
     # tour_items_list = FieldList(HiddenField('tour_items_list', validators=[InputRequired()]))
 
+    tour_loc = CustomSelectField(fieldName='tour_loc', start_name='loc',
+                                 options=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
+                                          'Bukit Panjang', 'Bukit Timah',
+                                          'Choa Chu Kang', 'Clementi', 'Changi', 'Geylang', 'Hougang', 'Jurong East',
+                                          'Jurong West',
+                                          'Kallang', 'Marine Parade', 'Orchard', 'Pasir Ris', 'Punggol', 'Queenstown',
+                                          'Sembawang', 'Sengkang',
+                                          'Serangoon', 'Sentosa', 'Tampines', 'Toa Payoh', 'Woodlands',
+                                          'Yishun']).return_Field()
 
-    tour_loc = CustomSelectField(fieldName='tour_loc', start_name='loc' , options=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah', 'Bukit Panjang', 'Bukit Timah',
-                                                 'Choa Chu Kang', 'Clementi', 'Changi', 'Geylang', 'Hougang', 'Jurong East', 'Jurong West',
-                                                'Kallang', 'Marine Parade', 'Orchard', 'Pasir Ris', 'Punggol', 'Queenstown', 'Sembawang', 'Sengkang',
-                                                'Serangoon', 'Sentosa', 'Tampines', 'Toa Payoh', 'Woodlands', 'Yishun']).return_Field()
+    tour_img = FileField('tour_img', validators=[
+        FileAllowed(['jpg', 'jpeg', 'png'], 'Only .jpg, .jpeg and .png images are allowed!')])
 
-    tour_img = FileField('tour_img', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Only .jpg, .jpeg and .png images are allowed!')])
-
-    tour_revisions = IntegerField('tour_rev', validators=[InputRequired(), NumberRange(min=0, message='Need a minimum of 1 revision!')])
+    tour_revisions = IntegerField('tour_rev', validators=[InputRequired(),
+                                                          NumberRange(min=0, message='Need a minimum of 1 revision!')])
 
     tour_price = FloatField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None,
                                                                                    message='Price cannot be below $0!')])
@@ -89,7 +94,6 @@ class Listing:
         self.__tour_rating = 0
         self.__tour_review = []
 
-
     def set_tour_name(self, tour_name):
         try:
             assert len(tour_name) <= 30
@@ -100,7 +104,6 @@ class Listing:
 
     def set_tour_desc(self, tour_desc):
         self.__tour_desc = tour_desc
-
 
     def set_tour_itinerary(self, tour_itinerary):
         try:
@@ -134,7 +137,6 @@ class Listing:
         else:
             self.__tour_revisions = tour_revisions
 
-
     def set_tour_price(self, tour_price):
         try:
             tour_price = float(tour_price)
@@ -164,7 +166,6 @@ class Listing:
 
     def set_tg_uid(self, tg_uid):
         self.__tg_uid = tg_uid
-
 
     def return_obj(self):
         return {

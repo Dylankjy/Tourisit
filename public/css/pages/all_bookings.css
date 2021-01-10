@@ -16,9 +16,9 @@
     display: -webkit-box;
     -webkit-line-clamp: 3; /* number of lines to show */
     -webkit-box-orient: vertical;
- }
+}
 
- #TopBtn {
+#TopBtn {
     display: none; /* Hidden by default */
     position: fixed; /* Fixed/sticky position */
     bottom: 20px; /* Place the button at the bottom of the page */
@@ -31,8 +31,8 @@
     cursor: pointer; /* Add a mouse pointer on hover */
     padding: 15px; /* Some padding */
     border-radius: 50%; /* Rounded corners */
-  }
-  
-  #TopBtn:hover {
+}
+
+#TopBtn:hover {
     background-color: #555; /* Add a dark-grey background on hover */
-  } 
+}

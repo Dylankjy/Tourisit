@@ -4,7 +4,8 @@ import pymongo
 
 buffered = BytesIO()
 
-client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
+client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')[
+    'Tourisit']
 
 # tour_name = 'Best of Kampong Glam'
 # tour_brief= 'Walk around this architectural marvel that™s both a cultural attraction and a historical museum'

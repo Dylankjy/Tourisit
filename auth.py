@@ -20,7 +20,8 @@ from wtforms.validators import DataRequired, Email
 import models.User as User
 
 # MongoDB connection string
-client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
+client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')[
+    'Tourisit']
 
 # Collections
 env = client['Environment']

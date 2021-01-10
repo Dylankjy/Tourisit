@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block content %}
-<section class="section has-background-white">
-    <div class="container">
-        <h1 class="is-size-1 has-text-weight-bold mt-6">My tours</h1>
-    </div>
-</section>
+    <section class="section has-background-white">
+        <div class="container">
+            <h1 class="is-size-1 has-text-weight-bold mt-6">My tours</h1>
+        </div>
+    </section>
 
     <section class="section">
         <div class="container">
@@ -26,7 +26,8 @@
                                 <div class="column">
                                     <div class="ml-4">
                                         <div class="mb-2 listing-author">
-                                            <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{ userData['profile_img'] }}');"></div>
+                                            <div class="profile-img"
+                                                 style="background-image: url('data:image/jpeg;base64, {{ userData['profile_img'] }}');"></div>
                                             <div class="ml-2"><b>{{ userData['name'] }}</b> is offering:</div>
                                         </div>
                                         <h1 class='title'>{{ item.tour_name }}</h1>

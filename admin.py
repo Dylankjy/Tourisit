@@ -1,7 +1,8 @@
 import pymongo
 
 # MongoDB connection string
-client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
+client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')[
+    'Tourisit']
 
 # Collections
 env = client['Environment']
@@ -27,5 +28,3 @@ def list_listings():
     query_result = [i for i in db_listings.find(wildcard_query)]
 
     return query_result
-
-

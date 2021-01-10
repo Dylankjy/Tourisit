@@ -193,8 +193,8 @@
                             <p class="control">
                                 <button class="button is-success is-light"
                                         onclick="$('#SubmitPlanModal').fadeIn('fast')">
-                                    <div class="is-size-5">Submit Proposed Itinerary & Charges</div>
-                                </button>
+                            <div class="is-size-5">Submit Proposed Itinerary & Charges</div>
+                            </button>
                             </p>
                         </div>
                     </div>
@@ -213,13 +213,13 @@
                             <p class="control">
                                 <button class="button is-danger is-light"
                                         onclick="$('#SubmitPlanModal').fadeOut('fast');">
-                                    <div class="is-size-5">Cancel</div>
-                                </button>
+                            <div class="is-size-5">Cancel</div>
+                            </button>
                             </p>
                             <p class="control">
                                 <button class="button is-success is-light">
-                                    <div class="is-size-5">Confirm</div>
-                                </button>
+                            <div class="is-size-5">Confirm</div>
+                            </button>
                             </p>
                         </div>
                     </div>
@@ -247,7 +247,7 @@
                                 </div>
                             </div>
                             <footer class="card-footer">
-                                <p class="m-4">{{tour.tour_revisions}} free Revision(s) remaining.</p>
+                                <p class="m-4">{{ tour.tour_revisions }} free Revision(s) remaining.</p>
                             </footer>
                         </div>
                     </div>
@@ -263,11 +263,12 @@
             <div class='columns my-5 is-vcentered'>
                 <div class='column'>
                     <h2 class='is-size-4'><b>About this Tour</b></h2>
-                    <p>{{tour.tour_desc}}</p>
+                    <p>{{ tour.tour_desc }}</p>
                     <p class="mt-5 is-size-6"><a href="/listings/edit/{{ tour['_id'] }}">Edit Listing</a></p>
                 </div>
                 <div class='column'>
-                    <div class="box listing-img" style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}');"></div>
+                    <div class="box listing-img"
+                         style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}');"></div>
                 </div>
             </div>
             <!--END: About-->
@@ -292,9 +293,9 @@
                             <p class="control">
                                 <button class="button is-success is-light" onclick="editItinerary();">
                                     <i class="fas fa-edit"></i>
-                                    <div class="is-size-4 ml-3">Edit Itinerary</div>
-                                    <br>
-                                </button>
+                            <div class="is-size-4 ml-3">Edit Itinerary</div>
+                            <br>
+                            </button>
                             </p>
                         </div>
                         <!--END: Edit button-->
@@ -340,12 +341,12 @@
                                     </div>
                                 </div> -->
                                 {% for item in tour.tour_itinerary %}
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <p>{{item}}</p>
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <p>{{ item }}</p>
+                                        </div>
                                     </div>
-                                </div>
                                 {% endfor %}
                                 <div class="timeline-header">
                                     <span class="tag is-medium is-success">End</span>
@@ -358,22 +359,22 @@
                             <table class='table'>
                                 <tr>
                                     <td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
-                                    <td>{{ booking.book_date }}, {{booking.book_time}}</td>
+                                    <td>{{ booking.book_date }}, {{ booking.book_time }}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
-                                    <td>{{tour.tour_itinerary[0]}}</td>
+                                    <td>{{ tour.tour_itinerary[0] }}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
-                                    <td>{{booking.book_duration}}</td>
+                                    <td>{{ booking.book_duration }}</td>
                                 </tr>
                             </table>
                         </div>
                     </div>
                     <!--END: Info Table-->
                     <div class="is-pulled-right">
-                        <span class="tag is-size-4">Price: ${{booking.book_charges['baseprice']}}</span><br>
+                        <span class="tag is-size-4">Price: ${{ booking.book_charges['baseprice'] }}</span><br>
                         {% if process_step == 2 or process_step == 4 %}
                             <a class="has-text-link is-size-7 pl-6" onclick="openTab(event,'Charges')">Edit Charges</a>
                         {% endif %}
@@ -385,15 +386,15 @@
                             <p class="control">
                                 <button class="button is-warning is-light"
                                         onclick="$('#CancelItineraryModal').fadeIn('fast');">
-                                    <div class="is-size-5">Cancel Changes</div>
-                                    <br>
-                                </button>
+                            <div class="is-size-5">Cancel Changes</div>
+                            <br>
+                            </button>
                             </p>
                             <p class="control">
                                 <button class="button is-success is-light" onclick="SaveItinerary()">
-                                    <div class="is-size-5">Save</div>
-                                    <br>
-                                </button>
+                            <div class="is-size-5">Save</div>
+                            <br>
+                            </button>
                             </p>
                         </div>
                         <div class="is-pulled-right mb-4">
@@ -412,13 +413,13 @@
                                     <p class="control">
                                         <button class="button is-danger is-light"
                                                 onclick="$('#CancelItineraryModal').fadeOut('fast');">
-                                            <div class="is-size-5">Back</div>
-                                        </button>
+                                    <div class="is-size-5">Back</div>
+                                    </button>
                                     </p>
                                     <p class="control">
                                         <button class="button is-success is-light">
-                                            <div class="is-size-5">Continue</div>
-                                        </button>
+                                    <div class="is-size-5">Continue</div>
+                                    </button>
                                     </p>
                                 </div>
                             </div>
@@ -446,9 +447,9 @@
                 <div class="field is-grouped is-grouped-right">
                     <p class="control">
                         <button class="button is-success is-light">
-                            <div class="is-size-5">Save</div>
-                            <br>
-                        </button>
+                    <div class="is-size-5">Save</div>
+                    <br>
+                    </button>
                     </p>
                 </div>
             </div>
@@ -577,9 +578,9 @@
                         <p class="control">
                             <button class="button is-success is-light" onclick="editCost()">
                                 <i class="fas fa-edit"></i>
-                                <div class="is-size-5 ml-3">Edit</div>
-                                <br>
-                            </button>
+                        <div class="is-size-5 ml-3">Edit</div>
+                        <br>
+                        </button>
                         </p>
                     </div>
                     <!--END: Edit button-->
@@ -587,9 +588,9 @@
                     <div class="has-text-centered mb-2 is-hidden" id="Cost_SaveButton">
                         <p class="control">
                             <button class="button is-success is-light" onclick="SaveCost()">
-                                <div class="is-size-5">Save</div>
-                                <br>
-                            </button>
+                        <div class="is-size-5">Save</div>
+                        <br>
+                        </button>
                         </p>
                     </div>
                     <!--END: Save button-->
@@ -666,7 +667,7 @@
                     <!--START: Display proposed cost-->
                     <div class="container box">
                         <div class="heading">Tour Price</div>
-                        <div class="title">{{booking.book_charges['baseprice']}}</div>
+                        <div class="title">{{ booking.book_charges['baseprice'] }}</div>
                     </div>
                     <!-- <div class="container box">
                         <div class="heading">Base Price</div>
@@ -709,20 +710,21 @@
                         <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
                         <br>
                         {% if booking.book_charges['customfee'] != 0 %}
-                        <div class="container box">
-                            <div class="heading">Customisation Fee</div>
-                            <div class="title">${{booking.book_charges['customfee']}} <span class="tag is-success is-light">Paid</span></div>
-                        </div>
+                            <div class="container box">
+                                <div class="heading">Customisation Fee</div>
+                                <div class="title">${{ booking.book_charges['customfee'] }} <span
+                                        class="tag is-success is-light">Paid</span></div>
+                            </div>
                         {% endif %}
                         {% if process_step >= 5 %}
-                        <div class="container box">
-                            <div class="heading">Tour Price</div>
-                            <div class="title">${{booking.book_charges['baseprice']}} 
-                                {% if process_step > 5%}
-                                <span class="tag is-success is-light">Paid</span>
-                                {% endif %}
+                            <div class="container box">
+                                <div class="heading">Tour Price</div>
+                                <div class="title">${{ booking.book_charges['baseprice'] }}
+                                    {% if process_step > 5 %}
+                                        <span class="tag is-success is-light">Paid</span>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
                         {% endif %}
                     </div>
                     <div class="column">
@@ -736,7 +738,8 @@
                         {% elif process_step >= 5 %}
                             <div class="container box">
                                 <div class="heading">Final Cost</div>
-                                <div class="title">${{booking.book_charges['baseprice']+booking.book_charges['customfee']}}
+                                <div class="title">
+                                    ${{ booking.book_charges['baseprice']+booking.book_charges['customfee'] }}
                                     {% if process_step >=6 %}
                                         <span class="tag is-success is-light">Paid</span>
                                     {% endif %}

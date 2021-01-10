@@ -2,10 +2,12 @@ from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SelectField, StringField
 from wtforms.validators import InputRequired, Length
 
+
 class SupportForm(FlaskForm):
     support_type = SelectField(
         "support_type",
-        choices=[('General Enquiry', 'General Enquiry'), ('Report Tour Guide', 'Report Tour Guide'), ('Apply for Verified', 'Apply for Verified'), ('Others', 'Others')],
+        choices=[('General Enquiry', 'General Enquiry'), ('Report Tour Guide', 'Report Tour Guide'),
+                 ('Apply for Verified', 'Apply for Verified'), ('Others', 'Others')],
         validators=[
             InputRequired()
         ]

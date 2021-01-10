@@ -32,12 +32,12 @@
                     <!-- <th>Last booking</th> -->
                 </tr>
                 {% for list in listing %}
-                <tr>
-                    <td><a href="{{url_for('market')}}/{{list['_id']|string}}">{{list['tour_name']}}</a></td>
-                    <td>{{list['tg_name']}}</td>
-                    <td>{{list['date_created']|string|timestamp_iso}}</td>
-                    <!-- <td>1 day ago</td> -->
-                </tr>
+                    <tr>
+                        <td><a href="{{ url_for('market') }}/{{ list['_id']|string }}">{{ list['tour_name'] }}</a></td>
+                        <td>{{ list['tg_name'] }}</td>
+                        <td>{{ list['date_created']|string|timestamp_iso }}</td>
+                        <!-- <td>1 day ago</td> -->
+                    </tr>
                 {% endfor %}
             </table>
         </div>
