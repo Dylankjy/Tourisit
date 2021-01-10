@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, SelectField
+from wtforms import TextAreaField, SelectField, StringField
 from wtforms.validators import InputRequired, Length
 
 class SupportForm(FlaskForm):
@@ -14,7 +14,13 @@ class SupportForm(FlaskForm):
         "content",
         validators=[
             InputRequired(),
-            Length(min=0, max=150, message="Bio can only be 150 characters long!")
+            Length(min=10, max=500, message="Message can only be 500 characters long!")
+        ]
+    )
+    tg_link = StringField(
+        "tg_link",
+        validators=[
+            Length(min=0, max=300, message="Tour Guide profile link can only be 300 characters long!")
         ]
     )
 
@@ -23,6 +29,7 @@ class Support:
                  uid,
                  support_type,
                  content,
+                 tg_link,
                  status='Open'
                  ):
         self.__uid = ''
@@ -33,6 +40,9 @@ class Support:
 
         self.__content = ''
         self.set_content(content)
+
+        self.__tg_link = ''
+        self.set_tg_link(tg_link)
 
         self.__status = 'Open'
         self.set_status(status)
@@ -45,6 +55,9 @@ class Support:
 
     def set_content(self, content):
         self.__content = content
+
+    def set_tg_link(self, tg_link):
+        self.__tg_link = tg_link
 
     def set_status(self, status):
         self.__status = status
