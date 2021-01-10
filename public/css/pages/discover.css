@@ -26,7 +26,7 @@
 .searchbar-container:hover {
     background: rgba(255, 255, 255, 1);
     backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: saturate(180%) blur(30px);
 }
 
 .searchbar-container input {
