@@ -30,11 +30,11 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label" for="tg_link">Tour Guide profile link</label>
+                        <label class="label" for="link">Tour Guide profile link</label>
                         <div class="control">
-                            {{ form.tg_link(id="tg_link", type="text", class="input") }}
+                            {{ form.link(id="link", type="text", class="input") }}
                             <ul>
-                                {% for error in form.tg_link.errors %}
+                                {% for error in form.link.errors %}
                                     <li class="has-text-danger"> {{ error }}</li>
                                 {% endfor %}
                             </ul>
