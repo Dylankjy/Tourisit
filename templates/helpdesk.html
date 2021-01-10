@@ -12,59 +12,56 @@
         </div>
     </section>
 
-
     <section class='section'>
         <div class="container">
-            <form class="form-horizontal" action="/support" method="POST">
-                {{ form.csrf_token }}
-                <fieldset>
-                    <div class="field">
-                        <label class="label">What can we help you with?</label>
-                        <div class="control">
-                            {{ form.support_type(id="support_type", type="select", class="input") }}
-                            <ul>
-                                {% for error in form.support_type.errors %}
-                                    <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
+            <div class="box is-centered ml-5 mr-5">
+                <form class="form-horizontal pt-5 pb-5" action="/support" method="POST">
+                    {{ form.csrf_token }}
+                    <fieldset>
+                        <div class="field">
+                            <label class="label">What can we help you with?</label>
+                            <div class="control">
+                                {{ form.support_type(id="support_type", type="select", class="input") }}
+                                <ul>
+                                    {% for error in form.support_type.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <label class="label" for="link">Tour Guide profile link</label>
-                        <div class="control">
-                            {{ form.link(id="link", type="text", class="input") }}
-                            <ul>
-                                {% for error in form.link.errors %}
-                                    <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
+                        <div class="field">
+                            <label class="label" for="link">Tour Guide profile link</label>
+                            <div class="control">
+                                {{ form.link(id="link", type="text", class="input") }}
+                                <ul>
+                                    {% for error in form.link.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Message</label>
-                        <div class="control">
-                            {{ form.content(id="content", type="textarea", class="input", rows="5", style="height:
+                        <div class="field">
+                            <label class="label">Message</label>
+                            <div class="control">
+                                {{ form.content(id="content", type="textarea", class="input", rows="5", style="height:
                         150px;") }}
-                            <ul>
-                                {% for error in form.content.errors %}
-                                    <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
+                                <ul>
+                                    {% for error in form.content.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <label class="label" for="support-submit"></label>
-                        <div class="control">
-                            <input type='submit' value='Submit' id="support-submit" name="support-submit"
-                                   class="button is-success is-fullwidth">
+                        <div class="field">
+                            <label class="label" for="support-submit"></label>
+                            <div class="control">
+                                <input type='submit' value='Submit' id="support-submit" name="support-submit"
+                                       class="button is-success is-fullwidth">
+                            </div>
                         </div>
-                        {# <div class="control">#}
-                        {# <button class="button is-success is-fullwidth">Submit</button>#}
-                        {# </div>#}
-                    </div>
-
-                </fieldset>
-            </form>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </section>
 {% endblock %}
