@@ -247,6 +247,43 @@ def add_message(chat_id, sender_sid, message):
         return True
 
 
+def delete_chat(chat_id, sid):
+    # Query SID
+    query_sid = {
+        "sid": sid
+    }
+
+    # Find sender uid by sid
+    try:
+        sender_uid = [i for i in db_sessions.find(query_sid)][0]["uid"]
+    except IndexError:
+        return False
+
+    # Query to find specific chat user is wanting to push message into
+    query_uid_in_chats = {
+        '$and': [
+            {
+                '_id': ObjectId(chat_id)
+            },
+            {
+                'participants': {
+                    "$in": [sender_uid]
+                }
+            }
+        ]
+    }
+
+    # Get data for Chat room from UID in participants
+    chat_room_data = [i for i in db_chats.find(query_uid_in_chats)]
+
+    # Security check: Return false if participant doesn't appear in queries
+    if len(chat_room_data) != 1:
+        return False
+    else:
+        db_chats.delete_one(query_uid_in_chats)
+        return True
+
+
 # add_message("5ff0b727041631a155c77dea", test_sid, "I want to book this")
 
 class ChatForm(FlaskForm):
