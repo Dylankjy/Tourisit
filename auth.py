@@ -269,18 +269,20 @@ def delete_account(uid):
     try:
         # Query everything in relation to UID
         query = {
-            '$or': {
-                "_id": ObjectId(uid),
-                "uid": ObjectId(uid),
+            # '$or': {
+                "_id": ObjectId(uid)
+                # "uid": ObjectId(uid),
                 # 'tg_uid': ObjectId(uid),
                 # 'cust_uid': ObjectId(uid)
-            }
+            # }
         }
 
         # Yeet everything into oblivion
-        db_users.delete_many(query)
-        db_sessions.delete_many(query)
-        db_listings.delete_many(query)
+        db_users.delete_one(query)
+        # db_sessions.delete_many(query)
+        # db_listings.delete_many(query)
+
+        print('OK')
 
         return True
     except:
@@ -336,7 +338,7 @@ def send_confirmation_email(sid=None, user_email=None):
     with smtplib.SMTP_SSL("smtp.sendgrid.net", port, context=context) as server:
         server.login("apikey", password)
         server.sendmail(
-            "notifications@tourisit.ichiharu.com", "tenkotofu@gmail.com", message.as_string()
+            "notifications@tourisit.ichiharu.com", user_email, message.as_string()
         )
 
     return True

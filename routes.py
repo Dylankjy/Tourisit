@@ -963,7 +963,8 @@ def chat_room(room_id):
         return render_template('chat.html', loggedin=True, user=result, list=chat_list, form=chat_form,
                                chatroom_display=chat_room_messages["chatroom"],
                                chatroom_names=chat_room_messages["names"],
-                               selected_chatroom=ObjectId(room_id))
+                               selected_chatroom=ObjectId(room_id),
+                               verification_code_OK=request.args.get('verification_code_OK'))
 
 
 # MEMBERS
