@@ -20,11 +20,13 @@
     background: rgba(255, 255, 255, 0.7);
     transition: ease 0.5s all;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
 
 .searchbar-container:hover {
     background: rgba(255, 255, 255, 1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
 }
 
 .searchbar-container input {
