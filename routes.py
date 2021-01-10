@@ -203,20 +203,30 @@ def accountinfo():
             if uForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
                 name = request.form['name']
-                password = request.form['password']
                 email = request.form['email']
                 phone_number = request.form['phone_number']
                 fb = request.form['fb']
                 insta = request.form['insta']
                 linkedin = request.form['linkedin']
                 account_mode = request.form['account_mode']
-                updated = {
-                    "$set": {"name": name, "password": auth.generate_password_hash(password),
-                             "email": email, "phone_number": phone_number,
-                             "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin},
-                             "account_mode": account_mode
-                             }
-                }
+                password = request.form['password']
+                #If password is same
+                if password != '':
+                    updated = {
+                        "$set": {"name": name,
+                                 "email": email, "phone_number": phone_number,
+                                 "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin},
+                                 "account_mode": account_mode
+                                 }
+                    }
+                else:
+                    updated = {
+                        "$set": {"name": name, "password": auth.generate_password_hash(password),
+                                 "email": email, "phone_number": phone_number,
+                                 "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin},
+                                 "account_mode": account_mode
+                                 }
+                    }
                 user_db.update_one(query_user, updated)
                 return render_template('success-user.html', user=item, id=id, loggedin=True)
             return render_template('setting.html', user=item, form=uForm, loggedin=True)
