@@ -20,6 +20,7 @@ class SupportForm(FlaskForm):
     tg_link = StringField(
         "tg_link",
         validators=[
+            InputRequired(),
             Length(min=0, max=300, message="Tour Guide profile link can only be 300 characters long!")
         ]
     )

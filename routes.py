@@ -58,7 +58,6 @@ user_db = client['Users']
 bookings_db = client['Bookings']
 support_db = client['Support']
 
-
 @app.template_filter('timestamp_iso')
 def timestamp_iso(s):
     try:
@@ -66,7 +65,6 @@ def timestamp_iso(s):
         return date
     except ValueError:
         return 'Unknown'
-
 
 @app.template_filter('user_pfp')
 def user_pfp(uid):
@@ -84,7 +82,6 @@ def user_pfp(uid):
 
     return pfp_data
 
-
 @app.template_filter('user_name')
 def user_name(uid):
     try:
@@ -100,7 +97,6 @@ def user_name(uid):
         tg_name = ''
 
     return tg_name
-
 
 # @app.template_filter('parse_uid_name')
 # def parse_uid_name(uid):
@@ -123,7 +119,6 @@ def test_img():
         print(img_string)
         return render_template('tourGuides/testImg.html', form=lForm, imgBase64=img_string)
     return render_template('tourGuides/testImg.html', form=lForm, imgBase64='')
-
 
 # --------------------------------------
 
@@ -153,7 +148,6 @@ def support():
     else:
         return 'Need to login/create account first!'
 
-
 # CUSTOMER
 # Submit Review
 @app.route('/review')
@@ -162,7 +156,6 @@ def review():
         return render_template('customer/review.html')
     except:
         return 'Error trying to render'
-
 
 # SHARED
 # User profile
@@ -191,7 +184,6 @@ def profile():
     else:
         return render_template('profile.html', form=bForm, logged_in=False)
 
-
 # SHARED
 # User account settings
 @app.route('/me/settings', methods=['GET', 'POST'])
@@ -212,10 +204,12 @@ def accountinfo():
                 fb = request.form['fb']
                 insta = request.form['insta']
                 linkedin = request.form['linkedin']
+                account_mode = request.form['account_mode']
                 updated = {
-                    "$set": {"name": name, "password": auth.generate_password_hash(password), "email": email,
-                             "phone_number": phone_number,
-                             "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin}
+                    "$set": {"name": name, "password": auth.generate_password_hash(password),
+                             "email": email, "phone_number": phone_number,
+                             "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin},
+                             "account_mode": account_mode
                              }
                 }
                 user_db.update_one(query_user, updated)
@@ -230,14 +224,12 @@ def accountinfo():
         # Render the pls log in template here
         return 'Pls log in'
 
-
 @app.route('/me/billing')
 def accountbilling():
     try:
         return render_template('billing.html')
     except:
         return 'Error trying to render'
-
 
 # --------------------------------------
 
@@ -266,7 +258,6 @@ def home():
         return render_template('customer/index-customer.html',
                                item_list=shown_listings, loggedin=True, user=result)
 
-
 # CUSTOMERS
 # Marketplace: Display all listings
 @app.route('/discover')
@@ -283,7 +274,6 @@ def market():
     else:
         return render_template('customer/marketplace.html',
                                listings=list(shop_db.find()), loggedin=True, user=result, item_list=all_listings)
-
 
 # To implement search function
 @app.route('/endpoint/search')
@@ -322,12 +312,11 @@ def search():
         resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
         return resp
 
-
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from Marketplace clicked
 @app.route('/discover/<tour_id>')
 def tourListing(tour_id):
-    #Dynamically load the user data (From the database) so if user info changes, all will change too
+    # Dynamically load the user data (From the database) so if user info changes, all will change too
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
     tg_id = item['tg_uid']
     result = auth.is_auth(True)
@@ -345,14 +334,13 @@ def tourListing(tour_id):
     else:
         return render_template('customer/tourListing.html', item=item, loggedin=True, user=result, editable=editable, userData=userData)
 
-
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
 def ownlisting():
     # Get login status using accessor argument
     result = auth.is_auth(True)
-    #Get the data of the current user
+    # Get the data of the current user
     userData = user_db.find_one({'_id': result['_id']})
     # item = shop_db.find_one({'_id': ObjectId(tour_id)})
     # tg_id = item['tg_uid']
@@ -368,12 +356,10 @@ def ownlisting():
         tour_listings = list(shop_db.find({'tg_uid': tourGuide_id}))
         return render_template('tourGuides/ownlisting.html', listings=tour_listings, loggedin=True, user=result, userData=userData)
 
-
 @app.route('/apis/upImg')
 def updateImg():
     text = request.args['currentImg']
     return json.dumps({"results": text})
-
 
 @app.route('/test/result')
 def testing():
@@ -386,14 +372,13 @@ def testing():
     # lForm = ListingForm()
     # return render_template('tourGuides/makelisting.html', form=lForm, user=result)
 
-
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
     result = auth.is_auth(True)
     # If result is not None (User is logged in)
     if result:
         userData = user_db.find_one({'_id': result['_id']})
-        #Use this, don't hard code the values
+        # Use this, don't hard code the values
         userImg = userData['profile_img']
         userName = userData['name']
 
@@ -439,7 +424,6 @@ def makelisting():
             return render_template('tourGuides/makelisting.html', form=lForm, user=result)
     else:
         return 'Need to login/create account first!'
-
 
 # TOUR GUIDES
 # Edit Listings: When click on own listing to edit
@@ -505,7 +489,6 @@ def editListing(id):
     else:
         return 'Not allowed to edit!'
 
-
 # @app.route('/testImg', methods=['GET', 'POST'])
 # def test_img():
 #     lForm = ListingForm()
@@ -523,7 +506,6 @@ def deleteList(id):
 
     return redirect('/listings')
 
-
 # CUSTOMERS
 # Favourites: Shows all the liked listings
 @app.route('/me/favourites')
@@ -536,7 +518,6 @@ def favourites():
     # if logged in
     else:
         return render_template('customer/favourites.html', loggedin=True, user=result)
-
 
 # --------------------------------------
 
@@ -561,9 +542,8 @@ def all_bookings():
             listings.append(shop_db.find_one({'_id': item['listing_id']}))
         booking_list.reverse()
         listings.reverse()
-        return render_template('customer/allBookings.html',booking_list=booking_list, listings=listings, loggedin=True,
+        return render_template('customer/allBookings.html', booking_list=booking_list, listings=listings, loggedin=True,
                                user=result)
-
 
 # except:
 #     return 'Error trying to render'
@@ -575,31 +555,32 @@ def all_bookings():
 @app.route('/bookings/<book_id>')
 def bookings(book_id):
     # try:
-        booking = bookings_db.find_one({'_id': ObjectId(book_id)})
-        tour = shop_db.find_one({'_id': booking['listing_id']})
-        print(booking)
-        print(tour)
-        # Get login status using accessor argument
-        result = auth.is_auth(True)
-        # if not logged in
-        if not result:
-            return render_template('customer/booking.html', loggedin=False)
-        # if logged in
-        else:
-            if request.method == 'POST':
-                print("yes")
-                # if request.form['TourComplete_submit'] == 'TourComplete':
-                #     update_booking = { "$set": { "process_step": 7 } }
-                #     bookings_db.update_one(booking, update_booking)
+    booking = bookings_db.find_one({'_id': ObjectId(book_id)})
+    tour = shop_db.find_one({'_id': booking['listing_id']})
+    print(booking)
+    print(tour)
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return render_template('customer/booking.html', loggedin=False)
+    # if logged in
+    else:
+        if request.method == 'POST':
+            print("yes")
+            # if request.form['TourComplete_submit'] == 'TourComplete':
+            #     update_booking = { "$set": { "process_step": 7 } }
+            #     bookings_db.update_one(booking, update_booking)
 
-            return render_template('customer/booking.html',
-                                   process_step=booking['process_step'],
-                                   booking=booking,
-                                   tour=tour,
-                                   loggedin=True,
-                                   user=result)
-    # except:
-    #     return 'Error trying to render'
+        return render_template('customer/booking.html',
+                               process_step=booking['process_step'],
+                               booking=booking,
+                               tour=tour,
+                               loggedin=True,
+                               user=result)
+
+# except:
+#     return 'Error trying to render'
 
 
 # CUSTOMER
@@ -607,31 +588,32 @@ def bookings(book_id):
 @app.route('/discover/<tour_id>/booknow', methods=['GET', 'POST'])
 def book_now(tour_id):
     # try:
-        item = shop_db.find_one({'_id': ObjectId(tour_id)})
-        # Get login status using accessor argument
-        result = auth.is_auth(True)
-        # if logged in
-        if result:
-            bookform = BookingForm()
-            if request.method == 'POST':
-                if bookform.validate_on_submit():
-                    book_date = request.form["book_date"]
-                    book_time = request.form["book_time"]
-                    booking = Booking(tg_uid=item['tg_uid'], cust_uid=result['_id'], listing_id=item['_id'],
-                                      book_date=book_date, book_time=book_time, book_baseprice=item['tour_price'],
-                                      book_customfee=0, book_duration="", timeline_content=[],
-                                      process_step=5)
-                    inserted_booking = bookings_db.insert_one(booking.return_obj())
-                    book_id = inserted_booking.inserted_id
-                    return redirect(url_for('checkout', book_id=book_id))
+    item = shop_db.find_one({'_id': ObjectId(tour_id)})
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if logged in
+    if result:
+        bookform = BookingForm()
+        if request.method == 'POST':
+            if bookform.validate_on_submit():
+                book_date = request.form["book_date"]
+                book_time = request.form["book_time"]
+                booking = Booking(tg_uid=item['tg_uid'], cust_uid=result['_id'], listing_id=item['_id'],
+                                  book_date=book_date, book_time=book_time, book_baseprice=item['tour_price'],
+                                  book_customfee=0, book_duration="", timeline_content=[],
+                                  process_step=5)
+                inserted_booking = bookings_db.insert_one(booking.return_obj())
+                book_id = inserted_booking.inserted_id
+                return redirect(url_for('checkout', book_id=book_id))
 
-            return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item,
-                                   tour_id=tour_id)
-        # if not logged in
-        else:
-            return render_template('customer/book-now.html', loggedin=False)
-    # except:
-    #     return 'Error trying to render'
+        return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item,
+                               tour_id=tour_id)
+    # if not logged in
+    else:
+        return render_template('customer/book-now.html', loggedin=False)
+
+# except:
+#     return 'Error trying to render'
 
 
 # CUSTOMER
@@ -648,7 +630,7 @@ def checkout(book_id):
         if request.method == 'POST':
             if form.validate_on_submit():
                 if booking['process_step'] == 5:
-                    update_booking = { "$set": { "process_step": 6 } }
+                    update_booking = {"$set": {"process_step": 6}}
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=str(book_id)))
                 elif booking['process_step'] == 0:
@@ -663,7 +645,6 @@ def checkout(book_id):
     # if not logged in
     else:
         return render_template('customer/checkout.html', loggedin=False)
-
 
 # except:
 #     return 'Error trying to render (checkout)'
@@ -694,7 +675,6 @@ def all_businesses():
     except:
         return 'Error trying to render'
 
-
 # TOUR GUIDES
 # Individual gigs  
 # @app.route('/s/businesses/<id>')
@@ -722,7 +702,6 @@ def business(book_id):
     except:
         return 'Error trying to render'
 
-
 # --------------------------------------
 
 # Dylan
@@ -733,12 +712,10 @@ def business(book_id):
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
 
-
 # Redirect user to dashboard if attempt to access file of /s/
 @app.route('/s')
 def sellerModeFile():
     return redirect(url_for('sellerDashboard'))
-
 
 # TOUR GUIDE
 # Dashboard
@@ -753,7 +730,6 @@ def sellerDashboard():
     else:
         return render_template('tourGuides/dashboard.html', loggedin=True, user=result)
 
-
 # INTERNAL
 # Admin Dashboard -- Private internal shit
 @app.route('/admin')
@@ -766,7 +742,6 @@ def adminDashboard():
     # if logged in
     else:
         return render_template('internal/dashboard.html', loggedin=True, user=result)
-
 
 # INTERNAL
 # Admin Dashboard -- Manage users
@@ -782,7 +757,6 @@ def adminUsers():
         user_accounts = admin.list_user_accounts()
         return render_template('internal/users.html', loggedin=True, user=result, user_list=user_accounts)
 
-
 # INTERNAL
 # Admin Dashboard -- Manage listings
 @app.route('/admin/listings')
@@ -795,7 +769,6 @@ def adminListings():
     # if logged in
     else:
         return render_template('internal/listings.html', loggedin=True, user=result, listing=admin.list_listings())
-
 
 # SHARED
 # Login Page
@@ -836,7 +809,6 @@ def login():
     else:
         return redirect(url_for('home'))
 
-
 # SHARED
 # Sign up page
 @app.route('/signup', methods=['GET', 'POST'])
@@ -872,7 +844,6 @@ def signup():
     else:
         return redirect(url_for('home'))
 
-
 @app.route('/endpoint/resendEmail', methods=['POST'])
 def resend_email():
     resend_email_form = auth.ResendEmailForm()
@@ -888,7 +859,6 @@ def resend_email():
     if email is not None:
         if auth.send_confirmation_email(None, email):
             return redirect(url_for('signup', email_sent=True))
-
 
 # MEMBERS
 # Logout page
@@ -906,7 +876,6 @@ def logout():
     else:
         return redirect(url_for('home'))
 
-
 # SHARED
 # Chats: Render individual chats -- Stolen from Chloe
 @app.route('/chat')
@@ -921,7 +890,6 @@ def chat():
         chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
         return render_template('chat.html', loggedin=True, user=result, list=chat_list, chatroom_display=False,
                                not_found=request.args.get('not_found'))
-
 
 @app.route('/chat/<room_id>', methods=['GET', 'POST'])
 def chat_room(room_id):
@@ -949,7 +917,6 @@ def chat_room(room_id):
                                chatroom_display=chat_room_messages["chatroom"],
                                chatroom_names=chat_room_messages["names"],
                                selected_chatroom=ObjectId(room_id))
-
 
 # MEMBERS
 # Chat endpoint
@@ -984,7 +951,6 @@ def chatroom_endpoint():
         resp = make_response('Tourisit API Endpoint - Error 403', 403)
         return resp
 
-
 # Email confirmation endpoint:
 @app.route('/endpoint/email_confirmation')
 def email_confirmation_endpoint():
@@ -993,7 +959,6 @@ def email_confirmation_endpoint():
         return redirect(url_for('login', verification_code_OK=True))
     else:
         return redirect(url_for('login', verification_code_denied=True))
-
 
 # Run app
 if __name__ == '__main__':

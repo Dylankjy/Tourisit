@@ -1,9 +1,8 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField
+from wtforms import StringField, TextAreaField, SelectField
 from wtforms.validators import InputRequired, Length
-
 
 class UserForm(FlaskForm):
     name = StringField(
@@ -50,7 +49,13 @@ class UserForm(FlaskForm):
             Length(max=200, message="Input a valid Instagram link!"),
         ],
     )
-
+    account_mode = SelectField(
+        "account_mode",
+        choices=[('0', 'Tourist'), ('1', 'Tour Guide')],
+        validators=[
+            InputRequired()
+        ],
+    )
 
 class BioForm(FlaskForm):
     bio = TextAreaField(
@@ -59,7 +64,6 @@ class BioForm(FlaskForm):
             Length(min=0, max=75, message="Bio can only be 75 characters long!")
         ]
     )
-
 
 class User:
     def __init__(
