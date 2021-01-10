@@ -98,6 +98,13 @@ def user_name(uid):
 
     return tg_name
 
+
+# @app.before_request
+# def before_request_callback():
+#     if auth.is_auth(True)["account_mode"] == -1:
+#         return render_template('onboarding/welcomepage.html')
+
+
 # @app.template_filter('parse_uid_name')
 # def parse_uid_name(uid):
 #     query = {
@@ -237,7 +244,7 @@ def accountbilling():
 
 # CUSTOMERS
 # Home page
-@app.route('/', methods=['GET'])
+@app.route('/')
 def home():
     query = {}
     all_listings = [i for i in shop_db.find(query)]
