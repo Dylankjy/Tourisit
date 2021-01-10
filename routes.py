@@ -135,9 +135,9 @@ def support():
             if sForm.validate_on_submit():
                 uid = result['_id']
                 support_type = request.form['support_type']
-                tg_link = request.form['tg_link']
+                link = request.form['link']
                 content = request.form['content']
-                support_request = Support(uid=uid, support_type=support_type, content=content, tg_link=tg_link)
+                support_request = Support(uid=uid, support_type=support_type, link=link, content=content)
                 support_info = support_request.return_obj()
                 print(support_info)
                 support_db.insert_one(support_info)
