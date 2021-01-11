@@ -19,6 +19,7 @@ from models.Format import JSONEncoder, img_to_base64, formToArray
 from models.Listing import ListingForm, Listing
 from models.Support import SupportForm, Support
 from models.User import UserForm, BioForm
+from models.Transaction import Transaction
 
 # Authentication library
 
@@ -58,6 +59,7 @@ shop_db = client['Listings']
 user_db = client['Users']
 bookings_db = client['Bookings']
 support_db = client['Support']
+transaction_db = client['Transactions']
 
 
 @app.template_filter('timestamp_iso')
@@ -666,6 +668,13 @@ def checkout(book_id):
                 if booking['process_step'] == 5:
                     update_booking = {"$set": {"process_step": 6}}
                     bookings_db.update_one(booking, update_booking)
+                    # Transaction
+                    earnings = booking['book_charges']['baseprice'] + booking['book_charges']['customfee']
+                    transaction = Transaction(tg_uid=booking['tg_uid'], cust_uid=booking['cust_uid'], earnings=earnings,
+                                              booking=booking['_id'])
+                    transaction.payment_made()
+                    transaction_db.insert_one(transaction.return_obj())
+
                     return redirect(url_for('bookings', book_id=str(book_id)))
                 elif booking['process_step'] == 0:
                     update_booking = {"$set": {"process_step": 1}}
