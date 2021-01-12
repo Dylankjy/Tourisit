@@ -31,8 +31,13 @@ db_tokens = client['Tokens']
 db_listings = client['Listings']
 
 # Email Templates & API Key
-sendgrid_key = [i for i in env.find({})][0]["sendgrid_api"]
-template_header = open("email/header.html", "r").read()
+try:
+    sendgrid_key = [i for i in env.find({})][0]["sendgrid_api"]
+    template_header = open("email/header.html", "r").read()
+except:
+    Exception("Check your network connectivity. Couldn't contact MongoDB database! Are you using the school network?")
+    exit(-1)
+
 # Template: Confirmation
 template_email_confirmation = open("email/confirmation.html", "r").read()
 
