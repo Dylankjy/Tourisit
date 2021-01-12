@@ -2,8 +2,19 @@ from datetime import datetime
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SelectField
-from wtforms.validators import InputRequired, Length
+from wtforms.validators import InputRequired, Length, ValidationError
 
+def fb_check(form, field):
+    if 'facebook.com' not in field.data:
+        raise ValidationError('Invalid Facebook Profile link')
+
+def insta_check(form, field):
+    if 'instagram.com' not in field.data:
+        raise ValidationError('Invalid Instagram Profile link')
+
+def linkedin_check(form, field):
+    if 'linkedin.com' not in field.data:
+        raise ValidationError('Invalid LinkedIn Profile link')
 
 class UserForm(FlaskForm):
     name = StringField(
@@ -35,18 +46,21 @@ class UserForm(FlaskForm):
         "fb",
         validators=[
             Length(max=200, message='Input a valid Facebook link!'),
+            fb_check
         ],
     )
     insta = StringField(
         "insta",
         validators=[
             Length(max=200, message="Input a valid Instagram link!"),
+            insta_check
         ],
     )
     linkedin = StringField(
         "linkedin",
         validators=[
             Length(max=200, message="Input a valid Instagram link!"),
+            linkedin_check
         ],
     )
     account_mode = SelectField(
