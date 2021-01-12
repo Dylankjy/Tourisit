@@ -15,7 +15,7 @@ class UserForm(FlaskForm):
     password = StringField(
         "password",
         validators=[
-            InputRequired()
+
         ],
     )
     email = StringField(
