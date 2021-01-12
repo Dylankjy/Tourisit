@@ -8,7 +8,7 @@
                     <div class="profile-img"
                          style="background-image: url('data:image/jpeg;base64, {{ item['tg_uid']|user_pfp }}')">
                     </div>
-                    <div class="ml-2 has-text-light"><b>{{ item['tg_uid']|user_name }}</b> <span>is offering:</span>
+                    <div class="ml-2 has-text-light"><b><a class="has-text-white" href="/users/{{ item['tg_uid'] }}">{{ item['tg_uid']|user_name }}</a></b> <span>is offering:</span>
                     </div>
                 </div>
                 <div class="m-2">
