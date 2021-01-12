@@ -212,7 +212,7 @@ def accountinfo():
                 linkedin = request.form['linkedin']
                 account_mode = request.form['account_mode']
                 password = request.form['password']
-                #If password is same
+                # If password is same
                 if password == '':
                     updated = {
                         "$set": {"name": name,

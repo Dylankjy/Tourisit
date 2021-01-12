@@ -15,7 +15,6 @@ class UserForm(FlaskForm):
     password = StringField(
         "password",
         validators=[
-
         ],
     )
     email = StringField(
@@ -52,7 +51,7 @@ class UserForm(FlaskForm):
     )
     account_mode = SelectField(
         "account_mode",
-        choices=[('0', 'Tourist'), ('1', 'Tour Guide')],
+        choices=[(0, 'Tourist'), (1, 'Tour Guide')],
         validators=[
             InputRequired()
         ],
