@@ -165,14 +165,16 @@ def support():
 
 # SHARED
 # User profile
-# @app.route('/users/<id>)
-@app.route('/users', methods=['GET', 'POST'])
-def profile():
+@app.route('/users/<user_id>', methods=['GET', 'POST'])
+def profile(user_id):
     bForm = BioForm()
+    item = user_db.find_one({'_id': ObjectId(user_id)})
+    uid = item['_id']
     result = auth.is_auth(True)
+    userData = user_db.find_one({'_id': uid})
+
     if result:
-        id = result["_id"]
-        item = user_db.find_one({'_id': ObjectId(id)})
+        editable = item['_id'] == result['_id']
         if request.method == 'POST':
             if bForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
@@ -182,13 +184,19 @@ def profile():
                 }
                 user_db.update_one(query_user, updated)
                 # return render_template('profile.html', user=item, form=bForm)
-            return render_template('profile.html', user=item, form=bForm, loggedin=True)
+            return render_template('profile.html', user=item, form=bForm, loggedin=True, editable=editable, userData=userData)
         else:
             bForm.bio.default = item['bio']
             bForm.process()
-            return render_template('profile.html', user=item, form=bForm, loggedin=True)
+            return render_template('profile.html', user=item, form=bForm, loggedin=True, editable=editable, userData=userData)
     else:
-        return render_template('profile.html', form=bForm, logged_in=False)
+        editable = False
+        # if not logged in
+    if not result:
+        return render_template('profile.html', form=bForm, logged_in=False, item=item, editable=editable, userData=userData)
+        # if logged in
+    else:
+        return render_template('profile.html', form=bForm, logged_in=True, item=item, editable=editable, userData=userData)
 
 
 # SHARED
