@@ -33,7 +33,7 @@
                                     <tr>
                                         <td>{{ item.book_date }}</td>
                                         <td>
-                                            <a href="/s/bookings/{{ item['_id'] }}">{{ listings[loop.index0].tour_name }}</a>
+                                            <a href="/bookings/{{ item['_id'] }}">{{ listings[loop.index0].tour_name }}</a>
                                         </td>
                                     </tr>
                                 {% endif %}
@@ -48,15 +48,15 @@
                                     <tr>
                                         <td><b>{{ listings[loop.index0].tour_name }}</b></td>
                                         {% if item.process_step == 1 %}
-                                            <td><a href="">Submit Requirements</a></td>
+                                            <td><a href="/bookings/{{ item['_id'] }}">Submit Requirements</a></td>
                                         {% elif item.process_step == 3 %}
-                                            <td><a href="">Review Custom Itinerary & Charges</a></td>
+                                            <td><a href="/bookings/{{ item['_id'] }}">Review Custom Itinerary & Charges</a></td>
                                         {% elif item.process_step == 5 %}
-                                            <td><a href="">Make Payment</a></td>
+                                            <td><a href="/bookings/{{ item['_id'] }}">Make Payment</a></td>
                                         {% elif item.process_step == 6 %}
-                                            <td><a href="">Complete Tour</a></td>
+                                            <td><a href="/bookings/{{ item['_id'] }}">Complete Tour</a></td>
                                         {% elif item.process_step == 7 %}
-                                            <td><a href="">Leave Feedback</a></td>
+                                            <td><a href="/bookings/{{ item['_id'] }}">Leave Feedback</a></td>
                                         {% endif %}
                                     </tr>
                                 {% endif %}
