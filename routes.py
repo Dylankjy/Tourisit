@@ -602,9 +602,9 @@ def bookings(book_id):
     else:
         if request.method == 'POST':
             print("yes")
-            # if request.form['TourComplete_submit'] == 'TourComplete':
-            #     update_booking = { "$set": { "process_step": 7 } }
-            #     bookings_db.update_one(booking, update_booking)
+            if request.form['TourComplete_submit'] == 'TourComplete':
+                update_booking = { "$set": { "process_step": 7 } }
+                bookings_db.update_one(booking, update_booking)
 
         return render_template('customer/booking.html',
                                process_step=booking['process_step'],
