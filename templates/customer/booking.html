@@ -87,6 +87,22 @@
 
         <!--START: Overview-->
         <div id="Overview" class="content-tab">
+            {% if process_step == 6 %}
+            <!--START: Confirm if tour completed-->
+            <div class="section">
+                <div class="container has-text-centered">
+                    <div class="field">
+                        <p class="control">
+                            <button onclick="$('#TourCompleteModal').fadeIn('fast')"
+                                    class="button is-success is-light">
+                        <div class="is-size-5">I Have Completed My Tour!</div>
+                        </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--END: Confirm if tour completed-->
+        {% endif %}
             <!--START: Action req-->
             {% if process_step == 6 %}
                 <div class="has-text-centered m-2 is-size-6">
@@ -184,22 +200,6 @@
                 </ul>
             </div>
             <!--END: Steps-->
-            {% if process_step == 6 %}
-                <!--START: Confirm if tour completed-->
-                <div class="section">
-                    <div class="container has-text-centered">
-                        <div class="field">
-                            <p class="control">
-                                <button onclick="$('#TourCompleteModal').fadeIn('fast')"
-                                        class="button is-success is-light">
-                            <div class="is-size-5">I Have Completed My Tour!</div>
-                            </button>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!--END: Confirm if tour completed-->
-            {% endif %}
         </div>
         <!--END: Overview-->
 
