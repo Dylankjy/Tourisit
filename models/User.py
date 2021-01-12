@@ -101,7 +101,8 @@ class User:
             email_status=False,
             phone_status=False,
             account_type=0,
-            account_mode=-1
+            account_mode=-1,
+            verified=0
     ):
 
         self.__name = ""
@@ -149,7 +150,7 @@ class User:
         # 0 = tourist
         # 1 = tour guide
         self.__account_mode = account_mode
-
+        self.__verified = verified
         # Generate timestamp in ISO format
         date = datetime.now()
         current_timestamp = date.isoformat()
