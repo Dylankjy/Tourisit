@@ -6,51 +6,10 @@
 {% endblock %}
 
 {% block content %}
-    {% from "_formhelper.html" import render_field %}
+    
 
 
     <section class='section'>
-
-        <div class='columns is-centered'>
-            <div class='column is-half'>
-                <div class='box'>
-                    <form class="form-horizontal" enctype="multipart/form-data" action="/testImg" method="POST">
-                        {{ form.csrf_token }}
-                        <label class="label" for="tour-img">Tour Image</label>
-                        <div class="file">
-                            <label class="file-label">
-                                {{ form.tour_img(class="file-input", type="file", onchange="if (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML = this.files[0].name;") }}
-                                <span class="file-cta">
-                            <span class="file-icon">
-                                <i class="fa fa-upload"></i>
-                            </span>
-                            <span class="file-label" id="filename-tour-img">
-                                Choose a file…
-                            </span>
-                            </span>
-                                <ul>
-                                    {% for error in form.tour_img.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </label>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" for="tour-submit"></label>
-                            <div class="control">
-                                <input type='submit' value='Image!' id="tour-submit" name="tour-submit"
-                                       class="button is-success">
-                            </div>
-                        </div>
-
-
-                    </form>
-
-                </div>
-            </div>
-        </div>
-
         <div>
             <img src="data:image/png;base64, {{ imgBase64 }}"/>
         </div>

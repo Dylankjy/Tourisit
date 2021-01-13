@@ -14,7 +14,7 @@ import auth as auth
 # Chat Library
 import chat as msg
 from models.Booking import BookingForm, CheckoutForm, Booking
-from models.Format import JSONEncoder, img_to_base64, formToArray
+from models.Format import JSONEncoder, img_to_base64, formToArray, file_to_base64
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.Support import SupportForm, Support
@@ -60,6 +60,9 @@ user_db = client['Users']
 bookings_db = client['Bookings']
 support_db = client['Support']
 transaction_db = client['Transactions']
+
+uwu_face = file_to_base64('public/imgs/uwu.png')
+print(uwu_face)
 
 
 @app.template_filter('timestamp_iso')
@@ -125,13 +128,7 @@ def user_name(uid):
 
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
-    lForm = ListingForm()
-    if request.method == 'POST':
-        tour_img = request.files['tour_img']
-        img_string = img_to_base64(tour_img)
-        print(img_string)
-        return render_template('tourGuides/testImg.html', form=lForm, imgBase64=img_string)
-    return render_template('tourGuides/testImg.html', form=lForm, imgBase64='')
+    return render_template('tourGuides/testImg.html', user=None, imgBase64=uwu_face)
 
 
 # --------------------------------------
@@ -218,7 +215,7 @@ def accountinfo():
                 fb = request.form['fb']
                 insta = request.form['insta']
                 linkedin = request.form['linkedin']
-                account_mode = request.form['account_mode']
+                account_mode = int(request.form['account_mode'])
                 password = request.form['password']
                 # If password is same
                 if password == '':
@@ -361,22 +358,18 @@ def tourListing(tour_id):
     # Dynamically load the user data (From the database) so if user info changes, all will change too
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
     tg_id = item['tg_uid']
-    result = auth.is_auth(True)
     tg_userData = user_db.find_one({'_id': tg_id})
 
 
-
-    # Boolean, will be editable if person is the owner of the listing
-    if result:
-        editable = item['tg_uid'] == result['_id']
-    else:
-        editable = False
     # if not logged in
     if not result:
+        editable = False
         return render_template('customer/tourListing.html', item=item, loggedin=False, editable=editable,
                                userData=tg_userData)
     # if logged in
     else:
+        # Boolean, will be editable if person is the owner of the listing
+        editable = item['tg_uid'] == result['_id']
         return render_template('customer/tourListing.html', item=item, loggedin=True, user=result, editable=editable,
                                userData=tg_userData, inside_wl=inside_wl)
 

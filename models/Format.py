@@ -4,6 +4,8 @@ from io import BytesIO
 
 from bson import ObjectId
 
+from PIL import Image
+
 buffered = BytesIO()
 
 
@@ -23,6 +25,16 @@ def img_to_base64(img):
     img_string_edited = image_string.strip("b'")
     img_string_edited = img_string_edited.strip("'")
     return img_string_edited
+
+
+# This converts a png/jpeg image into a base64 string
+def file_to_base64(img):
+    img = Image.open(img).resize((150, 150))
+    img.save(buffered, format="JPEG")
+    img_str = str(base64.b64encode(buffered.getvalue()))
+    img_str = img_str.strip("b'")
+    img_str = img_str.strip("'")
+    return img_str
 
 
 # This converts the request.form.getlist to an actual python list
