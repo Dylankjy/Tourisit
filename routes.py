@@ -346,11 +346,25 @@ def search():
 # Detailed Listing: More detailed listing when listing from Marketplace clicked
 @app.route('/discover/<tour_id>')
 def tourListing(tour_id):
+    #Note that there are 2 users here. The tour guide and the person who is logged in
+    result = auth.is_auth(True)
+    user_id = result['_id']
+    query_user = {'_id': ObjectId(user_id)}
+    loggedin_user = user_db.find_one(query_user)
+
+    # See if item is already in wishlist. If yes, then display 'Remove from wishlist' instead of 'Add to wishlist'
+    inside_wl = str(tour_id) in loggedin_user['wishlist']
+    print(tour_id)
+    print(loggedin_user['wishlist'])
+    print(inside_wl)
+
     # Dynamically load the user data (From the database) so if user info changes, all will change too
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
     tg_id = item['tg_uid']
     result = auth.is_auth(True)
-    userData = user_db.find_one({'_id': tg_id})
+    tg_userData = user_db.find_one({'_id': tg_id})
+
+
 
     # Boolean, will be editable if person is the owner of the listing
     if result:
@@ -360,11 +374,11 @@ def tourListing(tour_id):
     # if not logged in
     if not result:
         return render_template('customer/tourListing.html', item=item, loggedin=False, editable=editable,
-                               userData=userData)
+                               userData=tg_userData)
     # if logged in
     else:
         return render_template('customer/tourListing.html', item=item, loggedin=True, user=result, editable=editable,
-                               userData=userData)
+                               userData=tg_userData, inside_wl=inside_wl)
 
 
 # TOUR GUIDES
@@ -552,12 +566,56 @@ def deleteList(id):
 def favourites():
     # Get login status using accessor argument
     result = auth.is_auth(True)
+    user_id = result['_id']
+    query_user = {'_id': ObjectId(user_id)}
+    current_wishlist = user_db.find_one(query_user)['wishlist']
+    current_wishlist = list(map(lambda x: ObjectId(x), current_wishlist))
+    all_listings = [i for i in shop_db.find({'_id':{"$in":current_wishlist}})]
+    print(all_listings)
     # if not logged in
     if not result:
         return render_template('customer/favourites.html', loggedin=False)
     # if logged in
     else:
-        return render_template('customer/favourites.html', loggedin=True, user=result)
+        return render_template('customer/favourites.html', loggedin=True, user=result, item_list=all_listings)
+
+
+@app.route('/me/wishlist/add/<tour_id>')
+def addWishlist(tour_id):
+    result = auth.is_auth(True)
+    user_id = result['_id']
+    query_user = {'_id': ObjectId(user_id)}
+    current_wishlist = user_db.find_one(query_user)['wishlist']
+    current_wishlist.append(tour_id)
+    print(current_wishlist)
+    updated = {
+        '$set': {'wishlist': current_wishlist}
+    }
+
+    user_db.update_one(query_user, updated)
+
+    return redirect(f'/discover/{tour_id}')
+
+
+@app.route('/me/wishlist/remove/<tour_id>')
+def removeWishlist(tour_id):
+    result = auth.is_auth(True)
+    user_id = result['_id']
+    query_user = {'_id': ObjectId(user_id)}
+    current_wishlist = user_db.find_one(query_user)['wishlist']
+    try:
+        current_wishlist.remove(tour_id)
+        print(current_wishlist)
+        updated = {
+            '$set': {'wishlist': current_wishlist}
+        }
+
+        user_db.update_one(query_user, updated)
+
+        return redirect(f'/discover/{tour_id}')
+    except:
+        return 'Stop deleting an invalid item from wishlist ydc'
+
 
 
 # --------------------------------------

@@ -42,9 +42,16 @@
                     <div class="buttons">
                         <a class="button has-text-primary" href='/discover/{{ item["_id"] }}/booknow'><i
                                 class="fas fa-arrow-right"></i>&ensp;Book now</a>
-                        <a class="button" style="color:rgb(226, 48, 78)" href={{ url_for('favourites') }}><i
+
+                        {% if inside_wl == True %}
+                        <a class="button" style="color:rgb(226, 48, 78)" href='/me/wishlist/remove/{{ item["_id"] }}'><i
+                            class="fas fa-heart-broken"></i>&ensp;Remove from wishlist</a>
+                        {% else %}
+                        <a class="button" style="color:rgb(226, 48, 78)" href='/me/wishlist/add/{{ item["_id"] }}'><i
                                 class="fas fa-heart"></i>&ensp;Add
                             to wishlist</a>
+                        {% endif %}
+
                         {% if editable == True %}
                             <a class="button has-text-link" href='/listings/edit/{{ item["_id"] }}'><i
                                     class="fas fa-clipboard"></i>&ensp;Edit Listing</a>
