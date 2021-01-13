@@ -128,6 +128,7 @@ def user_name(uid):
 
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
+
     return render_template('tourGuides/testImg.html', user=None, imgBase64=uwu_face)
 
 
