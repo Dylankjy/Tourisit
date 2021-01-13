@@ -21,7 +21,7 @@ from models.Support import SupportForm, Support
 from models.User import UserForm, BioForm
 from models.Transaction import Transaction
 
-# Authentication library
+from PIL import Image
 
 # For Images
 buffered = BytesIO()
