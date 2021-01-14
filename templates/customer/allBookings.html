@@ -7,6 +7,7 @@
 {% block scripts %}
     <link rel="stylesheet" href="/css/global/shop.css">
     <link rel="stylesheet" href="/css/pages/all_bookings.css">
+    <link rel="stylesheet" href="/css/frameworks/bulma-divider.css">
 {% endblock %}
 
 
@@ -25,7 +26,7 @@
         <div class="container">
             <div class="box">
                 <div class="columns">
-                    <div class="column is-half">
+                    <div class="column">
                         <p class="subtitle">Upcoming Tours</p>
                         <table class='table is-striped is-fullwidth'>
                             {% for item in booking_list %}
@@ -40,7 +41,8 @@
                             {% endfor %}
                         </table>
                     </div>
-                    <div class="column is-half">
+                    <div class="divider is-vertical is-right"></div>
+                    <div class="column">
                         <p class="subtitle">Required Action</p>
                         <table class='table is-striped is-fullwidth'>
                             {% for item in booking_list %}
@@ -85,7 +87,7 @@
     <!--END: Dropdown-->
     <section>
         {% if booking_list == None %}
-            <div>bro you no bookings lmao, go book some you sad, sad man.</div>
+            <div>(to be replaced) No bookings</div>
         {% else %}
             {% for item in booking_list %}
                 {% set listing = listings[loop.index0] %}

@@ -651,8 +651,6 @@ def bookings(book_id):
     # try:
     booking = bookings_db.find_one({'_id': ObjectId(book_id)})
     tour = shop_db.find_one({'_id': booking['listing_id']})
-    print(booking)
-    print(tour)
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
@@ -661,7 +659,6 @@ def bookings(book_id):
     # if logged in
     else:
         if request.method == 'POST':
-            print("yes")
             if request.form['TourComplete_submit'] == 'TourComplete':
                 update_booking = { "$set": { "process_step": 7 } }
                 bookings_db.update_one(booking, update_booking)
@@ -810,10 +807,13 @@ def business(book_id):
 
 # CUSTOMER
 # Submit Review
-@app.route('/review')
-def review():
+@app.route('/review/<book_id>', methods=['GET', 'POST'])
+def review(book_id):
     try:
-        return render_template('customer/review.html')
+        booking = bookings_db.find_one({'_id': ObjectId(book_id)})
+        tour = shop_db.find_one({'_id': booking['listing_id']})
+        print(booking)
+        return render_template('customer/review.html', booking=booking, tour=tour)
     except:
         return 'Error trying to render'
 

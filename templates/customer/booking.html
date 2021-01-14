@@ -41,7 +41,7 @@
 {% block content %}
     <!--START: Top-->
     <section class='section mb-0 pb-0'>
-        <div class="container mt-5 p-5">
+        <div class="container mt-5 pt-5 pl-5 pr-5">
             <a href="{{ url_for('all_bookings') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to Bookings</a>
             <h1 class="title is-size-1 m-0">{{ tour.tour_name }}</h1>
             <!--START: More options dropdown-->
@@ -77,16 +77,126 @@
     </section>
     <!--END: Top-->
 
+    <!--START-->
+    <div class="container">
+    {% if process_step == 6 %}
+                <div class="has-text-centered m-2 is-size-6">
+                    You are now ready to go for your Tour!
+                </div>
+            {% endif %}
+
+            {% if process_step >= 7 %}
+                <div class="has-text-centered m-2 is-size-4">
+                    You have completed your Tour!
+                </div>
+            {% endif %}
+            <!--START: Steps-->
+            <div>
+                <ul class="steps has-content-centered is-small">
+
+                    <li class="steps-segment {{ 'is-active' if (process_step == 1) }}">
+                        <span class="steps-marker {{ 'is-link' if (process_step == 1) }}">
+                            {% if process_step > 1 %}
+                            <i class="fas fa-check"></i>
+                            {% endif %}
+                            <!-- <i class="fas fa-book"></i> -->
+                        </span>
+                        <div class="steps-content">
+                            <p class="is-size-5 {{ 'has-text-link' if(process_step == 1) }}">Submit Requirements</p>
+                        </div>
+                    </li>
+
+                    <li class="steps-segment {{ 'is-active' if (2 <= process_step <= 4) }}">
+                        <span class="steps-marker {{ 'is-link' if (2 <= process_step <= 4) }}">
+                            {% if process_step > 4 %}
+                            <i class="fas fa-check"></i>
+                            {% endif %}
+                            <!-- <i class="fas fa-route"></i> -->
+                        </span>
+                        <div class="steps-content">
+                            <p class="is-size-5 {{ 'has-text-link' if(2 <= process_step <= 4) }}">Planning Itinerary</p>
+                        </div>
+                    </li>
+
+                    <li class="steps-segment {{ 'is-active' if (process_step == 5) }}">
+                        <span class="steps-marker {{ 'is-link' if (process_step == 5) }}">
+                            {% if process_step > 5 %}
+                            <i class="fas fa-check"></i>
+                            {% endif %}
+                            <!-- <i class="fas fa-dollar-sign"></i> -->
+                        </span>
+                        <div class="steps-content">
+                            <p class="is-size-5 {{ 'has-text-link' if(process_step == 5) }}">Confirmation & Payment</p>
+                        </div>
+                    </li>
+
+                    <li class="steps-segment {{ 'is-active' if (process_step == 6) }}">
+                        <span class="steps-marker {{ 'is-link' if (process_step == 6) }}">
+                            {% if process_step > 6 %}
+                            <i class="fas fa-check"></i>
+                            {% endif %}
+                        </span>
+                        <div class="steps-content">
+                            <p class="is-size-5 {{ 'has-text-link' if(process_step == 6) }}" onclick="$('#TourCompleteModal').fadeIn('fast')"
+                            >Complete Tour</p>
+                        </div>
+                    </li>
+
+                    <li class="steps-segment {{ 'is-active' if (process_step == 7) }}">
+                        <a class="{{ 'inactiveLink' if (process_step != 7) }}" href="/review/{{booking._id}}">
+                            <span class="steps-marker {{ 'is-link' if(process_step == 7) }}">
+                                {% if process_step > 7 %}
+                                <i class="fas fa-check"></i>
+                                {% endif %}
+                                <!-- <i class="fas fa-comments"></i> -->
+                            </span>
+                            <div class="steps-content">
+                                <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7) }}">Leave Feedback</p>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <!--END: Steps-->
+            <!--START: Action req-->
+            {% if process_step == 2 or process_step == 4 %}
+                <div class="has-text-centered m-5 is-size-5">
+                    Waiting for Tour Guide to:
+                    <span class="tag is-white-ter is-size-5 is-clickable">
+                    Plan Custom Package</span>
+                </div>
+            {% elif process_step != 8 %}
+
+                <div class="has-text-centered m-5 is-size-5">
+                    Next Step:
+                    {% if process_step == 1 %}
+                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
+                    Submit Requirements</span>
+                    {% elif process_step == 3 %}
+                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
+                    Review Custom Itinerary & Charges</span>
+                    {% elif process_step == 5 %}
+                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
+                    Make Payment</span>
+                    {% elif process_step == 6 %}
+                        <span class="tag is-warning is-light is-size-5 is-clickable"
+                        onclick="$('#TourCompleteModal').fadeIn('fast')">
+                    Complete Tour</span>
+                    {% elif process_step == 7 %}
+                        <span class="tag is-warning is-light is-size-5 is-clickable"><a href="/review/{{booking._id}}">
+                        Leave Feedback</a></span>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <!--END: Action req-->
+        </div>
+    <!--END-->
+
     <!--START: Tabs-->
     <div class="tabs is-centered is-boxed pt-4">
         <ul>
-            <li class="tab is-active" onclick="openTab(event,'Overview')">
-                {% if process_step == 6 or process_step == 7 %}
-                    <span title="Badge top right" class="badge is-danger"></span>
-                {% endif %}
-                <a>Overview</a>
-            </li>
-            <li class="tab" onclick="openTab(event,'Details')">
+            <li class="tab is-active" onclick="openTab(event,'Details')">
                 {% if process_step == 3 %}
                     <span title="Badge top right" class="badge is-danger"></span>
                 {% endif %}
@@ -112,126 +222,8 @@
     <!--START: Content-->
     <div class="container section pt-2">
 
-        <!--START: Overview-->
-        <div id="Overview" class="content-tab">
-            {% if process_step == 6 %}
-            <!--START: Confirm if tour completed-->
-            <div class="section">
-                <div class="container has-text-centered">
-                    <div class="field">
-                        <p class="control">
-                            <button onclick="$('#TourCompleteModal').fadeIn('fast')"
-                                    class="button is-success is-light">
-                        <div class="is-size-5">I Have Completed My Tour!</div>
-                        </button>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <!--END: Confirm if tour completed-->
-        {% endif %}
-            <!--START: Action req-->
-            {% if process_step == 6 %}
-                <div class="has-text-centered m-2 is-size-6">
-                    You are now ready to go for your Tour!
-                </div>
-            {% endif %}
-
-            {% if process_step >= 7 %}
-                <div class="has-text-centered m-2 is-size-4">
-                    You have completed your Tour!
-                </div>
-            {% endif %}
-
-            {% if process_step == 2 or process_step == 4 %}
-                <div class="has-text-centered m-5 is-size-5">
-                    Waiting for Tour Guide to:
-                    <span class="tag is-white-ter is-size-5 is-clickable">
-                    Plan Custom Package</span>
-                </div>
-            {% elif process_step != 8 %}
-
-                <div class="has-text-centered m-5 is-size-5">
-                    Next Step:
-                    {% if process_step == 1 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
-                    Submit Requirements</span>
-                    {% elif process_step == 3 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
-                    Review Custom Itinerary & Charges</span>
-                    {% elif process_step == 5 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
-                    Make Payment</span>
-                    {% elif process_step == 6 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable"
-                              onclick="openTab(event,'Overview')">
-                    Complete Tour</span>
-                    {% elif process_step == 7 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable"><a href="{{ url_for('review') }}">
-                        Leave Feedback</a></span>
-                    {% endif %}
-                </div>
-            {% endif %}
-            <!--END: Action req-->
-            <!--START: Steps-->
-            <div>
-                <ul class="steps has-content-centered">
-
-                    <li class="steps-segment {{ 'is-active' if (process_step == 1) }}">
-                        <span class="steps-marker {{ 'is-link' if (process_step == 1) }}">
-                            <i class="fas fa-book"></i>
-                        </span>
-                        <div class="steps-content">
-                            <p class="is-size-5">Requirements</p>
-                        </div>
-                    </li>
-
-                    <li class="steps-segment {{ 'is-active' if (2 <= process_step <= 4) }}">
-                        <span class="steps-marker {{ 'is-link' if (2 <= process_step <= 4) }}">
-                            <i class="fas fa-route"></i>
-                        </span>
-                        <div class="steps-content">
-                            <p class="is-size-5">Planning Itinerary</p>
-                        </div>
-                    </li>
-
-                    <li class="steps-segment {{ 'is-active' if (process_step == 5) }}">
-                        <span class="steps-marker {{ 'is-link' if (process_step == 5) }}">
-                            <i class="fas fa-dollar-sign"></i>
-                        </span>
-                        <div class="steps-content">
-                            <p class="is-size-5">Confirmation & Payment</p>
-                        </div>
-                    </li>
-
-                    <li class="steps-segment {{ 'is-active' if (process_step == 6) }}">
-                        <span class="steps-marker {{ 'is-link' if (process_step == 6) }}">
-                            <i class="fas fa-check"></i>
-                        </span>
-                        <div class="steps-content">
-                            <p class="is-size-5">Complete Tour</p>
-                        </div>
-                    </li>
-
-                    <li class="steps-segment {{ 'is-active' if (process_step == 7) }}">
-                        <a class="{{ 'inactiveLink' if (process_step != 7) }}" href="{{ url_for('review') }}">
-                            <span class="steps-marker {{ 'is-link' if(process_step == 7) }}">
-                                <i class="fas fa-comments"></i>
-                            </span>
-                            <div class="steps-content">
-                                <p class="is-size-5 has-text-black">Leave Feedback</p>
-                            </div>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-            <!--END: Steps-->
-        </div>
-        <!--END: Overview-->
-
         <!--START: Details-->
-        <div id="Details" class="content-tab" style="display:none">
+        <div id="Details" class="content-tab">
             <!--START: About-->
             <div class='columns my-5 is-vcentered'>
                 <div class='column'>
@@ -312,10 +304,10 @@
                                     <td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
                                     <td>{{ tour.tour_itinerary[0] }}</td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
                                     <td>{{ booking.book_duration }}</td>
-                                </tr>
+                                </tr> -->
                             </table>
                         </div>
                     </div>
@@ -528,7 +520,7 @@
 
         <!--START: BIllinng-->
         <div id="Billing" class="content-tab" style="display:none">
-            <div class="container">
+            <div class="container mb-6">
                 {% if process_step == 3 or process_step == 4 %}
                     <!--START: Proposed Cost-->
                     <div>

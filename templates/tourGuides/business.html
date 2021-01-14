@@ -107,7 +107,7 @@
                         <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
                 Plan Custom Package</span>
                     {% elif process_step == 7 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable"><a href="{{ url_for('review') }}">
+                        <span class="tag is-warning is-light is-size-5 is-clickable"><a href="">
                 Leave Feedback</a></span>
                     {% endif %}
                 </div>
@@ -171,7 +171,7 @@
                     </li>
 
                     <li class="steps-segment {{ 'is-active' if (process_step == 7) }}">
-                        <a class="{{ 'inactiveLink' if (process_step != 7) }}" href="{{ url_for('review') }}">
+                        <a class="{{ 'inactiveLink' if (process_step != 7) }}" href="">
                         <span class="steps-marker {{ 'is-link' if(process_step == 7) }}">
             <i class="fas fa-comments"></i>
           </span>
