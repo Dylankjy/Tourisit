@@ -1294,6 +1294,16 @@ def email_confirmation_endpoint():
     else:
         return redirect(url_for('login', verification_code_denied=True))
 
+# Password reset:
+# TODO: Take token put into WTForm and check only after submission. Remove check on auth.py
+# @app.route('/login/reset_password')
+# def email_confirmation_endpoint():
+#     email_token = request.args.get('token')
+#     if auth.verify_remove_token("email_verification", email_token):
+#         return redirect(url_for('login', verification_code_OK=True))
+#     else:
+#         return redirect(url_for('login', verification_code_denied=True))
+
 
 # Run app
 if __name__ == '__main__':
