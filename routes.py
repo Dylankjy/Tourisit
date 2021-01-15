@@ -179,11 +179,10 @@ def profile(user_id):
     result = auth.is_auth(True)
 
     if result:
-        print(item)
         editable = item['_id'] == result['_id']
         if request.method == 'POST':
             if bForm.validate_on_submit():
-                query_user = {'_id': ObjectId(id)}
+                query_user = {'_id': ObjectId(user_id)}
                 bio = request.form["bio"]
                 updated = {
                     "$set": {"bio": bio}
@@ -208,7 +207,7 @@ def profile(user_id):
     else:
         editable = False
         profile_img = item.profile_img
-        # if not logged in
+
     if not result:
         return render_template(
             'profile.html',
@@ -217,7 +216,7 @@ def profile(user_id):
             item=item,
             editable=editable,
             profile_img=profile_img)
-        # if logged in
+
     else:
         return render_template(
             'profile.html',
