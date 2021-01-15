@@ -167,11 +167,10 @@ def support():
 def profile(user_id):
     bForm = BioForm()
     item = user_db.find_one({'_id': ObjectId(user_id)})
-    uid = item['_id']
     result = auth.is_auth(True)
-    userData = user_db.find_one({'_id': uid})
 
     if result:
+        print(item)
         editable = item['_id'] == result['_id']
         if request.method == 'POST':
             if bForm.validate_on_submit():
@@ -181,20 +180,21 @@ def profile(user_id):
                     "$set": {"bio": bio}
                 }
                 user_db.update_one(query_user, updated)
-                # return render_template('profile.html', user=item, form=bForm)
-            return render_template('profile.html', user=item, form=bForm, loggedin=True, editable=editable, userData=userData)
+
+            return render_template('profile.html', user=item, form=bForm, loggedin=True, editable=editable)
         else:
             bForm.bio.default = item['bio']
             bForm.process()
-            return render_template('profile.html', user=item, form=bForm, loggedin=True, editable=editable, userData=userData)
+            return render_template('profile.html', user=item, form=bForm, loggedin=True, editable=editable)
     else:
         editable = False
+        profile_img = item.profile_img
         # if not logged in
     if not result:
-        return render_template('profile.html', form=bForm, logged_in=False, item=item, editable=editable, userData=userData)
+        return render_template('profile.html', form=bForm, logged_in=False, item=item, editable=editable, profile_img=profile_img)
         # if logged in
     else:
-        return render_template('profile.html', form=bForm, logged_in=True, item=item, editable=editable, userData=userData)
+        return render_template('profile.html', form=bForm, logged_in=True, item=item, editable=editable, profile_img=profile_img)
 
 
 # SHARED
