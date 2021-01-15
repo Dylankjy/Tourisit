@@ -2,8 +2,10 @@ from flask_wtf import FlaskForm
 from wtforms import TextAreaField
 from wtforms.validators import InputRequired
 
+
 class ReviewForm(FlaskForm):
     review_text = TextAreaField('review_text', validators=[InputRequired()])
+
 
 class Review:
     def __init__(self, stars, text, reviewer_id, reviewee_id):

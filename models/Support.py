@@ -16,14 +16,20 @@ class SupportForm(FlaskForm):
         "link",
         validators=[
             InputRequired(),
-            Length(min=0, max=300, message="Tour Guide profile link can only be 300 characters long!")
+            Length(
+                min=0,
+                max=300,
+                message="Tour Guide profile link can only be 300 characters long!")
         ]
     )
     content = TextAreaField(
         "content",
         validators=[
             InputRequired(),
-            Length(min=0, max=500, message="Message can only be 500 characters long!")
+            Length(
+                min=0,
+                max=500,
+                message="Message can only be 500 characters long!")
         ]
     )
 

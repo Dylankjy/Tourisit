@@ -20,8 +20,8 @@ from wtforms.validators import DataRequired, Email
 import models.User as User
 
 # MongoDB connection string
-client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')[
-    'Tourisit']
+client = pymongo.MongoClient(
+    'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
 
 # Collections
 env = client['Environment']
@@ -34,7 +34,7 @@ db_listings = client['Listings']
 try:
     sendgrid_key = [i for i in env.find({})][0]["sendgrid_api"]
     template_header = open("email/header.html", "r").read()
-except:
+except BaseException:
     print("Check your network connectivity. Couldn't contact MongoDB database! Are you using the school network?")
     exit(-1)
 
@@ -275,10 +275,10 @@ def delete_account(uid):
         # Query everything in relation to UID
         query = {
             # '$or': {
-                "_id": ObjectId(uid)
-                # "uid": ObjectId(uid),
-                # 'tg_uid': ObjectId(uid),
-                # 'cust_uid': ObjectId(uid)
+            "_id": ObjectId(uid)
+            # "uid": ObjectId(uid),
+            # 'tg_uid': ObjectId(uid),
+            # 'cust_uid': ObjectId(uid)
             # }
         }
 
@@ -290,7 +290,7 @@ def delete_account(uid):
         print('OK')
 
         return True
-    except:
+    except BaseException:
         return Exception("Couldn't yeet user account due to an error.")
 
 
@@ -327,10 +327,12 @@ def send_confirmation_email(sid=None, user_email=None):
     # Email headers
     message = MIMEMultipart("alternative")
     message["Subject"] = "Tourisit - Confirm your Email"
-    message["From"] = formataddr((str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
+    message["From"] = formataddr(
+        (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
     message["To"] = user_email
 
-    code = 'https://tourisit.ichiharu.com/system/confirmEmail/' + add_token("email_verification", sid)
+    code = 'https://tourisit.ichiharu.com/system/confirmEmail/' + \
+           add_token("email_verification", sid)
 
     # Build email HTML from 2 parts. Format with URL
     content = template_header + template_email_confirmation.format(
@@ -343,8 +345,9 @@ def send_confirmation_email(sid=None, user_email=None):
     with smtplib.SMTP_SSL("smtp.sendgrid.net", port, context=context) as server:
         server.login("apikey", password)
         server.sendmail(
-            "notifications@tourisit.ichiharu.com", user_email, message.as_string()
-        )
+            "notifications@tourisit.ichiharu.com",
+            user_email,
+            message.as_string())
 
     return True
 
@@ -354,7 +357,7 @@ def get_sid():
         # Get SID
         sid = request.cookies.get('tourisitapp-sid')
         return sid
-    except:
+    except BaseException:
         return None
 
 
@@ -384,8 +387,9 @@ def is_auth(gib_data=False):
                 return True
         else:
             return False
-    except:
-        raise Exception('auth.py: Cannot authenticate user due to an unknown error')
+    except BaseException:
+        raise Exception(
+            'auth.py: Cannot authenticate user due to an unknown error')
 
 
 def generate_password_hash(raw_password):

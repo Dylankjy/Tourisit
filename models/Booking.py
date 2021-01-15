@@ -40,7 +40,9 @@ class Booking:
         self.__book_duration = book_duration
         self.__timeline_content = timeline_content
         self.__process_step = process_step
-        self.__book_charges = {'baseprice': float(book_baseprice), 'customfee': float(book_customfee)}
+        self.__book_charges = {
+            'baseprice': float(book_baseprice),
+            'customfee': float(book_customfee)}
         self.__book_info = ""
         self.__book_chat = ''
 
@@ -49,7 +51,7 @@ class Booking:
             book_datetime = book_date + " " + book_time
             book_datetime = datetime.strptime(book_datetime, '%Y-%m-%d %H:%M')
             book_datetime = book_datetime.isoformat()
-        except:
+        except BaseException:
             print("An Error occured.")
         else:
             self.__book_datetime = book_datetime
@@ -89,5 +91,5 @@ def calculate_totalcost(book_charges):
             totalcost -= i
         if totalcost > 0:
             return round(totalcost, 2)
-    except:
+    except BaseException:
         print("An error occured while trying to compute the total cost. Check Datatypes or negative inputs.")

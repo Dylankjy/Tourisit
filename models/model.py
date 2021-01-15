@@ -106,7 +106,7 @@ class Listing:
 
     def add_tour_itinerary(self, itinerary):
         try:
-            assert type(itinerary) == str
+            assert isinstance(itinerary, str)
         except AssertionError:
             print(f"{itinerary} must be of type {str}")
         else:
@@ -114,7 +114,7 @@ class Listing:
 
     def set_tour_location(self, tour_location):
         try:
-            assert type(tour_location) == list
+            assert isinstance(tour_location, list)
         except AssertionError:
             print(f"{tour_location} must be of type {list}")
         else:
@@ -130,7 +130,7 @@ class Listing:
 
     def set_tour_img(self, tour_img):
         try:
-            assert type(tour_img) == bytes
+            assert isinstance(tour_img, bytes)
         except AssertionError:
             print(f"{tour_img} must be of type {bytes}")
         else:
@@ -146,7 +146,7 @@ class Listing:
 
     def set_tour_review(self, tour_review):
         try:
-            assert type(tour_review) == list
+            assert isinstance(tour_review, list)
         except AssertionError:
             print(f"{tour_review} must be of type {list}")
         else:

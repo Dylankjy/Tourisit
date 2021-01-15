@@ -19,7 +19,8 @@ class CustomSelectField(FlaskForm):
 
     def return_Field(self):
         kws = {'id': f'{self.__start_name}-{self.__options}'}
-        return SelectField(self.__fieldName, choices=self.__options, render_kw=kws)
+        return SelectField(
+            self.__fieldName, choices=self.__options, render_kw=kws)
 
 
 # Add no. of revisions, itineary, location
@@ -107,7 +108,7 @@ class Listing:
 
     def set_tour_itinerary(self, tour_itinerary):
         try:
-            assert type(tour_itinerary) == list
+            assert isinstance(tour_itinerary, list)
         except AssertionError:
             print(f"{tour_itinerary} must be of type {list}")
         else:
@@ -115,7 +116,7 @@ class Listing:
 
     def add_tour_itinerary(self, itinerary):
         try:
-            assert type(itinerary) == str
+            assert isinstance(itinerary, str)
         except AssertionError:
             print(f"{itinerary} must be of type {str}")
         else:
@@ -123,7 +124,7 @@ class Listing:
 
     def set_tour_location(self, tour_location):
         try:
-            assert type(tour_location) == list
+            assert isinstance(tour_location, list)
         except AssertionError:
             print(f"{tour_location} must be of type {list}")
         else:
@@ -158,7 +159,7 @@ class Listing:
 
     def set_tour_review(self, tour_review):
         try:
-            assert type(tour_review) == list
+            assert isinstance(tour_review, list)
         except AssertionError:
             print(f"{tour_review} must be of type {list}")
         else:

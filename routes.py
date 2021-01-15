@@ -1,5 +1,6 @@
 # Flask imports
 # Data Generation
+import json
 from datetime import datetime
 from io import BytesIO
 
@@ -14,15 +15,13 @@ import auth as auth
 # Chat Library
 import chat as msg
 from models.Booking import BookingForm, CheckoutForm, Booking
-from models.Format import JSONEncoder, img_to_base64, formToArray, file_to_base64
+from models.Format import JSONEncoder, img_to_base64, formToArray
 # Custom class imports
 from models.Listing import ListingForm, Listing
+from models.Review import ReviewForm
 from models.Support import SupportForm, Support
-from models.User import UserForm, BioForm
 from models.Transaction import Transaction
-from models.Review import Review, ReviewForm
-
-from PIL import Image
+from models.User import UserForm, BioForm
 
 # For Images
 buffered = BytesIO()
@@ -38,8 +37,6 @@ buffered = BytesIO()
 # mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017
 
 
-import json
-
 app = Flask(__name__,
             static_url_path='',
             static_folder='public',
@@ -52,8 +49,8 @@ app.config['SECRET_KEY'] = 'keepthissecret'
 app.config["MAX_IMAGE_FILESIZE"] = 1 * 1024 * 1024
 
 # CHANGE THE PASSWORD TO A GLOBAL VARIABLE
-client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')[
-    'Tourisit']
+client = pymongo.MongoClient(
+    'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
 
 # Initialize all DBs here
 shop_db = client['Listings']
@@ -126,8 +123,10 @@ def user_name(uid):
 
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
-
-    return render_template('tourGuides/testImg.html', user=None, imgBase64=uwu_face)
+    return render_template(
+        'tourGuides/testImg.html',
+        user=None,
+        imgBase64=uwu_face)
 
 
 # --------------------------------------
@@ -147,14 +146,26 @@ def support():
                 support_type = request.form['support_type']
                 link = request.form['link']
                 content = request.form['content']
-                support_request = Support(uid=uid, support_type=support_type, link=link, content=content)
+                support_request = Support(
+                    uid=uid,
+                    support_type=support_type,
+                    link=link,
+                    content=content)
                 support_info = support_request.return_obj()
                 print(support_info)
                 support_db.insert_one(support_info)
                 return render_template('success-user.html', user=result)
-            return render_template('helpdesk.html', user=result, form=sForm, loggedin=True)
+            return render_template(
+                'helpdesk.html',
+                user=result,
+                form=sForm,
+                loggedin=True)
         else:
-            return render_template('helpdesk.html', user=result, form=sForm, loggedin=True)
+            return render_template(
+                'helpdesk.html',
+                user=result,
+                form=sForm,
+                loggedin=True)
     else:
         return 'Need to login/create account first!'
 
@@ -179,20 +190,42 @@ def profile(user_id):
                 }
                 user_db.update_one(query_user, updated)
 
-            return render_template('profile.html', user=item, form=bForm, loggedin=True, editable=editable)
+            return render_template(
+                'profile.html',
+                user=item,
+                form=bForm,
+                loggedin=True,
+                editable=editable)
         else:
             bForm.bio.default = item['bio']
             bForm.process()
-            return render_template('profile.html', user=item, form=bForm, loggedin=True, editable=editable)
+            return render_template(
+                'profile.html',
+                user=item,
+                form=bForm,
+                loggedin=True,
+                editable=editable)
     else:
         editable = False
         profile_img = item.profile_img
         # if not logged in
     if not result:
-        return render_template('profile.html', form=bForm, logged_in=False, item=item, editable=editable, profile_img=profile_img)
+        return render_template(
+            'profile.html',
+            form=bForm,
+            logged_in=False,
+            item=item,
+            editable=editable,
+            profile_img=profile_img)
         # if logged in
     else:
-        return render_template('profile.html', form=bForm, logged_in=True, item=item, editable=editable, profile_img=profile_img)
+        return render_template(
+            'profile.html',
+            form=bForm,
+            logged_in=True,
+            item=item,
+            editable=editable,
+            profile_img=profile_img)
 
 
 # SHARED
@@ -219,27 +252,43 @@ def accountinfo():
                 # If password is same
                 if password == '':
                     updated = {
-                        "$set": {"name": name,
-                                 "email": email, "phone_number": phone_number,
-                                 "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin},
-                                 "account_mode": account_mode
-                                 }
-                    }
+                        "$set": {
+                            "name": name,
+                            "email": email,
+                            "phone_number": phone_number,
+                            "socialmedia": {
+                                "fb": fb,
+                                "insta": insta,
+                                "linkedin": linkedin},
+                            "account_mode": account_mode}}
                 else:
                     updated = {
-                        "$set": {"name": name, "password": auth.generate_password_hash(password),
-                                 "email": email, "phone_number": phone_number,
-                                 "socialmedia": {"fb": fb, "insta": insta, "linkedin": linkedin},
-                                 "account_mode": account_mode
-                                 }
-                    }
+                        "$set": {
+                            "name": name,
+                            "password": auth.generate_password_hash(password),
+                            "email": email,
+                            "phone_number": phone_number,
+                            "socialmedia": {
+                                "fb": fb,
+                                "insta": insta,
+                                "linkedin": linkedin},
+                            "account_mode": account_mode}}
                 user_db.update_one(query_user, updated)
-                return render_template('success-user.html', user=item, id=id, loggedin=True)
-            return render_template('setting.html', user=item, form=uForm, loggedin=True)
+                return render_template(
+                    'success-user.html', user=item, id=id, loggedin=True)
+            return render_template(
+                'setting.html',
+                user=item,
+                form=uForm,
+                loggedin=True)
 
         # Else if not logged in
         else:
-            return render_template('setting.html', user=item, form=uForm, loggedin=True)
+            return render_template(
+                'setting.html',
+                user=item,
+                form=uForm,
+                loggedin=True)
 
     else:
         # Render the pls log in template here
@@ -250,7 +299,7 @@ def accountinfo():
 def accountbilling():
     try:
         return render_template('billing.html')
-    except:
+    except BaseException:
         return 'Error trying to render'
 
 
@@ -278,8 +327,11 @@ def home():
                                item_list=shown_listings, loggedin=False)
     # if logged in
     else:
-        return render_template('customer/index-customer.html',
-                               item_list=shown_listings, loggedin=True, user=result)
+        return render_template(
+            'customer/index-customer.html',
+            item_list=shown_listings,
+            loggedin=True,
+            user=result)
 
 
 # CUSTOMERS
@@ -292,12 +344,21 @@ def market():
     all_listings = [i for i in shop_db.find(query)]
     # if not logged in
     if not result:
-        return render_template('customer/marketplace.html',
-                               listings=list(shop_db.find()), loggedin=False, item_list=all_listings)
+        return render_template(
+            'customer/marketplace.html',
+            listings=list(
+                shop_db.find()),
+            loggedin=False,
+            item_list=all_listings)
     # if logged in
     else:
-        return render_template('customer/marketplace.html',
-                               listings=list(shop_db.find()), loggedin=True, user=result, item_list=all_listings)
+        return render_template(
+            'customer/marketplace.html',
+            listings=list(
+                shop_db.find()),
+            loggedin=True,
+            user=result,
+            item_list=all_listings)
 
 
 # To implement search function
@@ -311,7 +372,7 @@ def search():
     except KeyError:
         text = None
 
-    if text != None:
+    if text is not None:
         # Get all the listing names from db
         # Get all the listings that fulfil the criteria
 
@@ -321,7 +382,9 @@ def search():
         resp = make_response()
         resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
 
-        shard_payload = render_template('components/listing-card.html', item_list=result_listings)
+        shard_payload = render_template(
+            'components/listing-card.html',
+            item_list=result_listings)
 
         resp = Response(
             response=JSONEncoder().encode({
@@ -342,35 +405,47 @@ def search():
 # Detailed Listing: More detailed listing when listing from Marketplace clicked
 @app.route('/discover/<tour_id>')
 def tourListing(tour_id):
-    #Note that there are 2 users here. The tour guide and the person who is logged in
+    # Note that there are 2 users here. The tour guide and the person who is
+    # logged in
     result = auth.is_auth(True)
     user_id = result['_id']
     query_user = {'_id': ObjectId(user_id)}
     loggedin_user = user_db.find_one(query_user)
 
-    # See if item is already in wishlist. If yes, then display 'Remove from wishlist' instead of 'Add to wishlist'
+    # See if item is already in wishlist. If yes, then display 'Remove from
+    # wishlist' instead of 'Add to wishlist'
     inside_wl = str(tour_id) in loggedin_user['wishlist']
     print(tour_id)
     print(loggedin_user['wishlist'])
     print(inside_wl)
 
-    # Dynamically load the user data (From the database) so if user info changes, all will change too
+    # Dynamically load the user data (From the database) so if user info
+    # changes, all will change too
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
     tg_id = item['tg_uid']
     tg_userData = user_db.find_one({'_id': tg_id})
 
-
     # if not logged in
     if not result:
         editable = False
-        return render_template('customer/tourListing.html', item=item, loggedin=False, editable=editable,
-                               userData=tg_userData)
+        return render_template(
+            'customer/tourListing.html',
+            item=item,
+            loggedin=False,
+            editable=editable,
+            userData=tg_userData)
     # if logged in
     else:
         # Boolean, will be editable if person is the owner of the listing
         editable = item['tg_uid'] == result['_id']
-        return render_template('customer/tourListing.html', item=item, loggedin=True, user=result, editable=editable,
-                               userData=tg_userData, inside_wl=inside_wl)
+        return render_template(
+            'customer/tourListing.html',
+            item=item,
+            loggedin=True,
+            user=result,
+            editable=editable,
+            userData=tg_userData,
+            inside_wl=inside_wl)
 
 
 # TOUR GUIDES
@@ -388,13 +463,20 @@ def ownlisting():
 
     # if not logged in
     if not result:
-        return render_template('tourGuides/ownlisting.html', listings=None, loggedin=False)
+        return render_template(
+            'tourGuides/ownlisting.html',
+            listings=None,
+            loggedin=False)
     # if logged in
     else:
         tourGuide_id = result['_id']
         tour_listings = list(shop_db.find({'tg_uid': tourGuide_id}))
-        return render_template('tourGuides/ownlisting.html', listings=tour_listings, loggedin=True, user=result,
-                               userData=userData)
+        return render_template(
+            'tourGuides/ownlisting.html',
+            listings=tour_listings,
+            loggedin=True,
+            user=result,
+            userData=userData)
 
 
 @app.route('/apis/upImg')
@@ -412,7 +494,8 @@ def testing():
     return x
     # result = auth.is_auth(True)
     # lForm = ListingForm()
-    # return render_template('tourGuides/makelisting.html', form=lForm, user=result)
+    # return render_template('tourGuides/makelisting.html', form=lForm,
+    # user=result)
 
 
 @app.route('/listings/add', methods=['GET', 'POST'])
@@ -436,7 +519,8 @@ def makelisting():
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
                 tour_itinerary = formToArray(itinerary_form_list)
 
-                locations_form_list = request.form.getlist('tour_locations_list[]')
+                locations_form_list = request.form.getlist(
+                    'tour_locations_list[]')
                 tour_locations = formToArray(locations_form_list)
 
                 tour_img = request.files['tour_img']
@@ -450,21 +534,32 @@ def makelisting():
 
                 print(tour_itinerary)
 
-                tour_listing = Listing(tour_name=tour_name, tour_desc=detail_desc,
-                                       tour_price=tour_price,
-                                       tour_img=img_string, tg_uid=tg_uid,
-                                       tour_location=tour_locations, tour_revs=tour_revisions,
-                                       tour_itinerary=tour_itinerary)
+                tour_listing = Listing(
+                    tour_name=tour_name,
+                    tour_desc=detail_desc,
+                    tour_price=tour_price,
+                    tour_img=img_string,
+                    tg_uid=tg_uid,
+                    tour_location=tour_locations,
+                    tour_revs=tour_revisions,
+                    tour_itinerary=tour_itinerary)
 
                 listingInfo = tour_listing.return_obj()
                 print(listingInfo)
                 shop_db.insert_one(listingInfo)
 
-                return render_template('tourGuides/listing-success.html', user=result)
-            return render_template('tourGuides/makelisting.html', form=lForm, user=result)
+                return render_template(
+                    'tourGuides/listing-success.html', user=result)
+            return render_template(
+                'tourGuides/makelisting.html',
+                form=lForm,
+                user=result)
 
         else:
-            return render_template('tourGuides/makelisting.html', form=lForm, user=result)
+            return render_template(
+                'tourGuides/makelisting.html',
+                form=lForm,
+                user=result)
     else:
         return 'Need to login/create account first!'
 
@@ -478,7 +573,7 @@ def editListing(id):
     item = shop_db.find_one({'_id': ObjectId(id)})
     itinerary_list = json.dumps(item['tour_itinerary'])
     editable = item['tg_uid'] == result['_id']
-    if editable == True:
+    if editable:
         if request.method == 'POST':
             if lForm.validate_on_submit():
                 query_listing = {'_id': ObjectId(id)}
@@ -489,7 +584,8 @@ def editListing(id):
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
                 tour_itinerary = formToArray(itinerary_form_list)
 
-                locations_form_list = request.form.getlist('tour_locations_list[]')
+                locations_form_list = request.form.getlist(
+                    'tour_locations_list[]')
                 tour_locations = formToArray(locations_form_list)
 
                 tour_revisions = request.form['tour_revisions']
@@ -500,36 +596,54 @@ def editListing(id):
 
                 tour_img = request.files['tour_img']
                 img_string = img_to_base64(tour_img)
-                # If there's no change to image (User doesnt upload new image), keep the current image
+                # If there's no change to image (User doesnt upload new image),
+                # keep the current image
                 print('Img string is:' + img_string)
                 if img_string == '':
                     img_string = item['tour_img']
                     print('This fired!')
                     # Don't update the tour image
                     updated = {
-                        "$set": {'tour_name': tour_name, 'tour_desc': detail_desc,
-                                 'tour_price': tour_price, 'tour_location': tour_locations,
-                                 'tour_revisions': tour_revisions, 'tour_itinerary': tour_itinerary}}
+                        "$set": {
+                            'tour_name': tour_name,
+                            'tour_desc': detail_desc,
+                            'tour_price': tour_price,
+                            'tour_location': tour_locations,
+                            'tour_revisions': tour_revisions,
+                            'tour_itinerary': tour_itinerary}}
 
                 else:
                     updated = {
-                        "$set": {'tour_name': tour_name, 'tour_desc': detail_desc,
-                                 'tour_price': tour_price, 'tour_img': img_string,
-                                 'tour_location': tour_locations, 'tour_revisions': tour_revisions,
-                                 'tour_itinerary': tour_itinerary}}
+                        "$set": {
+                            'tour_name': tour_name,
+                            'tour_desc': detail_desc,
+                            'tour_price': tour_price,
+                            'tour_img': img_string,
+                            'tour_location': tour_locations,
+                            'tour_revisions': tour_revisions,
+                            'tour_itinerary': tour_itinerary}}
 
                 shop_db.update_one(query_listing, updated)
 
-                return render_template('tourGuides/editing-success.html', id=id, user=result)
+                return render_template(
+                    'tourGuides/editing-success.html', id=id, user=result)
             lForm.tour_desc.default = item['tour_desc']
             lForm.process()
-            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result)
+            return render_template(
+                'tourGuides/editListing.html',
+                listing=item,
+                form=lForm,
+                user=result)
 
         else:
             # print(item['tour_name'])
             lForm.tour_desc.default = item['tour_desc']
             lForm.process()
-            return render_template('tourGuides/editListing.html', listing=item, form=lForm, user=result)
+            return render_template(
+                'tourGuides/editListing.html',
+                listing=item,
+                form=lForm,
+                user=result)
     else:
         return 'Not allowed to edit!'
 
@@ -562,14 +676,19 @@ def favourites():
     query_user = {'_id': ObjectId(user_id)}
     current_wishlist = user_db.find_one(query_user)['wishlist']
     current_wishlist = list(map(lambda x: ObjectId(x), current_wishlist))
-    all_listings = [i for i in shop_db.find({'_id':{"$in":current_wishlist}})]
+    all_listings = [i for i in shop_db.find(
+        {'_id': {"$in": current_wishlist}})]
     print(all_listings)
     # if not logged in
     if not result:
         return render_template('customer/favourites.html', loggedin=False)
     # if logged in
     else:
-        return render_template('customer/favourites.html', loggedin=True, user=result, item_list=all_listings)
+        return render_template(
+            'customer/favourites.html',
+            loggedin=True,
+            user=result,
+            item_list=all_listings)
 
 
 @app.route('/me/wishlist/add/<tour_id>')
@@ -605,9 +724,8 @@ def removeWishlist(tour_id):
         user_db.update_one(query_user, updated)
 
         return redirect(f'/discover/{tour_id}')
-    except:
+    except BaseException:
         return 'Stop deleting an invalid item from wishlist ydc'
-
 
 
 # --------------------------------------
@@ -633,8 +751,12 @@ def all_bookings():
             listings.append(shop_db.find_one({'_id': item['listing_id']}))
         booking_list.reverse()
         listings.reverse()
-        return render_template('customer/allBookings.html', booking_list=booking_list, listings=listings, loggedin=True,
-                               user=result)
+        return render_template(
+            'customer/allBookings.html',
+            booking_list=booking_list,
+            listings=listings,
+            loggedin=True,
+            user=result)
 
 
 # except:
@@ -658,7 +780,7 @@ def bookings(book_id):
     else:
         if request.method == 'POST':
             if request.form['TourComplete_submit'] == 'TourComplete':
-                update_booking = { "$set": { "process_step": 7 } }
+                update_booking = {"$set": {"process_step": 7}}
                 bookings_db.update_one(booking, update_booking)
 
         return render_template('customer/booking.html',
@@ -688,16 +810,28 @@ def book_now(tour_id):
             if bookform.validate_on_submit():
                 book_date = request.form["book_date"]
                 book_time = request.form["book_time"]
-                booking = Booking(tg_uid=item['tg_uid'], cust_uid=result['_id'], listing_id=item['_id'],
-                                  book_date=book_date, book_time=book_time, book_baseprice=item['tour_price'],
-                                  book_customfee=0, book_duration="", timeline_content=[],
-                                  process_step=5)
+                booking = Booking(
+                    tg_uid=item['tg_uid'],
+                    cust_uid=result['_id'],
+                    listing_id=item['_id'],
+                    book_date=book_date,
+                    book_time=book_time,
+                    book_baseprice=item['tour_price'],
+                    book_customfee=0,
+                    book_duration="",
+                    timeline_content=[],
+                    process_step=5)
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
 
-        return render_template('customer/book-now.html', loggedin=True, user=result, form=bookform, item=item,
-                               tour_id=tour_id)
+        return render_template(
+            'customer/book-now.html',
+            loggedin=True,
+            user=result,
+            form=bookform,
+            item=item,
+            tour_id=tour_id)
     # if not logged in
     else:
         return render_template('customer/book-now.html', loggedin=False)
@@ -724,9 +858,13 @@ def checkout(book_id):
                     update_booking = {"$set": {"process_step": 6}}
                     bookings_db.update_one(booking, update_booking)
                     # Transaction
-                    earnings = booking['book_charges']['baseprice'] + booking['book_charges']['customfee']
-                    transaction = Transaction(tg_uid=booking['tg_uid'], cust_uid=booking['cust_uid'], earnings=earnings,
-                                              booking=booking['_id'])
+                    earnings = booking['book_charges']['baseprice'] + \
+                        booking['book_charges']['customfee']
+                    transaction = Transaction(
+                        tg_uid=booking['tg_uid'],
+                        cust_uid=booking['cust_uid'],
+                        earnings=earnings,
+                        booking=booking['_id'])
                     transaction.payment_made()
                     transaction_db.insert_one(transaction.return_obj())
 
@@ -738,8 +876,13 @@ def checkout(book_id):
                 else:
                     print("Error occurred while trying to pay.")
 
-        return render_template('customer/checkout.html', loggedin=True, user=result, booking=booking, form=form,
-                               book_id=book_id)
+        return render_template(
+            'customer/checkout.html',
+            loggedin=True,
+            user=result,
+            booking=booking,
+            form=form,
+            book_id=book_id)
     # if not logged in
     else:
         return render_template('customer/checkout.html', loggedin=False)
@@ -758,7 +901,9 @@ def all_businesses():
         result = auth.is_auth(True)
         # if not logged in
         if not result:
-            return render_template('tourGuides/allBusinesses.html', loggedin=False)
+            return render_template(
+                'tourGuides/allBusinesses.html',
+                loggedin=False)
         # if logged in
         else:
             tg_uid = result['_id']
@@ -768,15 +913,18 @@ def all_businesses():
                 listings.append(shop_db.find_one({'_id': item['listing_id']}))
             booking_list.reverse()
             listings.reverse()
-            return render_template('tourGuides/allBusinesses.html', booking_list=booking_list, listings=listings,
-                                   loggedin=True,
-                                   user=result)
-    except:
+            return render_template(
+                'tourGuides/allBusinesses.html',
+                booking_list=booking_list,
+                listings=listings,
+                loggedin=True,
+                user=result)
+    except BaseException:
         return 'Error trying to render'
 
 
 # TOUR GUIDES
-# Individual gigs  
+# Individual gigs
 # @app.route('/s/businesses/<id>')
 @app.route('/s/businesses/<book_id>')
 def business(book_id):
@@ -799,7 +947,7 @@ def business(book_id):
                                    tour=tour,
                                    loggedin=True,
                                    user=result)
-    except:
+    except BaseException:
         return 'Error trying to render'
 
 
@@ -811,9 +959,14 @@ def review(book_id):
         booking = bookings_db.find_one({'_id': ObjectId(book_id)})
         tour = shop_db.find_one({'_id': booking['listing_id']})
         form = ReviewForm()
-        return render_template('customer/review.html', booking=booking, tour=tour, form=form)
-    except:
+        return render_template(
+            'customer/review.html',
+            booking=booking,
+            tour=tour,
+            form=form)
+    except BaseException:
         return 'Error trying to render'
+
 
 # --------------------------------------
 
@@ -821,6 +974,8 @@ def review(book_id):
 
 # TOUR GUIDE
 # Redirect user to dashboard if attempt to access root of /s/
+
+
 @app.route('/s/')
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
@@ -843,7 +998,10 @@ def sellerDashboard():
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
-        return render_template('tourGuides/dashboard.html', loggedin=True, user=result)
+        return render_template(
+            'tourGuides/dashboard.html',
+            loggedin=True,
+            user=result)
 
 
 # INTERNAL
@@ -857,7 +1015,10 @@ def adminDashboard():
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
-        return render_template('internal/dashboard.html', loggedin=True, user=result)
+        return render_template(
+            'internal/dashboard.html',
+            loggedin=True,
+            user=result)
 
 
 # INTERNAL
@@ -872,7 +1033,11 @@ def adminUsers():
     # if logged in
     else:
         user_accounts = admin.list_user_accounts()
-        return render_template('internal/users.html', loggedin=True, user=result, user_list=user_accounts)
+        return render_template(
+            'internal/users.html',
+            loggedin=True,
+            user=result,
+            user_list=user_accounts)
 
 
 # INTERNAL
@@ -886,7 +1051,11 @@ def adminListings():
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
-        return render_template('internal/listings.html', loggedin=True, user=result, listing=admin.list_listings())
+        return render_template(
+            'internal/listings.html',
+            loggedin=True,
+            user=result,
+            listing=admin.list_listings())
 
 
 # SHARED
@@ -909,9 +1078,14 @@ def login():
             # Check for response from auth handler
             if not result:
                 # If fail, show failure modal
-                return render_template('auth/login.html', form=form, acc_login_failed=True)
+                return render_template(
+                    'auth/login.html', form=form, acc_login_failed=True)
             elif result == "UNVERIFIED":
-                return redirect(url_for('signup', unverified_email_ref=True, email=email))
+                return redirect(
+                    url_for(
+                        'signup',
+                        unverified_email_ref=True,
+                        email=email))
             else:
                 # If pass, set cookie and redirect
                 resp = redirect(url_for('home'))
@@ -920,10 +1094,12 @@ def login():
                 return resp
 
         # If GET request // Show page
-        return render_template('auth/login.html', form=form, denied_access=request.args.get('denied_access'),
-                               verification_code_OK=request.args.get('verification_code_OK'),
-                               verification_code_denied=request.args.get('verification_code_denied')
-                               )
+        return render_template(
+            'auth/login.html',
+            form=form,
+            denied_access=request.args.get('denied_access'),
+            verification_code_OK=request.args.get('verification_code_OK'),
+            verification_code_denied=request.args.get('verification_code_denied'))
     # If user is ALREADY logged in
     else:
         return redirect(url_for('home'))
@@ -937,10 +1113,16 @@ def signup():
     signup_form = auth.SignupForm()
     resend_email_form = auth.ResendEmailForm()
 
-    # Check was this a ref from login because user hasn't gotten their email verified.
-    if request.args.get('unverified_email_ref') == "True" and request.args.get('email') is not None:
-        return render_template('auth/signup.html', signupform=signup_form, resend_email=resend_email_form,
-                               acc_creation=True, email=request.args.get('email'))
+    # Check was this a ref from login because user hasn't gotten their email
+    # verified.
+    if request.args.get('unverified_email_ref') == "True" and request.args.get(
+            'email') is not None:
+        return render_template(
+            'auth/signup.html',
+            signupform=signup_form,
+            resend_email=resend_email_form,
+            acc_creation=True,
+            email=request.args.get('email'))
 
     # If user is NOT logged in
     if not auth.is_auth():
@@ -952,14 +1134,25 @@ def signup():
 
             # create_account implements auth
             if auth.create_account(name, password, email):
-                return render_template('auth/signup.html', signupform=signup_form, resend_email=resend_email_form,
-                                       acc_creation=True, email=email)
+                return render_template(
+                    'auth/signup.html',
+                    signupform=signup_form,
+                    resend_email=resend_email_form,
+                    acc_creation=True,
+                    email=email)
             else:
-                return render_template('auth/signup.html', signupform=signup_form, exist=True, email=email)
+                return render_template(
+                    'auth/signup.html',
+                    signupform=signup_form,
+                    exist=True,
+                    email=email)
 
         # If GET request // Show page
-        return render_template('auth/signup.html', signupform=signup_form, resend_email=resend_email_form,
-                               newEmailSent=request.args.get('email_sent'))
+        return render_template(
+            'auth/signup.html',
+            signupform=signup_form,
+            resend_email=resend_email_form,
+            newEmailSent=request.args.get('email_sent'))
     # If user is ALREADY logged in
     else:
         return redirect(url_for('home'))
@@ -1011,8 +1204,13 @@ def chat():
     # if logged in
     else:
         chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
-        return render_template('chat.html', loggedin=True, user=result, list=chat_list, chatroom_display=False,
-                               not_found=request.args.get('not_found'))
+        return render_template(
+            'chat.html',
+            loggedin=True,
+            user=result,
+            list=chat_list,
+            chatroom_display=False,
+            not_found=request.args.get('not_found'))
 
 
 @app.route('/chat/<room_id>', methods=['GET', 'POST'])
@@ -1029,7 +1227,11 @@ def chat_room(room_id):
 
         if chat_form.validate_on_submit():
             # print(chat_form.data["message"])
-            print(msg.add_message(room_id, auth.get_sid(), chat_form.data["message"]))
+            print(
+                msg.add_message(
+                    room_id,
+                    auth.get_sid(),
+                    chat_form.data["message"]))
 
         chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
         chat_room_messages = msg.get_chat_room(auth.get_sid(), room_id)
@@ -1037,11 +1239,16 @@ def chat_room(room_id):
         if not chat_room_messages:
             return redirect(url_for('chat', not_found=True))
 
-        return render_template('chat.html', loggedin=True, user=result, list=chat_list, form=chat_form,
-                               chatroom_display=chat_room_messages["chatroom"],
-                               chatroom_names=chat_room_messages["names"],
-                               selected_chatroom=ObjectId(room_id),
-                               verification_code_OK=request.args.get('verification_code_OK'))
+        return render_template(
+            'chat.html',
+            loggedin=True,
+            user=result,
+            list=chat_list,
+            form=chat_form,
+            chatroom_display=chat_room_messages["chatroom"],
+            chatroom_names=chat_room_messages["names"],
+            selected_chatroom=ObjectId(room_id),
+            verification_code_OK=request.args.get('verification_code_OK'))
 
 
 # MEMBERS
@@ -1060,8 +1267,9 @@ def chatroom_endpoint():
                 resp = make_response('Tourisit API Endpoint - Error 500', 500)
                 return resp
             else:
-                shard_payload = render_template('components/shards/msg.html',
-                                                chatroom_display=chat_room_messages["chatroom"])
+                shard_payload = render_template(
+                    'components/shards/msg.html',
+                    chatroom_display=chat_room_messages["chatroom"])
                 resp = Response(
                     response=JSONEncoder().encode({
                         "data": shard_payload

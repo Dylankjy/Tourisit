@@ -11,13 +11,16 @@ def fb_check(form, field):
     if 'facebook.com' not in field.data:
         raise ValidationError('Invalid Facebook Profile link')
 
+
 def insta_check(form, field):
     if 'instagram.com' not in field.data:
         raise ValidationError('Invalid Instagram Profile link')
 
+
 def linkedin_check(form, field):
     if 'linkedin.com' not in field.data:
         raise ValidationError('Invalid LinkedIn Profile link')
+
 
 class UserForm(FlaskForm):
     name = StringField(
@@ -35,7 +38,10 @@ class UserForm(FlaskForm):
         "email",
         validators=[
             InputRequired(),
-            Length(min=1, max=30, message="Email can only be 30 characters long!"),
+            Length(
+                min=1,
+                max=30,
+                message="Email can only be 30 characters long!"),
         ],
     )
     phone_number = StringField(
@@ -92,7 +98,7 @@ class User:
             email,
             phone_number="",
             bio="",
-            profile_img= file_to_base64('public/imgs/uwu.png'),
+            profile_img=file_to_base64('public/imgs/uwu.png'),
             last_seen_time="",
             registration_time="",
             stripe_ID="",

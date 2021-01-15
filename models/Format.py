@@ -2,9 +2,8 @@ import base64
 import json
 from io import BytesIO
 
-from bson import ObjectId
-
 from PIL import Image
+from bson import ObjectId
 
 buffered = BytesIO()
 
@@ -28,7 +27,7 @@ def img_to_base64(img):
 
 
 # This converts a png/jpeg image into a base64 string
-def file_to_base64(img, size=(150,150)):
+def file_to_base64(img, size=(150, 150)):
     img = Image.open(img).resize(size)
     img.save(buffered, format="JPEG")
     img_str = str(base64.b64encode(buffered.getvalue()))

@@ -10,7 +10,7 @@ def validate_len(name, leng):
 
 def validate_type(name, dtype):
     try:
-        assert type(name) == dtype
+        assert isinstance(name, dtype)
     except AssertionError:
         print(f"{name} must be of type {dtype}")
         return None

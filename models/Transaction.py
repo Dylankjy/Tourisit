@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class Transaction:
     def __init__(self, tg_uid, cust_uid, earnings, booking):
         self.__tg_uid = tg_uid
@@ -18,7 +19,6 @@ class Transaction:
         self.__year_paid = datetime.now().year
         self.__pay_status = 1
 
-
     def return_obj(self):
         return {
             "tg_uid": self.__tg_uid,
@@ -31,4 +31,3 @@ class Transaction:
             "year_paid": self.__year_paid,
             "pay_status": self.__pay_status,
         }
-

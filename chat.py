@@ -8,10 +8,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
 
-client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')[
-    'Tourisit']
-
 import models.Chat as Chat
+
+client = pymongo.MongoClient(
+    'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
 
 # Collections
 db_users = client['Users']
@@ -101,10 +101,13 @@ def get_chat_list_for_ui(sid, chat_type):
                     "_id": recipient_uid
                 }
 
-                recipient_name = [a for a in db_users.find(query_recipient_uid)][0]["name"]
+                recipient_name = [
+                    a for a in db_users.find(query_recipient_uid)][0]["name"]
 
-                compiled_list.append(
-                    {"id": chat_room_id, "name": recipient_name, "uid": recipient_uid, "chat_type": chat_type})
+                compiled_list.append({"id": chat_room_id,
+                                      "name": recipient_name,
+                                      "uid": recipient_uid,
+                                      "chat_type": chat_type})
 
     return compiled_list
 
@@ -156,7 +159,8 @@ def get_chat_room(sid, chat_id):
             "_id": u
         }
 
-        user_name = [a for a in db_users.find(query_uid_get_participants)][0]["name"]
+        user_name = [a for a in db_users.find(
+            query_uid_get_participants)][0]["name"]
 
         if user_name not in list_of_participant_names:
             list_of_participant_names.append(user_name)
@@ -173,15 +177,20 @@ def get_chat_room(sid, chat_id):
                 is_self = True
 
             message = chatroom_data["messages"][i]['msg_content']
-            user_name = [a for a in db_users.find(query_uid_get_participants)][0]["name"]
+            user_name = [a for a in db_users.find(
+                query_uid_get_participants)][0]["name"]
 
             compiled_chat_room.append(
-                {"sender_name": user_name, "uid": query_uid_get_participants, "msg_content": message, "self": is_self}
-            )
+                {
+                    "sender_name": user_name,
+                    "uid": query_uid_get_participants,
+                    "msg_content": message,
+                    "self": is_self})
     except IndexError:
         pass
 
-    return {"chatroom": compiled_chat_room, "names": ' ↔ '.join(list_of_participant_names)}
+    return {"chatroom": compiled_chat_room,
+            "names": ' ↔ '.join(list_of_participant_names)}
 
 
 # print(get_chat_room(test_sid, "5fef54775c7ba372a70fa0b0"))
