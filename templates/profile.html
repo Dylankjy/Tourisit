@@ -23,14 +23,9 @@
                         <fieldset>
                             <div class="field">
                                 <label class="label" for="bio">Bio:</label>
-                                {% if editable %}
+                                {% if editable==False %}
                                     <div class="control">
-                                        {{ form.bio(id="bio", type="textarea", class="input", rows="5" ,placeholder=user.bio, style="height:160px;") }}
-                                        <ul>
-                                            {% for error in form.bio.errors %}
-                                                <li class="has-text-danger"> {{ error }}</li>
-                                            {% endfor %}
-                                        </ul>
+                                        <textarea class="bio textarea" readonly>{{ user.bio }}</textarea>
                                     </div>
                                 {% endif %}
                                 <div class="control">
