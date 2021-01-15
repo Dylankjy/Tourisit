@@ -27,6 +27,7 @@
     background: rgba(255, 255, 255, 1);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: saturate(180%) blur(30px);
+    transform: scale(1.03);
 }
 
 .searchbar-container input {
