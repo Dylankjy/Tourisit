@@ -287,7 +287,7 @@ def delete_account(uid):
         return Exception("Couldn't yeet user account due to an error.")
 
 
-def send_confirmation_email(type, sid=None, user_email=None):
+def send_confirmation_email(email_type, sid=None, user_email=None):
     if sid is not None and user_email is None:
         # Find UID from SID
         query = {
@@ -319,7 +319,7 @@ def send_confirmation_email(type, sid=None, user_email=None):
 
     message = MIMEMultipart("alternative")
 
-    if type == "email_verification":
+    if email_type == "email_verification":
         # Email headers
         message["Subject"] = "Tourisit - Confirm your Email"
         message["From"] = formataddr(
@@ -335,7 +335,7 @@ def send_confirmation_email(type, sid=None, user_email=None):
 
         # Add content to email
         message.attach(MIMEText(content, "html"))
-    elif type == "password_reset":
+    elif email_type == "password_reset":
         # Email headers
         message["Subject"] = "Tourisit - Password reset"
         message["From"] = formataddr(
