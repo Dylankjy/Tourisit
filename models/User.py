@@ -4,6 +4,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SelectField
 from wtforms.validators import InputRequired, Length, ValidationError
 
+from models.Format import file_to_base64
+
+
 def fb_check(form, field):
     if 'facebook.com' not in field.data:
         raise ValidationError('Invalid Facebook Profile link')
@@ -89,7 +92,7 @@ class User:
             email,
             phone_number="",
             bio="",
-            profile_img="",
+            profile_img= file_to_base64('public/imgs/uwu.png'),
             last_seen_time="",
             registration_time="",
             stripe_ID="",
