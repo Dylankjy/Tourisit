@@ -20,6 +20,7 @@ from models.Listing import ListingForm, Listing
 from models.Support import SupportForm, Support
 from models.User import UserForm, BioForm
 from models.Transaction import Transaction
+from models.Review import Review, ReviewForm
 
 from PIL import Image
 
@@ -809,8 +810,8 @@ def review(book_id):
     try:
         booking = bookings_db.find_one({'_id': ObjectId(book_id)})
         tour = shop_db.find_one({'_id': booking['listing_id']})
-        print(booking)
-        return render_template('customer/review.html', booking=booking, tour=tour)
+        form = ReviewForm()
+        return render_template('customer/review.html', booking=booking, tour=tour, form=form)
     except:
         return 'Error trying to render'
 
