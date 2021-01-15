@@ -61,9 +61,6 @@ bookings_db = client['Bookings']
 support_db = client['Support']
 transaction_db = client['Transactions']
 
-uwu_face = file_to_base64('public/imgs/uwu.png')
-print(uwu_face)
-
 
 @app.template_filter('timestamp_iso')
 def timestamp_iso(s):
