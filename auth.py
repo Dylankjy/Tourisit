@@ -331,7 +331,7 @@ def send_confirmation_email(sid=None, user_email=None):
         (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
     message["To"] = user_email
 
-    code = 'https://tourisit.ichiharu.com/system/confirmEmail/' + \
+    code = 'https://tourisit.ichiharu.com//endpoint/email_confirmation&token=' + \
            add_token("email_verification", sid)
 
     # Build email HTML from 2 parts. Format with URL
