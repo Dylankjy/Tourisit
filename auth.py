@@ -35,7 +35,7 @@ try:
     sendgrid_key = [i for i in env.find({})][0]["sendgrid_api"]
     template_header = open("email/header.html", "r").read()
 except:
-    Exception("Check your network connectivity. Couldn't contact MongoDB database! Are you using the school network?")
+    print("Check your network connectivity. Couldn't contact MongoDB database! Are you using the school network?")
     exit(-1)
 
 # Template: Confirmation
