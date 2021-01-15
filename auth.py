@@ -36,10 +36,12 @@ try:
     template_header = open("email/header.html", "r").read()
 except BaseException:
     print("Check your network connectivity. Couldn't contact MongoDB database! Are you using the school network?")
-    exit(-1)
+    exit(0)
 
 # Template: Confirmation
 template_email_confirmation = open("email/confirmation.html", "r").read()
+# Template: Password reset
+template_reset_password = open("email/pwdreset.html.html", "r").read()
 
 
 def create_account(name, raw_password, email):
@@ -138,7 +140,7 @@ def add_token(token_type, uid):
 # print(add_token("phone_verification", "5fe8c3fe1fb459db658e6d4e"))
 
 
-def verify_remove_token(token_type, token):
+def verify_remove_token(token_type, token, check_only=False):
     # Prevent database exploit by rejecting blank entries
     if token is None or token == "":
         return False
@@ -163,17 +165,17 @@ def verify_remove_token(token_type, token):
                     "email_status": True
                 }
             }
-        elif token_type == "phone_verification":
-            payload = {
-                "$set": {
-                    "phone_status": True
-                }
+
+            # Query account from database
+            query_for_account = {
+                "_id": ObjectId(query_result[0]["uid"])
             }
 
-        # Query account from database
-        query_for_account = {
-            "_id": ObjectId(query_result[0]["uid"])
-        }
+            # Database Ops: Update status
+            db_users.update_one(query_for_account, payload)
+
+        if token_type == "password_reset" and check_only:
+            return True
 
         # Query select any preexisting tokens
         query_for_deletion_tokens = {
@@ -181,16 +183,10 @@ def verify_remove_token(token_type, token):
             "type": token_type
         }
 
-        # Database Ops: Update status
-        db_users.update_one(query_for_account, payload)
-
         # Database Ops: Delete any existing tokens of same type
         db_tokens.delete_many(query_for_deletion_tokens)
 
         return True
-
-
-# verify_remove_token("phone_verification", 622548)
 
 
 def login_account(email, unencoded_password):
@@ -291,7 +287,7 @@ def delete_account(uid):
         return Exception("Couldn't yeet user account due to an error.")
 
 
-def send_confirmation_email(sid=None, user_email=None):
+def send_confirmation_email(type, sid=None, user_email=None):
     if sid is not None and user_email is None:
         # Find UID from SID
         query = {
@@ -321,22 +317,40 @@ def send_confirmation_email(sid=None, user_email=None):
     # Create a secure SSL context
     context = ssl.create_default_context()
 
-    # Email headers
     message = MIMEMultipart("alternative")
-    message["Subject"] = "Tourisit - Confirm your Email"
-    message["From"] = formataddr(
-        (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
-    message["To"] = user_email
 
-    code = 'https://tourisit.ichiharu.com//endpoint/email_confirmation&token=' + \
-           add_token("email_verification", sid)
+    if type == "email_verification":
+        # Email headers
+        message["Subject"] = "Tourisit - Confirm your Email"
+        message["From"] = formataddr(
+            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
+        message["To"] = user_email
 
-    # Build email HTML from 2 parts. Format with URL
-    content = template_header + template_email_confirmation.format(
-        confirmation_url=code)
+        code = 'https://tourisit.ichiharu.com/endpoint/email_confirmation&token=' + \
+               add_token("email_verification", sid)
 
-    # Add content to email
-    message.attach(MIMEText(content, "html"))
+        # Build email HTML from 2 parts. Format with URL
+        content = template_header + template_email_confirmation.format(
+            confirmation_url=code)
+
+        # Add content to email
+        message.attach(MIMEText(content, "html"))
+    elif type == "password_reset":
+        # Email headers
+        message["Subject"] = "Tourisit - Password reset"
+        message["From"] = formataddr(
+            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
+        message["To"] = user_email
+
+        code = 'https://tourisit.ichiharu.com/login/password_reset&token=' + \
+               add_token("password_reset", sid)
+
+        # Build email HTML from 2 parts. Format with URL
+        content = template_header + template_email_confirmation.format(
+            reset_url=code)
+
+        # Add content to email
+        message.attach(MIMEText(content, "html"))
 
     # Send email
     with smtplib.SMTP_SSL("smtp.sendgrid.net", port, context=context) as server:
