@@ -99,22 +99,19 @@ def add_session(uid):
 
 
 def add_token(token_type, uid):
+    # token_type valid values
+    # - email_verification
+    # - password_reset
+
     # Empty string
     raw_sid = ""
 
-    if token_type == "email_verification":
-        # Using UUID4 to generate random strings
-        for i in range(10):
-            raw_sid += str(uuid.uuid4())
+    # Using UUID4 to generate random strings
+    for i in range(10):
+        raw_sid += str(uuid.uuid4())
 
-        # Generate even more random SID by using SHA3-512
-        token_value = hashlib.sha3_512(raw_sid.encode('utf-8')).hexdigest()
-
-    elif token_type == "phone_verification":
-        # Generate 6 digit number
-        token_value = int(quantumrandom.randint(100000, 999999))
-    else:
-        return Exception("Invalid token type.")
+    # Generate even more random SID by using SHA3-512
+    token_value = hashlib.sha3_512(raw_sid.encode('utf-8')).hexdigest()
 
     # Query for finding all tokens of same type with uid
     query_for_deletion_tokens = {
