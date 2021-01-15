@@ -18,11 +18,21 @@
                     <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
                     <br>
                     <p class="title is-5 is-spaced">{{ user.name }}</p>
-                    <form class="form-horizontal" action="/users" method="POST">
+                    <form class="form-horizontal" action="/users/{{ user._id }}" method="POST">
                         {{ form.csrf_token }}
                         <fieldset>
                             <div class="field">
                                 <label class="label" for="bio">Bio:</label>
+                                {% if editable %}
+                                    <div class="control">
+                                        {{ form.bio(id="bio", type="textarea", class="input", rows="5" ,placeholder=user.bio, style="height:160px;") }}
+                                        <ul>
+                                            {% for error in form.bio.errors %}
+                                                <li class="has-text-danger"> {{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
                                 <div class="control">
                                     {{ form.bio(id="bio", type="textarea", class="input", rows="5" ,placeholder=user.bio, style="height:160px;") }}
                                     <ul>
