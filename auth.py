@@ -41,7 +41,7 @@ except BaseException:
 # Template: Confirmation
 template_email_confirmation = open("email/confirmation.html", "r").read()
 # Template: Password reset
-template_reset_password = open("email/pwdreset.html.html", "r").read()
+template_reset_password = open("email/pwdreset.html", "r").read()
 
 
 def create_account(name, raw_password, email):
