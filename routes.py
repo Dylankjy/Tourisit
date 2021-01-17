@@ -15,7 +15,7 @@ import auth as auth
 # Chat Library
 import chat as msg
 from models.Booking import BookingForm, CheckoutForm, Booking
-from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays
+from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm
@@ -46,7 +46,8 @@ app = Flask(__name__,
 # REMEMBER TO USE GLOBAL VARIABLE FOR THIS
 app.config['SECRET_KEY'] = 'keepthissecret'
 # Set file upload limit to 1MB
-app.config["MAX_IMAGE_FILESIZE"] = 1 * 1024 * 1024
+# WILL RETURN 413 ERROR IF THE UPLOADED SIZE IS MORE THAN 5MB
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 # CHANGE THE PASSWORD TO A GLOBAL VARIABLE
 client = pymongo.MongoClient(
@@ -119,6 +120,8 @@ def user_name(uid):
 #     except:
 #         name = ''
 #     return name
+
+uwu_face = file_to_base64('public/imgs/uwu.png')
 
 
 @app.route('/testImg', methods=['GET', 'POST'])
@@ -510,6 +513,7 @@ def makelisting():
         print(f'User img is: {userImg}')
         lForm = ListingForm()
         if request.method == 'POST':
+
             if lForm.validate_on_submit():
                 tour_name = request.form['tour_name']
 
@@ -558,6 +562,18 @@ def makelisting():
 
                 return render_template(
                     'tourGuides/listing-success.html', user=result)
+
+            # except:
+            #     tmp = list(lForm.tour_img.errors)
+            #     tmp.append('File size is bigger than allowed limit of 5MB')
+            #     lForm.tour_img.errors = tuple(tmp)
+            #     lForm.process()
+            #     return render_template(
+            #         'tourGuides/makelisting.html',
+            #         form=lForm,
+            #         user=result)
+
+
             return render_template(
                 'tourGuides/makelisting.html',
                 form=lForm,
@@ -1329,6 +1345,12 @@ def email_confirmation_endpoint():
 #         return redirect(url_for('login', verification_code_OK=True))
 #     else:
 #         return redirect(url_for('login', verification_code_denied=True))
+
+
+# ALL ERROR HANDLING IS HERE
+@app.errorhandler(413)
+def error413(err):
+    return f'Oh Noes! You got {err}'
 
 
 # Run app

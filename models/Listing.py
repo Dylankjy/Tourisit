@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
@@ -97,28 +98,34 @@ class ListingForm(FlaskForm):
     #
     #     return True
 
+    def check_time(self):
+        end_idx = time_list.index(self.tour_end_time.data)
+        start_idx = time_list.index(self.tour_start_time.data)
+        if end_idx <= start_idx:
+            # Must convert to a list first (So can append) and then convert back to the tuple (original form)
+            tmp = list(self.tour_end_time.errors)
+            tmp.append('End time must be later than start time!')
+            self.tour_end_time.errors = tuple(tmp)
+            return False
+        return True
+
+
+    # def check_filesize(self, filesize):
+    #     if int(filesize) <= 1 * 1024 * 1024:
+    #         return True
+    #     else:
+    #         return False
+
+
     def validate(self):
         #This is the default flask validation rules (Which you define in the wtforms fields)
         if not FlaskForm.validate(self):
             return False
 
-        #Provided that the original flask validation passes, you now pass it through an additional validation (Check the timings)
-        result = True
-        end_idx = time_list.index(self.tour_end_time.data)
-        start_idx = time_list.index(self.tour_start_time.data)
-        print('end is ', self.tour_end_time.data)
-        print('end idx is ', end_idx)
-        print('start is ', self.tour_start_time.data)
-        print('start idx is ', start_idx)
-        if end_idx <= start_idx:
-            #Must convert to a list first (So can append) and then convert back to the tuple (original form)
-            tmp = list(self.tour_end_time.errors)
-            tmp.append('End time must be later than start time!')
-            self.tour_end_time.errors = tuple(tmp)
-            result = False
-        else:
-            print('Success')
+        # Provided that the original flask validation passes, you now pass it through an additional validation (Check the timings)
+        result = self.check_time()
         return result
+
 
 # print(time_list.index('9:00 AM'))
 
