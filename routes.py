@@ -15,7 +15,7 @@ import auth as auth
 # Chat Library
 import chat as msg
 from models.Booking import BookingForm, CheckoutForm, Booking
-from models.Format import JSONEncoder, img_to_base64, formToArray
+from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm
@@ -517,6 +517,7 @@ def makelisting():
 
                 days_form_list = request.form.getlist('tour_days_list[]')
                 tour_days = formToArray(days_form_list)
+                sorted_tour_days = sortDays(tour_days)
 
                 tour_start_time = request.form['tour_start_time']
                 tour_end_time = request.form['tour_end_time']
@@ -548,12 +549,12 @@ def makelisting():
                     tour_location=tour_locations,
                     tour_revs=tour_revisions,
                     tour_itinerary=tour_itinerary,
-                    tour_days=tour_days,
+                    tour_days=sorted_tour_days,
                     tour_time=tour_time_list)
 
                 listingInfo = tour_listing.return_obj()
                 print(listingInfo)
-                # shop_db.insert_one(listingInfo)
+                shop_db.insert_one(listingInfo)
 
                 return render_template(
                     'tourGuides/listing-success.html', user=result)
@@ -592,6 +593,7 @@ def editListing(id):
                 tour_days = formToArray(days_form_list)
                 #Remove any duplicates
                 tour_days = list(set(tour_days))
+                sorted_tour_days = sortDays(tour_days)
 
                 tour_start_time = request.form['tour_start_time']
                 tour_end_time = request.form['tour_end_time']
@@ -627,7 +629,7 @@ def editListing(id):
                             'tour_location': tour_locations,
                             'tour_revisions': tour_revisions,
                             'tour_itinerary': tour_itinerary,
-                            'tour_days': tour_days,
+                            'tour_days': sorted_tour_days,
                             'tour_time': tour_time_list
                         }}
 
@@ -641,7 +643,7 @@ def editListing(id):
                             'tour_location': tour_locations,
                             'tour_revisions': tour_revisions,
                             'tour_itinerary': tour_itinerary,
-                            'tour_days': tour_days,
+                            'tour_days': sorted_tour_days,
                             'tour_time': tour_time_list
                         }}
 

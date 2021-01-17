@@ -15,7 +15,7 @@
 
 
     function AppendtoDay() {
-        $("input:checkbox[name=avail_day]:checked").each(function () {
+        $("input:checkbox[name=tour_days]:checked").each(function () {
             dayList.push($(this).val() + '#$%^#') 
         });
         AppendtoDayList()
@@ -111,7 +111,7 @@
 
     // Ensure at least one day is selected
     function validateDays() {
-        return $("input:checkbox[name=avail_day]:checked").length > 0
+        return $("input:checkbox[name=tour_days]:checked").length > 0
     }
 
     // Must click the add listing button in order to get the updated version
@@ -301,9 +301,9 @@
                 <label class="label">Tour Available Days</label>
                 <div class='field'>
                     <div class='control'>
-                        {{ form.tour_days(name='avail_day', type='checkbox', class='checkbox') }}
-                        <!-- <input type="checkbox" class='checkbox' name="avail_day" value="Mon" validate="required:true, minlength:1"/> Monday<br>
-                        <input type="checkbox" class='checkbox' name="avail_day" value="Tues"/> Tuesday<br>
+                        {{ form.tour_days(name='tour_days', type='checkbox', class='checkbox') }}
+                        <!-- <input type="checkbox" class='checkbox' name="tour_days" value="Mon" validate="required:true, minlength:1"/> Monday<br>
+                        <input type="checkbox" class='checkbox' name="tour_days" value="Tues"/> Tuesday<br>
                         <input type="checkbox" class='checkbox' name="avail_day" value="Wed"/> Wednesday<br>
                         <input type="checkbox" class='checkbox' name="avail_day" value="Thurs"/> Thursday<br>
                         <input type="checkbox" class='checkbox' name="avail_day" value="Fri"/> Friday<br>
