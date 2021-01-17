@@ -2,8 +2,13 @@ from datetime import datetime
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField, SelectMultipleField
+from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField, SelectMultipleField, widgets
 from wtforms.validators import InputRequired, Length, NumberRange, ValidationError
+
+
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
 
 
 class CustomSelectField(FlaskForm):
@@ -45,6 +50,8 @@ class ListingForm(FlaskForm):
     tour_start_time = SelectField('tour_start_time', choices=time_list, validators=[InputRequired()])
 
     tour_end_time = SelectField('tour_end_time', choices=time_list, validators=[InputRequired()])
+
+    tour_days = MultiCheckboxField('tour_days', choices=[('Mon', 'Monday'), ('Tues','Tuesday'),('Wed', 'Wednesday'), ('Thurs','Thursday'), ('Fri', 'Friday'), ('Sat','Saturday'), ('Sun','Sunday')], _name='avail_day')
 
     # Tour itinerary
     tour_items = StringField('tour_items')

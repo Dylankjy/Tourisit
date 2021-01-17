@@ -27,10 +27,6 @@
         console.log(current_day_list)
     }
 
-    
-
-
-
 
     function AppendtoLocation() {
         var loc = document.getElementById('tour-loc').value
@@ -113,11 +109,19 @@
         document.getElementById("addItemButton").click()
     }
 
+    // Ensure at least one day is selected
+    function validateDays() {
+        return $("input:checkbox[name=avail_day]:checked").length > 0
+    }
+
     // Must click the add listing button in order to get the updated version
     $('#makeListingForm').submit(() => {
         UpdateItems()
         AppendtoDay()
-        return true;
+        // if (validateDays == true) {
+        //     return true
+        // }
+        return true
     });
 
     // window.addEventListener('load', () => {
@@ -297,13 +301,14 @@
                 <label class="label">Tour Available Days</label>
                 <div class='field'>
                     <div class='control'>
-                        <input type="checkbox" name="avail_day" value="Mon"/> Monday<br>
-                        <input type="checkbox" name="avail_day" value="Tues"/> Tuesday<br>
-                        <input type="checkbox" name="avail_day" value="Wed"/> Wednesday<br>
-                        <input type="checkbox" name="avail_day" value="Thurs"/> Thursday<br>
-                        <input type="checkbox" name="avail_day" value="Fri"/> Friday<br>
-                        <input type="checkbox" name="avail_day" value="Sat"/> Saturday<br>
-                        <input type="checkbox" name="avail_day" value="Sun"/> Sunday<br>
+                        {{ form.tour_days(name='avail_day', type='checkbox', class='checkbox') }}
+                        <!-- <input type="checkbox" class='checkbox' name="avail_day" value="Mon" validate="required:true, minlength:1"/> Monday<br>
+                        <input type="checkbox" class='checkbox' name="avail_day" value="Tues"/> Tuesday<br>
+                        <input type="checkbox" class='checkbox' name="avail_day" value="Wed"/> Wednesday<br>
+                        <input type="checkbox" class='checkbox' name="avail_day" value="Thurs"/> Thursday<br>
+                        <input type="checkbox" class='checkbox' name="avail_day" value="Fri"/> Friday<br>
+                        <input type="checkbox" class='checkbox' name="avail_day" value="Sat"/> Saturday<br>
+                        <input type="checkbox" class='checkbox' name="avail_day" value="Sun"/> Sunday<br> -->
                     </div>
                 </div>
 
@@ -350,8 +355,7 @@
                         </a>
                     </div>
                     <div class="control is-expanded">
-                        {{ form.tour_items(class='input', id='tour-items', placeholder='Visit famous museum at Newton:
-                        Newton War Memorial Museum', type='text') }}
+                        {{ form.tour_items(class='input', id='tour-items', placeholder='Visit famous museum at Newton: Newton War Memorial Museum', type='text') }}
                     </div>
                 </div>
 
