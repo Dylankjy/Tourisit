@@ -10,6 +10,10 @@
         let locno = 0
         var persisteditemList = Array.from({{ listing.tour_itinerary | tojson }})
         var persistedlocList = Array.from({{ listing.tour_location| tojson }})
+        var persistedDayList = Array.from({{ listing.tour_days| tojson }})
+        var persistedTimeList = Array.from({{ listing.tour_time| tojson }})
+
+
         {% if listing.tour_img != '' %}
             var persistedTourImg = "{{ listing.tour_img }}"
             console.log('Got an img beforehand')
@@ -17,6 +21,30 @@
         var itemList = []
         var locList = []
         var locationTags = document.getElementById('locations')
+        var dayList = []
+
+
+
+
+
+        function AppendtoDay() {
+            $("input:checkbox[name=avail_day]:checked").each(function () {
+                dayList.push($(this).val() + '#$%^#') 
+            });
+            AppendtoDayList()
+        }
+
+        function AppendtoDayList() {
+            current_day_list = document.getElementById('tour-days-list')
+            current_day_list.value = Array.from(dayList)
+            console.log(current_day_list)
+        }
+
+        function checkDayfromList(dayValue) {
+            $(`input[value='${dayValue}']`).prop("checked", true)
+            console.log('checked')
+        }
+
 
         function AppendtoLocation() {
             var loc = document.getElementById('tour-loc').value
@@ -80,6 +108,7 @@
         // Must click the add listing button in order to get the updated version
         $('#makeListingForm').submit(() => {
             UpdateItems()
+            AppendtoDay()
             return true;
         });
 
@@ -230,6 +259,39 @@
                         <img id="currentImg"/>
                     </div>
 
+                    <label class="label">Tour Available Days</label>
+                    <div class='field'>
+                        <div class='control'>
+                            <input type="checkbox" name="avail_day" value="Mon"/> Monday<br>
+                            <input type="checkbox" name="avail_day" value="Tues"/> Tuesday<br>
+                            <input type="checkbox" name="avail_day" value="Wed"/> Wednesday<br>
+                            <input type="checkbox" name="avail_day" value="Thurs"/> Thursday<br>
+                            <input type="checkbox" name="avail_day" value="Fri"/> Friday<br>
+                            <input type="checkbox" name="avail_day" value="Sat"/> Saturday<br>
+                            <input type="checkbox" name="avail_day" value="Sun"/> Sunday<br>
+                        </div>
+                    </div>
+
+                    <div class='field'>
+                        <div class='control'>
+                            <input name='tour_days_list[]' , class='input' , id='tour-days-list' , type='hidden'>
+                        </div>
+                    </div>
+
+
+
+                    <label class="label">Tour Timing</label>
+                    <div class='field'>
+                        <div class='control level-left'>
+                            {{ form.tour_start_time(id='tour-start-time', class='dropdown-item level-item') }} <p class='level-item'>-</p>  {{ form.tour_end_time(id='tour-end-time', class='dropdown-item level-item') }}
+                            <ul>
+                                {% for error in form.tour_end_time.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
 
                     <label class="label" for="tour-desc">Tour Description</label>
                     <div class="field">
@@ -327,7 +389,7 @@
                         <div class="control">
                             <input type='submit' value='Update Listing' id="tour-submit" name="tour-submit"
                                    class="button is-success"
-                                   onclick=UpdateItems()>
+                                   onclick=UpdateItems();AppendtoDay()>
                         </div>
                     </div>
 
@@ -339,8 +401,16 @@
     <script>
         persisteditemList.forEach(AddItineraryFromList)
         AppendtoItem()
+
         persistedlocList.forEach(AddLocationFromList)
         AppendtoLocationList()
+        
+        persistedDayList.forEach(checkDayfromList)
+
+        $("#tour-start-time").val(persistedTimeList[0])
+
+        $("#tour-end-time").val(persistedTimeList[1])
+
         {% if listing.tour_img != '' %}
             $('#currentImg').attr('src', 'data:image/jpeg;base64,' + persistedTourImg)
         {% endif %}

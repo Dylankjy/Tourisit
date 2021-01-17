@@ -2,8 +2,8 @@ from datetime import datetime
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField
-from wtforms.validators import InputRequired, Length, NumberRange
+from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField, SelectMultipleField
+from wtforms.validators import InputRequired, Length, NumberRange, ValidationError
 
 
 class CustomSelectField(FlaskForm):
@@ -23,12 +23,28 @@ class CustomSelectField(FlaskForm):
             self.__fieldName, choices=self.__options, render_kw=kws)
 
 
+# def time_check(form, field, start_field):
+#     if time_list.index(field.data) < time_list.index(start_field.data):
+#         raise ValidationError('End time wrong!')
+
+
+time_list = ['6:00 AM', '6:30 AM', '7:00 AM', '7.30 AM', '8:00 AM', '8:30 AM',
+              '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM',
+              '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM',
+              '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM',
+              '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM', '11:00 PM']
+
+
 # Add no. of revisions, itineary, location
 class ListingForm(FlaskForm):
     tour_name = StringField('tour_name', validators=[InputRequired(), Length(min=1, max=30,
                                                                              message='Name can only be 30 characters long!')])
 
     tour_desc = TextAreaField('tour_desc', validators=[InputRequired()])
+
+    tour_start_time = SelectField('tour_start_time', choices=time_list, validators=[InputRequired()])
+
+    tour_end_time = SelectField('tour_end_time', choices=time_list, validators=[InputRequired()])
 
     # Tour itinerary
     tour_items = StringField('tour_items')
@@ -54,6 +70,18 @@ class ListingForm(FlaskForm):
     tour_price = FloatField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None,
                                                                                    message='Price cannot be below $0!')])
 
+    # def validate(self, tour_end_time):
+    #     rv = FlaskForm.validate(self)
+    #     if not rv:
+    #         return False
+    #
+    #     print(self.tour_end_time.data)
+    #     if time_list.index(self.tour_end_time.data) < time_list.index(self.tour_end_time.data):
+    #         self.tour_end_time.errors.append('End time must be later than start time!')
+    #         return False
+    #
+    #     return True
+
 
 class Listing:
     def __init__(
@@ -65,6 +93,8 @@ class Listing:
             tour_location,
             tour_revs,
             tour_itinerary,
+            tour_days,
+            tour_time,
             tour_img=''
     ):
 
@@ -73,6 +103,13 @@ class Listing:
 
         self.__tour_desc = ''
         self.set_tour_desc(tour_desc)
+
+        self.__tour_days = ''
+        self.set_tour_days(tour_days)
+
+        self.__tour_times = ''
+        self.set_tour_time(tour_time)
+
 
         self.__tour_price = 0
         self.set_tour_price(tour_price)
@@ -102,6 +139,12 @@ class Listing:
             print(f"{tour_name} must be less than {30} characters!")
         else:
             self.__tour_name = tour_name
+
+    def set_tour_days(self, tour_days):
+        self.__tour_days = tour_days
+
+    def set_tour_time(self, tour_times):
+        self.__tour_times = tour_times
 
     def set_tour_desc(self, tour_desc):
         self.__tour_desc = tour_desc
@@ -172,6 +215,8 @@ class Listing:
         return {
             "tour_name": self.__tour_name,
             "tour_desc": self.__tour_desc,
+            "tour_days": self.__tour_days,
+            "tour_time": self.__tour_times,
             "tour_itinerary": self.__tour_itinerary,
             "tour_location": self.__tour_location,
             "tour_revisions": self.__tour_revisions,
@@ -182,3 +227,4 @@ class Listing:
             "tour_review": self.__tour_review,
             "tg_uid": self.__tg_uid
         }
+

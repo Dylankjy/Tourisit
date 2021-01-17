@@ -1,193 +1,214 @@
 {% extends 'baseTour.html' %}
 
 {% block scripts %}
-    <link rel="stylesheet" href="/css/global/shop.css">
-    <link rel="stylesheet" href="/css/pages/index.css">
-    <script src='/js/form-persistence.js'></script>
-    <script>
+<link rel="stylesheet" href="/css/global/shop.css">
+<link rel="stylesheet" href="/css/pages/index.css">
+<script src='/js/form-persistence.js'></script>
+<script>
 
-        let listno = 0
-        let locno = 0
-        var itemList = []
-        var locList = []
-        var locationTags = document.getElementById('locations')
-
-        function AppendtoLocation() {
-            var loc = document.getElementById('tour-loc').value
-            current_locs = document.getElementById('locations')
-
-            // var template =
-            // `
-            //     <span class="tag is-info">${loc}</span>
-            // `
-
-            // var template =
-            // `
-            //     <span class="tag is-info">${loc}<a onclick="locList.splice(${locno}, 1, 'None'); current_locs.removeChild(template)>here</a></span>
-            // `
-
-            var template = document.createElement('span')
-            template.className = "tag is-info"
-            // template.id = `loc_${locno}`
-            template.textContent = loc
-            current_locs.appendChild(template)
+    let listno = 0
+    let locno = 0
+    var itemList = []
+    var locList = []
+    var locationTags = document.getElementById('locations')
+    var dayList = []
 
 
-            let removeElement = document.createElement('a');
-            removeElement.textContent = '\u274c';
-            removeElement.id = locno
-            removeElement.addEventListener('click', () => {
-                current_locs.removeChild(template)
-                console.log(`Loc no is: ${locno}`)
-                locList.splice(removeElement.id, 1, 'None')
-                AppendtoLocationList()
-            });
-            template.appendChild(removeElement);
-
-            // current_locs.innerHTML += template
-            locList.push(loc + '#$%^#')
-            console.log(locList)
-
-            locno += 1
-
-        }
-
-        // function AppendtoLocation() {
-        //     var loc = document.getElementById('tour-loc').value
-        //     var newLocation = document.createElement('span')
-        //     newLocation.className = "tag is-info"
-        //     newLocation.textContent = loc
-        //     locationTags.appendChild(newLocation)
-
-        //     let removeElement = document.createElement('a');
-        //     removeElement.textContent = '\u274c';
-        //     removeElement.addEventListener('click', () => locationTags.removeChild(newLocation));
-        //     newLocation.appendChild(removeElement);
-
-        //     let tagValue = document.createElement('input');
-        //     tagValue.setAttribute('type', 'hidden');
-        //     tagValue.setAttribute('name', 'tag');
-        //     tagValue.value = loc;
-        //     newLocation.appendChild(tagValue);
-
-
-        //     locList.push(loc + '#$%^#')
-        //     console.log(locList)
-        // }
-
-        function AppendtoLocationList() {
-            current_list = document.getElementById('tour-locations-list')
-            current_list.value = Array.from(locList)
-            console.log(current_list)
-        }
-
-        function AppendtoItem() {
-            current_list = document.getElementById('tour-item-list')
-            current_list.value = Array.from(itemList)
-            console.log(current_list)
-            console.log(current_list)
-        }
-
-
-        function UpdateItems() {
-            document.getElementById("addItemButton").click()
-        }
-
-        // Must click the add listing button in order to get the updated version
-        $('#makeListingForm').submit(() => {
-            UpdateItems()
-            return true;
+    function AppendtoDay() {
+        $("input:checkbox[name=avail_day]:checked").each(function () {
+            dayList.push($(this).val() + '#$%^#') 
         });
+        AppendtoDayList()
+    }
 
-        // window.addEventListener('load', () => {
-        //     let form = document.getElementById('makeListingForm')
-        //     FormPersistence.persist(form, {useSessionStorage: true});
-        //     FormPersistence.save(form, {useSessionStorage: true})
-        // })
+    function AppendtoDayList() {
+        current_day_list = document.getElementById('tour-days-list')
+        current_day_list.value = Array.from(dayList)
+        console.log(current_day_list)
+    }
 
-        // window.onbeforeunload = ()=>{
-        //     FormPersistence.load(form, {useSessionStorage: true})
-        // }
-
-        // function formToString(filledForm) {
-        //     formObject = new Object
-        //     filledForm.find("input, select, textarea").each(function() {
-        //         if (this.id) {
-        //             elem = $(this);
-        //             if (elem.attr("type") == 'checkbox' || elem.attr("type") == 'radio') {
-        //                 formObject[this.id] = elem.attr("checked");
-        //             } else {
-        //                 formObject[this.id] = elem.val();
-        //             }
-        //         }
-        //     });
-        //     formString = JSON.stringify(formObject);
-        //     return formString;
-        // }
-
-        // function stringToForm(formString, unfilledForm) {
-        //     formObject = JSON.parse(formString);
-        //     unfilledForm.find("input, select, textarea").each(function() {
-        //         if (this.id) {
-        //             id = this.id;
-        //             elem = $(this);
-        //             if (elem.attr("type") == "checkbox" || elem.attr("type") == "radio" ) {
-        //                 elem.attr("checked", formObject[id]);
-        //             } else {
-        //                 elem.val(formObject[id]);
-        //             }
-        //         }
-        //     });
-        // }
+    
 
 
-        // window.onbeforeunload = function () {
-        //     sessionStorage.setItem("formdata",formToString($("#makeListingForm")))
-        //     var storedform = sessionStorage.getItem("formdata");
-        //     stringToForm(storedform,$("#makeListingForm"));
-        // }
 
 
-        // // Incase form has to reload, the user data is still saved to session storage and re displayed
-        // function Persistence() {
-        //     window.onload = function() {
-        //         if (sessionStorage.getItem('name') == "name") {
-        //             return;
-        //         }
+    function AppendtoLocation() {
+        var loc = document.getElementById('tour-loc').value
+        current_locs = document.getElementById('locations')
 
-        //         // If values are not blank, restore them to the fields
-        //         var saved_itenerary = localStorage.getItem('itenerary_list');
-        //         if (local_itenerary !== null) {
-        //             $('#tour-items').val(saved_itenerary)
-        //             console.log(saved_itenerary)
-        //         };
+        // var template =
+        // `
+        //     <span class="tag is-info">${loc}</span>
+        // `
 
-        //         var saved_locations = localStorage.getItem('location_list');
-        //         if (saved_locations !== null) {
-        //             $('#tour-loc').val(saved_locations)
-        //             console.log(saved_locations)
-        //         };
-        //     }
+        // var template =
+        // `
+        //     <span class="tag is-info">${loc}<a onclick="locList.splice(${locno}, 1, 'None'); current_locs.removeChild(template)>here</a></span>
+        // `
 
-
-        //         // Before refreshing the page, save the form data to sessionStorage
-        //     window.onbeforeunload = function() {
-        //         localStorage.setItem("itinerary_list", itemList);
-        //         localStorage.setItem("location_list", locList);
-        //     }
-        // }
+        var template = document.createElement('span')
+        template.className = "tag is-info"
+        // template.id = `loc_${locno}`
+        template.textContent = loc
+        current_locs.appendChild(template)
 
 
-        window.onbeforeunload = () => {
-            Persistence()
-        }
+        let removeElement = document.createElement('a');
+        removeElement.textContent = '\u274c';
+        removeElement.id = locno
+        removeElement.addEventListener('click', () => {
+            current_locs.removeChild(template)
+            console.log(`Loc no is: ${locno}`)
+            locList.splice(removeElement.id, 1, 'None')
+            AppendtoLocationList()
+        });
+        template.appendChild(removeElement);
+
+        // current_locs.innerHTML += template
+        locList.push(loc + '#$%^#')
+        console.log(locList)
+
+        locno += 1
+
+    }
+
+    // function AppendtoLocation() {
+    //     var loc = document.getElementById('tour-loc').value
+    //     var newLocation = document.createElement('span')
+    //     newLocation.className = "tag is-info"
+    //     newLocation.textContent = loc
+    //     locationTags.appendChild(newLocation)
+
+    //     let removeElement = document.createElement('a');
+    //     removeElement.textContent = '\u274c';
+    //     removeElement.addEventListener('click', () => locationTags.removeChild(newLocation));
+    //     newLocation.appendChild(removeElement);
+
+    //     let tagValue = document.createElement('input');
+    //     tagValue.setAttribute('type', 'hidden');
+    //     tagValue.setAttribute('name', 'tag');
+    //     tagValue.value = loc;
+    //     newLocation.appendChild(tagValue);
 
 
-        function AddItinerary() {
-            // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
-            current_item = document.getElementById('tour-items')
-            text =
-                `
+    //     locList.push(loc + '#$%^#')
+    //     console.log(locList)
+    // }
+
+    function AppendtoLocationList() {
+        current_list = document.getElementById('tour-locations-list')
+        current_list.value = Array.from(locList)
+        console.log(current_list)
+    }
+
+    function AppendtoItem() {
+        current_list = document.getElementById('tour-item-list')
+        current_list.value = Array.from(itemList)
+        console.log(current_list)
+        console.log(current_list)
+    }
+
+
+    function UpdateItems() {
+        document.getElementById("addItemButton").click()
+    }
+
+    // Must click the add listing button in order to get the updated version
+    $('#makeListingForm').submit(() => {
+        UpdateItems()
+        AppendtoDay()
+        return true;
+    });
+
+    // window.addEventListener('load', () => {
+    //     let form = document.getElementById('makeListingForm')
+    //     FormPersistence.persist(form, {useSessionStorage: true});
+    //     FormPersistence.save(form, {useSessionStorage: true})
+    // })
+
+    // window.onbeforeunload = ()=>{
+    //     FormPersistence.load(form, {useSessionStorage: true})
+    // }
+
+    // function formToString(filledForm) {
+    //     formObject = new Object
+    //     filledForm.find("input, select, textarea").each(function() {
+    //         if (this.id) {
+    //             elem = $(this);
+    //             if (elem.attr("type") == 'checkbox' || elem.attr("type") == 'radio') {
+    //                 formObject[this.id] = elem.attr("checked");
+    //             } else {
+    //                 formObject[this.id] = elem.val();
+    //             }
+    //         }
+    //     });
+    //     formString = JSON.stringify(formObject);
+    //     return formString;
+    // }
+
+    // function stringToForm(formString, unfilledForm) {
+    //     formObject = JSON.parse(formString);
+    //     unfilledForm.find("input, select, textarea").each(function() {
+    //         if (this.id) {
+    //             id = this.id;
+    //             elem = $(this);
+    //             if (elem.attr("type") == "checkbox" || elem.attr("type") == "radio" ) {
+    //                 elem.attr("checked", formObject[id]);
+    //             } else {
+    //                 elem.val(formObject[id]);
+    //             }
+    //         }
+    //     });
+    // }
+
+
+    // window.onbeforeunload = function () {
+    //     sessionStorage.setItem("formdata",formToString($("#makeListingForm")))
+    //     var storedform = sessionStorage.getItem("formdata");
+    //     stringToForm(storedform,$("#makeListingForm"));
+    // }
+
+
+    // // Incase form has to reload, the user data is still saved to session storage and re displayed
+    // function Persistence() {
+    //     window.onload = function() {
+    //         if (sessionStorage.getItem('name') == "name") {
+    //             return;
+    //         }
+
+    //         // If values are not blank, restore them to the fields
+    //         var saved_itenerary = localStorage.getItem('itenerary_list');
+    //         if (local_itenerary !== null) {
+    //             $('#tour-items').val(saved_itenerary)
+    //             console.log(saved_itenerary)
+    //         };
+
+    //         var saved_locations = localStorage.getItem('location_list');
+    //         if (saved_locations !== null) {
+    //             $('#tour-loc').val(saved_locations)
+    //             console.log(saved_locations)
+    //         };
+    //     }
+
+
+    //         // Before refreshing the page, save the form data to sessionStorage
+    //     window.onbeforeunload = function() {
+    //         localStorage.setItem("itinerary_list", itemList);
+    //         localStorage.setItem("location_list", locList);
+    //     }
+    // }
+
+
+    window.onbeforeunload = () => {
+        Persistence()
+    }
+
+
+    function AddItinerary() {
+        // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
+        current_item = document.getElementById('tour-items')
+        text =
+            `
                 <li id='list_${listno}'>
                     <div class="field has-addons" >
                         <div class="control is-expanded">
@@ -201,56 +222,56 @@
                     </div>
                 </li>
             `
-            $("#itinerary-list").append(`${text}`)
-            itemList.push(current_item.value + '#$%^#')
-            current_item.value = ''
-            listno += 1
-        }
+        $("#itinerary-list").append(`${text}`)
+        itemList.push(current_item.value + '#$%^#')
+        current_item.value = ''
+        listno += 1
+    }
 
-    </script>
+</script>
 
 
 
 {% endblock %}
 
 {% block content %}
-    {% from "_formhelper.html" import render_field %}
-    <section class="section has-background-white">
-        <div class="container">
-            <h1 class="is-size-1 has-text-weight-bold mt-6">New tour listing</h1>
-        </div>
-    </section>
+{% from "_formhelper.html" import render_field %}
+<section class="section has-background-white">
+    <div class="container">
+        <h1 class="is-size-1 has-text-weight-bold mt-6">New tour listing</h1>
+    </div>
+</section>
 
-    <section class='section'>
-        <div class="container">
-            <form id='makeListingForm' class="form-horizontal" enctype="multipart/form-data"
-                  action="{{ url_for('makelisting') }}" method="POST">
-                {{ form.csrf_token }}
-                <fieldset>
+<section class='section'>
+    <div class="container">
+        <form id='makeListingForm' class="form-horizontal" enctype="multipart/form-data"
+            action="{{ url_for('makelisting') }}" method="POST">
+            {{ form.csrf_token }}
+            <fieldset>
 
-                    <legend class='label'>Tour Name</legend>
+                <legend class='label'>Tour Name</legend>
 
-                    <div class="field">
+                <div class="field">
 
-                        <div class="control">
-                            {{ form.tour_name(id="tour-name", type="text", class="input", placeholder="Bishan Eco-walk") }}
-                            <ul>
-                                {% for error in form.tour_name.errors %}
-                                    <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                    <div class="control">
+                        {{ form.tour_name(id="tour-name", type="text", class="input", placeholder="Bishan Eco-walk") }}
+                        <ul>
+                            {% for error in form.tour_name.errors %}
+                            <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
+                </div>
 
 
-                    <legend class='label'>Tour Image</legend>
-                    <div class='field'>
-                        <div class="file has-name is-boxed">
-                            <label class="file-label">
-                                {{ form.tour_img(class="file-input", id='uploadImg', type="file", onchange="if
+                <legend class='label'>Tour Image</legend>
+                <div class='field'>
+                    <div class="file has-name is-boxed">
+                        <label class="file-label">
+                            {{ form.tour_img(class="file-input", id='uploadImg', type="file", onchange="if
                             (this.files.length > 0) document.getElementById('filename-tour-img').innerHTML =
                             this.files[0].name;") }}
-                                <span class="file-cta">
+                            <span class="file-cta">
                                 <span class="file-icon">
                                     <i class="fas fa-upload"></i>
                                 </span>
@@ -258,147 +279,182 @@
                                     Upload an Image...
                                 </span>
                             </span>
-                                <span class="file-name" id='filename-tour-img'>
+                            <span class="file-name" id='filename-tour-img'>
 
                             </span>
-                            </label>
-                        </div>
+                        </label>
                     </div>
+                </div>
 
-                    {% for error in form.tour_img.errors %}
-                        <li class="has-text-danger"> {{ error }}</li>
-                    {% endfor %}
+                {% for error in form.tour_img.errors %}
+                <li class="has-text-danger"> {{ error }}</li>
+                {% endfor %}
 
-                    <div>
-                        <img id="currentImg"/>
+                <div>
+                    <img id="currentImg" />
+                </div>
+
+                <label class="label">Tour Available Days</label>
+                <div class='field'>
+                    <div class='control'>
+                        <input type="checkbox" name="avail_day" value="Mon"/> Monday<br>
+                        <input type="checkbox" name="avail_day" value="Tues"/> Tuesday<br>
+                        <input type="checkbox" name="avail_day" value="Wed"/> Wednesday<br>
+                        <input type="checkbox" name="avail_day" value="Thurs"/> Thursday<br>
+                        <input type="checkbox" name="avail_day" value="Fri"/> Friday<br>
+                        <input type="checkbox" name="avail_day" value="Sat"/> Saturday<br>
+                        <input type="checkbox" name="avail_day" value="Sun"/> Sunday<br>
                     </div>
+                </div>
 
-
-                    <label class="label" for="tour-desc">Tour Description</label>
-                    <div class="field">
-                        <div class="control">
-                            {{ form.tour_desc(class='textarea', id="tour-desc", placeholder="This Eco-walk will take you to different nature attractions in Bishan, including: Gardens, Parks and Trails....") }}
-                            <ul>
-                                {% for error in form.tour_desc.errors %}
-                                    <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                <div class='field'>
+                    <div class='control'>
+                        <input name='tour_days_list[]' , class='input' , id='tour-days-list' , type='hidden'>
                     </div>
+                </div>
 
 
-                    <label class="label" for="tour-items">Tour itinerary</label>
-                    <div class="field has-addons">
-                        <div class="control">
-                            <a id='addItemButton' class="button" onclick="AddItinerary();AppendtoItem()">
-                                Add Itinerary
-                            </a>
-                        </div>
-                        <div class="control is-expanded">
-                            {{ form.tour_items(class='input', id='tour-items', placeholder='Visit famous museum at Newton: Newton War Memorial Museum', type='text') }}
-                        </div>
-                    </div>
 
-
-                    <div>
-                        <ol id='itinerary-list'></ol>
-                    </div>
-
-
-                    <div class='field'>
-                        <div class='control'>
-                            <input name='tour_items_list[]' , class='input' , id='tour-item-list' , type='hidden'>
-                        </div>
-                    </div>
-
-
-                    <label class="label" for="tour-loc">Tour Location</label>
-                    <div class="field has-addons">
-                        <div class="control">
-                            <a class="button" onclick='AppendtoLocation(); AppendtoLocationList()'>
-                                Add Location
-                            </a>
-                        </div>
-                        <div class='control select'>
-                            {{ form.tour_loc(id="tour-loc") }}
-                        </div>
-                    </div>
-
-                    <div id='locations'></div>
-
-                    <ul>
-                        {% for error in form.tour_desc.errors %}
+                <label class="label">Tour Timing</label>
+                <div class='field'>
+                    <div class='control level-left'>
+                        {{ form.tour_start_time(id='tour-start-time', class='dropdown-item level-item') }} <p class='level-item'>-</p>  {{ form.tour_end_time(id='tour-end-time', class='dropdown-item level-item') }}
+                        <ul>
+                            {% for error in form.tour_end_time.errors %}
                             <li class="has-text-danger"> {{ error }}</li>
-                        {% endfor %}
-                    </ul>
-
-                    <div class='field'>
-                        <div class='control'>
-                            <input name='tour_locations_list[]' , class='input' , id='tour-locations-list' ,
-                                   type='hidden'>
-                        </div>
+                            {% endfor %}
+                        </ul>
                     </div>
+                </div>
 
 
-                    <label class="label" for="tour-revs">Maximum Tour Revisions</label>
-                    <div class="field">
-                        <div class="control">
-                            {{ form.tour_revisions(id="tour-revs", type="number", class="input", placeholder="3") }}
-                            <ul>
-                                {% for error in form.tour_revisions.errors %}
-                                    <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+
+                <label class="label" for="tour-desc">Tour Description</label>
+                <div class="field">
+                    <div class="control">
+                        {{ form.tour_desc(class='textarea', id="tour-desc", placeholder="This Eco-walk will take you to different nature attractions in Bishan, including: Gardens, Parks and Trails....") }}
+                        <ul>
+                            {% for error in form.tour_desc.errors %}
+                            <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
+                </div>
 
 
-                    <label class="label" for="tour-price">Minimum Price ($SGD)</label>
-                    <div class="field">
-                        <div class="control">
-                            {{ form.tour_price(id="tour-price", type="number", class="input", placeholder="120") }}
-                            <ul>
-                                {% for error in form.tour_price.errors %}
-                                    <li class="has-text-danger"> {{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                <label class="label" for="tour-items">Tour itinerary</label>
+                <div class="field has-addons">
+                    <div class="control">
+                        <a id='addItemButton' class="button" onclick="AddItinerary();AppendtoItem()">
+                            Add Itinerary
+                        </a>
                     </div>
-
-
-                    <div class="field">
-                        <div class="control">
-                            <input type='submit' value='List tour' id="tour-submit" name="tour-submit"
-                                   class="button is-success"
-                                   onclick=UpdateItems()>
-                        </div>
+                    <div class="control is-expanded">
+                        {{ form.tour_items(class='input', id='tour-items', placeholder='Visit famous museum at Newton:
+                        Newton War Memorial Museum', type='text') }}
                     </div>
+                </div>
 
-                </fieldset>
-            </form>
-        </div>
-    </section>
 
-    <script>
-        var picture = null
+                <div>
+                    <ol id='itinerary-list'></ol>
+                </div>
 
-        function toBase64(file) {
-            var reader = new FileReader()
-            reader.readAsDataURL(file)
-            reader.onload = function () {
-                picture = reader.result
-                $('#currentImg').attr('src', reader.result);
-            }
-            reader.onerror = function (error) {
-                console.log('Error: ', error)
-            }
+
+                <div class='field'>
+                    <div class='control'>
+                        <input name='tour_items_list[]' , class='input' , id='tour-item-list' , type='hidden'>
+                    </div>
+                </div>
+
+
+                <label class="label" for="tour-loc">Tour Location</label>
+                <div class="field has-addons">
+                    <div class="control">
+                        <a class="button" onclick='AppendtoLocation(); AppendtoLocationList()'>
+                            Add Location
+                        </a>
+                    </div>
+                    <div class='control select'>
+                        {{ form.tour_loc(id="tour-loc") }}
+                    </div>
+                </div>
+
+                <div id='locations'></div>
+
+                <ul>
+                    {% for error in form.tour_desc.errors %}
+                    <li class="has-text-danger"> {{ error }}</li>
+                    {% endfor %}
+                </ul>
+
+                <div class='field'>
+                    <div class='control'>
+                        <input name='tour_locations_list[]' , class='input' , id='tour-locations-list' , type='hidden'>
+                    </div>
+                </div>
+
+
+                <label class="label" for="tour-revs" has-tooltip-right data-tooltip="U cant touch this">Maximum Tour
+                    Revisions</label>
+                <div class="field">
+                    <div class="control">
+                        {{ form.tour_revisions(id="tour-revs", type="number", class="input", placeholder="3") }}
+                        <ul>
+                            {% for error in form.tour_revisions.errors %}
+                            <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+
+                <label class="label" for="tour-price">Minimum Price ($SGD)</label>
+                <div class="field">
+                    <div class="control">
+                        {{ form.tour_price(id="tour-price", type="number", class="input", placeholder="120") }}
+                        <ul>
+                            {% for error in form.tour_price.errors %}
+                            <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="field">
+                    <div class="control">
+                        <input type='submit' value='List tour' id="tour-submit" name="tour-submit"
+                            class="button is-success" onclick=UpdateItems();AppendtoDay()>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+</section>
+
+<script>
+
+    var picture = null
+
+    function toBase64(file) {
+        var reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = function () {
+            picture = reader.result
+            $('#currentImg').attr('src', reader.result);
         }
+        reader.onerror = function (error) {
+            console.log('Error: ', error)
+        }
+    }
 
-        $("#uploadImg").change(() => {
-            flag = toBase64($("#uploadImg").prop('files')[0])
-            console.log('this worked')
-        });
+    $("#uploadImg").change(() => {
+        flag = toBase64($("#uploadImg").prop('files')[0])
+        console.log('this worked')
+    });
 
 
-    </script>
+</script>
 {% endblock %}

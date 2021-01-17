@@ -27,6 +27,7 @@
                             ${{ item.tour_price }}
                         </p>
                     </div>
+
                     <div class="column">
                         <div class="tour-content">
                             <h3 class="title is-4">About this tour</h3>
@@ -37,6 +38,25 @@
                             {% endfor %}
                         </div>
                     </div>
+
+                    <div class='column'>
+                        <div class="tour-content">
+                            <h3 class="title is-4">Available Days</h3>
+                            <ul>
+                                {% for day in item.tour_days %}
+                                    <li>{{ day }}</li>
+                                {% endfor %}                            
+                            </ul>
+                        </div>
+                        
+                        <br>
+
+                        <div class="tour-content">
+                            <h3 class="title is-4">Tour Timing</h3>
+                            {{ item.tour_time[0] }}  - {{ item.tour_time[1] }}
+                        </div>
+                    </div>
+
                 </div>
                 <div class="tour-footer has-background-light">
                     <div class="buttons">

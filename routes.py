@@ -515,11 +515,17 @@ def makelisting():
 
                 detail_desc = request.form['tour_desc']
 
+                days_form_list = request.form.getlist('tour_days_list[]')
+                tour_days = formToArray(days_form_list)
+
+                tour_start_time = request.form['tour_start_time']
+                tour_end_time = request.form['tour_end_time']
+                tour_time_list = [tour_start_time, tour_end_time]
+
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
                 tour_itinerary = formToArray(itinerary_form_list)
 
-                locations_form_list = request.form.getlist(
-                    'tour_locations_list[]')
+                locations_form_list = request.form.getlist('tour_locations_list[]')
                 tour_locations = formToArray(locations_form_list)
 
                 tour_img = request.files['tour_img']
@@ -541,11 +547,13 @@ def makelisting():
                     tg_uid=tg_uid,
                     tour_location=tour_locations,
                     tour_revs=tour_revisions,
-                    tour_itinerary=tour_itinerary)
+                    tour_itinerary=tour_itinerary,
+                    tour_days=tour_days,
+                    tour_time=tour_time_list)
 
                 listingInfo = tour_listing.return_obj()
                 print(listingInfo)
-                shop_db.insert_one(listingInfo)
+                # shop_db.insert_one(listingInfo)
 
                 return render_template(
                     'tourGuides/listing-success.html', user=result)
@@ -580,6 +588,15 @@ def editListing(id):
 
                 detail_desc = request.form['tour_desc']
 
+                days_form_list = request.form.getlist('tour_days_list[]')
+                tour_days = formToArray(days_form_list)
+                #Remove any duplicates
+                tour_days = list(set(tour_days))
+
+                tour_start_time = request.form['tour_start_time']
+                tour_end_time = request.form['tour_end_time']
+                tour_time_list = [tour_start_time, tour_end_time]
+
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
                 tour_itinerary = formToArray(itinerary_form_list)
 
@@ -609,7 +626,10 @@ def editListing(id):
                             'tour_price': tour_price,
                             'tour_location': tour_locations,
                             'tour_revisions': tour_revisions,
-                            'tour_itinerary': tour_itinerary}}
+                            'tour_itinerary': tour_itinerary,
+                            'tour_days': tour_days,
+                            'tour_time': tour_time_list
+                        }}
 
                 else:
                     updated = {
@@ -620,7 +640,10 @@ def editListing(id):
                             'tour_img': img_string,
                             'tour_location': tour_locations,
                             'tour_revisions': tour_revisions,
-                            'tour_itinerary': tour_itinerary}}
+                            'tour_itinerary': tour_itinerary,
+                            'tour_days': tour_days,
+                            'tour_time': tour_time_list
+                        }}
 
                 shop_db.update_one(query_listing, updated)
 
@@ -858,7 +881,7 @@ def checkout(book_id):
                     bookings_db.update_one(booking, update_booking)
                     # Transaction
                     earnings = booking['book_charges']['baseprice'] + \
-                        booking['book_charges']['customfee']
+                               booking['book_charges']['customfee']
                     transaction = Transaction(
                         tg_uid=booking['tg_uid'],
                         cust_uid=booking['cust_uid'],
@@ -1293,6 +1316,7 @@ def email_confirmation_endpoint():
         return redirect(url_for('login', verification_code_OK=True))
     else:
         return redirect(url_for('login', verification_code_denied=True))
+
 
 # Password reset:
 # TODO: Take token put into WTForm and check only after submission. Remove check on auth.py
