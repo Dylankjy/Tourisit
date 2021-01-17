@@ -263,13 +263,11 @@
                     <div class='field'>
                         <div class='control'>
                             {{ form.tour_days(name='tour_days', type='checkbox', class='checkbox') }}
-                            <!-- <input type="checkbox" name="avail_day" value="Mon"/> Monday<br>
-                            <input type="checkbox" name="avail_day" value="Tues"/> Tuesday<br>
-                            <input type="checkbox" name="avail_day" value="Wed"/> Wednesday<br>
-                            <input type="checkbox" name="avail_day" value="Thurs"/> Thursday<br>
-                            <input type="checkbox" name="avail_day" value="Fri"/> Friday<br>
-                            <input type="checkbox" name="avail_day" value="Sat"/> Saturday<br>
-                            <input type="checkbox" name="avail_day" value="Sun"/> Sunday<br> -->
+                            <ul>
+                                {% for error in form.tour_days.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
 

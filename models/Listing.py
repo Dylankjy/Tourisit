@@ -33,7 +33,7 @@ class CustomSelectField(FlaskForm):
 #         raise ValidationError('End time wrong!')
 
 
-time_list = ['6:00 AM', '6:30 AM', '7:00 AM', '7.30 AM', '8:00 AM', '8:30 AM',
+time_list = ['6:00 AM', '6:30 AM', '7:00 AM', '7.30 AM', '8:00 AM', '8:30 AM', '9:00 AM',
               '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM',
               '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM',
               '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM',
@@ -42,6 +42,7 @@ time_list = ['6:00 AM', '6:30 AM', '7:00 AM', '7.30 AM', '8:00 AM', '8:30 AM',
 
 # Add no. of revisions, itineary, location
 class ListingForm(FlaskForm):
+
     tour_name = StringField('tour_name', validators=[InputRequired(), Length(min=1, max=30,
                                                                              message='Name can only be 30 characters long!')])
 
@@ -51,22 +52,29 @@ class ListingForm(FlaskForm):
 
     tour_end_time = SelectField('tour_end_time', choices=time_list, validators=[InputRequired()])
 
-    tour_days = MultiCheckboxField('tour_days', choices=[('Mon', 'Monday'), ('Tues','Tuesday'),('Wed', 'Wednesday'), ('Thurs','Thursday'), ('Fri', 'Friday'), ('Sat','Saturday'), ('Sun','Sunday')], _name='avail_day')
+    tour_days = MultiCheckboxField('tour_days', choices=[('Mon', 'Monday'), ('Tues','Tuesday'),('Wed', 'Wednesday'), ('Thurs','Thursday'), ('Fri', 'Friday'), ('Sat','Saturday'), ('Sun','Sunday')], validators=[InputRequired('Please select at least one available day')])
 
     # Tour itinerary
     tour_items = StringField('tour_items')
 
     # tour_items_list = FieldList(HiddenField('tour_items_list', validators=[InputRequired()]))
 
-    tour_loc = CustomSelectField(fieldName='tour_loc', start_name='loc',
-                                 options=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
-                                          'Bukit Panjang', 'Bukit Timah',
-                                          'Choa Chu Kang', 'Clementi', 'Changi', 'Geylang', 'Hougang', 'Jurong East',
-                                          'Jurong West',
-                                          'Kallang', 'Marine Parade', 'Orchard', 'Pasir Ris', 'Punggol', 'Queenstown',
-                                          'Sembawang', 'Sengkang',
-                                          'Serangoon', 'Sentosa', 'Tampines', 'Toa Payoh', 'Woodlands',
-                                          'Yishun']).return_Field()
+    tour_loc = SelectField('tour_loc', choices=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
+                                          'Bukit Panjang', 'Bukit Timah', 'Choa Chu Kang', 'Clementi', 'Changi',
+                                          'Geylang', 'Hougang', 'Jurong East', 'Jurong West', 'Kallang',
+                                          'Marine Parade', 'Orchard', 'Pasir Ris', 'Punggol', 'Queenstown',
+                                          'Sembawang', 'Sengkang', 'Serangoon', 'Sentosa', 'Tampines', 'Toa Payoh',
+                                          'Woodlands', 'Yishun'] )
+
+    # tour_loc = CustomSelectField(fieldName='tour_loc', start_name='loc',
+    #                              options=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
+    #                                       'Bukit Panjang', 'Bukit Timah',
+    #                                       'Choa Chu Kang', 'Clementi', 'Changi', 'Geylang', 'Hougang', 'Jurong East',
+    #                                       'Jurong West',
+    #                                       'Kallang', 'Marine Parade', 'Orchard', 'Pasir Ris', 'Punggol', 'Queenstown',
+    #                                       'Sembawang', 'Sengkang',
+    #                                       'Serangoon', 'Sentosa', 'Tampines', 'Toa Payoh', 'Woodlands',
+    #                                       'Yishun']).return_Field()
 
     tour_img = FileField('tour_img', validators=[
         FileAllowed(['jpg', 'jpeg', 'png'], 'Only .jpg, .jpeg and .png images are allowed!')])
@@ -88,6 +96,31 @@ class ListingForm(FlaskForm):
     #         return False
     #
     #     return True
+
+    def validate(self):
+        #This is the default flask validation rules (Which you define in the wtforms fields)
+        if not FlaskForm.validate(self):
+            return False
+
+        #Provided that the original flask validation passes, you now pass it through an additional validation (Check the timings)
+        result = True
+        end_idx = time_list.index(self.tour_end_time.data)
+        start_idx = time_list.index(self.tour_start_time.data)
+        print('end is ', self.tour_end_time.data)
+        print('end idx is ', end_idx)
+        print('start is ', self.tour_start_time.data)
+        print('start idx is ', start_idx)
+        if end_idx <= start_idx:
+            #Must convert to a list first (So can append) and then convert back to the tuple (original form)
+            tmp = list(self.tour_end_time.errors)
+            tmp.append('End time must be later than start time!')
+            self.tour_end_time.errors = tuple(tmp)
+            result = False
+        else:
+            print('Success')
+        return result
+
+# print(time_list.index('9:00 AM'))
 
 
 class Listing:

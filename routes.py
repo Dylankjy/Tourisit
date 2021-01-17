@@ -554,7 +554,7 @@ def makelisting():
 
                 listingInfo = tour_listing.return_obj()
                 print(listingInfo)
-                shop_db.insert_one(listingInfo)
+                # shop_db.insert_one(listingInfo)
 
                 return render_template(
                     'tourGuides/listing-success.html', user=result)
