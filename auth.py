@@ -45,6 +45,14 @@ template_reset_password = open("email/pwdreset.html", "r").read()
 
 
 def create_account(name, raw_password, email):
+    """
+    Used to create an account. Takes in User class and returns into database
+    :param name: User's name
+    :param raw_password: User's password (in plain text)
+    :param email: User's Email Address
+    :return: Status of account creation
+    """
+
     # Convert password into byte literals
     password = raw_password.encode('utf-8')
 
@@ -78,6 +86,11 @@ def create_account(name, raw_password, email):
 
 
 def add_session(uid):
+    """
+    Add a new session for persisting logins.
+    :param uid: Target User ID
+    :return: Session ID
+    """
     # Empty string
     raw_sid = ""
 
@@ -101,6 +114,12 @@ def add_session(uid):
 
 
 def add_token(token_type, uid):
+    """
+    For adding confirmation tokens & password change tokens.
+    :param token_type: Type of token to generate
+    :param uid: Target User ID
+    :return: Generated token value
+    """
     # token_type valid values
     # - email_verification
     # - password_reset
@@ -141,6 +160,14 @@ def add_token(token_type, uid):
 
 
 def verify_remove_token(token_type, token, check_only=False):
+    """
+    Verify and remove tokens
+    :param token_type: Type of token to validate
+    :param token: Token value
+    :param check_only:
+    :return: Status of verification
+    """
+
     # Prevent database exploit by rejecting blank entries
     if token is None or token == "":
         return False
@@ -190,6 +217,12 @@ def verify_remove_token(token_type, token, check_only=False):
 
 
 def login_account(email, unencoded_password):
+    """
+    Authenticate and login to account.
+    :param email: User's Email address
+    :param unencoded_password: User's supposed incoming password (unencoded)
+    :return: Authentication status
+    """
     password = unencoded_password.encode('utf-8')
 
     # Get user data from db by email
@@ -226,6 +259,11 @@ def login_account(email, unencoded_password):
 
 
 def get_user_id(sid):
+    """
+    Get User's ID from the current session
+    :param sid: Target user's current session ID
+    :return: User's ID
+    """
     # Find UID from SID
     query = {
         "sid": sid
@@ -241,6 +279,12 @@ def get_user_id(sid):
 
 
 def logout_account(sid, all_sessions=False):
+    """
+    Clear session(s) for logout
+    :param sid: Current session ID
+    :param all_sessions: Option to logout of all sessions
+    :return: Status of logout
+    """
     # Get session from database
     query = {
         "sid": sid
@@ -268,6 +312,11 @@ def logout_account(sid, all_sessions=False):
 
 
 def delete_account(uid):
+    """
+    Delete a user account using UID (WARNING! THERE IS NO AUTH CHECKS)
+    :param uid: Target User's ID
+    :return: Returns True when DB operation is completed
+    """
     try:
         # Query everything in relation to UID
         query = {
@@ -292,6 +341,13 @@ def delete_account(uid):
 
 
 def send_confirmation_email(email_type, sid=None, user_email=None):
+    """
+    Uses SMTP (via SendGrid) to send emails.
+    :param email_type: Type of email to send
+    :param sid: Target User's current session ID
+    :param user_email: Target user's email
+    :return: Status of operation
+    """
     if sid is not None and user_email is None:
         # Find UID from SID
         query = {
@@ -368,6 +424,10 @@ def send_confirmation_email(email_type, sid=None, user_email=None):
 
 
 def get_sid():
+    """
+    Get current session ID of user
+    :return: Session ID
+    """
     try:
         # Get SID
         sid = request.cookies.get('tourisitapp-sid')
@@ -377,6 +437,11 @@ def get_sid():
 
 
 def is_auth(gib_data=False):
+    """
+    Check current session is valid.
+    :param gib_data: Make return statement into an accessor method
+    :return: Either status of session or accessor result
+    """
     if get_sid() is not None:
         req_sid = get_sid()
     else:
@@ -408,6 +473,11 @@ def is_auth(gib_data=False):
 
 
 def generate_password_hash(raw_password):
+    """
+    For use for changing password
+    :param raw_password: User's new password
+    :return:
+    """
     # Encode password in byte literals
     password = raw_password.encode('utf-8')
 
@@ -418,6 +488,12 @@ def generate_password_hash(raw_password):
 
 
 def check_password_correlate(raw_new_password, old_password_hash):
+    """
+    To compare old hash to new password (unencoded). For use during password changes.
+    :param raw_new_password: New password (unencoded)
+    :param old_password_hash: Old password hash
+    :return: Status of password correlation
+    """
     # Encode password in byte literals
     new_password = raw_new_password.encode('utf-8')
 
