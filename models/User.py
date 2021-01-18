@@ -1,26 +1,37 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SelectField
-from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms import StringField, TextAreaField, SelectField, PasswordField
+from wtforms.validators import InputRequired, Length, ValidationError, EqualTo
 
 from models.Format import file_to_base64
-
 
 def fb_check(form, field):
     if 'facebook.com' not in field.data:
         raise ValidationError('Invalid Facebook Profile link')
 
-
 def insta_check(form, field):
     if 'instagram.com' not in field.data:
         raise ValidationError('Invalid Instagram Profile link')
-
 
 def linkedin_check(form, field):
     if 'linkedin.com' not in field.data:
         raise ValidationError('Invalid LinkedIn Profile link')
 
+class PasswordForm(FlaskForm):
+    old_password = PasswordField(
+        'Old Password',
+        validators=[
+            InputRequired()
+        ]
+    )
+    password = PasswordField(
+        'New Password',
+        validators=[
+            InputRequired(),
+            EqualTo('confirm', message='Passwords must match')]
+    )
+    confirm = PasswordField('Repeat Password')
 
 class UserForm(FlaskForm):
     name = StringField(
@@ -28,11 +39,6 @@ class UserForm(FlaskForm):
         validators=[
             InputRequired(),
             Length(min=1, max=30, message="Testing")]
-    )
-    password = StringField(
-        "password",
-        validators=[
-        ],
     )
     email = StringField(
         "email",
@@ -80,7 +86,6 @@ class UserForm(FlaskForm):
         ],
     )
 
-
 class BioForm(FlaskForm):
     bio = TextAreaField(
         "bio",
@@ -88,7 +93,6 @@ class BioForm(FlaskForm):
             Length(min=0, max=75, message="Bio can only be 75 characters long!")
         ]
     )
-
 
 class User:
     def __init__(
