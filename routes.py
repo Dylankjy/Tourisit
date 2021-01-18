@@ -265,7 +265,6 @@ def accountinfo():
                     updated = {
                         "$set": {
                             "password": auth.generate_password_hash(password)
-
                         }
                     }
                     user_db.update_one(query_user, updated)
