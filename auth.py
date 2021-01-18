@@ -251,8 +251,8 @@ def logout_account(sid, all_sessions=False):
         if len(query_result) == 1:
             db_sessions.delete_one(query)
             return True
-        else:
-            return False
+
+        return False
     elif all_sessions:
         query_result = [i for i in db_sessions.find(query)]
 
@@ -261,6 +261,10 @@ def logout_account(sid, all_sessions=False):
         }
         if len(query_result) == 1:
             db_sessions.delete_many(query_all_sessions)
+
+            return True
+
+        return False
 
 
 def delete_account(uid):
