@@ -413,6 +413,17 @@ def generate_password_hash(raw_password):
     return hashed_password
 
 
+def check_password_correlate(raw_new_password, old_password_hash):
+    # Encode password in byte literals
+    new_password = raw_new_password.encode('utf-8')
+
+    # Check whether passwords match
+    if not bcrypt.checkpw(new_password, old_password_hash):
+        return False
+
+    return True
+
+
 class SignupForm(FlaskForm):
     full_name = StringField(
         'Full Name',
