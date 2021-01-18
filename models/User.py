@@ -242,5 +242,6 @@ class User:
             "email_status": self.__email_status,
             "phone_status": self.__phone_status,
             "account_type": self.__account_type,
-            "account_mode": self.__account_mode
+            "account_mode": self.__account_mode,
+            "verified": self.__verified
         }
