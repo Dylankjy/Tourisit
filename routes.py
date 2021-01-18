@@ -21,7 +21,7 @@ from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm
 from models.Support import SupportForm, Support
 from models.Transaction import Transaction
-from models.User import UserForm, BioForm
+from models.User import UserForm, BioForm, PasswordForm
 
 # For Images
 buffered = BytesIO()
@@ -261,19 +261,22 @@ def accountinfo():
             elif pForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
                 password = request.form['confirm']
-                updated = {
-                    "$set": {
-                        "password": password
+                if password == password:
+                    updated = {
+                        "$set": {
+                            "password": auth.generate_password_hash(password)
+
                         }
                     }
-                user_db.update_one(query_user, updated)
-                return render_template(
-                    'success-user.html', user=item, id=id, loggedin=True)
+                    user_db.update_one(query_user, updated)
+                    return render_template(
+                        'success-user.html', user=item, id=id, loggedin=True)
 
             return render_template(
                 'setting.html',
                 user=item,
                 form=uForm,
+                form1=pForm,
                 loggedin=True)
 
         # Else if not logged in
@@ -282,6 +285,7 @@ def accountinfo():
                 'setting.html',
                 user=item,
                 form=uForm,
+                form1=pForm,
                 loggedin=True)
 
     else:
