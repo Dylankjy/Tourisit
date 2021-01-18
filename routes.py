@@ -260,8 +260,10 @@ def accountinfo():
 
             elif pForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
-                password = request.form['confirm']
-                if password == password:
+                old_password = request.form['old_password']
+                password = request.form['password']
+                confirm = request.form['confirm']
+                if auth.check_password_correlate(old_password, item.password):
                     updated = {
                         "$set": {
                             "password": auth.generate_password_hash(password)
@@ -270,7 +272,9 @@ def accountinfo():
                     user_db.update_one(query_user, updated)
                     return render_template(
                         'success-user.html', user=item, id=id, loggedin=True)
-
+                else:
+                    return render_template(
+                        'success-user.html', user=item, id=id, loggedin=True)
             return render_template(
                 'setting.html',
                 user=item,

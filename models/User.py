@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SelectField, PasswordField
 from wtforms.validators import InputRequired, Length, ValidationError, EqualTo
 
+import auth as auth
 from models.Format import file_to_base64
 
 def fb_check(form, field):
@@ -20,7 +21,7 @@ def linkedin_check(form, field):
 
 class PasswordForm(FlaskForm):
     old_password = PasswordField(
-        'Old Password',
+        'old_password',
         validators=[
             InputRequired()
         ]
@@ -29,7 +30,8 @@ class PasswordForm(FlaskForm):
         'New Password',
         validators=[
             InputRequired(),
-            EqualTo('confirm', message='Passwords must match')]
+            EqualTo('confirm', message='Passwords must match')
+        ]
     )
     confirm = PasswordField('Repeat Password')
 
