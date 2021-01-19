@@ -931,10 +931,10 @@ def all_businesses():
         # if logged in
         else:
             tg_uid = result['_id']
-            booking_list = list(bookings_db.find({'cust_uid': tg_uid}))
+            booking_list = list(bookings_db.find({'tg_uid': tg_uid}))
             listings = []
-            [i for i in bookings_db.find(
-                {'cust_uid': tg_uid})]
+            # [for i in bookings_db.find(
+            #     {'tg_uid': tg_uid})]
 
             for item in booking_list:
                 listings.append(shop_db.find_one({'_id': item['listing_id']}))

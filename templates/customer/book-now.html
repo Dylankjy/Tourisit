@@ -143,9 +143,13 @@
                                 </button>
                             </div>
                             <p class="is-grey has-text-centered">Not sure if this tour is for you? 
+                                <form id="_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
+                                    {{chatform.csrf_token}}
                                 <a
                                     href="{{ url_for('chat') }}"> Chat with {{ item.tg_uid| user_name}} first.
-                                </a></p>
+                                </a>
+                                </form>
+                            </p>
                         </div>
                     </form>
                     <!--END: Book now form-->
