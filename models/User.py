@@ -21,11 +21,21 @@ def linkedin_check(form, field):
     if 'linkedin.com' not in field.data:
         raise ValidationError('Invalid LinkedIn Profile link')
 
+def password_check(form, field):
+    result = auth.is_auth(True, True)
+    if result:
+        checker = auth.check_password_correlate(field.data, result['password'])
+        if not checker:
+            raise ValidationError('Wrong password entered!')
+    else:
+        return False
+
 class PasswordForm(FlaskForm):
     old_password = PasswordField(
         'old_password',
         validators=[
-            InputRequired()
+            InputRequired(),
+            password_check
         ]
     )
 

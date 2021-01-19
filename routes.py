@@ -233,7 +233,7 @@ def profile(user_id):
 def accountinfo():
     uForm = UserForm()
     pForm = PasswordForm()
-    result = auth.is_auth(True)
+    result = auth.is_auth(True, True)
     # If user is logged in and makes changes to the settings
     if result:
         id = result["_id"]
@@ -270,7 +270,7 @@ def accountinfo():
                 old_password = request.form['old_password']
                 password = request.form['password']
                 confirm = request.form['confirm']
-                checker = auth.check_password_correlate(old_password, item.password)
+                checker = auth.check_password_correlate(old_password, result['password'])
                 if checker:
                     updated = {
                         "$set": {
@@ -279,7 +279,7 @@ def accountinfo():
                     }
                     user_db.update_one(query_user, updated)
                     return render_template(
-                        'success-user.html', user=item, id=id, loggedin=True)
+                        'success-support.html', user=item, id=id, loggedin=True)
                 else:
                     return render_template(
                         'setting.html', user=item, id=id, loggedin=True)
