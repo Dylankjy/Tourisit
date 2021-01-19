@@ -487,18 +487,18 @@ def generate_password_hash(raw_password):
     return hashed_password
 
 
-def check_password_correlate(raw_new_password, old_password_hash):
+def check_password_correlate(raw_incoming_password, current_password_hash):
     """
     To compare old hash to new password (unencoded). For use during password changes.
-    :param raw_new_password: New password (unencoded)
-    :param old_password_hash: Old password hash
+    :param raw_incoming_password: Incoming password (unencoded)
+    :param current_password_hash: Current password hash
     :return: Status of password correlation
     """
     # Encode password in byte literals
-    new_password = raw_new_password.encode('utf-8')
+    incoming_password = raw_incoming_password.encode('utf-8')
 
     # Check whether passwords match
-    if not bcrypt.checkpw(new_password, old_password_hash):
+    if not bcrypt.checkpw(incoming_password, current_password_hash):
         return False
 
     return True
