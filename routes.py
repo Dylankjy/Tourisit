@@ -767,7 +767,7 @@ def all_bookings():
     result = auth.is_auth(True)
     # if not logged in
     if not result:
-        return render_template('customer/allBookings.html', loggedin=False)
+        return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
         cust_uid = result['_id']
@@ -800,7 +800,7 @@ def bookings(book_id):
     result = auth.is_auth(True)
     # if not logged in
     if not result:
-        return render_template('customer/booking.html', loggedin=False)
+        return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
         if request.method == 'POST':
@@ -858,7 +858,7 @@ def book_now(tour_id):
             tour_id=tour_id)
     # if not logged in
     else:
-        return render_template('customer/book-now.html', loggedin=False)
+        return redirect(url_for('login', denied_access=True))
 
 # except:
 #     return 'Error trying to render'
@@ -908,7 +908,7 @@ def checkout(book_id):
             book_id=book_id)
     # if not logged in
     else:
-        return render_template('customer/checkout.html', loggedin=False)
+        return redirect(url_for('login', denied_access=True))
 
 # except:
 #     return 'Error trying to render (checkout)'
@@ -923,9 +923,7 @@ def all_businesses():
         result = auth.is_auth(True)
         # if not logged in
         if not result:
-            return render_template(
-                'tourGuides/allBusinesses.html',
-                loggedin=False)
+            return redirect(url_for('login', denied_access=True))
         # if logged in
         else:
             tg_uid = result['_id']
@@ -956,7 +954,7 @@ def business(book_id):
         result = auth.is_auth(True)
         # if not logged in
         if not result:
-            return render_template('tourGuides/business.html', loggedin=False)
+            return redirect(url_for('login', denied_access=True))
         # if logged in
         else:
             print(booking)
