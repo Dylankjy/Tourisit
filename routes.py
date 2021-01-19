@@ -972,15 +972,22 @@ def business(book_id):
 # Submit Review
 @app.route('/review/<book_id>', methods=['GET', 'POST'])
 def review(book_id):
+
     try:
         booking = bookings_db.find_one({'_id': ObjectId(book_id)})
         tour = shop_db.find_one({'_id': booking['listing_id']})
         form = ReviewForm()
-        return render_template(
-            'customer/review.html',
-            booking=booking,
-            tour=tour,
-            form=form)
+        if request.method == "POST":
+            if form.validate_on_submit():
+                review_text = request.form["review_text"]
+                stars = form.rating.data
+                print(review_text)
+                print(stars)
+                return render_template(
+                'customer/review.html',
+                booking=booking,
+                tour=tour,
+                form=form)
     except BaseException:
         return 'Error trying to render'
 
