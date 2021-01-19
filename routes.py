@@ -235,6 +235,7 @@ def accountinfo():
         item = user_db.find_one({'_id': ObjectId(id)})
         if request.method == 'POST':
             if uForm.validate_on_submit():
+                auth.check_password_correlate()
                 query_user = {'_id': ObjectId(id)}
                 name = request.form['name']
                 email = request.form['email']
@@ -252,7 +253,9 @@ def accountinfo():
                             "fb": fb,
                             "insta": insta,
                             "linkedin": linkedin},
-                        "account_mode": account_mode}}
+                        "account_mode": account_mode
+                    }
+                }
 
                 user_db.update_one(query_user, updated)
                 return render_template(
@@ -263,7 +266,7 @@ def accountinfo():
                 old_password = request.form['old_password']
                 password = request.form['password']
                 confirm = request.form['confirm']
-                if auth.check_password_correlate(old_password, item.password):
+                if old_password == item.password:
                     updated = {
                         "$set": {
                             "password": auth.generate_password_hash(password)
@@ -274,7 +277,7 @@ def accountinfo():
                         'success-user.html', user=item, id=id, loggedin=True)
                 else:
                     return render_template(
-                        'success-user.html', user=item, id=id, loggedin=True)
+                        'setting.html', user=item, id=id, loggedin=True)
             return render_template(
                 'setting.html',
                 user=item,
