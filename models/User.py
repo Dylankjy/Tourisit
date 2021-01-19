@@ -6,6 +6,8 @@ from wtforms.validators import InputRequired, Length, ValidationError, EqualTo
 
 import auth as auth
 from models.Format import file_to_base64
+from models.model import User
+
 
 def fb_check(form, field):
     if 'facebook.com' not in field.data:
@@ -19,7 +21,7 @@ def linkedin_check(form, field):
     if 'linkedin.com' not in field.data:
         raise ValidationError('Invalid LinkedIn Profile link')
 
-class PasswordForm(FlaskForm, User):
+class PasswordForm(FlaskForm):
     old_password = PasswordField(
         'old_password',
         validators=[
@@ -27,10 +29,10 @@ class PasswordForm(FlaskForm, User):
         ]
     )
 
-    def password_check(form, field):
-        checker = auth.check_password_correlate(field.data, User.password)
-        if not checker:
-            raise ValidationError('Wrong password entered!')
+    # def password_check(form, field):
+    #     checker = auth.check_password_correlate(field.data, User.password)
+    #     if not checker:
+    #         raise ValidationError('Wrong password entered!')
 
     password = PasswordField(
         'New Password',
