@@ -435,10 +435,11 @@ def get_sid():
         return None
 
 
-def is_auth(gib_data=False):
+def is_auth(gib_data=False, gib_password=False):
     """
     Check current session is valid.
     :param gib_data: Make return statement into an accessor method
+    :param gib_password: Make return statement return password when accessor method is True
     :return: Either status of session or accessor result
     """
     if get_sid() is not None:
@@ -458,7 +459,8 @@ def is_auth(gib_data=False):
                 query_user_data = [i for i in db_users.find(query_user)]
 
                 user_data = query_user_data[0]
-                del user_data['password']
+                if not gib_password:
+                    del user_data['password']
                 del user_data['stripe_id']
 
                 return user_data
