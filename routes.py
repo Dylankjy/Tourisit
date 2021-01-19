@@ -60,6 +60,7 @@ bookings_db = client['Bookings']
 support_db = client['Support']
 transaction_db = client['Transactions']
 
+
 @app.template_filter('timestamp_iso')
 def timestamp_iso(s):
     try:
@@ -67,6 +68,7 @@ def timestamp_iso(s):
         return date
     except ValueError:
         return 'Unknown'
+
 
 @app.template_filter('user_pfp')
 def user_pfp(uid):
@@ -83,6 +85,7 @@ def user_pfp(uid):
         pfp_data = ''
 
     return pfp_data
+
 
 @app.template_filter('user_name')
 def user_name(uid):
@@ -119,6 +122,7 @@ def user_name(uid):
 
 uwu_face = file_to_base64('public/imgs/uwu.png')
 
+
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
     return render_template(
@@ -129,6 +133,7 @@ def test_img():
 # --------------------------------------
 
 # Amy
+
 
 # SHARED
 # Support: Help desk with customer support and Apply for Pro Verified
@@ -400,23 +405,13 @@ def search():
         resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
         return resp
 
+
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from Marketplace clicked
 @app.route('/discover/<tour_id>')
 def tourListing(tour_id):
-    # Note that there are 2 users here. The tour guide and the person who is
-    # logged in
-    result = auth.is_auth(True)
-    user_id = result['_id']
-    query_user = {'_id': ObjectId(user_id)}
-    loggedin_user = user_db.find_one(query_user)
-
-    # See if item is already in wishlist. If yes, then display 'Remove from
-    # wishlist' instead of 'Add to wishlist'
-    inside_wl = str(tour_id) in loggedin_user['wishlist']
-    print(tour_id)
-    print(loggedin_user['wishlist'])
-    print(inside_wl)
+    # Note that there are 2 users here. The tour guide and the person who is logged in
+    # Settle the loading of item first, then settle the logged in user part (Checking of wishlist)
 
     # Dynamically load the user data (From the database) so if user info
     # changes, all will change too
@@ -424,17 +419,16 @@ def tourListing(tour_id):
     tg_id = item['tg_uid']
     tg_userData = user_db.find_one({'_id': tg_id})
 
-    # if not logged in
-    if not result:
-        editable = False
-        return render_template(
-            'customer/tourListing.html',
-            item=item,
-            loggedin=False,
-            editable=editable,
-            userData=tg_userData)
-    # if logged in
-    else:
+    result = auth.is_auth(True)
+    if result:
+        user_id = result['_id']
+        query_user = {'_id': ObjectId(user_id)}
+        loggedin_user = user_db.find_one(query_user)
+
+        # See if item is already in wishlist. If yes, then display 'Remove from
+        # wishlist' instead of 'Add to wishlist'
+        inside_wl = str(tour_id) in loggedin_user['wishlist']
+
         # Boolean, will be editable if person is the owner of the listing
         editable = item['tg_uid'] == result['_id']
         return render_template(
@@ -445,6 +439,16 @@ def tourListing(tour_id):
             editable=editable,
             userData=tg_userData,
             inside_wl=inside_wl)
+
+    # if not logged in
+    editable = False
+    return render_template(
+        'customer/tourListing.html',
+        item=item,
+        loggedin=False,
+        editable=editable,
+        userData=tg_userData)
+
 
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
@@ -858,7 +862,7 @@ def book_now(tour_id):
             tour_id=tour_id)
     # if not logged in
     else:
-        return render_template('customer/book-now.html', loggedin=False)
+        return 'Log in pls'
 
 # except:
 #     return 'Error trying to render'
