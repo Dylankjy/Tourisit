@@ -142,8 +142,10 @@
                                     <p class="has-text-weight-semibold">Book Now</p>
                                 </button>
                             </div>
-                            <p class="is-grey has-text-centered">Not sure if this tour is for you? <a
-                                    href="{{ url_for('chat') }}"> Chat with HidethePain first.</a></p>
+                            <p class="is-grey has-text-centered">Not sure if this tour is for you? 
+                                <a
+                                    href="{{ url_for('chat') }}"> Chat with {{ item.tg_uid| user_name}} first.
+                                </a></p>
                         </div>
                     </form>
                     <!--END: Book now form-->
