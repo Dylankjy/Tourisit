@@ -157,7 +157,6 @@ class Listing:
         self.__tour_times = ''
         self.set_tour_time(tour_time)
 
-
         self.__tour_price = 0
         self.set_tour_price(tour_price)
 
@@ -175,6 +174,7 @@ class Listing:
 
         self.set_tg_uid(tg_uid)
 
+        self.__visibility = 1
         self.__date_created = datetime.now()
         self.__tour_rating = 0
         self.__tour_review = []
@@ -272,6 +272,7 @@ class Listing:
             "date_created": self.__date_created,
             "tour_rating": self.__tour_rating,
             "tour_review": self.__tour_review,
-            "tg_uid": self.__tg_uid
+            "tg_uid": self.__tg_uid,
+            "tour_visibility": self.__visibility
         }
 
