@@ -4,6 +4,7 @@ from wtforms.validators import InputRequired
 
 
 class ReviewForm(FlaskForm):
+    rating = TextAreaField()
     review_text = TextAreaField('review_text', validators=[InputRequired()])
 
 

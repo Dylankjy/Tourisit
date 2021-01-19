@@ -38,16 +38,19 @@
                     </div>
 
                     <form>
-                    <!-- <form id='review_form' method="POST" action="{{ url_for('review', book_id=book_id) }}"> -->
-                        <!-- {{ form.csrf_token }} -->
+                    <form id='review_form' method="POST" action="{{ url_for('review', book_id=book_id) }}">
+                        {{ form.csrf_token }}
                         <fieldset>
                             <div class="field has-text-centered">
                                 <div class="star"></div>
+                                {{ form.rating(id ='result') }}
                             </div>
 
                             <div class="field">
                                 <label class="label" for="review">Leave a review</label>
                                 <div class="control">
+                                    {{ form.review_text(placeholder="What were some things you enjoyed about this experience? How can it be improved?"
+                                    id="review" name="review") }}
                                     <textarea class="textarea"
                                               placeholder="What were some things you enjoyed about this experience? How can it be improved?"
                                               id="review" name="review"></textarea>
@@ -57,7 +60,7 @@
                             <div class="field">
                                 <label class="label" for="review-submit"></label>
                                 <div class="control">
-                                    <button id="review-submit" name="review-submit"
+                                    <button id="review-submit" name="review-submit" type="submit"
                                             class="button is-success is-medium is-fullwidth">Submit your review
                                     </button>
                                 </div>
@@ -72,7 +75,9 @@
         $('.star').raty({
             path: '/imgs',
             starOn: 'star-on-big.png',
-            starOff: 'star-off-big.png'
+            starOff: 'star-off-big.png',
+            score: '#result',
+			targetKeep: true
         });
     </script>
 
