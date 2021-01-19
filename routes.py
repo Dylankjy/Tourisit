@@ -933,6 +933,9 @@ def all_businesses():
             tg_uid = result['_id']
             booking_list = list(bookings_db.find({'cust_uid': tg_uid}))
             listings = []
+            [i for i in bookings_db.find(
+                {'cust_uid': tg_uid})]
+
             for item in booking_list:
                 listings.append(shop_db.find_one({'_id': item['listing_id']}))
             booking_list.reverse()
