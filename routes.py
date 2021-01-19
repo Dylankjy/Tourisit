@@ -164,7 +164,7 @@ def support():
                 form=sForm,
                 loggedin=True)
     else:
-        return 'Need to login/create account first!'
+        return redirect(url_for('login', denied_access=True))
 
 # SHARED
 # User profile
@@ -235,7 +235,6 @@ def accountinfo():
         item = user_db.find_one({'_id': ObjectId(id)})
         if request.method == 'POST':
             if uForm.validate_on_submit():
-                auth.check_password_correlate()
                 query_user = {'_id': ObjectId(id)}
                 name = request.form['name']
                 email = request.form['email']
@@ -266,7 +265,8 @@ def accountinfo():
                 old_password = request.form['old_password']
                 password = request.form['password']
                 confirm = request.form['confirm']
-                if old_password == item.password:
+                checker = auth.check_password_correlate(old_password, item.password)
+                if checker:
                     updated = {
                         "$set": {
                             "password": auth.generate_password_hash(password)
@@ -296,14 +296,14 @@ def accountinfo():
 
     else:
         # Render the pls log in template here
-        return 'Pls log in'
+        return redirect(url_for('login', denied_access=True))
 
-@app.route('/me/billing')
-def accountbilling():
-    try:
-        return render_template('billing.html')
-    except BaseException:
-        return 'Error trying to render'
+# @app.route('/me/billing')
+# def accountbilling():
+#     try:
+#         return render_template('billing.html')
+#     except BaseException:
+#         return 'Error trying to render'
 
 # --------------------------------------
 
