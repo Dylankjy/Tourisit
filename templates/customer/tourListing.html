@@ -68,6 +68,16 @@
                             <a class="button has-text-link" href='/listings/edit/{{ item["_id"] }}'><i
                                 class="fas fa-clipboard"></i>&ensp;Edit Listing</a>
 
+                            {% if display_listing == True %}
+                            <a class="button has-text-link" href='/listings/hide/{{ item["_id"] }}'><i
+                                class="fas fa-clipboard"></i>&ensp;Hide Listing</a>
+                            {% else %}
+                            <a class="button has-text-link" href='/listings/show/{{ item["_id"] }}'><i
+                                class="fas fa-clipboard"></i>&ensp;Show Listing</a>
+                            {% endif %}
+
+
+
 
                         {% else %}
                             <a class="button has-text-primary" href='/discover/{{ item["_id"] }}/booknow'><i

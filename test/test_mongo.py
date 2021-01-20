@@ -4,8 +4,7 @@ import pymongo
 
 buffered = BytesIO()
 
-client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')[
-    'Tourisit']
+client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
 
 # tour_name = 'Best of Kampong Glam'
 # tour_brief= 'Walk around this architectural marvel that™s both a cultural attraction and a historical museum'
@@ -15,8 +14,16 @@ client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_
 # tour_img = 'hi'
 
 db = client['Listings']
-x = list(db.find({'tour_name': 'new'}))[0]
-print(x['tour_location'])
+query = {}
+x = list(db.find(query))
+
+updated = {
+    "$set": {
+        'tour_visibility': 1,
+    }}
+
+db.update_many(query, updated)
+
 
 # x = list(db.find())[:12]
 # y = len(x)

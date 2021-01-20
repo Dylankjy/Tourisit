@@ -130,6 +130,22 @@ def test_img():
         user=None,
         imgBase64=uwu_face)
 
+
+#Use this to display messages to user
+# I.e if user is searching for a listing that doesn't exist, then say 'Listing does not exist' message
+@app.route('/showMsg/<message>')
+def show_user_message(message):
+    result = auth.is_auth(True)
+    if result:
+        return render_template('show_msg.html', message=message, user=result, loggedin=True)
+    return render_template('show_msg.html', message=message)
+
+    # USAGE
+    # Create the message, then redirect to showMsg page where message is passed as parameter
+        # message = 'No listings yet!'
+        # return redirect(url_for('show_user_message', message=message))
+
+
 # --------------------------------------
 
 # Amy
@@ -227,6 +243,7 @@ def profile(user_id):
             editable=editable,
             profile_img=profile_img)
 
+
 # SHARED
 # User account settings
 @app.route('/me/settings', methods=['GET', 'POST'])
@@ -319,26 +336,30 @@ def accountinfo():
 # Home page
 @app.route('/')
 def home():
-    query = {}
+    query = {'tour_visibility': 1}
     all_listings = [i for i in shop_db.find(query)]
-    all_listings.reverse()
-    shown_listings = []
+    if all_listings:
+        all_listings.reverse()
+        shown_listings = []
 
-    for i in range(6):
-        shown_listings.append(all_listings[i])
+        for i in range(6):
+            shown_listings.append(all_listings[i])
 
-    # Get login status using accessor argument
-    result = auth.is_auth(True)
-    # if not logged in
-    if not result:
-        return render_template('customer/index-customer.html',
-                               item_list=shown_listings, loggedin=False)
-    # if logged in
-    return render_template(
-        'customer/index-customer.html',
-        item_list=shown_listings,
-        loggedin=True,
-        user=result)
+        # Get login status using accessor argument
+        result = auth.is_auth(True)
+        # if not logged in
+        if not result:
+            return render_template('customer/index-customer.html',
+                                   item_list=shown_listings, loggedin=False)
+        # if logged in
+        return render_template(
+            'customer/index-customer.html',
+            item_list=shown_listings,
+            loggedin=True,
+            user=result)
+
+    message = 'No listings yet!'
+    return redirect(url_for('show_user_message', message=message))
 
 
 # CUSTOMERS
@@ -347,7 +368,7 @@ def home():
 def market():
     # Get login status using accessor argument
     result = auth.is_auth(True)
-    query = {}
+    query = {'tour_visibility': 1}
     all_listings = [i for i in shop_db.find(query)]
     # if not logged in
     if not result:
@@ -357,11 +378,12 @@ def market():
                 shop_db.find()),
             loggedin=False,
             item_list=all_listings)
+
     # if logged in
     return render_template(
         'customer/marketplace.html',
         listings=list(
-            shop_db.find()),
+            shop_db.find(query)),
         loggedin=True,
         user=result,
         item_list=all_listings)
@@ -370,7 +392,8 @@ def market():
 # To implement search function
 @app.route('/endpoint/search')
 def search():
-    all_listings = list(i['tour_name'] for i in shop_db.find())
+    query = {'tour_visibility': 1}
+    all_listings = list(i['tour_name'] for i in shop_db.find(query))
     # Get the string that is typed in the search bar
 
     try:
@@ -417,38 +440,53 @@ def tourListing(tour_id):
     # Dynamically load the user data (From the database) so if user info
     # changes, all will change too
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
-    tg_id = item['tg_uid']
-    tg_userData = user_db.find_one({'_id': tg_id})
+    #If item exists
+    if item:
+        result = auth.is_auth(True)
+        display_listing = item['tour_visibility'] == 1
+        if result:
+            # Boolean, will be editable if person is the owner of the listing
+            editable = item['tg_uid'] == result['_id']
+            # tg_id = item['tg_uid']
+            # tg_userData = user_db.find_one({'_id': tg_id})
 
-    result = auth.is_auth(True)
-    if result:
-        user_id = result['_id']
-        query_user = {'_id': ObjectId(user_id)}
-        loggedin_user = user_db.find_one(query_user)
+            # If listing is viewable, then allow it to be rendered
+            # However, if the listing is not viewable, it should still be viewable to the tour guide who created it
+            if display_listing or editable:
+                user_id = result['_id']
+                query_user = {'_id': ObjectId(user_id)}
+                loggedin_user = user_db.find_one(query_user)
 
-        # See if item is already in wishlist. If yes, then display 'Remove from
-        # wishlist' instead of 'Add to wishlist'
-        inside_wl = str(tour_id) in loggedin_user['wishlist']
+                # See if item is already in wishlist. If yes, then display 'Remove from
+                # wishlist' instead of 'Add to wishlist'
+                inside_wl = str(tour_id) in loggedin_user['wishlist']
 
-        # Boolean, will be editable if person is the owner of the listing
-        editable = item['tg_uid'] == result['_id']
-        return render_template(
-            'customer/tourListing.html',
-            item=item,
-            loggedin=True,
-            user=result,
-            editable=editable,
-            userData=tg_userData,
-            inside_wl=inside_wl)
+                #If it is 1, means display the listing. If 0 means make it invisible
 
-    # if not logged in
-    editable = False
-    return render_template(
-        'customer/tourListing.html',
-        item=item,
-        loggedin=False,
-        editable=editable,
-        userData=tg_userData)
+                return render_template(
+                    'customer/tourListing.html',
+                    item=item,
+                    loggedin=True,
+                    user=result,
+                    editable=editable,
+                    # userData=tg_userData,
+                    inside_wl=inside_wl,
+                    display_listing= display_listing)
+
+            return 'Listing is currently private'
+
+        # if not logged in
+        editable = False
+        if display_listing:
+            return render_template(
+                'customer/tourListing.html',
+                item=item,
+                loggedin=False,
+                editable=editable)
+                # userData=tg_userData)
+        return 'Listing is currently private'
+
+    return 'Listing does not exist!'
 
 
 # TOUR GUIDES
@@ -560,7 +598,7 @@ def makelisting():
 
                 listingInfo = tour_listing.return_obj()
                 print(listingInfo)
-                # shop_db.insert_one(listingInfo)
+                shop_db.insert_one(listingInfo)
 
                 return render_template(
                     'tourGuides/listing-success.html', user=result)
@@ -701,7 +739,8 @@ def editListing(id):
 
         # IF not allowed to edit
         else:
-            return 'Not allowed to edit!'
+            message = 'You are not authorized to edit this listing!'
+            return redirect(url_for('show_user_message', message=message))
 
     # IF the user is not logged in
     else:
@@ -733,15 +772,16 @@ def hideList(id):
             }}
 
         shop_db.update_one(query_listing, updated)
-        return redirect('/listings')
+        return redirect(f'/discover/{id}')
     else:
-        return 'Not authorized'
+        message = 'You are not authorized to edit this listing!'
+        return redirect(url_for('show_user_message', message=message))
 
 
 # TOUR GUIDES
 # Show Listings: When click on show button
 @app.route('/listings/show/<id>', methods=['GET', 'POST'])
-def hideList(id):
+def showList(id):
     result = auth.is_auth(True)
     item = shop_db.find_one({'_id': ObjectId(id)})
     editable = item['tg_uid'] == result['_id']
@@ -755,9 +795,10 @@ def hideList(id):
             }}
 
         shop_db.update_one(query_listing, updated)
-        return redirect('/listings')
+        return redirect(f'/discover/{id}')
     else:
-        return 'Not authorized!'
+        message = 'You are not authorized to edit this listing!'
+        return redirect(url_for('show_user_message', message=message))
 
 
 # TOUR GUIDES
@@ -773,7 +814,8 @@ def deleteList(id):
 
         return redirect('/listings')
     else:
-        return 'Not authorized!'
+        message = 'You are not authorized to edit this listing!'
+        return redirect(url_for('show_user_message', message=message))
 
 
 # CUSTOMERS
@@ -801,22 +843,29 @@ def favourites():
             item_list=all_listings)
 
 
+#Add to wishlist
 @app.route('/me/wishlist/add/<tour_id>')
 def addWishlist(tour_id):
     result = auth.is_auth(True)
-    user_id = result['_id']
-    query_user = {'_id': ObjectId(user_id)}
-    current_wishlist = user_db.find_one(query_user)['wishlist']
-    current_wishlist.append(tour_id)
-    print(current_wishlist)
-    updated = {
-        '$set': {'wishlist': current_wishlist}
-    }
 
-    user_db.update_one(query_user, updated)
+    if result:
+        user_id = result['_id']
+        query_user = {'_id': ObjectId(user_id)}
+        current_wishlist = user_db.find_one(query_user)['wishlist']
+        current_wishlist.append(tour_id)
+        print(current_wishlist)
+        updated = {
+            '$set': {'wishlist': current_wishlist}
+        }
 
-    return redirect(f'/discover/{tour_id}')
+        user_db.update_one(query_user, updated)
 
+        return redirect(f'/discover/{tour_id}')
+
+    return redirect(url_for('login', denied_access=True))
+
+
+#Remove from wishlist
 @app.route('/me/wishlist/remove/<tour_id>')
 def removeWishlist(tour_id):
     result = auth.is_auth(True)
@@ -833,8 +882,9 @@ def removeWishlist(tour_id):
         user_db.update_one(query_user, updated)
 
         return redirect(f'/discover/{tour_id}')
-    except BaseException:
-        return 'Stop deleting an invalid item from wishlist ydc'
+    except:
+        message = ' Unable to remove from wishlist as item does not exist in wishlist!'
+        return redirect(url_for('show_user_message', message=message))
 
 # --------------------------------------
 
