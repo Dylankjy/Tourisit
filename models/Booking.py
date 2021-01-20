@@ -9,11 +9,14 @@ class BookingForm(FlaskForm):
     book_date = DateField('book_date', validators=[InputRequired()])
     book_time = TimeField('book_time', validators=[InputRequired()])
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
+    book_submit = SubmitField('Book Now')
 
 
 class CheckoutForm(FlaskForm):
     submit = SubmitField('Pay & Proceed')
 
+class ChatForm(FlaskForm):
+    submit = SubmitField()
 
 # add charges
 class Booking:

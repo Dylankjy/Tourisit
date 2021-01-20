@@ -42,11 +42,11 @@
                     <!--START: Column 2 - Book now-->
                     <div class="column has-text-centered">
                     <form id="book_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
-                        {{ form.csrf_token }}
+                        {{ bookform.csrf_token }}
                         <div class="field">
                             <label class="label">Select Date</label>
                             <div class="control">
-                                {{ form.book_date(id="book_date", type="date", class="input") }}
+                                {{ bookform.book_date(id="book_date", type="date", class="input") }}
                                 <!--<input class="input" type="date" placeholder="">-->
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                         <div class="field">
                             <label class="label">Select Time</label>
                             <div class="control">
-                                {{ form.book_time(id="book_time", type="time", class="input") }}
+                                {{ bookform.book_time(id="book_time", type="time", class="input") }}
                                 <!--<input class="input" type="time" placeholder="">-->
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                         <div class="field">
                             <div class="control">
                                 <label class="checkbox">
-                                    {{ form.accept_tnc(id="accept_tnc") }}
+                                    {{ bookform.accept_tnc(id="accept_tnc") }}
                                     <!--<input type="checkbox">-->
                                     I agree to the <a href="#">terms and conditions.</a>
                                 </label>
@@ -109,11 +109,11 @@
                     <div class="divider">OR</div>
                     <!--START: Book now form-->
                     <form id="book_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
-                        {{ form.csrf_token }}
+                        {{ bookform.csrf_token }}
                         <div class="field">
                             <label class="label">Select Date</label>
                             <div class="control">
-                                {{ form.book_date(id="book_date", type="date", class="input") }}
+                                {{ bookform.book_date(id="book_date", type="date", class="input") }}
                                 <!--<input class="input" type="date" placeholder="">-->
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                         <div class="field">
                             <label class="label">Select Time</label>
                             <div class="control">
-                                {{ form.book_time(id="book_time", type="time", class="input") }}
+                                {{ bookform.book_time(id="book_time", type="time", class="input") }}
                                 <!--<input class="input" type="time" placeholder="">-->
                             </div>
                         </div>
@@ -129,7 +129,7 @@
                         <div class="field">
                             <div class="control">
                                 <label class="checkbox">
-                                    {{ form.accept_tnc(id="accept_tnc") }}
+                                    {{ bookform.accept_tnc(id="accept_tnc") }}
                                     <!--<input type="checkbox">-->
                                     I agree to the <a href="#">terms and conditions.</a>
                                 </label>
@@ -142,16 +142,16 @@
                                     <p class="has-text-weight-semibold">Book Now</p>
                                 </button>
                             </div>
-                            <p class="is-grey has-text-centered">Not sure if this tour is for you? 
-                                <form id="_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
-                                    {{chatform.csrf_token}}
-                                <a
-                                    href="{{ url_for('chat') }}"> Chat with {{ item.tg_uid| user_name}} first.
-                                </a>
-                                </form>
-                            </p>
                         </div>
                     </form>
+                            <p class="is-grey has-text-centered mt-2">Not sure if this tour is for you? 
+                                <form id="chat_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}" class="has-text-centered">
+                                    {{ chatform.csrf_token }}
+                                <button type="submit" class="button is-text has-text-link" style="text-decoration:none;"> 
+                                    Chat with {{ item.tg_uid| user_name}} first.
+                                </button>
+                                </form>
+                            </p>
                     <!--END: Book now form-->
                 </div>
             </div>
