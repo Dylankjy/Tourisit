@@ -931,24 +931,14 @@ def book_now(tour_id):
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
-                print("yo im booking now")
             elif chatform.validate_on_submit():
-                print("chat time")
-                print(result['_id'])
-                print(item["tg_uid"])
                 chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
-                print(chat_list)
                 if not chat_list:
-                    print("maek new chat!! user not ehreeee")
                     msg.create_chat_room([result['_id'], item["tg_uid"]], True)
                     return redirect(url_for('chat'))
                 else:
                     for chat in chat_list:
-                        print(chat)
-                        if item["tg_uid"] in chat.values():
-                            print("are you lost bby girl, your chat exists")
-                        else:
-                            print("maek new chat!! user not ehreeee")
+                        if item["tg_uid"] not in chat.values():
                             msg.create_chat_room([result['_id'], item["tg_uid"]], True)
                         return redirect(url_for('chat'))
 
