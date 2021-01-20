@@ -430,6 +430,16 @@ def search():
         return resp
 
 
+@app.route('/discover/random')
+def randomListing():
+    query = [{"$match": {"tour_visibility": 1}},
+             {"$sample": {"size": 1}}]
+    random_listing = list(shop_db.aggregate(query))[0]
+    #Extract the random_id so you can use it to render the discover page
+    random_tour_id = random_listing['_id']
+    return redirect(url_for('tourListing', tour_id=random_tour_id))
+
+
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from Marketplace clicked
 @app.route('/discover/<tour_id>')

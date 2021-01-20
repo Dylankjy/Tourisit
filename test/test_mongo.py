@@ -14,15 +14,24 @@ client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_
 # tour_img = 'hi'
 
 db = client['Listings']
-query = {}
-x = list(db.find(query))
 
-updated = {
-    "$set": {
-        'tour_visibility': 1,
-    }}
+# x = list(db.find({"$sample": {"size":1}}))
 
-db.update_many(query, updated)
+query = [{"$match": {"tour_visibility": 1}},
+         {"$sample": {"size": 1}}]
+
+x = list(db.aggregate(query))[0]
+
+print(x['_id'])
+# query = {}
+# x = list(db.find(query))
+#
+# updated = {
+#     "$set": {
+#         'tour_visibility': 1,
+#     }}
+#
+# db.update_many(query, updated)
 
 
 # x = list(db.find())[:12]
