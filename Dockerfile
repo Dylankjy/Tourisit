@@ -5,5 +5,5 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python"]
+ENTRYPOINT ["python3"]
 CMD ["routes.py"]

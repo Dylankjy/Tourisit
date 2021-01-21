@@ -1483,3 +1483,7 @@ def error413(err):
 # Run app
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)
+
+# Use this if running on server
+# if __name__ == '__main__':
+#     app.run(debug=True, threaded=True, host='0.0.0.0')
