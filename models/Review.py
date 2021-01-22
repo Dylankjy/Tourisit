@@ -1,11 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField
+from wtforms import TextAreaField, RadioField
 from wtforms.validators import InputRequired
 
 
 class ReviewForm(FlaskForm):
-    rating = TextAreaField()
-    review_text = TextAreaField('review_text', validators=[InputRequired()])
+    rating = RadioField('label', choices=[(1,'description'),(2,'descrip')])
+    review_text = TextAreaField('review_text')
 
 
 class Review:
