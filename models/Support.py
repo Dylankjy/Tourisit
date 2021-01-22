@@ -6,7 +6,7 @@ from wtforms.validators import InputRequired, Length
 class SupportForm(FlaskForm):
     support_type = SelectField(
         "support_type",
-        choices=[('General Enquiry', 'General Enquiry'), ('Report Tour Guide', 'Report Tour Guide'),
+        choices=[('General Enquiry', 'General Enquiry'), ('Report Abuse', 'Report Abuse'), ('Report Tour Guide', 'Report Tour Guide'),
                  ('Apply for Verified', 'Apply for Verified'), ('Others', 'Others')],
         validators=[
             InputRequired()
