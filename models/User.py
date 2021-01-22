@@ -1,13 +1,12 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, TextAreaField, SelectField, PasswordField
 from wtforms.validators import InputRequired, Length, ValidationError, EqualTo
 
 import auth as auth
 from models.Format import file_to_base64
-from models.model import User
-
 
 def fb_check(form, field):
     if 'facebook.com' not in field.data:
@@ -39,11 +38,6 @@ class PasswordForm(FlaskForm):
         ]
     )
 
-    # def password_check(form, field):
-    #     checker = auth.check_password_correlate(field.data, User.password)
-    #     if not checker:
-    #         raise ValidationError('Wrong password entered!')
-
     password = PasswordField(
         'New Password',
         validators=[
@@ -53,14 +47,17 @@ class PasswordForm(FlaskForm):
     )
     confirm = PasswordField('Repeat Password')
 
-
-
 class UserForm(FlaskForm):
     name = StringField(
         "name",
         validators=[
             InputRequired(),
             Length(min=1, max=30, message="Testing")]
+    )
+    pfp_img = FileField(
+        'pfp_img',
+        validators=[
+            FileAllowed(['jpg', 'jpeg', 'png'], 'Only .jpg, .jpeg and .png images are allowed!')]
     )
     email = StringField(
         "email",
@@ -139,7 +136,6 @@ class User:
             account_mode=-1,
             verified=0
     ):
-
         self.__name = ""
         self.set_name(name)
 
@@ -155,7 +151,9 @@ class User:
         self.__bio = ""
         self.set_bio(bio)
 
-        self.__profile_img = profile_img
+        self.__profile_img = ''
+        self.set_profile_img(profile_img)
+
         self.__last_seen_time = last_seen_time
         self.__registration_time = registration_time
         self.__stripe_ID = stripe_ID
@@ -193,12 +191,7 @@ class User:
         self.__registration_time = current_timestamp
 
     def set_name(self, name):
-        try:
-            assert len(name) <= 30
-        except AssertionError:
-            print(f"{name} must be less than {30} characters!")
-        else:
-            self.__name = name
+        self.__name = name
 
     def set_password(self, password):
         self.__password = password
@@ -207,20 +200,10 @@ class User:
         self.__email = email
 
     def set_phone_number(self, phone_number):
-        try:
-            assert len(phone_number) == 8
-        except AssertionError:
-            print(f"{phone_number} must be less than {8} numbers!")
-        else:
-            self.__phone_number = phone_number
+        self.__phone_number = phone_number
 
     def set_bio(self, bio):
-        try:
-            assert len(bio) <= 75
-        except AssertionError:
-            print(f"{bio} must be less than {75} characters!")
-        else:
-            self.__bio = bio
+        self.__bio = bio
 
     def set_socialmedia(self, socialmedia, fb, insta, linkedin):
         self.__socialmedia.update({"fb": fb})
@@ -238,15 +221,13 @@ class User:
         self.__linkedin = linkedin
 
     def set_email_status(self, email_status):
-        try:
-            assert bool(email_status)
-        except AssertionError:
-            print(f"{email_status} must be less than {75} characters!")
-        else:
-            self.__email_status = email_status
+        self.__email_status = email_status
 
     def set_phone_status(self, phone_status):
         self.__phone_status = phone_status
+
+    def set_profile_img(self, profile_img):
+        self.__profile_img = profile_img
 
     def return_obj(self):
         return {
