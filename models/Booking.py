@@ -11,6 +11,8 @@ class BookingForm(FlaskForm):
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
     book_submit = SubmitField('Book Now')
 
+class CustomForm(FlaskForm):
+    submit = SubmitField('Customise Tour', validators=[InputRequired()])
 
 class CheckoutForm(FlaskForm):
     submit = SubmitField('Pay & Proceed')
