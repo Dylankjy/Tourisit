@@ -29,6 +29,7 @@ def password_check(form, field):
     else:
         return False
 
+
 class PasswordForm(FlaskForm):
     old_password = PasswordField(
         'old_password',
@@ -46,6 +47,7 @@ class PasswordForm(FlaskForm):
         ]
     )
     confirm = PasswordField('Repeat Password')
+
 
 class UserForm(FlaskForm):
     name = StringField(

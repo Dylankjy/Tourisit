@@ -13,7 +13,7 @@ import pymongo
 from bson import ObjectId
 from flask import request
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, SelectField
 from wtforms.validators import DataRequired, Email
 
 import models.User as User
@@ -517,6 +517,13 @@ class SignupForm(FlaskForm):
     password = StringField(
         'Password',
         [DataRequired()]
+    )
+
+
+class SelectAccModeForm(FlaskForm):
+    acc_mode = SelectField(
+        'acc_mode',
+        choices=[(0, 'Tourist'), (1, 'Tour Guide')]
     )
 
 

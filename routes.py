@@ -119,12 +119,14 @@ def user_name(uid):
 
 uwu_face = file_to_base64('public/imgs/uwu.png')
 
+
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
     return render_template(
         'tourGuides/testImg.html',
         user=None,
         imgBase64=uwu_face)
+
 
 # Use this to display messages to user
 # I.e if user is searching for a listing that doesn't exist, then say 'Listing does not exist' message
@@ -347,6 +349,13 @@ def accountinfo():
 # Home page
 @app.route('/')
 def home():
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    user_mode = user_db.find_one({'_id': ObjectId(result['_id'])})['account_mode']
+
+    if (user_mode == -1):
+        return redirect(url_for('setAccType'))
+
     query = {'tour_visibility': 1}
     all_listings = [i for i in shop_db.find(query)]
     if all_listings:
@@ -356,8 +365,6 @@ def home():
         for i in range(6):
             shown_listings.append(all_listings[i])
 
-        # Get login status using accessor argument
-        result = auth.is_auth(True)
         # if not logged in
         if not result:
             return render_template('customer/index-customer.html',
@@ -1459,6 +1466,36 @@ def email_confirmation_endpoint():
     else:
         return redirect(url_for('login', verification_code_denied=True))
 
+
+@app.route('/set_acc_mode', methods=['GET', 'POST'])
+def setAccType():
+    result = auth.is_auth(True)
+    if result:
+        sForm = auth.SelectAccModeForm()
+        if request.method == 'POST':
+            acc_mode = int(request.form['acc_mode'])
+            print(acc_mode)
+            query = {'_id': ObjectId(result['_id'])}
+            updated = {
+                "$set": {
+                    'account_mode': acc_mode}
+            }
+
+            user_db.update_one(query, updated)
+
+            return redirect(url_for('home'))
+
+        return render_template('onboarding/confirmaccType.html', setAccModeForm=sForm, loggedin=True, user=result)
+
+    message = 'Not authorized to perform this action!'
+    return redirect(url_for('show_user_message', message=message))
+
+
+
+
+
+
+
 # Password reset:
 # TODO: Take token put into WTForm and check only after submission. Remove check on auth.py
 # @app.route('/login/reset_password')
@@ -1474,6 +1511,7 @@ def email_confirmation_endpoint():
 @app.errorhandler(413)
 def error413(err):
     return f'Oh Noes! You got {err}'
+
 
 # Run app
 if __name__ == '__main__':

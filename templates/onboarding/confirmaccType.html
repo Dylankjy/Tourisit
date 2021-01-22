@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+    <link rel="stylesheet" href="/css/global/shop.css">
+    <link rel="stylesheet" href="/css/pages/index.css">
+    <link rel="stylesheet" href="/css/pages/profile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/css/bulma-calendar.min.css">
+{% endblock %}
+
+
+{% block content %}>
+
+    <section class="section has-background-white">
+        <div class="container">
+            <h1 class="is-size-1 has-text-weight-bold mt-6">Account Settings & Preferences</h1>
+        </div>
+    </section>
+
+    <section class='section'>
+        <div class='section container'>
+
+            <form id='makeListingForm' class="form-horizontal" enctype="multipart/form-data"
+            action="{{ url_for('setAccType') }}" method="POST">
+    
+                {{ setAccModeForm.csrf_token }}
+                {{ setAccModeForm.acc_mode(id="account_mode", class="dropdown-item item-level-item") }}
+    
+    
+                <div class="field">
+                    <div class="control">
+                        <input type='submit' value='Select Acc Type' id="type-submit" name="type-submit"
+                            class="button is-success">
+                    </div>
+                </div>
+                
+            </form>
+        
+        </div>
+    </section>
+{% endblock %}
+
