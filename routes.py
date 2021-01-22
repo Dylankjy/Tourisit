@@ -14,14 +14,14 @@ import admin as admin
 import auth as auth
 # Chat Library
 import chat as msg
-from models.Booking import BookingForm, CheckoutForm, ChatForm, Booking
-from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 # Custom class imports
+from models.Booking import BookingForm, CheckoutForm, ChatForm, CustomForm, Booking
+from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm
 from models.Support import SupportForm, Support
 from models.Transaction import Transaction
-from models.User import UserForm, BioForm, PasswordForm
+from models.User import BioForm, PasswordForm, UserForm
 
 # For Images
 buffered = BytesIO()
@@ -144,8 +144,7 @@ def show_user_message(message):
 
 # --------------------------------------
 
-# Amy
-
+# AMY
 
 # SHARED
 # Support: Help desk with customer support and Apply for Pro Verified
@@ -333,17 +332,50 @@ def accountinfo():
         # Render the pls log in template here
         return redirect(url_for('login', denied_access=True))
 
-# @app.route('/me/billing')
-# def accountbilling():
-#     try:
-#         return render_template('billing.html')
-#     except BaseException:
-#         return 'Error trying to render'
+@app.route('/me/settings/updatepassword', methods=['GET', 'POST'])
+def updatepass():
+    pForm = PasswordForm()
+    result = auth.is_auth(True, True)
+    # If user is logged in and makes changes to the settings
+    if result:
+        id = result["_id"]
+        item = user_db.find_one({'_id': ObjectId(id)})
+        if request.method == 'POST':
+            if pForm.validate_on_submit():
+                query_user = {'_id': ObjectId(id)}
+                old_password = request.form['old_password']
+                password = request.form['password']
+                confirm = request.form['confirm']
+                checker = auth.check_password_correlate(old_password, result['password'])
+                if checker:
+                    updated = {
+                        "$set": {
+                            "password": auth.generate_password_hash(password)
+                        }
+                    }
+                    user_db.update_one(query_user, updated)
+                else:
+                    return render_template(
+                        'changepassword.html', user=item, id=id, loggedin=True)
 
-# --------------------------------------
+            return render_template(
+                'changepassword.html',
+                user=item,
+                form=pForm,
+                loggedin=True)
+
+        else:
+            return render_template(
+                'changepassword.html',
+                user=item,
+                form=pForm,
+                loggedin=True)
+
+    # When user is not login
+    else:
+        return redirect(url_for('login', denied_access=True))
 
 # ALEX
-
 
 # CUSTOMERS
 # Home page
@@ -656,7 +688,6 @@ def makelisting():
 @app.route('/listings/edit/<id>', methods=['GET', 'POST'])
 def editListing(id):
     result = auth.is_auth(True)
-
     # If user is logged in
     if result:
         lForm = ListingForm()
@@ -977,6 +1008,7 @@ def book_now(tour_id):
     if result:
         bookform = BookingForm()
         chatform = ChatForm()
+        customform = CustomForm()
         if request.method == 'POST':
             if bookform.validate_on_submit():
                 book_date = request.form["book_date"]
@@ -992,6 +1024,23 @@ def book_now(tour_id):
                     book_duration="",
                     timeline_content=[],
                     process_step=5)
+                inserted_booking = bookings_db.insert_one(booking.return_obj())
+                book_id = inserted_booking.inserted_id
+                return redirect(url_for('checkout', book_id=book_id))
+            elif customform.validate_on_submit():
+                customfee = round(0.1 * float(item['tour_price']), 2)
+                booking = Booking(
+                    tg_uid=item['tg_uid'],
+                    cust_uid=result['_id'],
+                    listing_id=item['_id'],
+                    book_date='',
+                    book_time='',
+                    book_baseprice=item['tour_price'],
+                    book_customfee=customfee,
+                    book_duration="",
+                    timeline_content=[],
+                    process_step=0)
+                print(booking.return_obj())
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
@@ -1012,6 +1061,7 @@ def book_now(tour_id):
             user=result,
             bookform=bookform,
             chatform=chatform,
+            customform=customform,
             item=item,
             tour_id=tour_id)
     # if not logged in
@@ -1035,6 +1085,7 @@ def checkout(book_id):
     if result:
         if request.method == 'POST':
             if form.validate_on_submit():
+                print(booking['process_step'])
                 if booking['process_step'] == 5:
                     update_booking = {"$set": {"process_step": 6}}
                     bookings_db.update_one(booking, update_booking)
@@ -1053,6 +1104,7 @@ def checkout(book_id):
                 elif booking['process_step'] == 0:
                     update_booking = {"$set": {"process_step": 1}}
                     bookings_db.update_one(booking, update_booking)
+                    return redirect(url_for('bookings', book_id=str(book_id)))
 
                 else:
                     print("Error occurred while trying to pay.")
@@ -1134,23 +1186,30 @@ def business(book_id):
 # Submit Review
 @app.route('/review/<book_id>', methods=['GET', 'POST'])
 def review(book_id):
-    try:
-        booking = bookings_db.find_one({'_id': ObjectId(book_id)})
-        tour = shop_db.find_one({'_id': booking['listing_id']})
-        form = ReviewForm()
-        if request.method == "POST":
-            if form.validate_on_submit():
-                review_text = request.form["review_text"]
-                stars = form.rating.data
-                print(review_text)
-                print(stars)
-                return render_template(
-                    'customer/review.html',
-                    booking=booking,
-                    tour=tour,
-                    form=form)
-    except BaseException:
-        return 'Error trying to render'
+    # try:
+    booking = bookings_db.find_one({'_id': ObjectId(book_id)})
+    tour = shop_db.find_one({'_id': booking['listing_id']})
+    form = ReviewForm()
+    if request.method == "POST":
+        if form.is_submitted():
+            print("valid")
+            review_text = request.form["review_text"]
+            stars = form.rating.data
+            print(review_text)
+            print(stars)
+            return render_template(
+                'customer/review.html',
+                booking=booking,
+                tour=tour,
+                form=form)
+    return render_template(
+        'customer/review.html',
+        booking=booking,
+        tour=tour,
+        form=form)
+
+# except BaseException:
+#     return 'Error trying to render'
 
 # --------------------------------------
 

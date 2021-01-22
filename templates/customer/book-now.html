@@ -95,13 +95,10 @@
                 <div class="container box">
                     <!--START: Customise tour button-->
                     <form id="custom_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
+                        {{customform.csrf_token}}
                         <div class="field">
                             <div class="control">
-                                <a href="">
-                                    <button class="button is-medium is-fullwidth is-success">
-                                        <p class="has-text-weight-semibold">Customise Tour</p>
-                                    </button>
-                                </a>
+                                    {{customform.submit(class='button is-medium is-fullwidth is-success')}}
                             </div>
                         </div>
                     </form>
