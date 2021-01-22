@@ -54,8 +54,8 @@ class UserForm(FlaskForm):
             InputRequired(),
             Length(min=1, max=30, message="Testing")]
     )
-    pfp_img = FileField(
-        'pfp_img',
+    profile_img = FileField(
+        'profile_img',
         validators=[
             FileAllowed(['jpg', 'jpeg', 'png'], 'Only .jpg, .jpeg and .png images are allowed!')]
     )

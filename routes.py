@@ -14,11 +14,11 @@ import admin as admin
 import auth as auth
 # Chat Library
 import chat as msg
+from models.Booking import BookingForm, CheckoutForm, ChatForm, Booking
 from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 # Custom class imports
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm
-from models.Booking import BookingForm, CheckoutForm, ChatForm, Booking
 from models.Support import SupportForm, Support
 from models.Transaction import Transaction
 from models.User import UserForm, BioForm, PasswordForm
@@ -60,7 +60,6 @@ bookings_db = client['Bookings']
 support_db = client['Support']
 transaction_db = client['Transactions']
 
-
 @app.template_filter('timestamp_iso')
 def timestamp_iso(s):
     try:
@@ -68,7 +67,6 @@ def timestamp_iso(s):
         return date
     except ValueError:
         return 'Unknown'
-
 
 @app.template_filter('user_pfp')
 def user_pfp(uid):
@@ -85,7 +83,6 @@ def user_pfp(uid):
         pfp_data = ''
 
     return pfp_data
-
 
 @app.template_filter('user_name')
 def user_name(uid):
@@ -122,7 +119,6 @@ def user_name(uid):
 
 uwu_face = file_to_base64('public/imgs/uwu.png')
 
-
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
     return render_template(
@@ -130,8 +126,7 @@ def test_img():
         user=None,
         imgBase64=uwu_face)
 
-
-#Use this to display messages to user
+# Use this to display messages to user
 # I.e if user is searching for a listing that doesn't exist, then say 'Listing does not exist' message
 @app.route('/showMsg/<message>')
 def show_user_message(message):
@@ -142,9 +137,8 @@ def show_user_message(message):
 
     # USAGE
     # Create the message, then redirect to showMsg page where message is passed as parameter
-        # message = 'No listings yet!'
-        # return redirect(url_for('show_user_message', message=message))
-
+    # message = 'No listings yet!'
+    # return redirect(url_for('show_user_message', message=message))
 
 # --------------------------------------
 
@@ -243,7 +237,6 @@ def profile(user_id):
             editable=editable,
             profile_img=profile_img)
 
-
 # SHARED
 # User account settings
 @app.route('/me/settings', methods=['GET', 'POST'])
@@ -259,24 +252,42 @@ def accountinfo():
             if uForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
                 name = request.form['name']
+                profile_img = request.files['profile_img']
+                img_string = img_to_base64(profile_img)
                 email = request.form['email']
                 phone_number = request.form['phone_number']
                 fb = request.form['fb']
                 insta = request.form['insta']
                 linkedin = request.form['linkedin']
                 account_mode = int(request.form['account_mode'])
-                updated = {
-                    "$set": {
-                        "name": name,
-                        "email": email,
-                        "phone_number": phone_number,
-                        "socialmedia": {
-                            "fb": fb,
-                            "insta": insta,
-                            "linkedin": linkedin},
-                        "account_mode": account_mode
+                if img_string == '':
+                    img_string = item['profile_img']
+                    updated = {
+                        "$set": {
+                            "name": name,
+                            "email": email,
+                            "phone_number": phone_number,
+                            "socialmedia": {
+                                "fb": fb,
+                                "insta": insta,
+                                "linkedin": linkedin},
+                            "account_mode": account_mode
+                        }
                     }
-                }
+                else:
+                    updated = {
+                        "$set": {
+                            "name": name,
+                            "profile_img": img_string,
+                            "email": email,
+                            "phone_number": phone_number,
+                            "socialmedia": {
+                                "fb": fb,
+                                "insta": insta,
+                                "linkedin": linkedin},
+                            "account_mode": account_mode
+                        }
+                    }
 
                 user_db.update_one(query_user, updated)
                 return render_template(
@@ -361,7 +372,6 @@ def home():
     message = 'No listings yet!'
     return redirect(url_for('show_user_message', message=message))
 
-
 # CUSTOMERS
 # Marketplace: Display all listings
 @app.route('/discover')
@@ -387,7 +397,6 @@ def market():
         loggedin=True,
         user=result,
         item_list=all_listings)
-
 
 # To implement search function
 @app.route('/endpoint/search')
@@ -429,16 +438,14 @@ def search():
         resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
         return resp
 
-
 @app.route('/discover/random')
 def randomListing():
     query = [{"$match": {"tour_visibility": 1}},
              {"$sample": {"size": 1}}]
     random_listing = list(shop_db.aggregate(query))[0]
-    #Extract the random_id so you can use it to render the discover page
+    # Extract the random_id so you can use it to render the discover page
     random_tour_id = random_listing['_id']
     return redirect(url_for('tourListing', tour_id=random_tour_id))
-
 
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from Marketplace clicked
@@ -450,7 +457,7 @@ def tourListing(tour_id):
     # Dynamically load the user data (From the database) so if user info
     # changes, all will change too
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
-    #If item exists
+    # If item exists
     if item:
         result = auth.is_auth(True)
         display_listing = item['tour_visibility'] == 1
@@ -471,7 +478,7 @@ def tourListing(tour_id):
                 # wishlist' instead of 'Add to wishlist'
                 inside_wl = str(tour_id) in loggedin_user['wishlist']
 
-                #If it is 1, means display the listing. If 0 means make it invisible
+                # If it is 1, means display the listing. If 0 means make it invisible
 
                 return render_template(
                     'customer/tourListing.html',
@@ -481,7 +488,7 @@ def tourListing(tour_id):
                     editable=editable,
                     # userData=tg_userData,
                     inside_wl=inside_wl,
-                    display_listing= display_listing)
+                    display_listing=display_listing)
 
             return 'Listing is currently private'
 
@@ -493,11 +500,10 @@ def tourListing(tour_id):
                 item=item,
                 loggedin=False,
                 editable=editable)
-                # userData=tg_userData)
+            # userData=tg_userData)
         return 'Listing is currently private'
 
     return 'Listing does not exist!'
-
 
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
@@ -529,12 +535,10 @@ def ownlisting():
         user=result,
         userData=userData)
 
-
 @app.route('/apis/upImg')
 def updateImg():
     text = request.args['currentImg']
     return json.dumps({"results": text})
-
 
 @app.route('/test/result')
 def testing():
@@ -548,7 +552,6 @@ def testing():
     # return render_template('tourGuides/makelisting.html', form=lForm,
     # user=result)
 
-
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
     result = auth.is_auth(True)
@@ -561,7 +564,7 @@ def makelisting():
 
         print(f'User img is: {userImg}')
         lForm = ListingForm()
-        #If user submit form
+        # If user submit form
         if request.method == 'POST':
             # IF all inputs are valid
             if lForm.validate_on_submit():
@@ -638,9 +641,8 @@ def makelisting():
 
     # If not logged in
     else:
-        #Return a modal where ppl have to
+        # Return a modal where ppl have to
         return redirect(url_for('login', denied_access=True))
-
 
 # TOUR GUIDES
 # Edit Listings: When click on own listing to edit
@@ -648,7 +650,7 @@ def makelisting():
 def editListing(id):
     result = auth.is_auth(True)
 
-    #If user is logged in
+    # If user is logged in
     if result:
         lForm = ListingForm()
         item = shop_db.find_one({'_id': ObjectId(id)})
@@ -787,7 +789,6 @@ def hideList(id):
         message = 'You are not authorized to edit this listing!'
         return redirect(url_for('show_user_message', message=message))
 
-
 # TOUR GUIDES
 # Show Listings: When click on show button
 @app.route('/listings/show/<id>', methods=['GET', 'POST'])
@@ -810,7 +811,6 @@ def showList(id):
         message = 'You are not authorized to edit this listing!'
         return redirect(url_for('show_user_message', message=message))
 
-
 # TOUR GUIDES
 # Delete Listings: When click on Delete button
 @app.route('/listings/delete/<id>', methods=['GET', 'POST'])
@@ -819,14 +819,13 @@ def deleteList(id):
     item = shop_db.find_one({'_id': ObjectId(id)})
     editable = item['tg_uid'] == result['_id']
     if editable:
-        #Implement validation to check if there are any exisitng tours for this listing. If there isn't, then allow it to be deleted
+        # Implement validation to check if there are any exisitng tours for this listing. If there isn't, then allow it to be deleted
         listing = shop_db.delete_one({'_id': ObjectId(id)})
 
         return redirect('/listings')
     else:
         message = 'You are not authorized to edit this listing!'
         return redirect(url_for('show_user_message', message=message))
-
 
 # CUSTOMERS
 # Favourites: Shows all the liked listings
@@ -852,8 +851,7 @@ def favourites():
             user=result,
             item_list=all_listings)
 
-
-#Add to wishlist
+# Add to wishlist
 @app.route('/me/wishlist/add/<tour_id>')
 def addWishlist(tour_id):
     result = auth.is_auth(True)
@@ -874,8 +872,7 @@ def addWishlist(tour_id):
 
     return redirect(url_for('login', denied_access=True))
 
-
-#Remove from wishlist
+# Remove from wishlist
 @app.route('/me/wishlist/remove/<tour_id>')
 def removeWishlist(tour_id):
     result = auth.is_auth(True)
@@ -1130,7 +1127,6 @@ def business(book_id):
 # Submit Review
 @app.route('/review/<book_id>', methods=['GET', 'POST'])
 def review(book_id):
-
     try:
         booking = bookings_db.find_one({'_id': ObjectId(book_id)})
         tour = shop_db.find_one({'_id': booking['listing_id']})
@@ -1142,10 +1138,10 @@ def review(book_id):
                 print(review_text)
                 print(stars)
                 return render_template(
-                'customer/review.html',
-                booking=booking,
-                tour=tour,
-                form=form)
+                    'customer/review.html',
+                    booking=booking,
+                    tour=tour,
+                    form=form)
     except BaseException:
         return 'Error trying to render'
 
@@ -1478,7 +1474,6 @@ def email_confirmation_endpoint():
 @app.errorhandler(413)
 def error413(err):
     return f'Oh Noes! You got {err}'
-
 
 # Run app
 if __name__ == '__main__':
