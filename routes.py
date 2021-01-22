@@ -331,14 +331,48 @@ def accountinfo():
         # Render the pls log in template here
         return redirect(url_for('login', denied_access=True))
 
-# @app.route('/me/billing')
-# def accountbilling():
-#     try:
-#         return render_template('billing.html')
-#     except BaseException:
-#         return 'Error trying to render'
+@app.route('/me/settings/updatepassword', methods=['GET', 'POST'])
+def updatepassword():
+    pForm = PasswordForm()
+    result = auth.is_auth(True, True)
+    # If user is logged in and makes changes to the settings
+    if result:
+        id = result["_id"]
+        item = user_db.find_one({'_id': ObjectId(id)})
+        if request.method == 'POST':
+            if pForm.validate_on_submit():
+                query_user = {'_id': ObjectId(id)}
+                old_password = request.form['old_password']
+                password = request.form['password']
+                confirm = request.form['confirm']
+                checker = auth.check_password_correlate(old_password, result['password'])
+                if checker:
+                    updated = {
+                        "$set": {
+                            "password": auth.generate_password_hash(password)
+                        }
+                    }
+                    user_db.update_one(query_user, updated)
+                else:
+                    return render_template(
+                        'changepassword.html', user=item, id=id, loggedin=True)
 
-# --------------------------------------
+            return render_template(
+                'changepassword.html',
+                user=item,
+                form1=pForm,
+                loggedin=True)
+
+        else:
+            return render_template(
+                'changepassword.html',
+                user=item,
+                form1=pForm,
+                loggedin=True)
+
+    # When user is not login
+    else:
+        return redirect(url_for('login', denied_access=True))
 
 # ALEX
 
@@ -649,7 +683,6 @@ def makelisting():
 @app.route('/listings/edit/<id>', methods=['GET', 'POST'])
 def editListing(id):
     result = auth.is_auth(True)
-
     # If user is logged in
     if result:
         lForm = ListingForm()
