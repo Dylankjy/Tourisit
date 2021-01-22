@@ -14,14 +14,14 @@ import admin as admin
 import auth as auth
 # Chat Library
 import chat as msg
-from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 # Custom class imports
 from models.Booking import BookingForm, CheckoutForm, ChatForm, CustomForm, Booking
+from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm
 from models.Support import SupportForm, Support
 from models.Transaction import Transaction
-from models.User import UserForm, BioForm, PasswordForm
+from models.User import BioForm, PasswordForm, UserForm
 
 # For Images
 buffered = BytesIO()
@@ -142,8 +142,7 @@ def show_user_message(message):
 
 # --------------------------------------
 
-# Amy
-
+# AMY
 
 # SHARED
 # Support: Help desk with customer support and Apply for Pro Verified
@@ -332,7 +331,7 @@ def accountinfo():
         return redirect(url_for('login', denied_access=True))
 
 @app.route('/me/settings/updatepassword', methods=['GET', 'POST'])
-def updatepassword():
+def updatepass():
     pForm = PasswordForm()
     result = auth.is_auth(True, True)
     # If user is logged in and makes changes to the settings
@@ -360,14 +359,14 @@ def updatepassword():
             return render_template(
                 'changepassword.html',
                 user=item,
-                form1=pForm,
+                form=pForm,
                 loggedin=True)
 
         else:
             return render_template(
                 'changepassword.html',
                 user=item,
-                form1=pForm,
+                form=pForm,
                 loggedin=True)
 
     # When user is not login
@@ -375,7 +374,6 @@ def updatepassword():
         return redirect(url_for('login', denied_access=True))
 
 # ALEX
-
 
 # CUSTOMERS
 # Home page
@@ -1023,7 +1021,7 @@ def book_now(tour_id):
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
             elif customform.validate_on_submit():
-                customfee = round(0.1*float(item['tour_price']), 2)
+                customfee = round(0.1 * float(item['tour_price']), 2)
                 booking = Booking(
                     tg_uid=item['tg_uid'],
                     cust_uid=result['_id'],
@@ -1182,28 +1180,29 @@ def business(book_id):
 @app.route('/review/<book_id>', methods=['GET', 'POST'])
 def review(book_id):
     # try:
-        booking = bookings_db.find_one({'_id': ObjectId(book_id)})
-        tour = shop_db.find_one({'_id': booking['listing_id']})
-        form = ReviewForm()
-        if request.method == "POST":
-            if form.is_submitted():
-                print("valid")
-                review_text = request.form["review_text"]
-                stars = form.rating.data
-                print(review_text)
-                print(stars)
-                return render_template(
-                    'customer/review.html',
-                    booking=booking,
-                    tour=tour,
-                    form=form)
-        return render_template(
-            'customer/review.html',
-            booking=booking,
-            tour=tour,
-            form=form)
-    # except BaseException:
-    #     return 'Error trying to render'
+    booking = bookings_db.find_one({'_id': ObjectId(book_id)})
+    tour = shop_db.find_one({'_id': booking['listing_id']})
+    form = ReviewForm()
+    if request.method == "POST":
+        if form.is_submitted():
+            print("valid")
+            review_text = request.form["review_text"]
+            stars = form.rating.data
+            print(review_text)
+            print(stars)
+            return render_template(
+                'customer/review.html',
+                booking=booking,
+                tour=tour,
+                form=form)
+    return render_template(
+        'customer/review.html',
+        booking=booking,
+        tour=tour,
+        form=form)
+
+# except BaseException:
+#     return 'Error trying to render'
 
 # --------------------------------------
 

@@ -80,9 +80,12 @@
 
                             <div class="field">
                                 <label class="label" for="password">Password:
-                                    <span class="tag is-warning is-light is-size-5 is-clickable" onclick="window.location.href='changepassword'">
-                                        Change Password
-                                    </span>
+                                    <a href="{{ url_for('updatepass') }}">
+                                        <span class="tag is-warning is-light is-size-5 is-clickable">
+                                            Change Password
+                                        </span>
+                                    </a>
+
                                 </label>
                             </div>
 
