@@ -64,4 +64,9 @@
             </div>
         </div>
     </section>
+    <script>
+        var pfplink = sessionStorage.getItem("pfpLink");
+        {# Print to tour guide profile link #}
+        document.getElementById('link').value = pfplink;
+    </script>
 {% endblock %}
