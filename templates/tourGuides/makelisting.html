@@ -8,10 +8,12 @@
 
     let listno = 0
     let locno = 0
+    var intno = 0
     var itemList = []
     var locList = []
     var locationTags = document.getElementById('locations')
     var dayList = []
+    var timingList = []
 
 
     function AppendtoDay() {
@@ -91,6 +93,8 @@
     //     console.log(locList)
     // }
 
+
+    // All these are to append to the backend list
     function AppendtoLocationList() {
         current_list = document.getElementById('tour-locations-list')
         current_list.value = Array.from(locList)
@@ -101,6 +105,11 @@
         current_list = document.getElementById('tour-item-list')
         current_list.value = Array.from(itemList)
         console.log(current_list)
+    }
+
+    function AppendtoTimings() {
+        current_list = document.getElementById('tour-timings-list')
+        current_list.value = Array.from(timingList)
         console.log(current_list)
     }
 
@@ -114,97 +123,54 @@
         return $("input:checkbox[name=tour_days]:checked").length > 0
     }
 
+
     // Must click the add listing button in order to get the updated version
-    $('#makeListingForm').submit(() => {
+    $('#makeListingForm').submit(() => {        
         UpdateItems()
         AppendtoDay()
+
+
         // if (validateDays == true) {
         //     return true
         // }
-        return true
     });
 
-    // window.addEventListener('load', () => {
-    //     let form = document.getElementById('makeListingForm')
-    //     FormPersistence.persist(form, {useSessionStorage: true});
-    //     FormPersistence.save(form, {useSessionStorage: true})
-    // })
 
-    // window.onbeforeunload = ()=>{
-    //     FormPersistence.load(form, {useSessionStorage: true})
-    // }
-
-    // function formToString(filledForm) {
-    //     formObject = new Object
-    //     filledForm.find("input, select, textarea").each(function() {
-    //         if (this.id) {
-    //             elem = $(this);
-    //             if (elem.attr("type") == 'checkbox' || elem.attr("type") == 'radio') {
-    //                 formObject[this.id] = elem.attr("checked");
-    //             } else {
-    //                 formObject[this.id] = elem.val();
-    //             }
-    //         }
-    //     });
-    //     formString = JSON.stringify(formObject);
-    //     return formString;
-    // }
-
-    // function stringToForm(formString, unfilledForm) {
-    //     formObject = JSON.parse(formString);
-    //     unfilledForm.find("input, select, textarea").each(function() {
-    //         if (this.id) {
-    //             id = this.id;
-    //             elem = $(this);
-    //             if (elem.attr("type") == "checkbox" || elem.attr("type") == "radio" ) {
-    //                 elem.attr("checked", formObject[id]);
-    //             } else {
-    //                 elem.val(formObject[id]);
-    //             }
-    //         }
-    //     });
-    // }
-
-
-    // window.onbeforeunload = function () {
-    //     sessionStorage.setItem("formdata",formToString($("#makeListingForm")))
-    //     var storedform = sessionStorage.getItem("formdata");
-    //     stringToForm(storedform,$("#makeListingForm"));
-    // }
-
-
-    // // Incase form has to reload, the user data is still saved to session storage and re displayed
-    // function Persistence() {
-    //     window.onload = function() {
-    //         if (sessionStorage.getItem('name') == "name") {
-    //             return;
-    //         }
-
-    //         // If values are not blank, restore them to the fields
-    //         var saved_itenerary = localStorage.getItem('itenerary_list');
-    //         if (local_itenerary !== null) {
-    //             $('#tour-items').val(saved_itenerary)
-    //             console.log(saved_itenerary)
-    //         };
-
-    //         var saved_locations = localStorage.getItem('location_list');
-    //         if (saved_locations !== null) {
-    //             $('#tour-loc').val(saved_locations)
-    //             console.log(saved_locations)
-    //         };
-    //     }
-
-
-    //         // Before refreshing the page, save the form data to sessionStorage
-    //     window.onbeforeunload = function() {
-    //         localStorage.setItem("itinerary_list", itemList);
-    //         localStorage.setItem("location_list", locList);
-    //     }
-    // }
 
 
     window.onbeforeunload = () => {
         Persistence()
+    }
+
+    function AddTiming() {
+        current_start_time = $('#tour-start-time').val()
+        current_end_time = $('#tour-end-time').val()
+        console.log(current_start_time)
+        text = 
+        `
+            <ul id='timing_${intno}' class='timing_interval'>
+                <div class='level-left'>
+                    <p class='level-item timing_interval_str'>${current_start_time} - ${current_end_time}</p>
+
+                    <button class="button level-item" onclick="$('#timing_${intno}').remove()">
+                        Delete
+                    </button>
+                </div>
+            </ul>
+        `
+
+        intno += 1
+        $('#timing-list').append(text)
+
+    }
+
+    function pushTimings() {
+        var interval_str = $(this).text()
+        timingList.push(interval_str + '#$%^#')
+    }
+
+    function loopPushTimings() {
+        $(".timing_interval_str").each(pushTimings)
     }
 
 
@@ -225,6 +191,7 @@
                         </div>
                     </div>
                 </li>
+                <br>
             `
         $("#itinerary-list").append(`${text}`)
         itemList.push(current_item.value + '#$%^#')
@@ -318,10 +285,13 @@
 
 
 
-                <label class="label">Tour Timing</label>
+                <label class="label">Tour Timings</label>
                 <div class='field'>
                     <div class='control level-left'>
                         {{ form.tour_start_time(id='tour-start-time', class='dropdown-item level-item') }} <p class='level-item'>-</p>  {{ form.tour_end_time(id='tour-end-time', class='dropdown-item level-item') }}
+                        <a id='addTimingButton' class="button" onclick="AddTiming()">
+                            Add Timing
+                        </a>
                         <br>
                         <ul>
                             {% for error in form.tour_end_time.errors %}
@@ -330,6 +300,23 @@
                         </ul>
                     </div>
                 </div>
+
+                <div>
+                    <ol id='timing-list'></ol>
+                </div>
+
+
+                <div class='field'>
+                    <div class='control'>
+                        <input name='tour_timings_list[]' , class='input' , id='tour-timings-list' , type='hidden'>
+                    </div>
+                </div>
+
+                <!-- <div class='control'>
+                    <button onclick='$(".timing_interval_str").each(getTimings)'>
+                        Clickme!
+                    </button>
+                </div> -->
 
 
 
@@ -346,6 +333,7 @@
                 </div>
 
 
+                
                 <label class="label" for="tour-items">Tour itinerary</label>
                 <div class="field has-addons">
                     <div class="control">
@@ -456,6 +444,17 @@
     $("#uploadImg").change(() => {
         flag = toBase64($("#uploadImg").prop('files')[0])
         console.log('this worked')
+    });
+
+        // Must click the add listing button in order to get the updated version
+    $('#makeListingForm').submit(() => {
+        loopPushTimings()
+        AppendtoTimings()
+
+
+        // if (validateDays == true) {
+        //     return true
+        // }
     });
 
 

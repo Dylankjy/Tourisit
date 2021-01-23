@@ -8,6 +8,7 @@
 
         let listno = 0
         let locno = 0
+        var intno = 0
         var persisteditemList = Array.from({{ listing.tour_itinerary | tojson }})
         var persistedlocList = Array.from({{ listing.tour_location| tojson }})
         var persistedDayList = Array.from({{ listing.tour_days| tojson }})
@@ -22,6 +23,7 @@
         var locList = []
         var locationTags = document.getElementById('locations')
         var dayList = []
+        var timingList = []
 
 
 
@@ -100,6 +102,12 @@
             console.log(current_list)
         }
 
+        function AppendtoTimings() {
+            current_list = document.getElementById('tour-timings-list')
+            current_list.value = Array.from(timingList)
+            console.log(current_list)
+        }
+
 
         function UpdateItems() {
             document.getElementById("addItemButton").click()
@@ -109,7 +117,6 @@
         $('#makeListingForm').submit(() => {
             UpdateItems()
             AppendtoDay()
-            return true;
         });
 
 
@@ -117,81 +124,130 @@
             Persistence()
         }
 
+        function AddTiming() {
+        current_start_time = $('#tour-start-time').val()
+        current_end_time = $('#tour-end-time').val()
+        console.log(current_start_time)
+        text = 
+        `
+            <ul id='timing_${intno}' class='timing_interval'>
+                <div class='level-left'>
+                    <p class='level-item timing_interval_str'>${current_start_time} - ${current_end_time}</p>
 
-        function AddItinerary() {
-            // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
-            current_item = document.getElementById('tour-items')
-            text =
-                `
-                <li id='list_${listno}'>
-                    <div class="field has-addons" >
-                        <div class="control is-expanded">
-                            <input id='item_${listno}' class='input' type=text value="${current_item.value}" onkeyup="$('#item_${listno}').val($('#item_${listno}').val()); console.log($('#item_${listno}').val()); itemList.splice(${listno}, 1, $('#item_${listno}').val() + '#$%^#')">
-                        </div>
-                        <div class="control">
-                            <button class="button" onclick="$('#list_${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </li>
+                    <button class="button level-item" onclick="$('#timing_${intno}').remove()">
+                        Delete
+                    </button>
+                </div>
+            </ul>
+        `
+
+        intno += 1
+        $('#timing-list').append(text)
+
+    }
+
+    function pushTimings() {
+        var interval_str = $(this).text()
+        timingList.push(interval_str + '#$%^#')
+    }
+
+    function loopPushTimings() {
+        $(".timing_interval_str").each(pushTimings)
+    }
+
+
+    function AddItinerary() {
+        // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
+        current_item = document.getElementById('tour-items')
+        text =
             `
-            $("#itinerary-list").append(`${text}`)
-            itemList.push(current_item.value + '#$%^#')
-            current_item.value = ''
-            listno += 1
-        }
-
-        // To return the itinerary from a previously defined listing
-        // tour_item is a single tour itinerary
-        function AddItineraryFromList(tour_item) {
-            text =
-                `
-                <li id='list_${listno}'>
-                    <div class="field has-addons" >
-                        <div class="control is-expanded">
-                            <input id='item_${listno}' class='input' type=text value="${tour_item}" onkeyup="$('#item_${listno}').val($('#item_${listno}').val()); console.log($('#item_${listno}').val()); itemList.splice(${listno}, 1, $('#item_${listno}').val() + '#$%^#')">
-                        </div>
-                        <div class="control">
-                            <button class="button" onclick="$('#list_${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
-                                Delete
-                            </button>
-                        </div>
+            <li id='list_${listno}'>
+                <div class="field has-addons" >
+                    <div class="control is-expanded">
+                        <input id='item_${listno}' class='input' type=text value="${current_item.value}" onkeyup="$('#item_${listno}').val($('#item_${listno}').val()); console.log($('#item_${listno}').val()); itemList.splice(${listno}, 1, $('#item_${listno}').val() + '#$%^#')">
                     </div>
-                </li>
+                    <div class="control">
+                        <button class="button" onclick="$('#list_${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </li>
+        `
+        $("#itinerary-list").append(`${text}`)
+        itemList.push(current_item.value + '#$%^#')
+        current_item.value = ''
+        listno += 1
+    }
+
+    // To return the itinerary from a previously defined listing
+    // tour_item is a single tour itinerary
+    function AddItineraryFromList(tour_item) {
+        text =
             `
-            $("#itinerary-list").append(`${text}`)
-            itemList.push(tour_item + '#$%^#')
-            listno += 1
-        }
+            <li id='list_${listno}'>
+                <div class="field has-addons" >
+                    <div class="control is-expanded">
+                        <input id='item_${listno}' class='input' type=text value="${tour_item}" onkeyup="$('#item_${listno}').val($('#item_${listno}').val()); console.log($('#item_${listno}').val()); itemList.splice(${listno}, 1, $('#item_${listno}').val() + '#$%^#')">
+                    </div>
+                    <div class="control">
+                        <button class="button" onclick="$('#list_${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </li>
+        `
+        $("#itinerary-list").append(`${text}`)
+        itemList.push(tour_item + '#$%^#')
+        listno += 1
+    }
+
+    function AddTimingFromList(tour_timing) {
+        text = 
+        `
+            <ul id='timing_${intno}' class='timing_interval'>
+                <div class='level-left'>
+                    <p class='level-item timing_interval_str'>${tour_timing}</p>
+
+                    <button class="button level-item" onclick="$('#timing_${intno}').remove()">
+                        Delete
+                    </button>
+                </div>
+            </ul>
+        `
+
+        intno += 1
+        $('#timing-list').append(text)
+    }
 
 
-        function AddLocationFromList(tour_location) {
-            current_locs = document.getElementById('locations')
+    function AddLocationFromList(tour_location) {
+        current_locs = document.getElementById('locations')
 
-            var template = document.createElement('span')
-            template.className = "tag is-info"
-            template.textContent = tour_location
-            current_locs.appendChild(template)
+        var template = document.createElement('span')
+        template.className = "tag is-info"
+        template.textContent = tour_location
+        current_locs.appendChild(template)
 
 
-            let removeElement = document.createElement('a');
-            removeElement.textContent = '\u274c';
-            removeElement.id = locno
-            removeElement.addEventListener('click', () => {
-                current_locs.removeChild(template)
-                console.log(`Loc no is: ${locno}`)
-                locList.splice(removeElement.id, 1, 'None')
-                AppendtoLocationList()
-            });
-            template.appendChild(removeElement);
+        let removeElement = document.createElement('a');
+        removeElement.textContent = '\u274c';
+        removeElement.id = locno
+        removeElement.addEventListener('click', () => {
+            current_locs.removeChild(template)
+            console.log(`Loc no is: ${locno}`)
+            locList.splice(removeElement.id, 1, 'None')
+            AppendtoLocationList()
+        });
+        template.appendChild(removeElement);
 
-            // current_locs.innerHTML += template
-            locList.push(tour_location + '#$%^#')
-            console.log(locList)
+        // current_locs.innerHTML += template
+        locList.push(tour_location + '#$%^#')
+        console.log(locList)
 
-            locno += 1
-        }
+        locno += 1
+    }
 
     </script>
 
@@ -279,15 +335,30 @@
 
 
 
-                    <label class="label">Tour Timing</label>
+                    <label class="label">Tour Timings</label>
                     <div class='field'>
                         <div class='control level-left'>
                             {{ form.tour_start_time(id='tour-start-time', class='dropdown-item level-item') }} <p class='level-item'>-</p>  {{ form.tour_end_time(id='tour-end-time', class='dropdown-item level-item') }}
+                            <a id='addTimingButton' class="button" onclick="AddTiming()">
+                                Add Timing
+                            </a>
+                            <br>
                             <ul>
                                 {% for error in form.tour_end_time.errors %}
                                 <li class="has-text-danger"> {{ error }}</li>
                                 {% endfor %}
                             </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <ol id='timing-list'></ol>
+                    </div>
+
+
+                    <div class='field'>
+                        <div class='control'>
+                            <input name='tour_timings_list[]' , class='input' , id='tour-timings-list' , type='hidden'>
                         </div>
                     </div>
 
@@ -406,9 +477,8 @@
         
         persistedDayList.forEach(checkDayfromList)
 
-        $("#tour-start-time").val(persistedTimeList[0])
+        persistedTimeList.forEach(AddTimingFromList)
 
-        $("#tour-end-time").val(persistedTimeList[1])
 
         {% if listing.tour_img != '' %}
             $('#currentImg').attr('src', 'data:image/jpeg;base64,' + persistedTourImg)
@@ -435,6 +505,11 @@
             flag = toBase64($("#uploadImg").prop('files')[0])
             console.log('this worked')
         });
+
+        $('#makeListingForm').submit(() => {
+        loopPushTimings()
+        AppendtoTimings()
+    });
 
 
     </script>

@@ -375,6 +375,8 @@ def updatepass():
     else:
         return redirect(url_for('login', denied_access=True))
 
+
+
 # ALEX
 
 # CUSTOMERS
@@ -591,6 +593,25 @@ def testing():
     # return render_template('tourGuides/makelisting.html', form=lForm,
     # user=result)
 
+# @app.route('/test/time', methods=['GET', 'POST'])
+# def testtime():
+#     result = auth.is_auth(True)
+#     lForm = ListingForm()
+#     if request.method == 'POST':
+#         print('ye')
+#         # IF all inputs are valid
+#         if lForm.validate_on_submit():
+#             print('yes')
+#             tour_timing_list = request.form.getlist('tour_timings_list[]')
+#             # tour_days = formToArray(days_form_list)
+#             # sorted_tour_days = sortDays(tour_days)
+#
+#             print(tour_timing_list)
+#             return render_template(
+#                 'tourGuides/listing-success.html', user=result)
+#         return render_template('tourGuides/testTime.html', user=result, form=lForm)
+#     return render_template('tourGuides/testTime.html', user=result, form=lForm)
+
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
     result = auth.is_auth(True)
@@ -615,9 +636,12 @@ def makelisting():
                 tour_days = formToArray(days_form_list)
                 sorted_tour_days = sortDays(tour_days)
 
-                tour_start_time = request.form['tour_start_time']
-                tour_end_time = request.form['tour_end_time']
-                tour_time_list = [tour_start_time, tour_end_time]
+                # tour_start_time = request.form['tour_start_time']
+                # tour_end_time = request.form['tour_end_time']
+                # tour_time_list = [tour_start_time, tour_end_time]
+
+                timings_form_list = request.form.getlist('tour_timings_list[]')
+                tour_timings = formToArray(timings_form_list)
 
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
                 tour_itinerary = formToArray(itinerary_form_list)
@@ -646,7 +670,7 @@ def makelisting():
                     tour_revs=tour_revisions,
                     tour_itinerary=tour_itinerary,
                     tour_days=sorted_tour_days,
-                    tour_time=tour_time_list)
+                    tour_time=tour_timings)
 
                 listingInfo = tour_listing.return_obj()
                 print(listingInfo)
@@ -709,9 +733,8 @@ def editListing(id):
                     tour_days = list(set(tour_days))
                     sorted_tour_days = sortDays(tour_days)
 
-                    tour_start_time = request.form['tour_start_time']
-                    tour_end_time = request.form['tour_end_time']
-                    tour_time_list = [tour_start_time, tour_end_time]
+                    timings_form_list = request.form.getlist('tour_timings_list[]')
+                    tour_timings = formToArray(timings_form_list)
 
                     itinerary_form_list = request.form.getlist('tour_items_list[]')
                     tour_itinerary = formToArray(itinerary_form_list)
@@ -730,10 +753,10 @@ def editListing(id):
                     img_string = img_to_base64(tour_img)
                     # If there's no change to image (User doesnt upload new image),
                     # keep the current image
-                    print('Img string is:' + img_string)
+                    print(tour_timings)
+
                     if img_string == '':
                         img_string = item['tour_img']
-                        print('This fired!')
                         # Don't update the tour image
                         updated = {
                             "$set": {
@@ -744,7 +767,7 @@ def editListing(id):
                                 'tour_revisions': tour_revisions,
                                 'tour_itinerary': tour_itinerary,
                                 'tour_days': sorted_tour_days,
-                                'tour_time': tour_time_list
+                                'tour_time': tour_timings
                             }}
 
                     else:
@@ -758,7 +781,7 @@ def editListing(id):
                                 'tour_revisions': tour_revisions,
                                 'tour_itinerary': tour_itinerary,
                                 'tour_days': sorted_tour_days,
-                                'tour_time': tour_time_list
+                                'tour_time': tour_timings
                             }}
 
                     shop_db.update_one(query_listing, updated)
@@ -928,7 +951,7 @@ def removeWishlist(tour_id):
 
         return redirect(f'/discover/{tour_id}')
     except:
-        message = ' Unable to remove from wishlist as item does not exist in wishlist!'
+        message = 'Unable to remove from wishlist as item does not exist in wishlist!'
         return redirect(url_for('show_user_message', message=message))
 
 # --------------------------------------
