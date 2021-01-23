@@ -8,6 +8,249 @@
     <link rel="stylesheet" href="/css/frameworks/bulma-steps.css">
     <link rel="stylesheet" href="/css/pages/chat.css">
     <link rel="stylesheet" href="/css/frameworks/bulma-badge.css">
+    <script src='/js/form-persistence.js'></script>
+    <script>
+
+        let listno = 0
+        let locno = 0
+        var intno = 0
+        var persisteditemList = Array.from({{ listing.tour_itinerary | tojson }})
+        var persistedlocList = Array.from({{ listing.tour_location| tojson }})
+        var persistedDayList = Array.from({{ listing.tour_days| tojson }})
+        var persistedTimeList = Array.from({{ listing.tour_time| tojson }})
+
+
+        var itemList = []
+        var locList = []
+        var locationTags = document.getElementById('locations')
+        var dayList = []
+        var timingList = []
+
+
+
+
+
+        function AppendtoDay() {
+            $("input:checkbox[name=tour_days]:checked").each(function () {
+                dayList.push($(this).val() + '#$%^#') 
+            });
+            AppendtoDayList()
+        }
+
+        function AppendtoDayList() {
+            current_day_list = document.getElementById('tour-days-list')
+            current_day_list.value = Array.from(dayList)
+            console.log(current_day_list)
+        }
+
+        function checkDayfromList(dayValue) {
+            $(`input[value='${dayValue}']`).prop("checked", true)
+            console.log('checked')
+        }
+
+
+        function AppendtoLocation() {
+            var loc = document.getElementById('tour-loc').value
+            current_locs = document.getElementById('locations')
+
+            // var template =
+            // `
+            //     <span class="tag is-info">${loc}</span>
+            // `
+
+            // var template =
+            // `
+            //     <span class="tag is-info">${loc}<a onclick="locList.splice(${locno}, 1, 'None'); current_locs.removeChild(template)>here</a></span>
+            // `
+
+            var template = document.createElement('span')
+            template.className = "tag is-info"
+            // template.id = `loc_${locno}`
+            template.textContent = loc
+            current_locs.appendChild(template)
+
+
+            let removeElement = document.createElement('a');
+            removeElement.textContent = '\u274c';
+            removeElement.id = locno
+            removeElement.addEventListener('click', () => {
+                current_locs.removeChild(template)
+                console.log(`Loc no is: ${locno}`)
+                locList.splice(removeElement.id, 1, 'None')
+                AppendtoLocationList()
+            });
+            template.appendChild(removeElement);
+
+            // current_locs.innerHTML += template
+            locList.push(loc + '#$%^#')
+            console.log(locList)
+
+            locno += 1
+
+        }
+
+
+        function AppendtoLocationList() {
+            current_list = document.getElementById('tour-locations-list')
+            current_list.value = Array.from(locList)
+            console.log(current_list)
+        }
+
+        function AppendtoItem() {
+            current_list = document.getElementById('tour-item-list')
+            current_list.value = Array.from(itemList)
+            console.log(current_list)
+            console.log(current_list)
+        }
+
+        function AppendtoTimings() {
+            current_list = document.getElementById('tour-timings-list')
+            current_list.value = Array.from(timingList)
+            console.log(current_list)
+        }
+
+
+        function UpdateItems() {
+            document.getElementById("addItemButton").click()
+        }
+
+        // Must click the add listing button in order to get the updated version
+        $('#makeListingForm').submit(() => {
+            UpdateItems()
+            AppendtoDay()
+        });
+
+
+        window.onbeforeunload = () => {
+            Persistence()
+        }
+
+        function AddTiming() {
+        current_start_time = $('#tour-start-time').val()
+        current_end_time = $('#tour-end-time').val()
+        console.log(current_start_time)
+        text = 
+        `
+            <ul id='timing_${intno}' class='timing_interval'>
+                <div class='level-left'>
+                    <p class='level-item timing_interval_str'>${current_start_time} - ${current_end_time}</p>
+
+                    <button class="button level-item" onclick="$('#timing_${intno}').remove()">
+                        Delete
+                    </button>
+                </div>
+            </ul>
+        `
+
+        intno += 1
+        $('#timing-list').append(text)
+
+    }
+
+    function pushTimings() {
+        var interval_str = $(this).text()
+        timingList.push(interval_str + '#$%^#')
+    }
+
+    function loopPushTimings() {
+        $(".timing_interval_str").each(pushTimings)
+    }
+
+
+    function AddItinerary() {
+        // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
+        current_item = document.getElementById('tour-items')
+        text =
+            `
+            <li id='list_${listno}'>
+                <div class="field has-addons" >
+                    <div class="control is-expanded">
+                        <input id='item_${listno}' class='input' type=text value="${current_item.value}" onkeyup="$('#item_${listno}').val($('#item_${listno}').val()); console.log($('#item_${listno}').val()); itemList.splice(${listno}, 1, $('#item_${listno}').val() + '#$%^#')">
+                    </div>
+                    <div class="control">
+                        <button class="button" onclick="$('#list_${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </li>
+        `
+        $("#itinerary-list").append(`${text}`)
+        itemList.push(current_item.value + '#$%^#')
+        current_item.value = ''
+        listno += 1
+    }
+
+    // To return the itinerary from a previously defined listing
+    // tour_item is a single tour itinerary
+    function AddItineraryFromList(tour_item) {
+        text =
+            `
+            <li id='list_${listno}'>
+                <div class="field has-addons" >
+                    <div class="control is-expanded">
+                        <input id='item_${listno}' class='input' type=text value="${tour_item}" onkeyup="$('#item_${listno}').val($('#item_${listno}').val()); console.log($('#item_${listno}').val()); itemList.splice(${listno}, 1, $('#item_${listno}').val() + '#$%^#')">
+                    </div>
+                    <div class="control">
+                        <button class="button" onclick="$('#list_${listno}').remove();itemList.splice(${listno}, 1, 'None');AppendtoItem()">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </li>
+        `
+        $("#itinerary-list").append(`${text}`)
+        itemList.push(tour_item + '#$%^#')
+        listno += 1
+    }
+
+    function AddTimingFromList(tour_timing) {
+        text = 
+        `
+            <ul id='timing_${intno}' class='timing_interval'>
+                <div class='level-left'>
+                    <p class='level-item timing_interval_str'>${tour_timing}</p>
+
+                    <button class="button level-item" onclick="$('#timing_${intno}').remove()">
+                        Delete
+                    </button>
+                </div>
+            </ul>
+        `
+
+        intno += 1
+        $('#timing-list').append(text)
+    }
+
+
+    function AddLocationFromList(tour_location) {
+        current_locs = document.getElementById('locations')
+
+        var template = document.createElement('span')
+        template.className = "tag is-info"
+        template.textContent = tour_location
+        current_locs.appendChild(template)
+
+
+        let removeElement = document.createElement('a');
+        removeElement.textContent = '\u274c';
+        removeElement.id = locno
+        removeElement.addEventListener('click', () => {
+            current_locs.removeChild(template)
+            console.log(`Loc no is: ${locno}`)
+            locList.splice(removeElement.id, 1, 'None')
+            AppendtoLocationList()
+        });
+        template.appendChild(removeElement);
+
+        // current_locs.innerHTML += template
+        locList.push(tour_location + '#$%^#')
+        console.log(locList)
+
+        locno += 1
+    }
+
+    </script>
 {% endblock %}
 
 
@@ -16,7 +259,7 @@
     <section class='section mb-0 pb-0'>
         <div class="container mt-5 p-5">
             <a href="{{ url_for('all_businesses') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to My Business</a>
-            <h1 class="title is-size-1 m-0">{{ tour.tour_name }}</h1>
+            <h1 class="title is-size-1 m-0">{{listing.tour_name }}</h1>
             <!--START: More options dropdown-->
             <div class="dropdown post-options is-hoverable is-right is-pulled-right">
                 <div class="dropdown-trigger">
@@ -36,15 +279,10 @@
             </div>
             <!--END: More options dropdown-->
             <div class="listing-author">
-                <!-- <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{tour.tg_img}}')">
-                </div> -->
+                <div class="profile-img mt-2"
+                         style="background-image: url('data:image/jpeg;base64, {{ booking.cust_uid | user_pfp }}');"></div>
                 <div class="ml-2"><b>{{ booking.cust_uid| user_name }}</b> <span>is buying:</span></div>
             </div>
-            <!-- <div class="listing-author">
-                <div class="ml-2">Customer: 
-                    <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{tour.tg_img}}');"></div>
-                    <b>{{ booking.cust_uid| user_name }}</b></div>
-            </div> -->
 
         </div>
     </section>
@@ -247,7 +485,7 @@
                                 </div>
                             </div>
                             <footer class="card-footer">
-                                <p class="m-4">{{ tour.tour_revisions }} free Revision(s) remaining.</p>
+                                <p class="m-4">{{ listing.tour_revisions }} free Revision(s) remaining.</p>
                             </footer>
                         </div>
                     </div>
@@ -263,12 +501,12 @@
             <div class='columns my-5 is-vcentered'>
                 <div class='column'>
                     <h2 class='is-size-4'><b>About this Tour</b></h2>
-                    <p>{{ tour.tour_desc }}</p>
-                    <p class="mt-5 is-size-6"><a href="/listings/edit/{{ tour['_id'] }}">Edit Listing</a></p>
+                    <p>{{ listing.tour_desc }}</p>
+                    <p class="mt-5 is-size-6"><a href="/listings/edit/{{ listing['_id'] }}">Edit Listing</a></p>
                 </div>
                 <div class='column'>
                     <div class="box listing-img"
-                         style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}');"></div>
+                         style="background-image: url('data:image/jpeg;base64, {{ listing.tour_img }}');"></div>
                 </div>
             </div>
             <!--END: About-->
@@ -300,6 +538,139 @@
                         </div>
                         <!--END: Edit button-->
                     {% endif %}
+                    <!--START: Edit Itinerary Form (from Alex)-->
+                    <div class="container is-hidden" id="ItineraryForm">
+                        <form id='makeListingForm' class="form-horizontal" enctype="multipart/form-data"
+                  action="" method="POST">
+                {{ form.csrf_token }}
+                <fieldset>
+
+                    <label class="label">Tour Available Days</label>
+                    <div class='field'>
+                        <div class='control'>
+                            {{ form.tour_days(name='tour_days', type='checkbox', class='checkbox') }}
+                            <ul>
+                                {% for error in form.tour_days.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class='field'>
+                        <div class='control'>
+                            <input name='tour_days_list[]' , class='input' , id='tour-days-list' , type='hidden'>
+                        </div>
+                    </div>
+
+
+
+                    <label class="label">Tour Timings</label>
+                    <div class='field'>
+                        <div class='control level-left'>
+                            {{ form.tour_start_time(id='tour-start-time', class='dropdown-item level-item') }} <p class='level-item'>-</p>  {{ form.tour_end_time(id='tour-end-time', class='dropdown-item level-item') }}
+                            <a id='addTimingButton' class="button" onclick="AddTiming()">
+                                Add Timing
+                            </a>
+                            <br>
+                            <ul>
+                                {% for error in form.tour_end_time.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <ol id='timing-list'></ol>
+                    </div>
+
+
+                    <div class='field'>
+                        <div class='control'>
+                            <input name='tour_timings_list[]' , class='input' , id='tour-timings-list' , type='hidden'>
+                        </div>
+                    </div>
+
+
+                    <label class="label" for="tour-items">Tour itinerary</label>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <a id='addItemButton' class="button" onclick="AddItinerary();AppendtoItem()">
+                                Add Itinerary
+                            </a>
+                        </div>
+                        <div class="control is-expanded">
+                            {{ form.tour_items(class='input', id='tour-items', placeholder='Visit famous museum at Newton: Newton War Memorial Museum', type='text') }}
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <ol id='itinerary-list'></ol>
+                    </div>
+
+
+                    <div class='field'>
+                        <div class='control'>
+                            <input name='tour_items_list[]' , class='input' , id='tour-item-list' , type='hidden'>
+                        </div>
+                    </div>
+
+
+                    <label class="label" for="tour-loc">Tour Location</label>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <a class="button" onclick='AppendtoLocation(); AppendtoLocationList()'>
+                                Add Location
+                            </a>
+                        </div>
+                        <div class='control select'>
+                            {{ form.tour_loc(id="tour-loc") }}
+                        </div>
+                    </div>
+
+                    <div id='locations'></div>
+
+                    <ul>
+                        {% for error in form.tour_desc.errors %}
+                            <li class="has-text-danger"> {{ error }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class='field'>
+                        <div class='control'>
+                            <input name='tour_locations_list[]' , class='input' , id='tour-locations-list' ,
+                                   type='hidden'>
+                        </div>
+                    </div>
+
+
+                    <label class="label" for="tour-revs">Maximum Tour Revisions</label>
+                    <div class="field">
+                        <div class="control">
+                            {{ form.tour_revisions(id="tour-revs", type="number", class="input", value=listing.tour_revisions ) }}
+                            <ul>
+                                {% for error in form.tour_revisions.errors %}
+                                    <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="field">
+                        <div class="control">
+                            <input type='submit' value='Update Listing' id="tour-submit" name="tour-submit"
+                                   class="button is-success"
+                                   onclick=UpdateItems();AppendtoDay()>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+                    </div>
+                    <!--END: Edit Itinerary Form-->
                     <div class="columns pt-5">
 
                         <!--timeline-->
@@ -308,39 +679,7 @@
                                 <header class="timeline-header">
                                     <span class="tag is-medium is-success">Start</span>
                                 </header>
-                                <!-- <div class="timeline-item">
-                                    <div class="timeline-marker is-icon">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Meeting Point</p>
-                                        <p>Bishan MRT Station</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker is-icon">
-                                        <i class="fas fa-utensils"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Restaurant Name</p>
-                                        <p>Enjoy traditional Indian cuisine at this hidden gem of a restaurant!</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Location</p>
-                                        <p>Activity</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Location</p>
-                                        <p>Activity</p>
-                                    </div>
-                                </div> -->
-                                {% for item in tour.tour_itinerary %}
+                                {% for item in listing.tour_itinerary %}
                                     <div class="timeline-item">
                                         <div class="timeline-marker"></div>
                                         <div class="timeline-content">
@@ -363,7 +702,7 @@
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
-                                    <td>{{ tour.tour_itinerary[0] }}</td>
+                                    <td>{{ listing.tour_itinerary[0] }}</td>
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
@@ -669,41 +1008,6 @@
                         <div class="heading">Tour Price</div>
                         <div class="title">{{ booking.book_charges['baseprice'] }}</div>
                     </div>
-                    <!-- <div class="container box">
-                        <div class="heading">Base Price</div>
-                        <div class="title">$148.50</div>
-                    </div>
-                    <div class="container box">
-                        <div class="heading">Add-ons</div>
-                        <table class="table is-fullwidth">
-                            <tbody>
-                            <tr>
-                                <td><b>Extra Thing 1</b></td>
-                                <td>+ $10.00</td>
-                            </tr>
-                            <tr>
-                                <td><b>Extra Thing 2</b></td>
-                                <td>+ $12.00</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="container box">
-                        <div class="heading">Reductions</div>
-                        <table class="table is-fullwidth">
-                            <tbody>
-                            <tr>
-                                <td><b>Remove Thing 1</b></td>
-                                <td>- $10.00</td>
-                            </tr>
-                            <tr>
-                                <td><b>Remove Thing 2</b></td>
-                                <td>- $12.00</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div> -->
-                    <!--END: Display proposed cost-->
                 {% endif %}
                 <div class="columns">
                     <div class="column">

@@ -67,9 +67,9 @@
             <!--END: More options dropdown-->
             <div class="listing-author">
                 <!--dynamic tg photo-->
-                <div class="ml-2">By
-                    <div class="profile-img"
-                         style="background-image: url('data:image/jpeg;base64, {{ tour.tg_img }}');"></div>
+                <div>By
+                    <div class="profile-img mt-2"
+                         style="background-image: url('data:image/jpeg;base64, {{ tour.tg_uid | user_pfp }}');"></div>
                     <b>{{ tour.tg_uid| user_name }}</b></div>
             </div>
 

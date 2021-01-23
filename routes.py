@@ -1153,7 +1153,7 @@ def all_businesses():
 def business(book_id):
     try:
         booking = bookings_db.find_one({'_id': ObjectId(book_id)})
-        tour = shop_db.find_one({'_id': booking['listing_id']})
+        listing = shop_db.find_one({'_id': booking['listing_id']})
         # Get login status using accessor argument
         result = auth.is_auth(True)
         # if not logged in
@@ -1161,15 +1161,18 @@ def business(book_id):
             return redirect(url_for('login', denied_access=True))
         # if logged in
         else:
+            # Edit Itinerary Stuff
+            lForm = ListingForm()
             print(booking)
-            print(tour)
+            print(listing)
             print(booking['process_step'])
             return render_template('tourGuides/business.html',
                                    process_step=booking['process_step'],
                                    booking=booking,
-                                   tour=tour,
+                                   listing=listing,
                                    loggedin=True,
-                                   user=result)
+                                   user=result,
+                                   form=lForm)
     except BaseException:
         return 'Error trying to render'
 

@@ -96,7 +96,7 @@
                                         {% endif %}
                                         <div class="listing-author">
                                             <div class="profile-img"
-                                                 style="background-image: url('data:image/jpeg;base64, {{ listing.tg_img }}')">
+                                                 style="background-image: url('data:image/jpeg;base64, {{ listing.tg_uid | user_pfp }}')">
                                             </div>
                                             <div class="ml-2"><b>{{ item.cust_uid| user_name }}</b>
                                                 <span>is buying:</span></div>

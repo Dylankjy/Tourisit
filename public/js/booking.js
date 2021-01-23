@@ -14,11 +14,13 @@ function openTab(evt, tabName) {
 
 function editItinerary() {
     document.getElementById("editItineraryButtons").classList.remove("is-hidden");
+    document.getElementById("ItineraryForm").classList.remove("is-hidden");
     document.getElementById("editButton").classList.add("is-hidden");
 }
 
 function SaveItinerary() {
     document.getElementById("editItineraryButtons").classList.add("is-hidden");
+    document.getElementById("ItineraryForm").classList.add("is-hidden");
     document.getElementById("editButton").classList.remove("is-hidden");
 }
 
