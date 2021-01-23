@@ -119,14 +119,12 @@ def user_name(uid):
 
 uwu_face = file_to_base64('public/imgs/uwu.png')
 
-
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
     return render_template(
         'tourGuides/testImg.html',
         user=None,
         imgBase64=uwu_face)
-
 
 # Use this to display messages to user
 # I.e if user is searching for a listing that doesn't exist, then say 'Listing does not exist' message
@@ -237,9 +235,8 @@ def profile(user_id):
             item=item,
             editable=editable,
             profile_img=profile_img)
-
 # SHARED
-# User account settings
+# USER SETTINGS AND CHANGE PASSWORD
 @app.route('/me/settings', methods=['GET', 'POST'])
 def accountinfo():
     uForm = UserForm()
@@ -250,7 +247,7 @@ def accountinfo():
         id = result["_id"]
         item = user_db.find_one({'_id': ObjectId(id)})
         if request.method == 'POST':
-            if uForm.validate_on_submit():
+            if "user-submit" in request.form and uForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
                 name = request.form['name']
                 profile_img = request.files['profile_img']
@@ -294,7 +291,7 @@ def accountinfo():
                 return render_template(
                     'success-user.html', user=item, id=id, loggedin=True)
 
-            elif pForm.validate_on_submit():
+            elif "submit-change-pass" in request.form and pForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
                 old_password = request.form['old_password']
                 password = request.form['password']
@@ -307,11 +304,11 @@ def accountinfo():
                         }
                     }
                     user_db.update_one(query_user, updated)
+                    # flash('Your expense has been created!', 'success')
                     return render_template(
                         'success-support.html', user=item, id=id, loggedin=True)
                 else:
-                    return render_template(
-                        'setting.html', user=item, id=id, loggedin=True)
+                    return render_template('setting.html', user=item, id=id, loggedin=True)
             return render_template(
                 'setting.html',
                 user=item,
@@ -331,51 +328,6 @@ def accountinfo():
     else:
         # Render the pls log in template here
         return redirect(url_for('login', denied_access=True))
-
-@app.route('/me/settings/updatepassword', methods=['GET', 'POST'])
-def updatepass():
-    pForm = PasswordForm()
-    result = auth.is_auth(True, True)
-    # If user is logged in and makes changes to the settings
-    if result:
-        id = result["_id"]
-        item = user_db.find_one({'_id': ObjectId(id)})
-        if request.method == 'POST':
-            if pForm.validate_on_submit():
-                query_user = {'_id': ObjectId(id)}
-                old_password = request.form['old_password']
-                password = request.form['password']
-                confirm = request.form['confirm']
-                checker = auth.check_password_correlate(old_password, result['password'])
-                if checker:
-                    updated = {
-                        "$set": {
-                            "password": auth.generate_password_hash(password)
-                        }
-                    }
-                    user_db.update_one(query_user, updated)
-                else:
-                    return render_template(
-                        'changepassword.html', user=item, id=id, loggedin=True)
-
-            return render_template(
-                'changepassword.html',
-                user=item,
-                form=pForm,
-                loggedin=True)
-
-        else:
-            return render_template(
-                'changepassword.html',
-                user=item,
-                form=pForm,
-                loggedin=True)
-
-    # When user is not login
-    else:
-        return redirect(url_for('login', denied_access=True))
-
-
 
 # ALEX
 
@@ -1550,7 +1502,6 @@ def email_confirmation_endpoint():
     else:
         return redirect(url_for('login', verification_code_denied=True))
 
-
 @app.route('/set_acc_mode', methods=['GET', 'POST'])
 def setAccType():
     result = auth.is_auth(True)
@@ -1574,12 +1525,6 @@ def setAccType():
     message = 'Not authorized to perform this action!'
     return redirect(url_for('show_user_message', message=message))
 
-
-
-
-
-
-
 # Password reset:
 # TODO: Take token put into WTForm and check only after submission. Remove check on auth.py
 # @app.route('/login/reset_password')
@@ -1595,7 +1540,6 @@ def setAccType():
 @app.errorhandler(413)
 def error413(err):
     return f'Oh Noes! You got {err}'
-
 
 # Run app
 if __name__ == '__main__':

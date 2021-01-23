@@ -18,6 +18,19 @@
 
     <div class="container">
         <div class="columns">
+            <!-- Side Profile Page -->
+            <div class="column is-one-fifth">
+                <div class="section">
+                    <div class="box is-centered p-0">
+                        <p>
+                            <button class="button is-fullwidth is-active">Account Info</button>
+                        </p>
+                        <p>
+                            <button class="button is-fullwidth">Billing</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
             <!-- Content -->
             <div class="column">
                 <div class="section">
@@ -80,12 +93,8 @@
 
                             <div class="field">
                                 <label class="label" for="password">Password:
-                                    <a href="{{ url_for('updatepass') }}">
-                                        <span class="tag is-warning is-light is-size-5 is-clickable">
-                                            Change Password
-                                        </span>
-                                    </a>
-
+                                    <input class="button is-primary" type="button" id="openbtn" name="openbtn" value="Change Password" onclick="$('#ChangePasswordModal').fadeIn('fast'); return false;">
+{#                                    <button class="button is-danger " >Change Password</button>#}
                                 </label>
                             </div>
 
@@ -149,7 +158,7 @@
                             <div class="field">
                                 <label class="label" for="user-submit"></label>
                                 <div class="control">
-                                    <input type='submit' value='Update!' id="user-submit" name="user-submit"
+                                    <input type='submit' value='Update!' id="submit-setting" name="submit-setting"
                                            class="button is-success">
                                 </div>
                             </div>
@@ -159,4 +168,84 @@
             </div>
         </div>
     </div>
+
+    {#Start of modal#}
+    <div class="modal is-clipped" id="ChangePasswordModal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <p class="is-size-5 has-text-weight-bold has-text-centered">Update Password?</p>
+                <p class="has-text-centered">Feel free to change your password anytime.</p>
+                <form class="form-horizontal" action="/me/settings" method="POST">
+                    {{ form1.csrf_token }}
+                    <div class="field">
+                        <label class="label" for="old_password">Current Password:</label>
+                        <div class="control">
+                            {{ form1.old_password(id="old_password", type="text", class="input") }}
+                            <ul>
+                                {% for error in form1.old_password.errors %}
+                                    <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="password">New Password:</label>
+                        <div class="control">
+                            {{ form1.password(id="password", type="text", class="input") }}
+                            <ul>
+                                {% for error in form1.password.errors %}
+                                    <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="confirm">Confirm New Password:</label>
+                        <div class="control">
+                            {{ form1.confirm(id="confirm", type="text", class="input") }}
+                            <ul>
+                                {% for error in form1.confirm.errors %}
+                                    <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="field is-grouped is-grouped-centered mt-5 has-text-centered">
+                        <div class="control">
+                            <button class="button is-danger is-light" onclick="$('#ChangePasswordModal').fadeOut('fast');">
+                                Cancel
+                            </button>
+                        </div>
+                        <form id="ChangePassword" method="POST">
+                            <div class="control">
+                                <input type="submit" class="button is-success" id="change-pass" name="submit-change-pass" value="Update Password"
+                                       onclick="$('#ChangePasswordModal').fadeOut('fast');">
+                            </div>
+                        </form>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick="$('#ChangePasswordModal').fadeOut('fast');"></button>
+    </div>
+    {% if form1.errors %}
+        <script>
+            $('#ChangePasswordModal').fadeIn('fast');
+        </script>
+    {% endif %}
+    <script>
+        $("#openbtn").click(function () {
+            $(".modal").addClass("is-active");
+        });
+
+        $(".modal-close").click(function () {
+            $(".modal").removeClass("is-active");
+        });
+
+        $("#closebtn").click(function () {
+            $(".modal").removeClass("is-active");
+        });
+    </script>
 {% endblock %}
