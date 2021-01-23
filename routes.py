@@ -18,7 +18,7 @@ import chat as msg
 from models.Booking import BookingForm, CheckoutForm, ChatForm, CustomForm, Booking
 from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
-from models.Review import ReviewForm
+from models.Review import ReviewForm, Review
 from models.Support import SupportForm, Support
 from models.Transaction import Transaction
 from models.User import BioForm, PasswordForm, UserForm
@@ -59,6 +59,7 @@ user_db = client['Users']
 bookings_db = client['Bookings']
 support_db = client['Support']
 transaction_db = client['Transactions']
+reviews_db = client['Reviews']
 
 @app.template_filter('timestamp_iso')
 def timestamp_iso(s):
@@ -470,6 +471,7 @@ def tourListing(tour_id):
                 # See if item is already in wishlist. If yes, then display 'Remove from
                 # wishlist' instead of 'Add to wishlist'
                 inside_wl = str(tour_id) in loggedin_user['wishlist']
+
 
                 # If it is 1, means display the listing. If 0 means make it invisible
 
@@ -1081,6 +1083,7 @@ def checkout(book_id):
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=str(book_id)))
 
+                #do rmb to add haru's dashboard stuff
                 else:
                     print("Error occurred while trying to pay.")
 
@@ -1165,23 +1168,43 @@ def review(book_id):
     booking = bookings_db.find_one({'_id': ObjectId(book_id)})
     tour = shop_db.find_one({'_id': booking['listing_id']})
     form = ReviewForm()
-    if request.method == "POST":
-        if form.is_submitted():
-            print("valid")
-            review_text = request.form["review_text"]
-            stars = form.rating.data
-            print(review_text)
-            print(stars)
+    result = auth.is_auth(True)
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    else:
+        if reviews_db.count_documents({'booking': ObjectId(book_id)}, limit=1):
+            print("live fast eat ass, you left a review, funnyman")
+            return redirect(url_for('bookings', book_id=str(book_id)))
+        else:
+            print("oh no u havent reviewed my guy? loooser")
+            if request.method == "POST":
+                if form.is_submitted():
+                    # if reviewer is customer/tg
+                    if result['_id'] == booking['cust_uid']:
+                        print('customer reviwer')
+                        reviewee_id = booking['tg_uid']
+                    elif result['_id'] == booking['tg_uid']:
+                        print('tg is reviewr')
+                        reviewee_id = booking['cust_uid']
+                    review = Review(
+                        stars=form.rating.data,
+                        text=request.form["review_text"],
+                        reviewer_id=result['_id'],
+                        reviewee_id=reviewee_id,
+                        booking=booking['_id'],
+                        listing=tour['_id'])
+                    print(review.return_obj())
+                    reviews_db.insert_one(review.return_obj())
+                    update_booking = {"$set": {
+                        'process_step': 8,
+                        'completed': 1,}}
+                    bookings_db.update_one(booking, update_booking)
+                    return redirect(url_for('bookings', book_id=str(book_id)))
             return render_template(
                 'customer/review.html',
                 booking=booking,
                 tour=tour,
                 form=form)
-    return render_template(
-        'customer/review.html',
-        booking=booking,
-        tour=tour,
-        form=form)
 
 # except BaseException:
 #     return 'Error trying to render'

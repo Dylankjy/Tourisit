@@ -50,6 +50,7 @@ class Booking:
             'customfee': float(book_customfee)}
         self.__book_info = ""
         self.__book_chat = ''
+        self.__completed = 0
 
     def set_book_datetime(self, book_date, book_time):
         try:
@@ -84,6 +85,7 @@ class Booking:
             "book_charges": self.__book_charges,
             "book_info": self.__book_info,
             "book_chat": self.__book_chat,
+            "completed": self.__completed
         }
 
 
