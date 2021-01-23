@@ -101,7 +101,7 @@ class ListingForm(FlaskForm):
     def check_time(self):
         end_idx = time_list.index(self.tour_end_time.data)
         start_idx = time_list.index(self.tour_start_time.data)
-        if end_idx <= start_idx:
+        if end_idx < start_idx:
             # Must convert to a list first (So can append) and then convert back to the tuple (original form)
             tmp = list(self.tour_end_time.errors)
             tmp.append('End time must be later than start time!')

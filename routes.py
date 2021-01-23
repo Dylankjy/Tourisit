@@ -383,15 +383,10 @@ def updatepass():
 # Home page
 @app.route('/')
 def home():
-    # Get login status using accessor argument
-    result = auth.is_auth(True)
-    user_mode = user_db.find_one({'_id': ObjectId(result['_id'])})['account_mode']
-
-    if (user_mode == -1):
-        return redirect(url_for('setAccType'))
-
+    # Get the display items first
     query = {'tour_visibility': 1}
     all_listings = [i for i in shop_db.find(query)]
+
     if all_listings:
         all_listings.reverse()
         shown_listings = []
@@ -399,19 +394,27 @@ def home():
         for i in range(6):
             shown_listings.append(all_listings[i])
 
-        # if not logged in
-        if not result:
-            return render_template('customer/index-customer.html',
-                                   item_list=shown_listings, loggedin=False)
-        # if logged in
+    else:
+        message = 'No listings yet!'
+        return redirect(url_for('show_user_message', message=message))
+
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    if result:
+        user_mode = user_db.find_one({'_id': ObjectId(result['_id'])})['account_mode']
+
+        if (user_mode == -1):
+            return redirect(url_for('setAccType'))
+
+            # if logged in
         return render_template(
             'customer/index-customer.html',
             item_list=shown_listings,
             loggedin=True,
             user=result)
 
-    message = 'No listings yet!'
-    return redirect(url_for('show_user_message', message=message))
+    return render_template('customer/index-customer.html',
+                           item_list=shown_listings, loggedin=False)
 
 # CUSTOMERS
 # Marketplace: Display all listings
@@ -612,6 +615,7 @@ def testing():
 #         return render_template('tourGuides/testTime.html', user=result, form=lForm)
 #     return render_template('tourGuides/testTime.html', user=result, form=lForm)
 
+
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
     result = auth.is_auth(True)
@@ -658,7 +662,6 @@ def makelisting():
 
                 tg_uid = result['_id']
 
-                print(tour_itinerary)
 
                 tour_listing = Listing(
                     tour_name=tour_name,
@@ -739,8 +742,7 @@ def editListing(id):
                     itinerary_form_list = request.form.getlist('tour_items_list[]')
                     tour_itinerary = formToArray(itinerary_form_list)
 
-                    locations_form_list = request.form.getlist(
-                        'tour_locations_list[]')
+                    locations_form_list = request.form.getlist('tour_locations_list[]')
                     tour_locations = formToArray(locations_form_list)
 
                     tour_revisions = request.form['tour_revisions']
