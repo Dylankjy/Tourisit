@@ -15,7 +15,7 @@ import auth as auth
 # Chat Library
 import chat as msg
 # Custom class imports
-from models.Booking import Booking, BookingForm, CustomForm, ChatForm, CheckoutForm
+from models.Booking import Booking, BookingForm, CheckoutForm, AddInfoForm
 from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm, Review
@@ -913,7 +913,7 @@ def removeWishlist(tour_id):
 
 # --------------------------------------
 
-# Chlorine (Cl) - 17, 35.5 [Halogen]
+# Chloe
 
 # CUSTOMER
 # Your Bookings: Access all bookings
@@ -960,6 +960,9 @@ def bookings(book_id):
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
+        if booking['process_step'] < 1:
+            print("access denied, pay first")
+            return redirect(url_for('checkout', book_id=book_id))
         if request.method == 'POST':
             # submit button data as a dict
             button_data = request.form.to_dict()
@@ -997,9 +1000,9 @@ def book_now(tour_id):
     # if logged in
     if result:
         bookform = BookingForm()
-        chatform = ChatForm()
-        customform = CustomForm()
         if request.method == 'POST':
+            # submit button data as a dict
+            button_data = request.form.to_dict()
             if bookform.validate_on_submit():
                 book_date = request.form["book_date"]
                 book_time = request.form["book_time"]
@@ -1017,7 +1020,7 @@ def book_now(tour_id):
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
-            elif customform.validate_on_submit():
+            elif 'CustomiseTour' in button_data.values():
                 customfee = round(0.1 * float(item['tour_price']), 2)
                 booking = Booking(
                     tg_uid=item['tg_uid'],
@@ -1034,7 +1037,7 @@ def book_now(tour_id):
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
-            elif chatform.validate_on_submit():
+            elif 'ChatFirst' in button_data.values():
                 chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
                 if not chat_list:
                     msg.create_chat_room([result['_id'], item["tg_uid"]], True)
@@ -1050,8 +1053,6 @@ def book_now(tour_id):
             loggedin=True,
             user=result,
             bookform=bookform,
-            chatform=chatform,
-            customform=customform,
             item=item,
             tour_id=tour_id)
     # if not logged in
@@ -1156,11 +1157,23 @@ def business(book_id):
         listing = shop_db.find_one({'_id': booking['listing_id']})
         # Get login status using accessor argument
         result = auth.is_auth(True)
+        # AddInfoForm = AddInfoForm()
         # if not logged in
         if not result:
             return redirect(url_for('login', denied_access=True))
         # if logged in
         else:
+            if booking['process_step'] < 1:
+                print("access denied")
+                return redirect(url_for('all_businesses'))
+            # if request.method == "POST":
+            #     if AddInfoForm.validate_on_submit():
+            #         AddInfo = request.form['AddInfo']
+            #         updated = {
+            #             "$set": {"book_info": AddInfo}
+            #         }
+            #         bookings_db.update_one(booking, updated)
+
             # Edit Itinerary Stuff
             lForm = ListingForm()
             print(booking)
@@ -1190,7 +1203,10 @@ def review(book_id):
     else:
         if reviews_db.count_documents({'booking': ObjectId(book_id)}, limit=1):
             print("live fast eat ass, you left a review, funnyman")
-            return redirect(url_for('bookings', book_id=str(book_id)))
+            return redirect(url_for('bookings', book_id=book_id))
+        elif booking['process_step'] < 7:
+            print("access denied, go on tour first")
+            return redirect(url_for('bookings', book_id=book_id))
         else:
             print("oh no u havent reviewed my guy? loooser")
             if request.method == "POST":
