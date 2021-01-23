@@ -472,6 +472,8 @@ def tourListing(tour_id):
                 # wishlist' instead of 'Add to wishlist'
                 inside_wl = str(tour_id) in loggedin_user['wishlist']
 
+                # Retrieving the list of reviews under this listing
+                reviews_list = list(reviews_db.find({'listing': ObjectId(tour_id)}))
 
                 # If it is 1, means display the listing. If 0 means make it invisible
 
@@ -483,7 +485,8 @@ def tourListing(tour_id):
                     editable=editable,
                     # userData=tg_userData,
                     inside_wl=inside_wl,
-                    display_listing=display_listing)
+                    display_listing=display_listing,
+                    reviews_list=reviews_list)
 
             return 'Listing is currently private'
 
