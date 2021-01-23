@@ -107,9 +107,9 @@
                                         {% endif %}
                                         <div class="listing-author">
                                             <div class="profile-img"
-                                                 style="background-image: url('data:image/jpeg;base64, {{ listing.tg_img }}')">
+                                                 style="background-image: url('data:image/jpeg;base64, {{ listing.tg_uid | user_pfp }}')">
                                             </div>
-                                            <div class="ml-2"><b>{{ listing.tg_name }}</b> <span>is offering:</span>
+                                            <div class="ml-2"><b>{{ listing.tg_uid | user_name }}</b> <span>is offering:</span>
                                             </div>
                                         </div>
                                         <h1 class='title'>{{ listing.tour_name }}</h1>

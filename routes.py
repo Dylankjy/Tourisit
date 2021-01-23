@@ -15,7 +15,7 @@ import auth as auth
 # Chat Library
 import chat as msg
 # Custom class imports
-from models.Booking import BookingForm, CheckoutForm, ChatForm, CustomForm, Booking
+from models.Booking import Booking, BookingForm, CustomForm, ChatForm, CheckoutForm
 from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm, Review
@@ -961,9 +961,19 @@ def bookings(book_id):
     # if logged in
     else:
         if request.method == 'POST':
-            if request.form['TourComplete_submit'] == 'TourComplete':
+            # submit button data as a dict
+            button_data = request.form.to_dict()
+            if 'SubmitRequirements' in button_data.values():
+                update_booking = {"$set": {"process_step": 2}}
+                bookings_db.update_one(booking, update_booking)
+                return redirect(url_for('bookings', book_id=book_id))
+            elif 'CompleteTour' in button_data.values():
                 update_booking = {"$set": {"process_step": 7}}
                 bookings_db.update_one(booking, update_booking)
+                return redirect(url_for('bookings', book_id=book_id))
+            # elif request.form['TourComplete_submit'] == 'TourComplete':
+            #     update_booking = {"$set": {"process_step": 7}}
+            #     bookings_db.update_one(booking, update_booking)
 
         return render_template('customer/booking.html',
                                process_step=booking['process_step'],

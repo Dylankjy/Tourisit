@@ -4,21 +4,26 @@ from flask_wtf import FlaskForm
 from wtforms import DateField, TimeField, BooleanField, SubmitField
 from wtforms.validators import InputRequired
 
-
+# Book now - default form
 class BookingForm(FlaskForm):
     book_date = DateField('book_date', validators=[InputRequired()])
     book_time = TimeField('book_time', validators=[InputRequired()])
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
     book_submit = SubmitField('Book Now')
 
+# oh no.
+# Book now - Customise tour
 class CustomForm(FlaskForm):
     submit = SubmitField('Customise Tour', validators=[InputRequired()])
 
+# Book now - Chat with TG
+class ChatForm(FlaskForm):
+    submit = SubmitField(validators=[InputRequired()])
+
+# Payment Gateway Button
 class CheckoutForm(FlaskForm):
     submit = SubmitField('Pay & Proceed')
 
-class ChatForm(FlaskForm):
-    submit = SubmitField()
 
 # add charges
 class Booking:
