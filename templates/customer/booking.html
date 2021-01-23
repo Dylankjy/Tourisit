@@ -79,118 +79,118 @@
 
     <!--START-->
     <div class="container">
-    {% if process_step == 6 %}
-                <div class="has-text-centered m-2 is-size-6">
-                    You are now ready to go for your Tour!
-                </div>
-            {% endif %}
+        {% if process_step == 6 %}
+            <div class="has-text-centered m-2 is-size-6">
+                You are now ready to go for your Tour!
+            </div>
+        {% endif %}
 
-            {% if process_step >= 7 %}
-                <div class="has-text-centered m-2 is-size-4">
-                    You have completed your Tour!
-                </div>
-            {% endif %}
-            <!--START: Steps-->
-            <div>
-                <ul class="steps has-content-centered is-small">
+        {% if process_step >= 7 %}
+            <div class="has-text-centered m-2 is-size-4">
+                You have completed your Tour!
+            </div>
+        {% endif %}
+        <!--START: Steps-->
+        <div>
+            <ul class="steps has-content-centered is-small">
 
-                    <li class="steps-segment {{ 'is-active' if (process_step == 1) }}">
+                <li class="steps-segment {{ 'is-active' if (process_step == 1) }}">
                         <span class="steps-marker {{ 'is-link' if (process_step == 1) }}">
                             {% if process_step > 1 %}
-                            <i class="fas fa-check"></i>
+                                <i class="fas fa-check"></i>
                             {% endif %}
                             <!-- <i class="fas fa-book"></i> -->
                         </span>
-                        <div class="steps-content">
-                            <p class="is-size-5 {{ 'has-text-link' if(process_step == 1) }}">Submit Requirements</p>
-                        </div>
-                    </li>
+                    <div class="steps-content">
+                        <p class="is-size-5 {{ 'has-text-link' if(process_step == 1) }}">Submit Requirements</p>
+                    </div>
+                </li>
 
-                    <li class="steps-segment {{ 'is-active' if (2 <= process_step <= 4) }}">
+                <li class="steps-segment {{ 'is-active' if (2 <= process_step <= 4) }}">
                         <span class="steps-marker {{ 'is-link' if (2 <= process_step <= 4) }}">
                             {% if process_step > 4 %}
-                            <i class="fas fa-check"></i>
+                                <i class="fas fa-check"></i>
                             {% endif %}
                             <!-- <i class="fas fa-route"></i> -->
                         </span>
-                        <div class="steps-content">
-                            <p class="is-size-5 {{ 'has-text-link' if(2 <= process_step <= 4) }}">Planning Itinerary</p>
-                        </div>
-                    </li>
+                    <div class="steps-content">
+                        <p class="is-size-5 {{ 'has-text-link' if(2 <= process_step <= 4) }}">Planning Itinerary</p>
+                    </div>
+                </li>
 
-                    <li class="steps-segment {{ 'is-active' if (process_step == 5) }}">
+                <li class="steps-segment {{ 'is-active' if (process_step == 5) }}">
                         <span class="steps-marker {{ 'is-link' if (process_step == 5) }}">
                             {% if process_step > 5 %}
-                            <i class="fas fa-check"></i>
+                                <i class="fas fa-check"></i>
                             {% endif %}
                             <!-- <i class="fas fa-dollar-sign"></i> -->
                         </span>
-                        <div class="steps-content">
-                            <p class="is-size-5 {{ 'has-text-link' if(process_step == 5) }}">Confirmation & Payment</p>
-                        </div>
-                    </li>
+                    <div class="steps-content">
+                        <p class="is-size-5 {{ 'has-text-link' if(process_step == 5) }}">Confirmation & Payment</p>
+                    </div>
+                </li>
 
-                    <li class="steps-segment {{ 'is-active' if (process_step == 6) }}">
+                <li class="steps-segment {{ 'is-active' if (process_step == 6) }}">
                         <span class="steps-marker {{ 'is-link' if (process_step == 6) }}">
                             {% if process_step > 6 %}
-                            <i class="fas fa-check"></i>
+                                <i class="fas fa-check"></i>
                             {% endif %}
                         </span>
-                        <div class="steps-content">
-                            <p class="is-size-5 {{ 'has-text-link' if(process_step == 6) }}" onclick="$('#TourCompleteModal').fadeIn('fast')"
-                            >Complete Tour</p>
-                        </div>
-                    </li>
+                    <div class="steps-content">
+                        <p class="is-size-5 {{ 'has-text-link' if(process_step == 6) }}" onclick="$('#TourCompleteModal').fadeIn('fast')"
+                        >Complete Tour</p>
+                    </div>
+                </li>
 
-                    <li class="steps-segment {{ 'is-active' if (process_step == 7) }}">
-                        <a class="{{ 'inactiveLink' if (process_step != 7) }}" href="/review/{{booking._id}}">
+                <li class="steps-segment {{ 'is-active' if (process_step == 7) }}">
+                    <a class="{{ 'inactiveLink' if (process_step != 7) }}" href="/review/{{ booking._id }}">
                             <span class="steps-marker {{ 'is-link' if(process_step == 7) }}">
                                 {% if process_step > 7 %}
-                                <i class="fas fa-check"></i>
+                                    <i class="fas fa-check"></i>
                                 {% endif %}
                                 <!-- <i class="fas fa-comments"></i> -->
                             </span>
-                            <div class="steps-content">
-                                <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7) }}">Leave Feedback</p>
-                            </div>
-                        </a>
-                    </li>
+                        <div class="steps-content">
+                            <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7) }}">Leave Feedback</p>
+                        </div>
+                    </a>
+                </li>
 
-                </ul>
-            </div>
-            <!--END: Steps-->
-            <!--START: Action req-->
-            {% if process_step == 2 or process_step == 4 %}
-                <div class="has-text-centered m-5 is-size-5">
-                    Waiting for Tour Guide to:
-                    <span class="tag is-white-ter is-size-5 is-clickable">
-                    Plan Custom Package</span>
-                </div>
-            {% elif process_step != 8 %}
-
-                <div class="has-text-centered m-5 is-size-5">
-                    Next Step:
-                    {% if process_step == 1 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
-                    Submit Requirements</span>
-                    {% elif process_step == 3 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
-                    Review Custom Itinerary & Charges</span>
-                    {% elif process_step == 5 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
-                    Make Payment</span>
-                    {% elif process_step == 6 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable"
-                        onclick="$('#TourCompleteModal').fadeIn('fast')">
-                    Complete Tour</span>
-                    {% elif process_step == 7 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable"><a href="/review/{{booking._id}}">
-                        Leave Feedback</a></span>
-                    {% endif %}
-                </div>
-            {% endif %}
-            <!--END: Action req-->
+            </ul>
         </div>
+        <!--END: Steps-->
+        <!--START: Action req-->
+        {% if process_step == 2 or process_step == 4 %}
+            <div class="has-text-centered m-5 is-size-5">
+                Waiting for Tour Guide to:
+                <span class="tag is-white-ter is-size-5 is-clickable">
+                    Plan Custom Package</span>
+            </div>
+        {% elif process_step != 8 %}
+
+            <div class="has-text-centered m-5 is-size-5">
+                Next Step:
+                {% if process_step == 1 %}
+                    <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
+                    Submit Requirements</span>
+                {% elif process_step == 3 %}
+                    <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
+                    Review Custom Itinerary & Charges</span>
+                {% elif process_step == 5 %}
+                    <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
+                    Make Payment</span>
+                {% elif process_step == 6 %}
+                    <span class="tag is-warning is-light is-size-5 is-clickable"
+                          onclick="$('#TourCompleteModal').fadeIn('fast')">
+                    Complete Tour</span>
+                {% elif process_step == 7 %}
+                    <span class="tag is-warning is-light is-size-5 is-clickable"><a href="/review/{{ booking._id }}">
+                        Leave Feedback</a></span>
+                {% endif %}
+            </div>
+        {% endif %}
+        <!--END: Action req-->
+    </div>
     <!--END-->
 
     <!--START: Tabs-->
@@ -423,116 +423,116 @@
         <!--START: Chat-->
         <div id="Chat" class="content-tab" style="display:none">
             <div class="container">
-                                            <div class="box p-0">
-                                <div class="p-5 has-background-light recipient-header">
-                                    <h2 class="title is-4 has-text-weight-bold has-text-dark">
-                                        {{ chatroom_names|safe }}
-                                    </h2>
+                <div class="box p-0">
+                    <div class="p-5 has-background-light recipient-header">
+                        <h2 class="title is-4 has-text-weight-bold has-text-dark">
+                            {{ chatroom_names|safe }}
+                        </h2>
+                    </div>
+                    <div id="messageContainer">
+                        <div class="p-5 has-background-light recipient-header-lower">
+                            <p class="subtitle has-text-grey"><i class="fas fa-heart"></i>&ensp;This is the
+                                humble
+                                beginnings of this conversation and the tippy top of it.</p>
+                        </div>
+                        <div id="messagesList" class="p-5">
+                            {% if chatroom_display|count == 0 %}
+                                <div>
+                                    <p class="has-text-centered has-text-grey has-text-weight-light is-size-5">
+                                        <span class="is-size-1"><i class="far fa-folder-open"></i></span>
+                                        <br>
+                                        <span>Looks like this chat is sparkling clean</span>
+                                        <br>
+                                        <small>This chat is empty</small>
+                                    </p>
                                 </div>
-                                <div id="messageContainer">
-                                    <div class="p-5 has-background-light recipient-header-lower">
-                                        <p class="subtitle has-text-grey"><i class="fas fa-heart"></i>&ensp;This is the
-                                            humble
-                                            beginnings of this conversation and the tippy top of it.</p>
-                                    </div>
-                                    <div id="messagesList" class="p-5">
-                                        {% if chatroom_display|count == 0 %}
-                                            <div>
-                                                <p class="has-text-centered has-text-grey has-text-weight-light is-size-5">
-                                                    <span class="is-size-1"><i class="far fa-folder-open"></i></span>
-                                                    <br>
-                                                    <span>Looks like this chat is sparkling clean</span>
-                                                    <br>
-                                                    <small>This chat is empty</small>
-                                                </p>
-                                            </div>
-                                        {% else %}
-                                            {% for i in chatroom_display %}
-                                                <div>
-                                                    <small><a href=""
-                                                              class="has-text-weight-bold">{{ i["sender_name"] }}</a>
-                                                        <span class="has-text-grey">
+                            {% else %}
+                                {% for i in chatroom_display %}
+                                    <div>
+                                        <small><a href=""
+                                                  class="has-text-weight-bold">{{ i["sender_name"] }}</a>
+                                            <span class="has-text-grey">
                                             {% if i["self"] %}
                                                 — Me
                                             {% endif %}
                                         </span>
-                                                    </small>
-                                                    <p>{{ i["msg_content"] }}</p>
-                                                    <hr>
-                                                </div>
-                                            {% endfor %}
-                                        {% endif %}
+                                        </small>
+                                        <p>{{ i["msg_content"] }}</p>
+                                        <hr>
                                     </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <script>
+                        var $target = $('#messageContainer');
+                        $($target).animate({
+                            scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
+                        }, 0);
+                    </script>
+
+                    <!--START: Input field-->
+                    <div class="field has-addons">
+                        <!-- <div class="control">
+                            <div class="dropdown post-options is-hoverable is-up">
+                                <div class="dropdown-trigger">
+                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-paperclip"></i>
+                                        </span>
+                                    </button>
                                 </div>
-
-                                <script>
-                                    var $target = $('#messageContainer');
-                                    $($target).animate({
-                                        scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
-                                    }, 0);
-                                </script>
-
-                                <!--START: Input field-->
-                                <div class="field has-addons">
-                                    <!-- <div class="control">
-                                        <div class="dropdown post-options is-hoverable is-up">
-                                            <div class="dropdown-trigger">
-                                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
-                                                    <span class="icon is-small">
-                                                        <i class="fas fa-paperclip"></i>
-                                                    </span>
-                                                </button>
-                                            </div>
-                                            <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                                                <div class="dropdown-content">
-                                                    <a class="dropdown-item">
-                                                        Quote a Tour
-                                                    </a>
-                                                    <a class="dropdown-item">
-                                                        <i class="fas fa-photo-video"></i>&ensp;Photos &
-                                                        Videos
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                    <div class="control is-expanded">
-                                        <form method="POST" style="width: 100%;"
-                                              action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
-{#                                            {{ form.csrf_token }}#}
-{#                                            <!-- <input class="input is-fullwidth" type="text" placeholder="Enter your message.." /> -->#}
-{#                                            {{ form.message(id="message", type="text", class="input is-fullwidth",#}
-{#                                    placeholder="Enter message", value="", autocomplete="off") }}#}
-                                    </div>
-                                    <div class="control">
-                                        <button type="submit" class="button is-primary">
-                                            <i class="fas fa-paper-plane"></i>
-                                        </button>
-                                        </form>
+                                <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
+                                    <div class="dropdown-content">
+                                        <a class="dropdown-item">
+                                            Quote a Tour
+                                        </a>
+                                        <a class="dropdown-item">
+                                            <i class="fas fa-photo-video"></i>&ensp;Photos &
+                                            Videos
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            <!--END: Input Field-->
-                            </div>
+                        </div> -->
+                        <div class="control is-expanded">
+                            <form method="POST" style="width: 100%;"
+                                  action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
+                                {#                                            {{ form.csrf_token }}#}
+                                {#                                            <!-- <input class="input is-fullwidth" type="text" placeholder="Enter your message.." /> -->#}
+                                {#                                            {{ form.message(id="message", type="text", class="input is-fullwidth",#}
+                                {#                                    placeholder="Enter message", value="", autocomplete="off") }}#}
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button is-primary">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--END: Input Field-->
             </div>
         </div>
-        <!--END: Chat-->
+    </div>
+    <!--END: Chat-->
 
-        <!--START: BIllinng-->
-        <div id="Billing" class="content-tab" style="display:none">
-            <div class="container mb-6">
-                {% if process_step == 3 or process_step == 4 %}
-                    <!--START: Proposed Cost-->
-                    <div>
-                        <div class="is-size-3 has-text-centered has-text-weight-semibold">Proposed Cost
-                            <span class="tag is-grey is-light">Unconfirmed</span>
-                        </div>
-                        <br>
-                        <div class="container box">
-                            <div class="heading">Tour Price</div>
-                            <div class="title">{{ booking.book_charges['baseprice'] }}</div>
-                        </div>
-                        <!-- {% if process_step >= 3 %}
+    <!--START: BIllinng-->
+    <div id="Billing" class="content-tab" style="display:none">
+        <div class="container mb-6">
+            {% if process_step == 3 or process_step == 4 %}
+                <!--START: Proposed Cost-->
+                <div>
+                    <div class="is-size-3 has-text-centered has-text-weight-semibold">Proposed Cost
+                        <span class="tag is-grey is-light">Unconfirmed</span>
+                    </div>
+                    <br>
+                    <div class="container box">
+                        <div class="heading">Tour Price</div>
+                        <div class="title">{{ booking.book_charges['baseprice'] }}</div>
+                    </div>
+                    <!-- {% if process_step >= 3 %}
                             <div class="container box">
                                 <div class="heading">Add-ons</div>
                                 <table class="table is-fullwidth">
@@ -564,67 +564,67 @@
                                 </table>
                             </div>
                         {% endif %} -->
-                    </div>
-                    <!--END: Proposed Cost-->
-                {% endif %}
-                <div class="columns">
-                    <div class="column">
-                        <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
-                        <br>
-                        {% if booking.book_charges['customfee'] != 0 %}
-                            <div class="container box">
-                                <div class="heading">Customisation Fee</div>
-                                <div class="title">${{ booking.book_charges['customfee'] }} <span
-                                        class="tag is-success is-light">Paid</span></div>
-                            </div>
-                        {% endif %}
-                        {% if process_step >= 5 %}
-                            <div class="container box">
-                                <div class="heading">Tour Price</div>
-                                <div class="title">${{ booking.book_charges['baseprice'] }}
-                                    {% if process_step > 5 %}
-                                        <span class="tag is-success is-light">Paid</span>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="column">
-                        <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Summary</h1>
-                        <br>
-                        {% if process_step < 5 %}
-                            <div class="container box">
-                                <div class="heading">Total Cost</div>
-                                To-Be Confirmed
-                            </div>
-                        {% elif process_step >= 5 %}
-                            <div class="container box">
-                                <div class="heading">Total Cost</div>
-                                <div class="title">
-                                    ${{ booking.book_charges['baseprice']+booking.book_charges['customfee'] }}
-                                    {% if process_step >=6 %}
-                                        <span class="tag is-success is-light">Paid</span>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
                 </div>
-                {% if process_step == 5 %}
-                    <!--START: Payment button-->
-                    <div class="field is-grouped is-grouped-right">
-                        <p class="control">
-                            <button class="button is-success is-light">
-                        <div class="is-size-4">Make Payment</div>
-                        <br>
-                        </button>
-                        </p>
-                    </div>
-                    <!--END: Payment button-->
-                {% endif %}
+                <!--END: Proposed Cost-->
+            {% endif %}
+            <div class="columns">
+                <div class="column">
+                    <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
+                    <br>
+                    {% if booking.book_charges['customfee'] != 0 %}
+                        <div class="container box">
+                            <div class="heading">Customisation Fee</div>
+                            <div class="title">${{ booking.book_charges['customfee'] }} <span
+                                    class="tag is-success is-light">Paid</span></div>
+                        </div>
+                    {% endif %}
+                    {% if process_step >= 5 %}
+                        <div class="container box">
+                            <div class="heading">Tour Price</div>
+                            <div class="title">${{ booking.book_charges['baseprice'] }}
+                                {% if process_step > 5 %}
+                                    <span class="tag is-success is-light">Paid</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="column">
+                    <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Summary</h1>
+                    <br>
+                    {% if process_step < 5 %}
+                        <div class="container box">
+                            <div class="heading">Total Cost</div>
+                            To-Be Confirmed
+                        </div>
+                    {% elif process_step >= 5 %}
+                        <div class="container box">
+                            <div class="heading">Total Cost</div>
+                            <div class="title">
+                                ${{ booking.book_charges['baseprice']+booking.book_charges['customfee'] }}
+                                {% if process_step >=6 %}
+                                    <span class="tag is-success is-light">Paid</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
+            {% if process_step == 5 %}
+                <!--START: Payment button-->
+                <div class="field is-grouped is-grouped-right">
+                    <p class="control">
+                        <button class="button is-success is-light">
+                    <div class="is-size-4">Make Payment</div>
+                    <br>
+                    </button>
+                    </p>
+                </div>
+                <!--END: Payment button-->
+            {% endif %}
         </div>
-        <!--END: Billing-->
+    </div>
+    <!--END: Billing-->
 
     </div>
     <!--END: Content-->
