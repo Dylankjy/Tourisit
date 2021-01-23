@@ -4,6 +4,15 @@
     <link rel="stylesheet" href="/css/global/shop.css">
     <link rel="stylesheet" href="/css/pages/discover.css">
     <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <style>
+        .center-gif {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+    </style>
+
     <script>
         receiveSearch = (query) => {
             $.ajax({
@@ -42,10 +51,10 @@
                             <p class="control has-icons-left has-icons-right">
                                 <input id="searchReq" class="input is-fullwidth" type="text"
                                        placeholder="Look for a tour"
-                                       onkeyup="receiveSearch(this.value)">
+                                       >
                                 <span class="icon is-small is-left">
-                                <i class="fas fa-search"></i>
-                            </span>
+                                    <i class="fas fa-search"></i>
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -59,7 +68,7 @@
         </div>
     </section>
 
-    <section class='section'>
+    <!-- <section class='section'>
         <div class='container'>
             <div class="dropdown is-hoverable is-pulled-right">
                 <div class="dropdown-trigger">
@@ -95,11 +104,21 @@
                 </div>
             </div>
         </div>
+    </section> -->
+
+    <section class='section loading-screen'>
+        <div class='container'>
+            <img class='center-gif' id="loading-image" src="/imgs/loading-search.gif">
+            <br>
+            <p class='subtitle has-text-centered'>
+                Searching for listing
+            </p>
+        </div>
     </section>
 
 
 
-    <section class="section">
+    <section class="section prod-cards">
         <div class="container">
             <div class="columns is-multiline" id='displayListings'>
                 {% include 'components/listing-card.html' %}
@@ -107,9 +126,38 @@
         </div>
     </section>
 
-    <!-- <script>
-            window.onload = liveSearch('')
-        </script> -->
+    <script>
+        var searchbox = document.getElementById('searchReq')
+        var timetostop = 1000
+        var timeout = null
+
+        // Listen for keystroke events
+        searchbox.addEventListener('keyup', function (e) {
+                // Clear the timeout
+                // Don't query the database if there is input (Since the timeout function will be gone when there is input detected, with a new timeout function initiated)
+                clearTimeout(timeout);
+                $('.loading-screen').show()
+                $('.prod-cards').hide()
+
+                // Make a new timeout set to go off in 1000ms (1 second). 
+                // If there is no keyup in the next 1 second, then the timeout function will execute (Search the database)
+                timeout = setTimeout(function () {
+                    receiveSearch(searchbox.value);
+                    
+                    // Set a timeout of 0.6 seconds. As it takes time for the product cards to update (Based on the quering from the database)
+                    setTimeout(()=>{
+                        $('.loading-screen').hide()
+                        $('.prod-cards').show()
+                    }, 650)
+                    
+            }, timetostop);
+        });
+
+
+        $(window).load(function() {
+            $('.loading-screen').hide();
+        });
+    </script>
 
 
 {% endblock %}
