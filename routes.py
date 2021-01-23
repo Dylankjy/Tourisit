@@ -247,7 +247,7 @@ def accountinfo():
         id = result["_id"]
         item = user_db.find_one({'_id': ObjectId(id)})
         if request.method == 'POST':
-            if uForm.validate_on_submit():
+            if "user-submit" in request.form and uForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
                 name = request.form['name']
                 profile_img = request.files['profile_img']
@@ -291,7 +291,7 @@ def accountinfo():
                 return render_template(
                     'success-user.html', user=item, id=id, loggedin=True)
 
-            elif pForm.validate_on_submit():
+            elif "submit-change-pass" in request.form and pForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
                 old_password = request.form['old_password']
                 password = request.form['password']
@@ -304,11 +304,11 @@ def accountinfo():
                         }
                     }
                     user_db.update_one(query_user, updated)
+                    # flash('Your expense has been created!', 'success')
                     return render_template(
                         'success-support.html', user=item, id=id, loggedin=True)
                 else:
-                    return render_template(
-                        'setting.html', user=item, id=id, loggedin=True)
+                    return render_template('setting.html', user=item, id=id, loggedin=True)
             return render_template(
                 'setting.html',
                 user=item,
