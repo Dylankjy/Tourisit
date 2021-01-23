@@ -416,7 +416,7 @@
                 <div class="field">
                     <div class="control">
                         <input type='submit' value='List tour' id="tour-submit" name="tour-submit"
-                            class="button is-success" onclick=UpdateItems();AppendtoDay()>
+                            class="button is-success" onclick=UpdateItems();AppendtoDay();>
                     </div>
                 </div>
 
@@ -450,6 +450,10 @@
     $('#makeListingForm').submit(() => {
         loopPushTimings()
         AppendtoTimings()
+
+        if (itemList === undefined || itemList.length == 0) {
+            return false
+        }
 
 
         // if (validateDays == true) {
