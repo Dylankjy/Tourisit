@@ -1,5 +1,7 @@
 from io import BytesIO
 
+from models.Format import ObjectId
+
 import pymongo
 
 buffered = BytesIO()
@@ -13,16 +15,22 @@ client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_
 # tg_uid = '5fde1b5bdf4fe3bc527058f1'
 # tour_img = 'hi'
 
-db = client['Listings']
+db = client['Chats']
 
 # x = list(db.find({"$sample": {"size":1}}))
 
-query = [{"$match": {"tour_visibility": 1}},
-         {"$sample": {"size": 1}}]
+# query = [{"$match": {"participants": 1}},
+#          {"$sample": {"size": 1}}]
 
-x = list(db.aggregate(query))[0]
+user = ObjectId('600666f7ccab3b102fce39fb')
+tg = ObjectId('5feafbbf4dbad8d4b8614958')
 
-print(x['_id'])
+
+query = {'participants': {"$in": [tg, user]}, 'chat_type': 'UwU'}
+x = list(db.find(query))
+
+print(x[0]['_id'])
+
 # query = {}
 # x = list(db.find(query))
 #
