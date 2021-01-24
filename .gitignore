@@ -130,3 +130,6 @@ dmypy.json
 
 # pyCharm
 .idea/
+
+# Ignore directories
+tmp_data

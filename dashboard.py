@@ -1,3 +1,7 @@
+import hashlib
+import uuid
+from datetime import datetime
+
 import pymongo
 import xlsxwriter
 
@@ -11,6 +15,8 @@ client = pymongo.MongoClient(
 
 # Collections
 db_dashboard = client['Dashboard']
+db_transactions = client['Transactions']
+
 
 def get_data_for_tg(uid):
     """
@@ -23,10 +29,10 @@ def get_data_for_tg(uid):
     }
 
     result = [i for i in db_dashboard.find(query)]
-    
+
     return result[0]
-    
-    
+
+
 def create_index(uid):
     """
     Create a new index for tour guide (used when one doesn't already exist)
@@ -52,6 +58,7 @@ def create_index(uid):
 
     return True
 
+
 def update_index(uid, new_data):
     """
     Update earnings
@@ -73,7 +80,66 @@ def update_index(uid, new_data):
 
     return payload
 
+
 def generate_report(uid):
+    # Generate random string for download file
+    raw_sid = ""
+    # Using UUID4 to generate random strings
+    for i in range(10):
+        raw_sid += str(uuid.uuid4())
+
+    # Generate even more random SID by using SHA3-512
+    token_value = hashlib.sha3_512(raw_sid.encode('utf-8')).hexdigest()
+
     # Create a workbook and add a worksheet.
-    workbook = xlsxwriter.Workbook('Expenses01.xlsx')
+    workbook = xlsxwriter.Workbook('tmp_data/Expenses01.xlsx')
     worksheet = workbook.add_worksheet()
+
+    # Start from the first cell. Rows and columns are zero indexed.
+    row = 0
+    col = 0
+
+    query_uid = {
+        "tg_uid": ObjectId(uid)
+    }
+
+    data_for_input = [
+        ['Listing Name', 'Timestamp', 'Total Earned', 'Payment Status']
+    ]
+
+    # Get all in relates to UID from Transaction database
+    transactions = [i for i in db_transactions.find(query_uid)]
+
+    for transaction in transactions:
+        # query_listing_for_name = {
+        #     "tour_name": transaction['']
+        # }
+
+        listing_name = str(transaction['booking'])
+
+        date_paid = datetime.fromisoformat(transaction["date_paid"]).strftime('%d %B %Y @ %X')
+
+        if transaction['pay_status'] == 0:
+            pay_status = "Pending"
+        else:
+            pay_status = "Completed"
+
+        data_for_input.append(
+            [listing_name, date_paid, float(transaction["earnings"]), pay_status]
+        )
+
+    for listing_name, timestamp, total_payable, payment_status in data_for_input:
+        worksheet.write(row, col, listing_name)
+        worksheet.write(row, col + 1, timestamp)
+        worksheet.write(row, col + 2, total_payable)
+        worksheet.write(row, col + 3, payment_status)
+        row += 1
+
+    # Write a total using a formula.
+    worksheet.write(row, 0, 'Total')
+    worksheet.write(row, 2, '=SUM(C2:C{bottom})'.format(bottom=row))
+
+    workbook.close()
+
+
+generate_report("5feafbbf4dbad8d4b8614958")
