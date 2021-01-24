@@ -325,14 +325,14 @@ def accountinfo():
                 form1=pForm,
                 loggedin=True)
 
-        # Else if not logged in
-        else:
-            return render_template(
-                'setting.html',
-                user=item,
-                form=uForm,
-                form1=pForm,
-                loggedin=True)
+        # Else if not logged in. May be redundant due to the else statement at the bottom alr
+        # else:
+        #     return render_template(
+        #         'setting.html',
+        #         user=item,
+        #         form=uForm,
+        #         form1=pForm,
+        #         loggedin=True)
 
     else:
         # Render the pls log in template here
@@ -567,7 +567,7 @@ def makelisting():
     result = auth.is_auth(True)
     # If result is not None (User is logged in)
     if result:
-        userData = user_db.find_one({'_id': result['_id']})
+        userData = user_db.find_one({'_id': ObjectId(result['_id'])})
         # Use this, don't hard code the values
         userImg = userData['profile_img']
         userName = userData['name']
