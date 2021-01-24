@@ -256,7 +256,7 @@ def accountinfo():
         id = result["_id"]
         item = user_db.find_one({'_id': ObjectId(id)})
         if request.method == 'POST':
-            if "user-submit" in request.form and uForm.validate_on_submit():
+            if "submit-setting" in request.form and uForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
                 name = request.form['name']
                 profile_img = request.files['profile_img']
