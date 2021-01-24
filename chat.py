@@ -72,7 +72,7 @@ def get_chat_list_for_ui(sid, chat_type):
         '$and': [
             {
                 'participants': {
-                    "$in": [uid]
+                    "$in": [ObjectId(uid)]
                 }
             }
         ]

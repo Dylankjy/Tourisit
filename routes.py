@@ -60,6 +60,7 @@ bookings_db = client['Bookings']
 support_db = client['Support']
 transaction_db = client['Transactions']
 reviews_db = client['Reviews']
+chats_db = client['Chats']
 
 
 # Good Stuff
@@ -920,7 +921,20 @@ def chatwithGuide(tour_id):
     if result:
         browsing_user_id = result['_id']
         tour_guide_id = shop_db.find_one({'_id': ObjectId(tour_id)})['tg_uid']
-        #Create UwU chat
+        browsing_object_id = ObjectId(browsing_user_id)
+        tg_object_id = ObjectId(tour_guide_id)
+        # Check if there are any existing UwU chats between these 2 people
+        query = {'participants': {"$in": [browsing_object_id, tg_object_id]}, 'chat_type': 'UwU'}
+        chats = list(chats_db.find(query))
+        #Boolean to check if a chat exists
+        existing_chat = len(chats) > 0
+
+        #Redirect to existing chat if it exists
+        if existing_chat:
+            existing_chat_id = chats[0]['_id']
+            return redirect(url_for('chat_room', room_id=existing_chat_id))
+
+        #If doesnt exist, create new UwU chat
         chat_id = msg.create_chat_room([browsing_user_id, tour_guide_id], False)
         return redirect(url_for('chat_room', room_id=chat_id))
 
@@ -1507,7 +1521,7 @@ def chat():
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
-        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
+        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'ALL')
         return render_template(
             'chat.html',
             loggedin=True,
@@ -1536,7 +1550,7 @@ def chat_room(room_id):
                     auth.get_sid(),
                     chat_form.data["message"]))
 
-        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
+        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'ALL')
         chat_room_messages = msg.get_chat_room(auth.get_sid(), room_id)
 
         if not chat_room_messages:
