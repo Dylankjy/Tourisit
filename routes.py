@@ -236,15 +236,6 @@ def profile(user_id):
             editable=editable,
             profile_img=profile_img)
 
-    #What do you need this one for?
-    # else:
-    #     return render_template(
-    #         'profile.html',
-    #         form=bForm,
-    #         logged_in=True,
-    #         item=item,
-    #         editable=editable,
-    #         profile_img=profile_img)
 # SHARED
 # USER SETTINGS AND CHANGE PASSWORD
 @app.route('/me/settings', methods=['GET', 'POST'])

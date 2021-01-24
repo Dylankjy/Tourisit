@@ -43,14 +43,17 @@
                                         <textarea class="bio textarea" readonly>{{ user.bio }}</textarea>
                                     </div>
                                 {% endif %}
-                                <div class="control">
-                                    {{ form.bio(id="bio", type="textarea", class="input", rows="5", style="height:160px;") }}
-                                    <ul>
-                                        {% for error in form.bio.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                                {% if editable==True %}
+                                    <div class="control">
+                                        {{ form.bio(id="bio", type="textarea", class="input", rows="5", style="height:160px;") }}
+                                        <ul>
+                                            {% for error in form.bio.errors %}
+                                                <li class="has-text-danger"> {{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+
                             </div>
                             {% if editable %}
                                 <div class="field is-small has-text-right">
