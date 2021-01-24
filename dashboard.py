@@ -1,4 +1,5 @@
 import pymongo
+import xlsxwriter
 
 # MongoDB connection string
 from bson import ObjectId
@@ -72,3 +73,7 @@ def update_index(uid, new_data):
 
     return payload
 
+def generate_report(uid):
+    # Create a workbook and add a worksheet.
+    workbook = xlsxwriter.Workbook('Expenses01.xlsx')
+    worksheet = workbook.add_worksheet()
