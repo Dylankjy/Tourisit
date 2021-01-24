@@ -17,12 +17,13 @@ class CheckoutForm(FlaskForm):
 
 # Additional Info form field
 class AddInfoForm(FlaskForm):
-    AddInfo = TextAreaField(
-        "AddInfo",
-        validators=[
-            Length(min=0, max=75, message="pp small")
-        ]
-    )
+    AddInfo = TextAreaField("AddInfo",validators=[Length(min=0, max=75, message="")])
+
+# Request Revisions form
+class RevisionForm(FlaskForm):
+    revision_text = TextAreaField("revision_text",validators=[Length(min=0, max=75, message="")])
+    submit = SubmitField("Request a Revision", validators=[InputRequired()])
+
 
 class Booking:
     def __init__(
@@ -36,6 +37,7 @@ class Booking:
             book_customfee,
             book_duration,
             timeline_content,
+            revisions,
             process_step,
     ):
         self.__tg_uid = tg_uid
@@ -47,13 +49,15 @@ class Booking:
         # self.set_book_datetime(book_date, book_time)
         self.__book_duration = book_duration
         self.__timeline_content = timeline_content
+        self.__revisions = revisions
         self.__process_step = process_step
         self.__book_charges = {
             'baseprice': float(book_baseprice),
             'customfee': float(book_customfee)}
         self.__book_info = ""
-        self.__book_chat = ''
+        self.__book_chat = ""
         self.__completed = 0
+        self.__revision_text = ""
 
     def set_book_datetime(self, book_date, book_time):
         try:
@@ -84,10 +88,12 @@ class Booking:
             # "book_datetime": self.__book_datetime,
             "book_duration": self.__book_duration,
             "timeline_content": self.__timeline_content,
+            "revisions": self.__revisions,
             "process_step": self.__process_step,
             "book_charges": self.__book_charges,
             "book_info": self.__book_info,
             "book_chat": self.__book_chat,
+            "revision_text": self.__revision_text,
             "completed": self.__completed
         }
 
