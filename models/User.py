@@ -74,7 +74,6 @@ class UserForm(FlaskForm):
     phone_number = StringField(
         "phone_number",
         validators=[
-            InputRequired(),
             Length(min=8, max=8, message="Phone number can only be 8 long"),
         ],
     )
