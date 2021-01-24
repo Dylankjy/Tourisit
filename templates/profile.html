@@ -30,17 +30,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
+                    <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');"></div>
                     <br>
-                    <p class="title is-5 is-spaced has-text-centered">{{ user.name }}</p>
-                    <form class="form-horizontal" action="/users/{{ user._id }}" method="POST">
+                    <p class="title is-5 is-spaced has-text-centered">{{ person.name }}</p>
+                    <form class="form-horizontal" action="/users/{{ person._id }}" method="POST">
                         {{ form.csrf_token }}
                         <fieldset>
                             <div class="field">
                                 <label class="label" for="bio">Bio:</label>
                                 {% if editable==False %}
                                     <div class="control">
-                                        <textarea class="bio textarea" readonly>{{ user.bio }}</textarea>
+                                        <textarea class="bio textarea" readonly>{{ person.bio }}</textarea>
                                     </div>
                                 {% endif %}
                                 {% if editable==True %}
@@ -67,7 +67,7 @@
 
                         </fieldset>
                     </form>
-                    {% if user.verified == 1 %}
+                    {% if person.verified == 1 %}
                         <span class="tag is-success">Verified</span>
                     {% endif %}
                 </div>
@@ -78,7 +78,7 @@
 
         <!-- Content -->
         <div class="column mt-6 pt-6">
-            <h1 class='title has-text-centered'>{{ user.name }} Offered Tours</h1>
+            <h1 class='title has-text-centered'>{{ person.name }} Offered Tours</h1>
             <div class="columns">
                 <div class="column">
                     <!-- START: Vertical Card -->
@@ -87,7 +87,7 @@
                         <div class="ml-4">
                             <div class="mb-2 listing-author">
                                 <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>{{ user.name }}</b> is offering:</div>
+                                <div class="ml-2"><b>{{ person.name }}</b> is offering:</div>
                             </div>
                             <h1 class='title is-4'>Bishan Nightlife</h1>
                             <p class="subtitle is-6">Explore the night life of Bishan</p>
@@ -160,7 +160,7 @@
             </div>
             <!--Reviews-->
             <h1 class='title has-centered'>
-                <a href="#reviews">{{ user.name }} Reviews</a></h1>
+                <a href="#reviews">{{ person.name }} Reviews</a></h1>
             <div class="box">
 
                 <article class="media">
