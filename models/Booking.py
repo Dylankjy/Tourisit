@@ -1,13 +1,14 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField
+from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField
 from wtforms.validators import InputRequired, Length
 
 # Book now - default form
 class BookingForm(FlaskForm):
     book_date = DateField('book_date', validators=[InputRequired()])
     book_time = TimeField('book_time', validators=[InputRequired()])
+    book_timeslot = RadioField('book_timeslot', validators=[InputRequired()])
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
     book_submit = SubmitField('Book Now')
 

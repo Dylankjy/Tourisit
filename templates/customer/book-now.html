@@ -5,6 +5,10 @@
 {% block scripts %}
     <link rel="stylesheet" href="/css/global/shop.css">
     <link rel="stylesheet" href="/css/frameworks/bulma-divider.css">
+    <link rel="stylesheet" href='/css/pages/booking.css'>
+    <link href="/css/frameworks/bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet">
+    <script src="/css/frameworks/bulma-calendar/dist/js/bulma-calendar.min.js"></script>
+
 {% endblock %}
 
 
@@ -116,7 +120,7 @@
                         <div class="field">
                             <label class="label">Select Time</label>
                             <div class="control">
-                                {{ bookform.book_time(id="book_time", type="time", class="input") }}
+                                {{ bookform.book_timeslot(id="book_timeslot", class="input timeslot_button") }}
                                 <!--<input class="input" type="time" placeholder="">-->
                             </div>
                         </div>
@@ -152,4 +156,27 @@
             </div>
         </div>
     </section>
+
+
+    <script>
+        // Initialize all input of type date
+        var calendars = bulmaCalendar.attach('[type="date"]', options);
+
+        // Loop on each calendar initialized
+        for(var i = 0; i < calendars.length; i++) {
+            // Add listener to select event
+            calendars[i].on('select', date => {
+                console.log(date);
+            });
+        }
+
+        // To access to bulmaCalendar instance of an element
+        var element = document.querySelector('#my-element');
+        if (element) {
+            // bulmaCalendar instance is available as element.bulmaCalendar
+            element.bulmaCalendar.on('select', function(datepicker) {
+                console.log(datepicker.data.value());
+            });
+        }
+    </script>
 {% endblock %}

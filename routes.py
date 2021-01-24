@@ -999,6 +999,9 @@ def book_now(tour_id):
     # if logged in
     if result:
         bookform = BookingForm()
+
+        #Do custom rendering to bookform for date and time rendering
+        bookform.book_timeslot.choices = item['tour_time']
         if request.method == 'POST':
             # submit button data as a dict
             button_data = request.form.to_dict()
