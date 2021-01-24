@@ -11,39 +11,19 @@
 {% block content %}
     <div class="columns" id="profile">
         <!-- Side Profile Page -->
-        <div class="column is-one-quarter mt-6">
-            <div class="section">
-                <div class="box is-centered">
-                    <div class="dropdown post-options is-hoverable is-right is-pulled-right">
-                        <div class="dropdown-trigger">
-                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
-                        <span class="icon is-small">
-                            <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
-                        </span>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                            <div class="dropdown-content">
-                                <a href="{{ url_for('support') }}" class="dropdown-item">
-                                    Report Abuse
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');"></div>
-                    <br>
-                    <p class="title is-5 is-spaced has-text-centered">{{ person.name }}</p>
-                    <form class="form-horizontal" action="/users/{{ person._id }}" method="POST">
-                        {{ form.csrf_token }}
-                        <fieldset>
-                            <div class="field">
-                                <label class="label" for="bio">Bio:</label>
-                                {% if editable==False %}
-                                    <div class="control">
-                                        <textarea class="bio textarea" readonly>{{ person.bio }}</textarea>
-                                    </div>
-                                {% endif %}
-                                {% if editable==True %}
+        <!-- If user is viewing his own profile -->
+        {% if editable==True %}
+            <div class="column is-one-quarter mt-6">
+                <div class="section">
+                    <div class="box is-centered">
+                        <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
+                        <br>
+                        <p class="title is-5 is-spaced has-text-centered">{{ user.name }}</p>
+                        <form class="form-horizontal" action="/users/{{ user._id }}" method="POST">
+                            {{ form.csrf_token }}
+                            <fieldset>
+                                <div class="field">
+                                    <label class="label" for="bio">Bio:</label>
                                     <div class="control">
                                         {{ form.bio(id="bio", type="textarea", class="input", rows="5", style="height:160px;") }}
                                         <ul>
@@ -52,10 +32,7 @@
                                             {% endfor %}
                                         </ul>
                                     </div>
-                                {% endif %}
-
-                            </div>
-                            {% if editable %}
+                                </div>
                                 <div class="field is-small has-text-right">
                                     <label class="label" for="bio-submit"></label>
                                     <div class="control">
@@ -63,18 +40,53 @@
                                                class="button is-success">
                                     </div>
                                 </div>
-                            {% endif %}
-
-                        </fieldset>
-                    </form>
-                    {% if person.verified == 1 %}
-                        <span class="tag is-success">Verified</span>
-                    {% endif %}
+                            </fieldset>
+                        </form>
+                        {% if person.verified == 1 %}
+                            <span class="tag is-success">Verified</span>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
+        {% endif %}
 
-        </div>
-
+        <!-- If user is viewing someone else profile-->
+        {% if editable==False %}
+            <div class="column is-one-quarter mt-6">
+                <div class="section">
+                    <div class="box is-centered">
+                        <div class="dropdown post-options is-hoverable is-right is-pulled-right">
+                            <div class="dropdown-trigger">
+                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
+                                <div class="dropdown-content">
+                                    <a href="{{ url_for('support') }}" class="dropdown-item">
+                                        Report Abuse
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');"></div>
+                        <br>
+                        <p class="title is-5 is-spaced has-text-centered">{{ person.name }}</p>
+                        <div class="field">
+                            <label class="label" for="bio">Bio:</label>
+                            <div class="control">
+                                <textarea class="bio textarea" readonly>{{ person.bio }}</textarea>
+                            </div>
+                        </div>
+                        {% if person.verified == 1 %}
+                            <span class="tag is-success">Verified</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
         <!-- Content -->
         <div class="column mt-6 pt-6">
@@ -98,8 +110,8 @@
                             <br>
                         </div>
                         <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i
-                                    class="fas fa-heart-broken"></i>&ensp;Remove from wishlist</a>
+                            <a class="button is-white" style="color:rgb(226, 48, 78)">
+                                <i class="fas fa-heart-broken"></i>&ensp;Remove from wishlist</a>
                             <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
                         </div>
                     </div>

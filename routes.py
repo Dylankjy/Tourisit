@@ -196,14 +196,11 @@ def profile(user_id):
     bForm = BioForm()
     # Find who is it from user_id
     person = user_db.find_one({'_id': ObjectId(user_id)})
-
     result = auth.is_auth(True)
     # Find who is it from result
-    user = user_db.find_one({'_id': ObjectId(result['_id'])})
-
     if result:
-        editable = result['_id'] != user['_id']
-        print(editable)
+        # Boolean, will be editable if person is the owner of the listing
+        editable = person['_id'] == result['_id']
         if request.method == 'POST':
             if bForm.validate_on_submit():
                 query_user = {'_id': ObjectId(result['_id'])}
@@ -215,7 +212,7 @@ def profile(user_id):
 
             return render_template(
                 'profile.html',
-                user=user,
+                user=result,
                 person=person,
                 form=bForm,
                 loggedin=True,
@@ -225,13 +222,13 @@ def profile(user_id):
             bForm.process()
             return render_template(
                 'profile.html',
-                user=user,
+                user=result,
                 person=person,
                 form=bForm,
                 loggedin=True,
                 editable=editable)
     else:
-        editable = True
+        editable = False
         profile_img = person['profile_img']
 
     # if not result:
