@@ -3,7 +3,7 @@ from datetime import datetime
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, TextAreaField, SelectField, PasswordField
-from wtforms.validators import InputRequired, Length, ValidationError, EqualTo
+from wtforms.validators import InputRequired, Length, ValidationError, EqualTo, Optional
 
 import auth as auth
 from models.Format import file_to_base64
@@ -29,7 +29,6 @@ def password_check(form, field):
     else:
         return False
 
-
 class PasswordForm(FlaskForm):
     old_password = PasswordField(
         'old_password',
@@ -48,8 +47,14 @@ class PasswordForm(FlaskForm):
     )
     confirm = PasswordField('Repeat Password')
 
-
 class UserForm(FlaskForm):
+    account_mode = SelectField(
+        "account_mode",
+        choices=[(0, 'Tourist'), (1, 'Tour Guide')],
+        validators=[
+            InputRequired()
+        ],
+    )
     name = StringField(
         "name",
         validators=[
@@ -74,12 +79,14 @@ class UserForm(FlaskForm):
     phone_number = StringField(
         "phone_number",
         validators=[
+            Optional(),
             Length(min=8, max=8, message="Phone number can only be 8 long"),
         ],
     )
     fb = StringField(
         "fb",
         validators=[
+            Optional(),
             Length(max=200, message='Input a valid Facebook link!'),
             fb_check
         ],
@@ -87,6 +94,7 @@ class UserForm(FlaskForm):
     insta = StringField(
         "insta",
         validators=[
+            Optional(),
             Length(max=200, message="Input a valid Instagram link!"),
             insta_check
         ],
@@ -94,15 +102,9 @@ class UserForm(FlaskForm):
     linkedin = StringField(
         "linkedin",
         validators=[
+            Optional(),
             Length(max=200, message="Input a valid Instagram link!"),
             linkedin_check
-        ],
-    )
-    account_mode = SelectField(
-        "account_mode",
-        choices=[(0, 'Tourist'), (1, 'Tour Guide')],
-        validators=[
-            InputRequired()
         ],
     )
 
@@ -183,7 +185,11 @@ class User:
         # -1 = new account
         # 0 = tourist
         # 1 = tour guide
-        self.__account_mode = account_mode
+        self.__account_mode = ''
+        self.set_account_mode(account_mode)
+
+        # 0 = not verified
+        # 1 = verified
         self.__verified = verified
         # Generate timestamp in ISO format
         date = datetime.now()
@@ -229,6 +235,9 @@ class User:
 
     def set_profile_img(self, profile_img):
         self.__profile_img = profile_img
+
+    def set_account_mode(self, account_mode):
+        self.__account_mode = account_mode
 
     def return_obj(self):
         return {

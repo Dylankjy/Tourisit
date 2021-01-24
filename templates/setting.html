@@ -41,7 +41,7 @@
                         <fieldset>
                             <div class="field">
                                 <label class="label" for="account_mode">Account Mode</label>
-                                <div class="control">
+                                <div class="umode control">
                                     {{ form.account_mode(id="account_mode", type="select", class="input") }}
                                     <ul>
                                         {% for error in form.account_mode.errors %}
@@ -94,7 +94,7 @@
                             <div class="field">
                                 <label class="label" for="password">Password:
                                     <input class="button is-primary" type="button" id="openbtn" name="openbtn" value="Change Password" onclick="$('#ChangePasswordModal').fadeIn('fast'); return false;">
-{#                                    <button class="button is-danger " >Change Password</button>#}
+                                    {#                                    <button class="button is-danger " >Change Password</button>#}
                                 </label>
                             </div>
 

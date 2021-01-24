@@ -21,7 +21,7 @@ from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm, Review
 from models.Support import SupportForm, Support
 from models.Transaction import Transaction
-from models.User import BioForm, PasswordForm, UserForm
+from models.User import BioForm, PasswordForm, UserForm, User
 
 # For Images
 buffered = BytesIO()
@@ -258,6 +258,7 @@ def accountinfo():
         if request.method == 'POST':
             if "submit-setting" in request.form and uForm.validate_on_submit():
                 query_user = {'_id': ObjectId(id)}
+                account_mode = int(request.form['account_mode'])
                 name = request.form['name']
                 profile_img = request.files['profile_img']
                 img_string = img_to_base64(profile_img)
@@ -266,8 +267,7 @@ def accountinfo():
                 fb = request.form['fb']
                 insta = request.form['insta']
                 linkedin = request.form['linkedin']
-                account_mode = int(request.form['account_mode'])
-                if img_string == '':
+                if img_string == '' or fb == '' or insta == '' or linkedin == '':
                     img_string = item['profile_img']
                     updated = {
                         "$set": {
