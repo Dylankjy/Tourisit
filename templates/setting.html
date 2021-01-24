@@ -181,7 +181,7 @@
                     <div class="field">
                         <label class="label" for="old_password">Current Password:</label>
                         <div class="control">
-                            {{ form1.old_password(id="old_password", type="text", class="input") }}
+                            {{ form1.old_password(id="old_password", type="password", class="input") }}
                             <ul>
                                 {% for error in form1.old_password.errors %}
                                     <li class="has-text-danger"> {{ error }}</li>
@@ -192,7 +192,7 @@
                     <div class="field">
                         <label class="label" for="password">New Password:</label>
                         <div class="control">
-                            {{ form1.password(id="password", type="text", class="input") }}
+                            {{ form1.password(id="password", type="password", class="input") }}
                             <ul>
                                 {% for error in form1.password.errors %}
                                     <li class="has-text-danger"> {{ error }}</li>
@@ -203,7 +203,7 @@
                     <div class="field">
                         <label class="label" for="confirm">Confirm New Password:</label>
                         <div class="control">
-                            {{ form1.confirm(id="confirm", type="text", class="input") }}
+                            {{ form1.confirm(id="confirm", type="password", class="input") }}
                             <ul>
                                 {% for error in form1.confirm.errors %}
                                     <li class="has-text-danger"> {{ error }}</li>
