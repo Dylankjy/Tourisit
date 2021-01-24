@@ -160,7 +160,7 @@
 
     <script>
         // Initialize all input of type date
-        var calendars = bulmaCalendar.attach('[type="date"]', options);
+        var calendars = bulmaCalendar.attach('#book_date', options);
 
         // Loop on each calendar initialized
         for(var i = 0; i < calendars.length; i++) {
@@ -171,7 +171,7 @@
         }
 
         // To access to bulmaCalendar instance of an element
-        var element = document.querySelector('#my-element');
+        var element = document.querySelector('#book_date');
         if (element) {
             // bulmaCalendar instance is available as element.bulmaCalendar
             element.bulmaCalendar.on('select', function(datepicker) {

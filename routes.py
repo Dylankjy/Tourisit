@@ -326,13 +326,13 @@ def accountinfo():
                 loggedin=True)
 
         # Else if not logged in. May be redundant due to the else statement at the bottom alr
-        # else:
-        #     return render_template(
-        #         'setting.html',
-        #         user=item,
-        #         form=uForm,
-        #         form1=pForm,
-        #         loggedin=True)
+        else:
+            return render_template(
+                'setting.html',
+                user=item,
+                form=uForm,
+                form1=pForm,
+                loggedin=True)
 
     else:
         # Render the pls log in template here
@@ -799,6 +799,7 @@ def hideList(id):
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
 
+
 # TOUR GUIDES
 # Show Listings: When click on show button
 @app.route('/listings/show/<id>', methods=['GET', 'POST'])
@@ -908,6 +909,21 @@ def removeWishlist(tour_id):
         except:
             message = 'Unable to remove from wishlist as item does not exist in wishlist!'
             return redirect(url_for('show_user_message', message=message))
+    return redirect(url_for('login', denied_access=True))
+
+
+# Chat with Tour Guide
+@app.route('/listings/chat/<tour_id>')
+def chatwithGuide(tour_id):
+    result = auth.is_auth(True)
+
+    if result:
+        browsing_user_id = result['_id']
+        tour_guide_id = shop_db.find_one({'_id': ObjectId(tour_id)})['tg_uid']
+        #Create UwU chat
+        chat_id = msg.create_chat_room([browsing_user_id, tour_guide_id], False)
+        return redirect(url_for('chat_room', room_id=chat_id))
+
     return redirect(url_for('login', denied_access=True))
 
 # --------------------------------------
@@ -1022,6 +1038,7 @@ def book_now(tour_id):
             if bookform.validate_on_submit():
                 book_date = request.form["book_date"]
                 book_time = request.form["book_time"]
+                print(book_time)
                 booking = Booking(
                     tg_uid=item['tg_uid'],
                     cust_uid=result['_id'],
@@ -1164,6 +1181,7 @@ def all_businesses():
                 user=result)
     except BaseException:
         return 'Error trying to render'
+
 
 # TOUR GUIDES
 # Individual gigs
