@@ -50,3 +50,25 @@ def create_index(uid):
     db_dashboard.insert_one(payload)
 
     return True
+
+def update_index(uid, new_data):
+    """
+    Update earnings
+    :param uid: Target user's ID
+    :param new_data: Earnings data (in integer type)
+    :return: Updated data
+    """
+    query = {
+        'uid': ObjectId(uid)
+    }
+
+    result = [i for i in db_dashboard.find(query)]
+
+    index_obj = dindex.DashboardIndexEntry(uid, result[0]["earnings"])
+    index_obj.add_new_data(new_data)
+    payload = index_obj.return_obj()
+
+    db_dashboard.update_one(query, payload)
+
+    return payload
+
