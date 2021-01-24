@@ -12,11 +12,20 @@ client = pymongo.MongoClient(
 db_dashboard = client['Dashboard']
 
 def get_data_for_tg(uid):
+    """
+    Get index of specific tour guide
+    :param uid: Target user's ID
+    :return: Data
+    """
     query = {
-        uid: ObjectId(uid)
+        'uid': ObjectId(uid)
     }
 
-    result = [i for i in db_dashboard.find(query)]    
+    result = [i for i in db_dashboard.find(query)]
+    
+    return result[0]
+    
+    
 def create_index(uid):
     """
     Create a new index for tour guide (used when one doesn't already exist)
