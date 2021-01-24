@@ -19,19 +19,23 @@ client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_
 db = client['Listings']
 db_booking = client['Bookings']
 
+x = list(db_booking.find({'listing_id': ObjectId('600cc14fa87f5823e1c7c1fe'), 'completed': 0}))
+print(len(x))
+
 # data = {'stars': None, 'text': 'tset', 'reviewer': ObjectId('600666f7ccab3b102fce39fb'), 'reviewee': ObjectId('5feafbbf4dbad8d4b8614958'), 'booking': ObjectId('600d31af52d1ea317620975c'), 'listing': ObjectId('600cc14fa87f5823e1c7c1fe')}
 # updated = {'$push': {'tour_reviews': data}}
 
-query = {'_id': ObjectId('600bdb4dd0fe9f3882f9c06d')}
+# query = {'_id': ObjectId('600bdb4dd0fe9f3882f9c06d')}
 
 # db.update_one(query, updated)
 # book_id = ObjectId('600d31af52d1ea317620975c')
 # query = {'tour_reviews': {"$in": {"booking": book_id}}, '_id': db_booking['listing_id']}
-x = list(db.find(query))
-print(x)
-y = list(map(lambda i:i['tour_reviews'], x))[0]
-z = list(map(lambda i:i['booking'], y))
-print(z)
+# x = list(db.find(query))
+# print(x)
+# y = list(map(lambda i:i['tour_reviews'], x))[0]
+# z = list(map(lambda i:i['booking'], y))
+# print(z)
+
 
 
 

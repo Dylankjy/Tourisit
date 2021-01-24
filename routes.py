@@ -816,6 +816,7 @@ def showList(id):
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
 
+
 # TOUR GUIDES
 # Delete Listings: When click on Delete button
 @app.route('/listings/delete/<id>', methods=['GET', 'POST'])
@@ -826,7 +827,18 @@ def deleteList(id):
         editable = item['tg_uid'] == result['_id']
         if editable:
             # Implement validation to check if there are any exisitng tours for this listing. If there isn't, then allow it to be deleted
-            listing = shop_db.delete_one({'_id': ObjectId(id)})
+
+            #Find the list of uncompleted bookings for this listing
+            uncompleted_bookings = list(bookings_db.find({'listing_id': ObjectId(id), 'completed': 0}))
+            #Boolean that checks if there are uncompleted bookings
+            uncompleted_exists = len(uncompleted_bookings) != 0
+
+            # If there are no outstanding bookings, then allow listing to be deleted
+            if not uncompleted_exists:
+                listing = shop_db.delete_one({'_id': ObjectId(id)})
+            else:
+                message = 'Unable to delete listing as there are outstanding Bookings for this Listing!'
+                return redirect(url_for('show_user_message', message=message))
 
             return redirect('/listings')
         else:
@@ -1053,7 +1065,7 @@ def book_now(tour_id):
                     book_baseprice=item['tour_price'],
                     book_customfee=0,
                     book_duration="",
-                    timeline_content=[],
+                    timeline_content=item['tour_itinerary'],
                     revisions=item['tour_revisions'],
                     process_step=5)
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
@@ -1070,7 +1082,7 @@ def book_now(tour_id):
                     book_baseprice=item['tour_price'],
                     book_customfee=customfee,
                     book_duration="",
-                    timeline_content=[],
+                    timeline_content=item['tour_itinerary'],
                     revisions=item['tour_revisions'],
                     process_step=0)
                 print(booking.return_obj())
