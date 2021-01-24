@@ -15,10 +15,10 @@ import auth as auth
 # Chat Library
 import chat as msg
 # Custom class imports
-from models.Booking import BookingForm, CheckoutForm, ChatForm, CustomForm, Booking
+from models.Booking import Booking, BookingForm, CheckoutForm, AddInfoForm
 from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
-from models.Review import ReviewForm
+from models.Review import ReviewForm, Review
 from models.Support import SupportForm, Support
 from models.Transaction import Transaction
 from models.User import BioForm, PasswordForm, UserForm
@@ -59,6 +59,7 @@ user_db = client['Users']
 bookings_db = client['Bookings']
 support_db = client['Support']
 transaction_db = client['Transactions']
+reviews_db = client['Reviews']
 
 
 # Good Stuff
@@ -482,6 +483,9 @@ def tourListing(tour_id):
                 # wishlist' instead of 'Add to wishlist'
                 inside_wl = str(tour_id) in loggedin_user['wishlist']
 
+                # Retrieving the list of reviews under this listing
+                reviews_list = list(reviews_db.find({'listing': ObjectId(tour_id)}))
+
                 # If it is 1, means display the listing. If 0 means make it invisible
 
                 return render_template(
@@ -492,7 +496,8 @@ def tourListing(tour_id):
                     editable=editable,
                     # userData=tg_userData,
                     inside_wl=inside_wl,
-                    display_listing=display_listing)
+                    display_listing=display_listing,
+                    reviews_list=reviews_list)
 
             return 'Listing is currently private'
 
@@ -907,7 +912,7 @@ def removeWishlist(tour_id):
 
 # --------------------------------------
 
-# Chlorine (Cl) - 17, 35.5 [Halogen]
+# Chloe
 
 # CUSTOMER
 # Your Bookings: Access all bookings
@@ -954,10 +959,23 @@ def bookings(book_id):
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
+        if booking['process_step'] < 1:
+            print("access denied, pay first")
+            return redirect(url_for('checkout', book_id=book_id))
         if request.method == 'POST':
-            if request.form['TourComplete_submit'] == 'TourComplete':
+            # submit button data as a dict
+            button_data = request.form.to_dict()
+            if 'SubmitRequirements' in button_data.values():
+                update_booking = {"$set": {"process_step": 2}}
+                bookings_db.update_one(booking, update_booking)
+                return redirect(url_for('bookings', book_id=book_id))
+            elif 'CompleteTour' in button_data.values():
                 update_booking = {"$set": {"process_step": 7}}
                 bookings_db.update_one(booking, update_booking)
+                return redirect(url_for('bookings', book_id=book_id))
+            # elif request.form['TourComplete_submit'] == 'TourComplete':
+            #     update_booking = {"$set": {"process_step": 7}}
+            #     bookings_db.update_one(booking, update_booking)
 
         return render_template('customer/booking.html',
                                process_step=booking['process_step'],
@@ -981,9 +999,9 @@ def book_now(tour_id):
     # if logged in
     if result:
         bookform = BookingForm()
-        chatform = ChatForm()
-        customform = CustomForm()
         if request.method == 'POST':
+            # submit button data as a dict
+            button_data = request.form.to_dict()
             if bookform.validate_on_submit():
                 book_date = request.form["book_date"]
                 book_time = request.form["book_time"]
@@ -1001,7 +1019,7 @@ def book_now(tour_id):
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
-            elif customform.validate_on_submit():
+            elif 'CustomiseTour' in button_data.values():
                 customfee = round(0.1 * float(item['tour_price']), 2)
                 booking = Booking(
                     tg_uid=item['tg_uid'],
@@ -1018,7 +1036,7 @@ def book_now(tour_id):
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
-            elif chatform.validate_on_submit():
+            elif 'ChatFirst' in button_data.values():
                 chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
                 if not chat_list:
                     msg.create_chat_room([result['_id'], item["tg_uid"]], True)
@@ -1034,8 +1052,6 @@ def book_now(tour_id):
             loggedin=True,
             user=result,
             bookform=bookform,
-            chatform=chatform,
-            customform=customform,
             item=item,
             tour_id=tour_id)
     # if not logged in
@@ -1080,6 +1096,7 @@ def checkout(book_id):
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=str(book_id)))
 
+                #do rmb to add haru's dashboard stuff
                 else:
                     print("Error occurred while trying to pay.")
 
@@ -1136,23 +1153,38 @@ def all_businesses():
 def business(book_id):
     try:
         booking = bookings_db.find_one({'_id': ObjectId(book_id)})
-        tour = shop_db.find_one({'_id': booking['listing_id']})
+        listing = shop_db.find_one({'_id': booking['listing_id']})
         # Get login status using accessor argument
         result = auth.is_auth(True)
+        # AddInfoForm = AddInfoForm()
         # if not logged in
         if not result:
             return redirect(url_for('login', denied_access=True))
         # if logged in
         else:
+            if booking['process_step'] < 1:
+                print("access denied")
+                return redirect(url_for('all_businesses'))
+            # if request.method == "POST":
+            #     if AddInfoForm.validate_on_submit():
+            #         AddInfo = request.form['AddInfo']
+            #         updated = {
+            #             "$set": {"book_info": AddInfo}
+            #         }
+            #         bookings_db.update_one(booking, updated)
+
+            # Edit Itinerary Stuff
+            lForm = ListingForm()
             print(booking)
-            print(tour)
+            print(listing)
             print(booking['process_step'])
             return render_template('tourGuides/business.html',
                                    process_step=booking['process_step'],
                                    booking=booking,
-                                   tour=tour,
+                                   listing=listing,
                                    loggedin=True,
-                                   user=result)
+                                   user=result,
+                                   form=lForm)
     except BaseException:
         return 'Error trying to render'
 
@@ -1164,23 +1196,46 @@ def review(book_id):
     booking = bookings_db.find_one({'_id': ObjectId(book_id)})
     tour = shop_db.find_one({'_id': booking['listing_id']})
     form = ReviewForm()
-    if request.method == "POST":
-        if form.is_submitted():
-            print("valid")
-            review_text = request.form["review_text"]
-            stars = form.rating.data
-            print(review_text)
-            print(stars)
+    result = auth.is_auth(True)
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    else:
+        if reviews_db.count_documents({'booking': ObjectId(book_id)}, limit=1):
+            print("live fast eat ass, you left a review, funnyman")
+            return redirect(url_for('bookings', book_id=book_id))
+        elif booking['process_step'] < 7:
+            print("access denied, go on tour first")
+            return redirect(url_for('bookings', book_id=book_id))
+        else:
+            print("oh no u havent reviewed my guy? loooser")
+            if request.method == "POST":
+                if form.is_submitted():
+                    # if reviewer is customer/tg
+                    if result['_id'] == booking['cust_uid']:
+                        print('customer reviwer')
+                        reviewee_id = booking['tg_uid']
+                    elif result['_id'] == booking['tg_uid']:
+                        print('tg is reviewr')
+                        reviewee_id = booking['cust_uid']
+                    review = Review(
+                        stars=form.rating.data,
+                        text=request.form["review_text"],
+                        reviewer_id=result['_id'],
+                        reviewee_id=reviewee_id,
+                        booking=booking['_id'],
+                        listing=tour['_id'])
+                    print(review.return_obj())
+                    reviews_db.insert_one(review.return_obj())
+                    update_booking = {"$set": {
+                        'process_step': 8,
+                        'completed': 1,}}
+                    bookings_db.update_one(booking, update_booking)
+                    return redirect(url_for('bookings', book_id=str(book_id)))
             return render_template(
                 'customer/review.html',
                 booking=booking,
                 tour=tour,
                 form=form)
-    return render_template(
-        'customer/review.html',
-        booking=booking,
-        tour=tour,
-        form=form)
 
 # except BaseException:
 #     return 'Error trying to render'

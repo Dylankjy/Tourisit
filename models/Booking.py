@@ -1,26 +1,29 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import DateField, TimeField, BooleanField, SubmitField
-from wtforms.validators import InputRequired
+from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField
+from wtforms.validators import InputRequired, Length
 
-
+# Book now - default form
 class BookingForm(FlaskForm):
     book_date = DateField('book_date', validators=[InputRequired()])
     book_time = TimeField('book_time', validators=[InputRequired()])
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
     book_submit = SubmitField('Book Now')
 
-class CustomForm(FlaskForm):
-    submit = SubmitField('Customise Tour', validators=[InputRequired()])
-
+# Payment Gateway Button
 class CheckoutForm(FlaskForm):
     submit = SubmitField('Pay & Proceed')
 
-class ChatForm(FlaskForm):
-    submit = SubmitField()
+# Additional Info form field
+class AddInfoForm(FlaskForm):
+    AddInfo = TextAreaField(
+        "AddInfo",
+        validators=[
+            Length(min=0, max=75, message="pp small")
+        ]
+    )
 
-# add charges
 class Booking:
     def __init__(
             self,
@@ -50,6 +53,7 @@ class Booking:
             'customfee': float(book_customfee)}
         self.__book_info = ""
         self.__book_chat = ''
+        self.__completed = 0
 
     def set_book_datetime(self, book_date, book_time):
         try:
@@ -84,6 +88,7 @@ class Booking:
             "book_charges": self.__book_charges,
             "book_info": self.__book_info,
             "book_chat": self.__book_chat,
+            "completed": self.__completed
         }
 
 

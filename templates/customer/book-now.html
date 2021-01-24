@@ -95,12 +95,10 @@
                 <div class="container box">
                     <!--START: Customise tour button-->
                     <form id="custom_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
-                        {{customform.csrf_token}}
-                        <div class="field">
-                            <div class="control">
-                                    {{customform.submit(class='button is-medium is-fullwidth is-success')}}
-                            </div>
-                        </div>
+                        <button class="button is-medium is-fullwidth is-success" type="submit" name="CustomiseTour"
+                            value="CustomiseTour">
+                        Customise Tour
+                        </button>
                     </form>
                     <!--END: Customise tour button-->
                     <div class="divider">OR</div>
@@ -143,9 +141,9 @@
                     </form>
                             <p class="is-grey has-text-centered mt-2">Not sure if this tour is for you? 
                                 <form id="chat_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}" class="has-text-centered">
-                                    {{ chatform.csrf_token }}
-                                <button type="submit" class="button is-text has-text-link" style="text-decoration:none;"> 
-                                    Chat with {{ item.tg_uid| user_name}} first.
+                                <button class="button is-text has-text-link" type="submit" name="ChatFirst"
+                                    value="ChatFirst" style="text-decoration:none;">
+                                Chat with {{ item.tg_uid| user_name}} first.
                                 </button>
                                 </form>
                             </p>

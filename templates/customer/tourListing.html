@@ -136,28 +136,36 @@
 
             <!--Start of review cards-->
             <h1 class='title'>Reviews for this tour</h1>
+            {%if reviews_list %}
+            {% for review in reviews_list %}
             <article class="media box">
                 <div class="media-left">
-                    <figure class="image is-64x64">
-                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                    </figure>
+                    <div class="profile-img"
+                    style="background-image: url('data:image/jpeg;base64, {{ review['reviewer']|user_pfp }}');"></div>
                 </div>
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong class="pr-5">Gordon Lansay</strong>
+                            <strong class="pr-5">{{ review['reviewer']| user_name }}</strong>
+                            {% set stars = review.stars | int %}
+                            {% for i in range(stars)%}
                             <span class="fas fa-star checked"></span>
-                            <span class="fas fa-star checked"></span>
-                            <span class="fas fa-star checked"></span>
+                            {% endfor %}
+                            {% for i in range(5 - stars)%}
                             <span class="fas fa-star"></span>
-                            <span class="fas fa-star"></span>
+                            {% endfor %}
                             <br>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
-                            fringilla egestas. Nullam condimentum luctus turpis.
+                            {{review.text}}
                         </p>
                     </div>
                 </div>
             </article>
+            {% endfor %}
+            {% else %}
+            <div class="has-text-grey has-text-centered mt-5 mb-5">
+                This Tour does not have any reviews yet!
+            </div>
+            {% endif %}
         </div>
     </section>
 {% endblock %}

@@ -67,9 +67,9 @@
             <!--END: More options dropdown-->
             <div class="listing-author">
                 <!--dynamic tg photo-->
-                <div class="ml-2">By
-                    <div class="profile-img"
-                         style="background-image: url('data:image/jpeg;base64, {{ tour.tg_img }}');"></div>
+                <div>By
+                    <div class="profile-img mt-2"
+                         style="background-image: url('data:image/jpeg;base64, {{ tour.tg_uid | user_pfp }}');"></div>
                     <b>{{ tour.tg_uid| user_name }}</b></div>
             </div>
 
@@ -173,6 +173,12 @@
                 {% if process_step == 1 %}
                     <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
                     Submit Requirements</span>
+                    <!--START: Submit req button that is to removed once I figure out how to activate on first msg send-->
+                    <form method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
+                    <input type="submit" name="SubmitRequirements" value="Submit Requirements"
+                    class="tag is-warning is-light is-size-5 is-clickable mt-2" style="border-width:0;">
+                    </form>
+                    <!--END: submit req button-->
                 {% elif process_step == 3 %}
                     <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
                     Review Custom Itinerary & Charges</span>
@@ -532,38 +538,6 @@
                         <div class="heading">Tour Price</div>
                         <div class="title">{{ booking.book_charges['baseprice'] }}</div>
                     </div>
-                    <!-- {% if process_step >= 3 %}
-                            <div class="container box">
-                                <div class="heading">Add-ons</div>
-                                <table class="table is-fullwidth">
-                                    <tbody>
-                                    <tr>
-                                        <td><b>Extra Thing 1</b></td>
-                                        <td>+ $10.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Extra Thing 2</b></td>
-                                        <td>+ $12.00</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="container box">
-                                <div class="heading">Reductions</div>
-                                <table class="table is-fullwidth">
-                                    <tbody>
-                                    <tr>
-                                        <td><b>Remove Thing 1</b></td>
-                                        <td>- $10.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Remove Thing 2</b></td>
-                                        <td>- $12.00</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% endif %} -->
                 </div>
                 <!--END: Proposed Cost-->
             {% endif %}
@@ -646,8 +620,8 @@
                     </p>
                     <form id="TourComplete" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
                         <p class="control">
-                            <button class="button is-success is-light" type="submit" name="TourComplete_submit"
-                                    value="TourComplete">
+                            <button class="button is-success is-light" type="submit" name="CompleteTour"
+                                    value="CompleteTour">
                         <div class="is-size-5">Confirm</div>
                         </button>
                         </p>
