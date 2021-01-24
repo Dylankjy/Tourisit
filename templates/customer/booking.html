@@ -185,6 +185,15 @@
                 {% elif process_step == 5 %}
                     <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
                     Make Payment</span>
+
+                    <form id="MakePayment" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
+                        <p class="control">
+                            <button class="tag is-warning is-light is-size-5 is-clickable" type="submit" name="MakePayment"
+                                    value="MakePayment" style="border-width:0;">Make Payment
+                        </button>
+                        </p>
+                    </form>
+
                 {% elif process_step == 6 %}
                     <span class="tag is-warning is-light is-size-5 is-clickable"
                           onclick="$('#TourCompleteModal').fadeIn('fast')">
@@ -355,10 +364,14 @@
                             <div class="box has-text-centered">
                                 <p class="is-size-5 has-text-weight-bold">Request a revision of the Proposed Itinerary
                                     and Charges?</p>
-                                <p>You have {{ tour.tour_revisions }} free revision(s) left.</p>
+                                <p>You have {{ booking.revisions }} free revision(s) left.</p>
+                                <form id="revisionform" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
+                                    {{ revisionform.csrf_token }}
                                 <div class="field">
-                                    <textarea class="textarea"
-                                              placeholder="Enter the changes you would like to see.."></textarea>
+                                    {{ revisionform.revision_text(id="revision_text", class="textarea",
+                                    placeholder="Enter the changes you would like to see..") }}
+                                    <!-- <textarea class="textarea"
+                                              placeholder="Enter the changes you would like to see.."></textarea> -->
                                 </div>
                                 <div class="field is-grouped is-grouped-centered mt-5">
                                     <p class="control">
@@ -368,11 +381,13 @@
                                     </button>
                                     </p>
                                     <p class="control">
-                                        <button class="button is-success is-light">
+                                        {{revisionform.submit(id="revision_submit", class="button is-success is-light", type="submit")}}
+                                        <!-- <button class="button is-success is-light" type="submit">
                                     <div class="is-size-5">Request A Revision</div>
-                                    </button>
+                                    </button> -->
                                     </p>
                                 </div>
+                                </form>
                             </div>
                         </div>
                         <button class="modal-close is-large" aria-label="close"
@@ -393,11 +408,14 @@
                                     <div class="is-size-5">Cancel</div>
                                     </button>
                                     </p>
-                                    <p class="control">
-                                        <button class="button is-success is-light">
-                                    <div class="is-size-5">Accept & Confirm</div>
-                                    </button>
-                                    </p>
+                                    <form id="AcceptItinerary" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
+                                        <p class="control">
+                                            <button class="button is-success is-light" type="submit" name="AcceptItinerary"
+                                                    value="AcceptItinerary">
+                                        <div class="is-size-5">Accept & Confirm</div>
+                                        </button>
+                                        </p>
+                                    </form>
                                 </div>
                             </div>
                         </div>

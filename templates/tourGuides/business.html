@@ -439,33 +439,6 @@
                 </div>
                 <!--END: Submit itinerary & proposed charges-->
             {% endif %}
-            <!--START:(Modal) Confirm submit plan-->
-            <div class="modal is-active" id="SubmitPlanModal" style="display: none;">
-                <div class="modal-background"></div>
-                <div class="modal-content">
-                    <div class="box has-text-centered">
-                        <p class="is-size-5 has-text-weight-bold">Submit your currently saved Itinerary & Charges to the
-                            Customer?</p>
-                        <p>This action cannot be undone.</p>
-                        <div class="field is-grouped is-grouped-centered mt-5">
-                            <p class="control">
-                                <button class="button is-danger is-light"
-                                        onclick="$('#SubmitPlanModal').fadeOut('fast');">
-                            <div class="is-size-5">Cancel</div>
-                            </button>
-                            </p>
-                            <p class="control">
-                                <button class="button is-success is-light">
-                            <div class="is-size-5">Confirm</div>
-                            </button>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <button class="modal-close is-large" aria-label="close"
-                        onclick="$('#SubmitPlanModal').fadeOut('fast');"></button>
-            </div>
-            <!--END:(Modal) Confirm submit plan-->
 
             {% if process_step == 4 %}
                 <!--START: Customer Revision request-->
@@ -480,12 +453,12 @@
                             <div class="card-content">
                                 <div class="content">
                                     <p>
-                                        insert request here
+                                        {{booking.revision_text}}
                                     </p>
                                 </div>
                             </div>
                             <footer class="card-footer">
-                                <p class="m-4">{{ listing.tour_revisions }} free Revision(s) remaining.</p>
+                                <p class="m-4">{{ booking.revisions }} free Revision(s) remaining.</p>
                             </footer>
                         </div>
                     </div>
@@ -730,7 +703,7 @@
                             </button>
                             </p>
                             <p class="control">
-                                <button class="button is-success is-light" onclick="SaveItinerary()">
+                                <button class="button is-success is-light" onclick="$('#SubmitPlanModal').fadeIn('fast')">
                             <div class="is-size-5">Save</div>
                             <br>
                             </button>
@@ -1058,6 +1031,36 @@
 
     </div>
     <!--END: Content-->
+                <!--START:(Modal) Confirm submit plan-->
+                <div class="modal is-active" id="SubmitPlanModal" style="display: none;">
+                    <div class="modal-background"></div>
+                    <div class="modal-content">
+                        <div class="box has-text-centered">
+                            <p class="is-size-5 has-text-weight-bold">Submit your new Itinerary & Charges to the
+                                Customer?</p>
+                            <p>This action cannot be undone.</p>
+                            <div class="field is-grouped is-grouped-centered mt-5">
+                                <p class="control">
+                                    <button class="button is-danger is-light"
+                                            onclick="$('#SubmitPlanModal').fadeOut('fast');">
+                                <div class="is-size-5">Cancel</div>
+                                </button>
+                                </p>
+                                <form id="SubmitItinerary" method="POST" action="{{ url_for('business', book_id=booking._id) }}">
+                                    <p class="control">
+                                        <button class="button is-success is-light" type="submit" name="SubmitItinerary"
+                                                value="SubmitItinerary">
+                                    <div class="is-size-5">Confirm</div>
+                                    </button>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close"
+                            onclick="$('#SubmitPlanModal').fadeOut('fast');"></button>
+                </div>
+                <!--END:(Modal) Confirm submit plan-->
 
     <script defer src="/js/booking.js"></script>
 
