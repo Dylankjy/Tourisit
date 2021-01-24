@@ -19,7 +19,7 @@
                         <div class="box mb-2 list-author has-background-black">
                             <div class="profile-img"
                                  style="background-image: url('data:image/jpeg;base64, {{ item['tg_uid']|user_pfp }}');"></div>
-                            <div class="ml-2 has-text-white"><b>{{ item['tg_uid']| user_name }}</b></div>
+                            <div class="ml-2 has-text-white"><b><a class='has-text-white' href='/users/{{ item["tg_uid"] }}'>{{ item['tg_uid']| user_name }}</a></b></div>
                         </div>
                         <hr>
                         <h3 class="title is-4">Pricing</h3>

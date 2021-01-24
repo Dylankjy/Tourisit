@@ -60,6 +60,12 @@ bookings_db = client['Bookings']
 support_db = client['Support']
 transaction_db = client['Transactions']
 
+
+# Good Stuff
+# return redirect(url_for('login', denied_access=True))
+# message = 'No listings yet!'
+# return redirect(url_for('show_user_message', message=message))
+
 @app.template_filter('timestamp_iso')
 def timestamp_iso(s):
     try:
@@ -216,25 +222,27 @@ def profile(user_id):
                 editable=editable)
     else:
         editable = False
-        profile_img = item.profile_img
+        print(item)
+        profile_img = item['profile_img']
 
-    if not result:
+    # if not result:
         return render_template(
             'profile.html',
             form=bForm,
             logged_in=False,
-            item=item,
+            user=item,
             editable=editable,
             profile_img=profile_img)
 
-    else:
-        return render_template(
-            'profile.html',
-            form=bForm,
-            logged_in=True,
-            item=item,
-            editable=editable,
-            profile_img=profile_img)
+    #What do you need this one for?
+    # else:
+    #     return render_template(
+    #         'profile.html',
+    #         form=bForm,
+    #         logged_in=True,
+    #         item=item,
+    #         editable=editable,
+    #         profile_img=profile_img)
 # SHARED
 # USER SETTINGS AND CHANGE PASSWORD
 @app.route('/me/settings', methods=['GET', 'POST'])
@@ -499,7 +507,8 @@ def tourListing(tour_id):
             # userData=tg_userData)
         return 'Listing is currently private'
 
-    return 'Listing does not exist!'
+    message = 'This listing is either invalid, has been hidden or deleted'
+    return redirect(url_for('show_user_message', message=message))
 
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
@@ -507,8 +516,6 @@ def tourListing(tour_id):
 def ownlisting():
     # Get login status using accessor argument
     result = auth.is_auth(True)
-    # Get the data of the current user
-    userData = user_db.find_one({'_id': result['_id']})
     # item = shop_db.find_one({'_id': ObjectId(tour_id)})
     # tg_id = item['tg_uid']
     # result = auth.is_auth(True)
@@ -516,12 +523,13 @@ def ownlisting():
 
     # if not logged in
     if not result:
-        return render_template(
-            'tourGuides/ownlisting.html',
-            listings=None,
-            loggedin=False)
+        return redirect(url_for('login', denied_access=True))
 
     # if logged in
+
+    # Get the data of the current user
+    userData = user_db.find_one({'_id': result['_id']})
+
     tourGuide_id = result['_id']
     tour_listings = list(shop_db.find({'tg_uid': tourGuide_id}))
     return render_template(
@@ -547,25 +555,6 @@ def testing():
     # lForm = ListingForm()
     # return render_template('tourGuides/makelisting.html', form=lForm,
     # user=result)
-
-# @app.route('/test/time', methods=['GET', 'POST'])
-# def testtime():
-#     result = auth.is_auth(True)
-#     lForm = ListingForm()
-#     if request.method == 'POST':
-#         print('ye')
-#         # IF all inputs are valid
-#         if lForm.validate_on_submit():
-#             print('yes')
-#             tour_timing_list = request.form.getlist('tour_timings_list[]')
-#             # tour_days = formToArray(days_form_list)
-#             # sorted_tour_days = sortDays(tour_days)
-#
-#             print(tour_timing_list)
-#             return render_template(
-#                 'tourGuides/listing-success.html', user=result)
-#         return render_template('tourGuides/testTime.html', user=result, form=lForm)
-#     return render_template('tourGuides/testTime.html', user=result, form=lForm)
 
 
 @app.route('/listings/add', methods=['GET', 'POST'])
@@ -658,9 +647,8 @@ def makelisting():
                 user=result)
 
     # If not logged in
-    else:
-        # Return a modal where ppl have to
-        return redirect(url_for('login', denied_access=True))
+    # Return a modal where ppl have to login first
+    return redirect(url_for('login', denied_access=True))
 
 # TOUR GUIDES
 # Edit Listings: When click on own listing to edit
@@ -787,60 +775,66 @@ def editListing(id):
 @app.route('/listings/hide/<id>', methods=['GET', 'POST'])
 def hideList(id):
     result = auth.is_auth(True)
-    item = shop_db.find_one({'_id': ObjectId(id)})
-    editable = item['tg_uid'] == result['_id']
+    if result:
+        item = shop_db.find_one({'_id': ObjectId(id)})
+        editable = item['tg_uid'] == result['_id']
 
-    if editable:
-        query_listing = {'_id': ObjectId(id)}
-        listing = shop_db.find_one(query_listing)
-        updated = {
-            "$set": {
-                'tour_visibility': 0,
-            }}
+        if editable:
+            query_listing = {'_id': ObjectId(id)}
+            listing = shop_db.find_one(query_listing)
+            updated = {
+                "$set": {
+                    'tour_visibility': 0,
+                }}
 
-        shop_db.update_one(query_listing, updated)
-        return redirect(f'/discover/{id}')
-    else:
-        message = 'You are not authorized to edit this listing!'
-        return redirect(url_for('show_user_message', message=message))
+            shop_db.update_one(query_listing, updated)
+            return redirect(f'/discover/{id}')
+        else:
+            message = 'You are not authorized to edit this listing!'
+            return redirect(url_for('show_user_message', message=message))
+    return redirect(url_for('login', denied_access=True))
 
 # TOUR GUIDES
 # Show Listings: When click on show button
 @app.route('/listings/show/<id>', methods=['GET', 'POST'])
 def showList(id):
     result = auth.is_auth(True)
-    item = shop_db.find_one({'_id': ObjectId(id)})
-    editable = item['tg_uid'] == result['_id']
+    if result:
+        item = shop_db.find_one({'_id': ObjectId(id)})
+        editable = item['tg_uid'] == result['_id']
 
-    if editable:
-        query_listing = {'_id': ObjectId(id)}
-        listing = shop_db.find_one(query_listing)
-        updated = {
-            "$set": {
-                'tour_visibility': 1,
-            }}
+        if editable:
+            query_listing = {'_id': ObjectId(id)}
+            listing = shop_db.find_one(query_listing)
+            updated = {
+                "$set": {
+                    'tour_visibility': 1,
+                }}
 
-        shop_db.update_one(query_listing, updated)
-        return redirect(f'/discover/{id}')
-    else:
-        message = 'You are not authorized to edit this listing!'
-        return redirect(url_for('show_user_message', message=message))
+            shop_db.update_one(query_listing, updated)
+            return redirect(f'/discover/{id}')
+        else:
+            message = 'You are not authorized to edit this listing!'
+            return redirect(url_for('show_user_message', message=message))
+    return redirect(url_for('login', denied_access=True))
 
 # TOUR GUIDES
 # Delete Listings: When click on Delete button
 @app.route('/listings/delete/<id>', methods=['GET', 'POST'])
 def deleteList(id):
     result = auth.is_auth(True)
-    item = shop_db.find_one({'_id': ObjectId(id)})
-    editable = item['tg_uid'] == result['_id']
-    if editable:
-        # Implement validation to check if there are any exisitng tours for this listing. If there isn't, then allow it to be deleted
-        listing = shop_db.delete_one({'_id': ObjectId(id)})
+    if result:
+        item = shop_db.find_one({'_id': ObjectId(id)})
+        editable = item['tg_uid'] == result['_id']
+        if editable:
+            # Implement validation to check if there are any exisitng tours for this listing. If there isn't, then allow it to be deleted
+            listing = shop_db.delete_one({'_id': ObjectId(id)})
 
-        return redirect('/listings')
-    else:
-        message = 'You are not authorized to edit this listing!'
-        return redirect(url_for('show_user_message', message=message))
+            return redirect('/listings')
+        else:
+            message = 'You are not authorized to edit this listing!'
+            return redirect(url_for('show_user_message', message=message))
+    return redirect(url_for('login', denied_access=True))
 
 # CUSTOMERS
 # Favourites: Shows all the liked listings
@@ -848,23 +842,24 @@ def deleteList(id):
 def favourites():
     # Get login status using accessor argument
     result = auth.is_auth(True)
-    user_id = result['_id']
-    query_user = {'_id': ObjectId(user_id)}
-    current_wishlist = user_db.find_one(query_user)['wishlist']
-    current_wishlist = list(map(lambda x: ObjectId(x), current_wishlist))
-    all_listings = [i for i in shop_db.find(
-        {'_id': {"$in": current_wishlist}})]
-    print(all_listings)
-    # if not logged in
-    if not result:
-        return render_template('customer/favourites.html', loggedin=False)
-    # if logged in
-    else:
+    if result:
+        user_id = result['_id']
+        query_user = {'_id': ObjectId(user_id)}
+        current_wishlist = user_db.find_one(query_user)['wishlist']
+        current_wishlist = list(map(lambda x: ObjectId(x), current_wishlist))
+        all_listings = [i for i in shop_db.find(
+            {'_id': {"$in": current_wishlist}}
+        )]
+        print(all_listings)
+
+        # if logged in
         return render_template(
             'customer/favourites.html',
             loggedin=True,
             user=result,
             item_list=all_listings)
+
+    return redirect(url_for('login', denied_access=True))
 
 # Add to wishlist
 @app.route('/me/wishlist/add/<tour_id>')
@@ -891,22 +886,24 @@ def addWishlist(tour_id):
 @app.route('/me/wishlist/remove/<tour_id>')
 def removeWishlist(tour_id):
     result = auth.is_auth(True)
-    user_id = result['_id']
-    query_user = {'_id': ObjectId(user_id)}
-    current_wishlist = user_db.find_one(query_user)['wishlist']
-    try:
-        current_wishlist.remove(tour_id)
-        print(current_wishlist)
-        updated = {
-            '$set': {'wishlist': current_wishlist}
-        }
+    if result:
+        user_id = result['_id']
+        query_user = {'_id': ObjectId(user_id)}
+        current_wishlist = user_db.find_one(query_user)['wishlist']
+        try:
+            current_wishlist.remove(tour_id)
+            print(current_wishlist)
+            updated = {
+                '$set': {'wishlist': current_wishlist}
+            }
 
-        user_db.update_one(query_user, updated)
+            user_db.update_one(query_user, updated)
 
-        return redirect(f'/discover/{tour_id}')
-    except:
-        message = 'Unable to remove from wishlist as item does not exist in wishlist!'
-        return redirect(url_for('show_user_message', message=message))
+            return redirect(f'/discover/{tour_id}')
+        except:
+            message = 'Unable to remove from wishlist as item does not exist in wishlist!'
+            return redirect(url_for('show_user_message', message=message))
+    return redirect(url_for('login', denied_access=True))
 
 # --------------------------------------
 
