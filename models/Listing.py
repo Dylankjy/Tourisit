@@ -3,7 +3,7 @@ import os
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField, SelectMultipleField, widgets
+from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField, SelectMultipleField, widgets, SubmitField
 from wtforms.validators import InputRequired, Length, NumberRange, ValidationError
 
 
@@ -85,6 +85,8 @@ class ListingForm(FlaskForm):
 
     tour_price = FloatField('tour_price', validators=[InputRequired(), NumberRange(min=0, max=None,
                                                                                    message='Price cannot be below $0!')])
+
+    # tour_submit = SubmitField('tour_submit', validators=[InputRequired()])
 
     # def validate(self, tour_end_time):
     #     rv = FlaskForm.validate(self)
@@ -177,7 +179,7 @@ class Listing:
         self.__visibility = 1
         self.__date_created = datetime.now()
         self.__tour_rating = 0
-        self.__tour_review = []
+        self.__tour_reviews = []
 
     def set_tour_name(self, tour_name):
         try:
@@ -247,13 +249,13 @@ class Listing:
         else:
             self.__tour_rating = tour_rating
 
-    def set_tour_review(self, tour_review):
+    def set_tour_reviews(self, tour_reviews):
         try:
-            assert isinstance(tour_review, list)
+            assert isinstance(tour_reviews, list)
         except AssertionError:
-            print(f"{tour_review} must be of type {list}")
+            print(f"{tour_reviews} must be of type {list}")
         else:
-            self.__tour_review.append(tour_review)
+            self.__tour_reviews.append(tour_reviews)
 
     def set_tg_uid(self, tg_uid):
         self.__tg_uid = tg_uid
@@ -271,7 +273,7 @@ class Listing:
             "tour_img": self.__tour_img,
             "date_created": self.__date_created,
             "tour_rating": self.__tour_rating,
-            "tour_review": self.__tour_review,
+            "tour_reviews": self.__tour_reviews,
             "tg_uid": self.__tg_uid,
             "tour_visibility": self.__visibility
         }

@@ -15,21 +15,42 @@ client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_
 # tg_uid = '5fde1b5bdf4fe3bc527058f1'
 # tour_img = 'hi'
 
-db = client['Chats']
+
+db = client['Listings']
+db_booking = client['Bookings']
+
+# data = {'stars': None, 'text': 'tset', 'reviewer': ObjectId('600666f7ccab3b102fce39fb'), 'reviewee': ObjectId('5feafbbf4dbad8d4b8614958'), 'booking': ObjectId('600d31af52d1ea317620975c'), 'listing': ObjectId('600cc14fa87f5823e1c7c1fe')}
+# updated = {'$push': {'tour_reviews': data}}
+
+query = {'_id': ObjectId('600bdb4dd0fe9f3882f9c06d')}
+
+# db.update_one(query, updated)
+# book_id = ObjectId('600d31af52d1ea317620975c')
+# query = {'tour_reviews': {"$in": {"booking": book_id}}, '_id': db_booking['listing_id']}
+x = list(db.find(query))
+print(x)
+y = list(map(lambda i:i['tour_reviews'], x))[0]
+z = list(map(lambda i:i['booking'], y))
+print(z)
+
+
 
 # x = list(db.find({"$sample": {"size":1}}))
 
 # query = [{"$match": {"participants": 1}},
 #          {"$sample": {"size": 1}}]
 
-user = ObjectId('600666f7ccab3b102fce39fb')
-tg = ObjectId('5feafbbf4dbad8d4b8614958')
 
+# chat_db = client['Chats']
 
-query = {'participants': {"$in": [tg, user]}, 'chat_type': 'UwU'}
-x = list(db.find(query))
-
-print(x[0]['_id'])
+# user = ObjectId('600666f7ccab3b102fce39fb')
+# tg = ObjectId('5feafbbf4dbad8d4b8614958')
+#
+#
+# query = {'participants': {"$in": [tg, user]}, 'chat_type': 'UwU'}
+# x = list(chat_db.find(query))
+#
+# print(x[0]['_id'])
 
 # query = {}
 # x = list(db.find(query))

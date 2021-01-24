@@ -460,8 +460,6 @@ def tourListing(tour_id):
     # Note that there are 2 users here. The tour guide and the person who is logged in
     # Settle the loading of item first, then settle the logged in user part (Checking of wishlist)
 
-    # Dynamically load the user data (From the database) so if user info
-    # changes, all will change too
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
     # If item exists
     if item:
@@ -483,9 +481,11 @@ def tourListing(tour_id):
                 # See if item is already in wishlist. If yes, then display 'Remove from
                 # wishlist' instead of 'Add to wishlist'
                 inside_wl = str(tour_id) in loggedin_user['wishlist']
+                reviews_list = item['tour_reviews']
 
                 # Retrieving the list of reviews under this listing
-                reviews_list = list(reviews_db.find({'listing': ObjectId(tour_id)}))
+                # reviews_list = list(reviews_db.find({'listing': ObjectId(tour_id)}))
+
 
                 # If it is 1, means display the listing. If 0 means make it invisible
 
@@ -1202,47 +1202,65 @@ def all_businesses():
 # @app.route('/s/businesses/<id>')
 @app.route('/s/businesses/<book_id>', methods=['GET', 'POST'])
 def business(book_id):
-    try:
-        booking = bookings_db.find_one({'_id': ObjectId(book_id)})
-        listing = shop_db.find_one({'_id': booking['listing_id']})
-        # Get login status using accessor argument
-        result = auth.is_auth(True)
-        AddInfo_form = AddInfoForm()
-        # if not logged in
-        if not result:
-            return redirect(url_for('login', denied_access=True))
-        # if logged in
-        else:
-            if booking['process_step'] < 1:
-                print("access denied")
-                return redirect(url_for('all_businesses'))
-            if request.method == "POST":
-                button_data = request.form.to_dict()
-                if 'SubmitItinerary' in button_data.values():
-                    update_booking = {"$set": {"process_step": 3}}
-                    bookings_db.update_one(booking, update_booking)
-                    return redirect(url_for('business', book_id=book_id))
-                if AddInfoForm.validate_on_submit():
-                    AddInfo = request.form['AddInfo']
-                    updated = {
-                        "$set": {"book_info": AddInfo}
-                    }
-                    bookings_db.update_one(booking, updated)
 
-            # Edit Itinerary Stuff
-            lForm = ListingForm()
-            print(booking)
-            print(listing)
-            print(booking['process_step'])
-            return render_template('tourGuides/business.html',
-                                   process_step=booking['process_step'],
-                                   booking=booking,
-                                   listing=listing,
-                                   loggedin=True,
-                                   user=result,
-                                   form=lForm)
-    except BaseException:
-        return 'Error trying to render'
+    booking_query = {'_id': ObjectId(book_id)}
+    booking = bookings_db.find_one(booking_query)
+    listing = shop_db.find_one({'_id': booking['listing_id']})
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    AddInfo_form = AddInfoForm()
+    itineraryForm = ListingForm()
+    # if not logged in
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    # if logged in
+    else:
+        if booking['process_step'] < 1:
+            print("access denied")
+            return redirect(url_for('all_businesses'))
+        if request.method == "POST":
+            button_data = request.form.to_dict()
+            if itineraryForm.is_submitted():
+                print('HAHAHA')
+                itinerary_form_list = request.form.getlist('tour_items_list[]')
+                tour_itinerary = formToArray(itinerary_form_list)
+                updated = {
+                    "$set": {"timeline_content": tour_itinerary}
+                }
+                bookings_db.update_one(booking_query, updated)
+
+
+                # if "submit-setting" in request.form and uForm.validate_on_submit():
+            # if 'tour_submit' in request.form and itineraryForm.validate_on_submit():
+            #     itinerary_form_list = request.form.getlist('tour_items_list[]')
+            #     tour_itinerary = formToArray(itinerary_form_list)
+            #     print('DONEDONE')
+            #     print(tour_itinerary)
+
+            # if 'SubmitItinerary' in button_data.values():
+            #     update_booking = {"$set": {"process_step": 3}}
+            #     bookings_db.update_one(booking, update_booking)
+            #     return redirect(url_for('business', book_id=book_id))
+            # if AddInfoForm.validate_on_submit():
+            #     AddInfo = request.form['AddInfo']
+            #     updated = {
+            #         "$set": {"book_info": AddInfo}
+            #     }
+            #     bookings_db.update_one(booking, updated)
+
+        # Edit Itinerary Stuff
+        print(booking)
+        print(listing)
+        print(booking['process_step'])
+        return render_template('tourGuides/business.html',
+                               process_step=booking['process_step'],
+                               booking=booking,
+                               listing=listing,
+                               loggedin=True,
+                               user=result,
+                               form=itineraryForm)
+    # except BaseException:
+    #     return 'Error trying to render'
 
 # CUSTOMER
 # Submit Review
@@ -1256,7 +1274,16 @@ def review(book_id):
     if not result:
         return redirect(url_for('login', denied_access=True))
     else:
-        if reviews_db.count_documents({'booking': ObjectId(book_id)}, limit=1):
+
+        query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id':booking['listing_id']}
+
+        tmp1 = list(map(lambda i: i['tour_reviews'], tour))[0]
+        # A list of all the booking IDs of the reviews for this listing
+        listing_review_bookingIDs = list(map(lambda i: i['booking'], tmp1))
+        review_exists = ObjectId(book_id) in listing_review_bookingIDs
+
+        # If this review already exists
+        if review_exists:
             print("live fast eat ass, you left a review, funnyman")
             return redirect(url_for('bookings', book_id=book_id))
         elif booking['process_step'] < 7:
@@ -1281,7 +1308,14 @@ def review(book_id):
                         booking=booking['_id'],
                         listing=tour['_id'])
                     print(review.return_obj())
-                    reviews_db.insert_one(review.return_obj())
+
+                    #Update the Listing db, append the review to 'Reviews'
+                    review_data = review.return_obj()
+                    listing_query = {'_id': ObjectId(booking['listing_id'])}
+                    updated = {'$push': {'tour_reviews': review_data}}
+                    shop_db.update_one(listing_query, updated)
+
+                    # reviews_db.insert_one(review.return_obj())
                     update_booking = {"$set": {
                         'process_step': 8,
                         'completed': 1,}}
