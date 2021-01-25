@@ -26,9 +26,18 @@
                     console.log('Retrieving search query')
                     incomingSearchResults = data.bookedTimes
                     console.log(incomingSearchResults)
+                    disableTimes(incomingSearchResults)
                     // $('#displayListings').html(incomingSearchResults)
                 }
             })
+        }
+
+        // Ensure that an option is selected. If the hidden radio is selected, then reject
+        function validateTime () {
+            timeVal = $('input[type="radio"]:checked').val()
+            if (timeVal == 'None') {
+                return false
+            }
         }
     </script>
 
@@ -142,6 +151,9 @@
                             <label class="label">Select Time</label>
                             <div >
                                 {{ bookform.book_timeslot(id="book_timeslot", class="timeslot_button") }}
+                                
+                                <!-- This is checked by default. Is a hidden radio button -->
+                                <input type='radio' id='book_timeslot_hidden' value="None" name='book_timeslot' checked='checked' style='display:none'>
                                 <!--<input class="input" type="time" placeholder="">-->
                             </div>
                         </div>
@@ -202,12 +214,19 @@
 
 
         function disableTimes(dates) {
-            times = document.getElementById('book_timeslot')
+            // Reset all the input types first (Set all to not disabled)
+            $(`input[type="radio"]`).attr('disabled',false)
+
+            // Select the hidden button again, hence removing the selections that the user previously selected
+            $('#book_timeslot_hidden').prop('checked', true)
+
             dates.forEach((date)=>{
                 $(`input[value="${date}"]`).attr('disabled',true)
             })
 
         }
+
+        $('#book_form').on('submit', validateTime() )
 
 
 

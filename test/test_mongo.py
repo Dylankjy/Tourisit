@@ -20,24 +20,27 @@ db = client['Listings']
 db_booking = client['Bookings']
 
 x = list(db_booking.find({'listing_id': ObjectId('600d72de9a9cad41198a0017')}))
-dates = list(map(lambda x: x['book_date'], x))
-times = list(map(lambda x: x['book_time'], x))
+y = list(map(lambda x: x['book_time'], x))
+z = list(set(y))
+print(z)
+# dates = list(map(lambda x: x['book_date'], x))
+# times = list(map(lambda x: x['book_time'], x))
 # print(dates)
 # print(times)
-z = tuple(zip(dates, times))
-print(z)
-print(dict(z))
+# z = tuple(zip(dates, times))
+# print(z)
+# print(dict(z))
 
 # q = dict.fromkeys(dates)
-q = {}
-
-for date, time in z:
-    if date in q:
-        q[date].append(time)
-    else:
-        q[date] = [time]
-
-print(q)
+# q = {}
+#
+# for date, time in z:
+#     if date in q:
+#         q[date].append(time)
+#     else:
+#         q[date] = [time]
+#
+# print(q)
 
 # (('01/14/2021', ['10:00 AM - 1:00 PM']), ('01/14/2021', ['4:00 PM - 7:00 PM']), ('01/08/2021', ['6:00 AM - 9:00 AM'])) TO {'01/14/2021': ['4:00 PM - 7:00 PM', '10:00 AM - 1:00 PM'], '01/08/2021': ['6:00 AM - 9:00 AM']}
 

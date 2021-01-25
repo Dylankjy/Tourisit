@@ -966,11 +966,17 @@ def calendarUpdate(tour_id):
 
     query = {'listing_id': ObjectId(tour_id), 'book_date': day}
     print(query)
-    day_bookings = list(bookings_db.find(query, {'book_time': 1, '_id': 0}))
+    bookings = list(bookings_db.find(query, {'book_time': 1, '_id': 0}))
+
+    #Return a list containing all the book_time of the bookings
+    day_bookings = list(map(lambda x: x['book_time'], bookings))
+    #Ensure there are no duplicated timings in the list
+    day_bookings = list(set(day_bookings))
+
     print(day_bookings)
 
     if len(day_bookings) == 0:
-        day_bookings = ['This']
+        day_bookings = []
 
     if day:
         print('fired')
@@ -1098,6 +1104,8 @@ def book_now(tour_id):
             book_date = request.form["book_day"]
             book_time = request.form["book_timeslot"]
 
+            print(book_date, book_time)
+
 
             booking = Booking(
                 tg_uid=item['tg_uid'],
@@ -1111,7 +1119,7 @@ def book_now(tour_id):
                 timeline_content=item['tour_itinerary'],
                 revisions=item['tour_revisions'],
                 process_step=5)
-            inserted_booking = bookings_db.insert_one(booking.return_obj())
+            # inserted_booking = bookings_db.insert_one(booking.return_obj())
             # submit button data as a dict
             button_data = request.form.to_dict()
             if bookform.validate_on_submit():
