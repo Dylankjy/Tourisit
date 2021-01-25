@@ -190,17 +190,20 @@ def support():
 
 # SHARED
 # User profile
+# noinspection PyUnusedFunction
 @app.route('/users/<user_id>', methods=['GET', 'POST'])
 def profile(user_id):
     bForm = BioForm()
-    item = user_db.find_one({'_id': ObjectId(user_id)})
+    # Find who is it from user_id
+    person = user_db.find_one({'_id': ObjectId(user_id)})
     result = auth.is_auth(True)
-
+    # Find who is it from result
     if result:
-        editable = item['_id'] == result['_id']
+        # Boolean, will be editable if person is the owner of the listing
+        editable = person['_id'] == result['_id']
         if request.method == 'POST':
             if bForm.validate_on_submit():
-                query_user = {'_id': ObjectId(user_id)}
+                query_user = {'_id': ObjectId(result['_id'])}
                 bio = request.form["bio"]
                 updated = {
                     "$set": {"bio": bio}
@@ -209,32 +212,35 @@ def profile(user_id):
 
             return render_template(
                 'profile.html',
-                user=item,
+                user=result,
+                person=person,
                 form=bForm,
                 loggedin=True,
                 editable=editable)
         else:
-            bForm.bio.default = item['bio']
+            bForm.bio.default = person['bio']
             bForm.process()
             return render_template(
                 'profile.html',
-                user=item,
+                user=result,
+                person=person,
                 form=bForm,
                 loggedin=True,
                 editable=editable)
     else:
         editable = False
-        print(item)
-        profile_img = item['profile_img']
+        profile_img = person['profile_img']
 
     # if not result:
         return render_template(
             'profile.html',
             form=bForm,
             logged_in=False,
-            user=item,
+            user=user,
+            person=person,
             editable=editable,
-            profile_img=profile_img)
+            profile_img=profile_img
+            )
 
 # SHARED
 # USER SETTINGS AND CHANGE PASSWORD
@@ -472,7 +478,7 @@ def tourListing(tour_id):
                 # See if item is already in wishlist. If yes, then display 'Remove from
                 # wishlist' instead of 'Add to wishlist'
                 inside_wl = str(tour_id) in loggedin_user['wishlist']
-                reviews_list = item['tour_reviews']
+                # reviews_list = item['tour_reviews']
 
                 # Retrieving the list of reviews under this listing
                 # reviews_list = list(reviews_db.find({'listing': ObjectId(tour_id)}))
@@ -488,8 +494,9 @@ def tourListing(tour_id):
                     editable=editable,
                     # userData=tg_userData,
                     inside_wl=inside_wl,
-                    display_listing=display_listing,
-                    reviews_list=reviews_list)
+                    display_listing=display_listing
+                    # reviews_list=reviews_list
+                )
 
             return 'Listing is currently private'
 
