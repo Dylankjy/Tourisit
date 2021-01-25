@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/frameworks/bulma-divider.css">
     <link rel="stylesheet" href='/css/pages/booking.css'>
     <link href="/css/frameworks/bulma-calendar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
     <script src="/js/bulma-calendar.min.js"></script>
     <script>
         // Initialize all input of type date
@@ -101,7 +102,7 @@
                                 <label class="checkbox">
                                     {{ bookform.accept_tnc(id="accept_tnc") }}
                                     <!--<input type="checkbox">-->
-                                    I agree to the <a href="#">terms and conditions.</a>
+                                    I agree to the <a href="#" data-tooltip="">terms and conditions.</a>
                                 </label>
                             </div>
                         </div>
@@ -163,7 +164,8 @@
                                 <label class="checkbox">
                                     {{ bookform.accept_tnc(id="accept_tnc") }}
                                     <!--<input type="checkbox">-->
-                                    I agree to the <a href="#">terms and conditions.</a>
+                                    I agree to the <a class="has-tooltip-multiline has-text-centered has-tooltip-danger" href="#" data-tooltip="There should not be more than 8 people in a group. Safe distancing measures should be adhered to at all times.">
+                                    terms and conditions.</a>
                                 </label>
                             </div>
                         </div>
