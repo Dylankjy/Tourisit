@@ -191,7 +191,7 @@ def support():
 # SHARED
 # User profile
 # noinspection PyUnusedFunction
-@app.route('/users/<user_id>', methods=['GET', 'POST'])
+@app.route('/users/<user_id>/profile', methods=['GET', 'POST'])
 def profile(user_id):
     bForm = BioForm()
     # Find who is it from user_id
@@ -236,7 +236,7 @@ def profile(user_id):
             'profile.html',
             form=bForm,
             logged_in=False,
-            user=user,
+            user=result,
             person=person,
             editable=editable,
             profile_img=profile_img
