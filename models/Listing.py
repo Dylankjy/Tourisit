@@ -144,7 +144,8 @@ class Listing:
             tour_itinerary,
             tour_days,
             tour_time,
-            tour_img=''
+            tour_img='',
+            tour_bookings={}
     ):
 
         self.__tour_name = ''
@@ -180,6 +181,7 @@ class Listing:
         self.__date_created = datetime.now()
         self.__tour_rating = 0
         self.__tour_reviews = []
+        self.__tour_bookings = tour_bookings
 
     def set_tour_name(self, tour_name):
         try:
@@ -275,6 +277,7 @@ class Listing:
             "tour_rating": self.__tour_rating,
             "tour_reviews": self.__tour_reviews,
             "tg_uid": self.__tg_uid,
-            "tour_visibility": self.__visibility
+            "tour_visibility": self.__visibility,
+            "tour_bookings": self.__tour_bookings
         }
 

@@ -19,8 +19,37 @@ client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_
 db = client['Listings']
 db_booking = client['Bookings']
 
-x = list(db_booking.find({'listing_id': ObjectId('600cc14fa87f5823e1c7c1fe'), 'completed': 0}))
-print(len(x))
+x = list(db_booking.find({'listing_id': ObjectId('600d72de9a9cad41198a0017')}))
+dates = list(map(lambda x: x['book_date'], x))
+times = list(map(lambda x: x['book_time'], x))
+# print(dates)
+# print(times)
+z = tuple(zip(dates, times))
+print(z)
+print(dict(z))
+
+# q = dict.fromkeys(dates)
+q = {}
+
+for date, time in z:
+    if date in q:
+        q[date].append(time)
+    else:
+        q[date] = [time]
+
+print(q)
+
+# (('01/14/2021', ['10:00 AM - 1:00 PM']), ('01/14/2021', ['4:00 PM - 7:00 PM']), ('01/08/2021', ['6:00 AM - 9:00 AM'])) TO {'01/14/2021': ['4:00 PM - 7:00 PM', '10:00 AM - 1:00 PM'], '01/08/2021': ['6:00 AM - 9:00 AM']}
+
+# dayTonumber = {'Mon': 1, 'Tues':2, 'Wed': 3, 'Thurs': 4, 'Fri': 5, 'Sat': 6, 'Sun': 0}
+# x = list(db.find({'_id': ObjectId('600cc14fa87f5823e1c7c1fe')}))[0]['tour_days']
+# y = list(map(lambda i: dayTonumber[i], x))
+# z = [*range(7)]
+# print(z)
+# print(y)
+# print(list(set(z) - set(y)))
+
+# x = list(db_booking.find({'listing_id': ObjectId('600cc14fa87f5823e1c7c1fe'), 'completed': 0}))
 
 # data = {'stars': None, 'text': 'tset', 'reviewer': ObjectId('600666f7ccab3b102fce39fb'), 'reviewee': ObjectId('5feafbbf4dbad8d4b8614958'), 'booking': ObjectId('600d31af52d1ea317620975c'), 'listing': ObjectId('600cc14fa87f5823e1c7c1fe')}
 # updated = {'$push': {'tour_reviews': data}}

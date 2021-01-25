@@ -125,26 +125,26 @@
         }
 
         function AddTiming() {
-        current_start_time = $('#tour-start-time').val()
-        current_end_time = $('#tour-end-time').val()
-        console.log(current_start_time)
-        text = 
-        `
-            <ul id='timing_${intno}' class='timing_interval'>
-                <div class='level-left'>
-                    <p class='level-item timing_interval_str'>${current_start_time} - ${current_end_time}</p>
+            current_start_time = $('#tour-start-time').val()
+            current_end_time = $('#tour-end-time').val()
+            console.log(current_start_time)
+            text = 
+            `
+                <ul id='timing_${intno}' class='timing_interval'>
+                    <div class='level-left'>
+                        <p class='level-item timing_interval_str'>${current_start_time} - ${current_end_time}</p>
 
-                    <button class="button level-item" onclick="$('#timing_${intno}').remove()">
-                        Delete
-                    </button>
-                </div>
-            </ul>
-        `
+                        <button class="button level-item" onclick="$('#timing_${intno}').remove()">
+                            Delete
+                        </button>
+                    </div>
+                </ul>
+            `
 
-        intno += 1
-        $('#timing-list').append(text)
+            intno += 1
+            $('#timing-list').append(text)
 
-    }
+        }
 
     function pushTimings() {
         var interval_str = $(this).text()

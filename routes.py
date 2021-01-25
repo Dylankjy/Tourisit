@@ -943,6 +943,35 @@ def chatwithGuide(tour_id):
 
     return redirect(url_for('login', denied_access=True))
 
+
+# To implement dynamic calendar function
+@app.route('/endpoint/bookingCalendar/<tour_id>')
+def calendarUpdate(tour_id):
+    print('YESH')
+    try:
+        day = request.args['day']
+    except:
+        day = None
+
+    print(day)
+
+
+
+    query = {'listing_id': ObjectId(tour_id), 'book_date': day}
+    print(query)
+    day_bookings = list(bookings_db.find(query, {'book_time': 1, '_id': 0}))
+    print(day_bookings)
+
+    if len(day_bookings) == 0:
+        day_bookings = ['This']
+
+    if day:
+        print('fired')
+        return json.dumps({'bookedTimes': day_bookings})
+
+
+    query = {}
+
 # --------------------------------------
 
 # Chloe
@@ -1049,10 +1078,37 @@ def book_now(tour_id):
 
         #Do custom rendering to bookform for date and time rendering
         bookform.book_timeslot.choices = item['tour_time']
+
+        #Dict to convert the days to numbers; for bulma-calendar options
+        dayTonumber = {'Mon': 1, 'Tues':2, 'Wed': 3, 'Thurs': 4, 'Fri': 5, 'Sat': 6, 'Sun': 0}
+        listing_tour_days = item['tour_days']
+        total_days = [*range(7)]
+        tour_days_numbers = list(map(lambda i: dayTonumber[i], listing_tour_days))
+        #Return the days that are not inside the listing days (Get the days that are not available)
+        disabled_days = list(set(total_days) - set(tour_days_numbers))
+
         if request.method == 'POST':
+            book_date = request.form["book_day"]
+            book_time = request.form["book_timeslot"]
+
+
+            booking = Booking(
+                tg_uid=item['tg_uid'],
+                cust_uid=result['_id'],
+                listing_id=item['_id'],
+                book_date=book_date,
+                book_time=book_time,
+                book_baseprice=item['tour_price'],
+                book_customfee=0,
+                book_duration="",
+                timeline_content=item['tour_itinerary'],
+                revisions=item['tour_revisions'],
+                process_step=5)
+            inserted_booking = bookings_db.insert_one(booking.return_obj())
             # submit button data as a dict
             button_data = request.form.to_dict()
             if bookform.validate_on_submit():
+                print('YESs')
                 book_date = request.form["book_date"]
                 book_time = request.form["book_time"]
                 print(book_time)
@@ -1106,7 +1162,8 @@ def book_now(tour_id):
             user=result,
             bookform=bookform,
             item=item,
-            tour_id=tour_id)
+            tour_id=tour_id,
+            disabled_days=disabled_days)
     # if not logged in
     else:
         return redirect(url_for('login', denied_access=True))

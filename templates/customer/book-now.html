@@ -6,8 +6,32 @@
     <link rel="stylesheet" href="/css/global/shop.css">
     <link rel="stylesheet" href="/css/frameworks/bulma-divider.css">
     <link rel="stylesheet" href='/css/pages/booking.css'>
-    <link href="/css/frameworks/bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet">
-    <script src="/css/frameworks/bulma-calendar/dist/js/bulma-calendar.min.js"></script>
+    <link href="/css/frameworks/bulma-calendar.min.css" rel="stylesheet">
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script>
+        // Initialize all input of type date
+
+        var options = {
+            type:'date',
+            disabledWeekDays: {{ disabled_days }}
+        }
+            
+        console.log('Done')
+
+        receiveSearch = (day) => {
+            $.ajax({
+                url: `/endpoint/bookingCalendar/{{ item['_id'] }}?day=${day}`,
+                dataType: "json",
+                success: (data) => {
+                    console.log('Retrieving search query')
+                    incomingSearchResults = data.bookedTimes
+                    console.log(incomingSearchResults)
+                    // $('#displayListings').html(incomingSearchResults)
+                }
+            })
+        }
+    </script>
+
 
 {% endblock %}
 
@@ -109,18 +133,15 @@
                     <!--START: Book now form-->
                     <form id="book_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
                         {{ bookform.csrf_token }}
-                        <div class="field">
-                            <label class="label">Select Date</label>
-                            <div class="control">
-                                {{ bookform.book_date(id="book_date", type="date", class="input") }}
-                                <!--<input class="input" type="date" placeholder="">-->
-                            </div>
+
+                        <div class='field'>
+                            <input name='book_day' type='date' id='day_selector' class='input'>
                         </div>
 
                         <div class="field">
                             <label class="label">Select Time</label>
-                            <div class="control">
-                                {{ bookform.book_timeslot(id="book_timeslot", class="input timeslot_button") }}
+                            <div >
+                                {{ bookform.book_timeslot(id="book_timeslot", class="timeslot_button") }}
                                 <!--<input class="input" type="time" placeholder="">-->
                             </div>
                         </div>
@@ -145,10 +166,10 @@
                     </form>
                             <p class="is-grey has-text-centered mt-2">Not sure if this tour is for you? 
                                 <form id="chat_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}" class="has-text-centered">
-                                <button class="button is-text has-text-link" type="submit" name="ChatFirst"
-                                    value="ChatFirst" style="text-decoration:none;">
-                                Chat with {{ item.tg_uid| user_name}} first.
-                                </button>
+                                    <button class="button is-text has-text-link" type="submit" name="ChatFirst"
+                                        value="ChatFirst" style="text-decoration:none;">
+                                    Chat with {{ item.tg_uid| user_name}} first.
+                                    </button>
                                 </form>
                             </p>
                     <!--END: Book now form-->
@@ -159,24 +180,36 @@
 
 
     <script>
-        // Initialize all input of type date
-        var calendars = bulmaCalendar.attach('#book_date', options);
+        const calendars = bulmaCalendar.attach('#day_selector', options);
 
         // Loop on each calendar initialized
-        for(var i = 0; i < calendars.length; i++) {
+        calendars.forEach(calendar => {
             // Add listener to select event
-            calendars[i].on('select', date => {
+            calendar.on('select', date => {
                 console.log(date);
+            });
+        });
+
+        // To access to bulmaCalendar instance of an element
+        const dateBox = document.querySelector('#day_selector');
+        if (dateBox) {
+            // bulmaCalendar instance is available as element.bulmaCalendar
+            dateBox.bulmaCalendar.on('select', datepicker => {
+                console.log(datepicker.data.value());
+                receiveSearch(dateBox.value)
             });
         }
 
-        // To access to bulmaCalendar instance of an element
-        var element = document.querySelector('#book_date');
-        if (element) {
-            // bulmaCalendar instance is available as element.bulmaCalendar
-            element.bulmaCalendar.on('select', function(datepicker) {
-                console.log(datepicker.data.value());
-            });
+
+        function disableTimes(dates) {
+            times = document.getElementById('book_timeslot')
+            dates.forEach((date)=>{
+                $(`input[value="${date}"]`).attr('disabled',true)
+            })
+
         }
+
+
+
     </script>
 {% endblock %}
