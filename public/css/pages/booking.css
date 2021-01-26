@@ -4,6 +4,11 @@
     width: 0;
   }
 
+  .timeslot_button > * {
+      margin-top: 10px
+  }
+  
+
 
 .timeslot_button label {
 display: inline-block;
@@ -33,6 +38,6 @@ border-radius: 4px;
 } */
 
 
-#book_date {
+/* #book_date {
     
-}
+} */
