@@ -101,12 +101,12 @@ def get_chat_list_for_ui(sid, chat_type):
                     "_id": recipient_uid
                 }
 
-                recipient_name = [
-                    a for a in db_users.find(query_recipient_uid)][0]["name"]
+                recipient_obj = [a for a in db_users.find(query_recipient_uid)][0]
 
                 compiled_list.append({"id": chat_room_id,
-                                      "name": recipient_name,
+                                      "name": recipient_obj["name"],
                                       "uid": recipient_uid,
+                                      "profile_img": recipient_obj["profile_img"],
                                       "chat_type": chat_type})
 
     return compiled_list
