@@ -51,7 +51,7 @@ app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 # CHANGE THE PASSWORD TO A GLOBAL VARIABLE
 client = pymongo.MongoClient(
-    'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
+    'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017', maxPoolSize=None)['Tourisit']
 
 # Initialize all DBs here
 shop_db = client['Listings']
@@ -77,6 +77,7 @@ def timestamp_iso(s):
     except ValueError:
         return 'Unknown'
 
+
 @app.template_filter('user_pfp')
 def user_pfp(uid):
     try:
@@ -87,11 +88,12 @@ def user_pfp(uid):
         return ''
 
     try:
-        pfp_data = [i for i in user_db.find(query)][0]["profile_img"]
+        pfp_data = user_db.find(query)[0]["profile_img"]
     except IndexError:
         pfp_data = ''
 
     return pfp_data
+
 
 @app.template_filter('user_name')
 def user_name(uid):
@@ -108,6 +110,7 @@ def user_name(uid):
         tg_name = ''
 
     return tg_name
+
 
 # @app.before_request
 # def before_request_callback():
@@ -128,12 +131,14 @@ def user_name(uid):
 
 uwu_face = file_to_base64('public/imgs/uwu.png')
 
+
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
     return render_template(
         'tourGuides/testImg.html',
         user=None,
         imgBase64=uwu_face)
+
 
 # Use this to display messages to user
 # I.e if user is searching for a listing that doesn't exist, then say 'Listing does not exist' message
@@ -148,6 +153,7 @@ def show_user_message(message):
     # Create the message, then redirect to showMsg page where message is passed as parameter
     # message = 'No listings yet!'
     # return redirect(url_for('show_user_message', message=message))
+
 
 # --------------------------------------
 
@@ -188,6 +194,7 @@ def support():
                 loggedin=True)
     else:
         return redirect(url_for('login', denied_access=True))
+
 
 # SHARED
 # User profile
@@ -237,7 +244,6 @@ def profile(user_id):
         editable = False
         profile_img = person['profile_img']
 
-    
         return render_template(
             'profile.html',
             form=bForm,
@@ -247,6 +253,7 @@ def profile(user_id):
             editable=editable,
             profile_img=profile_img
         )
+
 
 # SHARED
 # USER SETTINGS AND CHANGE PASSWORD
@@ -342,6 +349,7 @@ def accountinfo():
         # Render the pls log in template here
         return redirect(url_for('login', denied_access=True))
 
+
 # ALEX
 
 # CUSTOMERS
@@ -381,6 +389,7 @@ def home():
     return render_template('customer/index-customer.html',
                            item_list=shown_listings, loggedin=False)
 
+
 # CUSTOMERS
 # Marketplace: Display all listings
 @app.route('/discover')
@@ -406,6 +415,7 @@ def market():
         loggedin=True,
         user=result,
         item_list=all_listings)
+
 
 # To implement search function
 @app.route('/endpoint/search')
@@ -447,6 +457,7 @@ def search():
         resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
         return resp
 
+
 @app.route('/discover/random')
 def randomListing():
     query = [{"$match": {"tour_visibility": 1}},
@@ -455,6 +466,7 @@ def randomListing():
     # Extract the random_id so you can use it to render the discover page
     random_tour_id = random_listing['_id']
     return redirect(url_for('tourListing', tour_id=random_tour_id))
+
 
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from Marketplace clicked
@@ -489,7 +501,6 @@ def tourListing(tour_id):
                 # Retrieving the list of reviews under this listing
                 # reviews_list = list(reviews_db.find({'listing': ObjectId(tour_id)}))
 
-
                 # If it is 1, means display the listing. If 0 means make it invisible
 
                 return render_template(
@@ -520,6 +531,7 @@ def tourListing(tour_id):
     message = 'This listing is either invalid, has been hidden or deleted'
     return redirect(url_for('show_user_message', message=message))
 
+
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
@@ -549,10 +561,12 @@ def ownlisting():
         user=result,
         userData=userData)
 
+
 @app.route('/apis/upImg')
 def updateImg():
     text = request.args['currentImg']
     return json.dumps({"results": text})
+
 
 @app.route('/test/result')
 def testing():
@@ -613,7 +627,6 @@ def makelisting():
 
                 tg_uid = result['_id']
 
-
                 tour_listing = Listing(
                     tour_name=tour_name,
                     tour_desc=detail_desc,
@@ -659,6 +672,7 @@ def makelisting():
     # If not logged in
     # Return a modal where ppl have to login first
     return redirect(url_for('login', denied_access=True))
+
 
 # TOUR GUIDES
 # Edit Listings: When click on own listing to edit
@@ -771,6 +785,7 @@ def editListing(id):
     else:
         return redirect(url_for('login', denied_access=True))
 
+
 # @app.route('/testImg', methods=['GET', 'POST'])
 # def test_img():
 #     lForm = ListingForm()
@@ -841,9 +856,9 @@ def deleteList(id):
         if editable:
             # Implement validation to check if there are any exisitng tours for this listing. If there isn't, then allow it to be deleted
 
-            #Find the list of uncompleted bookings for this listing
+            # Find the list of uncompleted bookings for this listing
             uncompleted_bookings = list(bookings_db.find({'listing_id': ObjectId(id), 'completed': 0}))
-            #Boolean that checks if there are uncompleted bookings
+            # Boolean that checks if there are uncompleted bookings
             uncompleted_exists = len(uncompleted_bookings) != 0
 
             # If there are no outstanding bookings, then allow listing to be deleted
@@ -858,6 +873,7 @@ def deleteList(id):
             message = 'You are not authorized to edit this listing!'
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
+
 
 # CUSTOMERS
 # Favourites: Shows all the liked listings
@@ -884,6 +900,7 @@ def favourites():
 
     return redirect(url_for('login', denied_access=True))
 
+
 # Add to wishlist
 @app.route('/me/wishlist/add/<tour_id>')
 def addWishlist(tour_id):
@@ -904,6 +921,7 @@ def addWishlist(tour_id):
         return redirect(f'/discover/{tour_id}')
 
     return redirect(url_for('login', denied_access=True))
+
 
 # Remove from wishlist
 @app.route('/me/wishlist/remove/<tour_id>')
@@ -942,15 +960,15 @@ def chatwithGuide(tour_id):
         # Check if there are any existing UwU chats between these 2 people
         query = {'participants': {"$in": [browsing_object_id, tg_object_id]}, 'chat_type': 'UwU'}
         chats = list(chats_db.find(query))
-        #Boolean to check if a chat exists
+        # Boolean to check if a chat exists
         existing_chat = len(chats) > 0
 
-        #Redirect to existing chat if it exists
+        # Redirect to existing chat if it exists
         if existing_chat:
             existing_chat_id = chats[0]['_id']
             return redirect(url_for('chat_room', room_id=existing_chat_id))
 
-        #If doesnt exist, create new UwU chat
+        # If doesnt exist, create new UwU chat
         chat_id = msg.create_chat_room([browsing_user_id, tour_guide_id], False)
         return redirect(url_for('chat_room', room_id=chat_id))
 
@@ -968,15 +986,13 @@ def calendarUpdate(tour_id):
 
     print(day)
 
-
-
     query = {'listing_id': ObjectId(tour_id), 'book_date': day}
     print(query)
     bookings = list(bookings_db.find(query, {'book_time': 1, '_id': 0}))
 
-    #Return a list containing all the book_time of the bookings
+    # Return a list containing all the book_time of the bookings
     day_bookings = list(map(lambda x: x['book_time'], bookings))
-    #Ensure there are no duplicated timings in the list
+    # Ensure there are no duplicated timings in the list
     day_bookings = list(set(day_bookings))
 
     print(day_bookings)
@@ -988,8 +1004,8 @@ def calendarUpdate(tour_id):
         print('fired')
         return json.dumps({'bookedTimes': day_bookings})
 
-
     query = {}
+
 
 # --------------------------------------
 
@@ -1021,6 +1037,7 @@ def all_bookings():
             loggedin=True,
             user=result)
 
+
 # except:
 #     return 'Error trying to render'
 
@@ -1044,7 +1061,7 @@ def bookings(book_id):
         if booking['process_step'] < 1:
             print("access denied, pay first")
             return redirect(url_for('checkout', book_id=book_id))
-        chat_exist = chats_db.find({"":101}).count() > 0
+        chat_exist = chats_db.find({"": 101}).count() > 0
         print(chat_exist)
         if request.method == 'POST':
             # submit button data as a dict
@@ -1060,7 +1077,8 @@ def bookings(book_id):
                 new_revisions = booking['revisions'] - 1
                 if new_revisions <= 0:
                     print("paid from here on")
-                update_booking = {"$set": {"process_step": 4, "revision_text": revision_text, "revisions": new_revisions}}
+                update_booking = {
+                    "$set": {"process_step": 4, "revision_text": revision_text, "revisions": new_revisions}}
                 bookings_db.update_one(booking, update_booking)
             elif 'MakePayment' in button_data.values():
                 update_booking = {"$set": {"process_step": 6}}
@@ -1073,11 +1091,11 @@ def bookings(book_id):
                 tg_dashboard = dashboard_db.find_one({'uid': booking['tg_uid']})
                 dashboard_earnings = tg_dashboard['earnings']
                 earning = booking['book_charges']['baseprice'] + \
-                               booking['book_charges']['customfee']
+                          booking['book_charges']['customfee']
                 dashboard_earnings.append(earning)
                 update_tg_dashboard = {'$set': {'earnings': dashboard_earnings}}
                 dashboard_db.update_one(tg_dashboard, update_tg_dashboard)
-                
+
             return redirect(url_for('bookings', book_id=book_id))
             # elif request.form['TourComplete_submit'] == 'TourComplete':
             #     update_booking = {"$set": {"process_step": 7}}
@@ -1090,6 +1108,7 @@ def bookings(book_id):
                                revisionform=revisionform,
                                loggedin=True,
                                user=result)
+
 
 # except:
 #     return 'Error trying to render'
@@ -1107,15 +1126,15 @@ def book_now(tour_id):
     if result:
         bookform = BookingForm()
 
-        #Do custom rendering to bookform for date and time rendering
+        # Do custom rendering to bookform for date and time rendering
         bookform.book_timeslot.choices = item['tour_time']
 
-        #Dict to convert the days to numbers; for bulma-calendar options
-        dayTonumber = {'Mon': 1, 'Tues':2, 'Wed': 3, 'Thurs': 4, 'Fri': 5, 'Sat': 6, 'Sun': 0}
+        # Dict to convert the days to numbers; for bulma-calendar options
+        dayTonumber = {'Mon': 1, 'Tues': 2, 'Wed': 3, 'Thurs': 4, 'Fri': 5, 'Sat': 6, 'Sun': 0}
         listing_tour_days = item['tour_days']
         total_days = [*range(7)]
         tour_days_numbers = list(map(lambda i: dayTonumber[i], listing_tour_days))
-        #Return the days that are not inside the listing days (Get the days that are not available)
+        # Return the days that are not inside the listing days (Get the days that are not available)
         disabled_days = list(set(total_days) - set(tour_days_numbers))
 
         if request.method == 'POST':
@@ -1191,7 +1210,8 @@ def book_now(tour_id):
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
             elif 'ChatFirst' in button_data.values():
-                chat_list = list(chats_db.find({'participants': {"$in": [auth.get_sid(), item["tg_uid"]]}, 'chat_type': 'UwU'}))
+                chat_list = list(
+                    chats_db.find({'participants': {"$in": [auth.get_sid(), item["tg_uid"]]}, 'chat_type': 'UwU'}))
                 print(chat_list)
                 if len(chat_list) > 0:
                     chat_id = chat_list[0]['_id']
@@ -1211,6 +1231,7 @@ def book_now(tour_id):
     # if not logged in
     else:
         return redirect(url_for('login', denied_access=True))
+
 
 # except:
 #     return 'Error trying to render'
@@ -1250,7 +1271,7 @@ def checkout(book_id):
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=str(book_id)))
 
-                #do rmb to add haru's dashboard stuff
+                # do rmb to add haru's dashboard stuff
                 else:
                     print("Error occurred while trying to pay.")
 
@@ -1264,6 +1285,7 @@ def checkout(book_id):
     # if not logged in
     else:
         return redirect(url_for('login', denied_access=True))
+
 
 # except:
 #     return 'Error trying to render (checkout)'
@@ -1306,7 +1328,6 @@ def all_businesses():
 # @app.route('/s/businesses/<id>')
 @app.route('/s/businesses/<book_id>', methods=['GET', 'POST'])
 def business(book_id):
-
     booking_query = {'_id': ObjectId(book_id)}
     booking = bookings_db.find_one(booking_query)
     listing = shop_db.find_one({'_id': booking['listing_id']})
@@ -1332,9 +1353,6 @@ def business(book_id):
                     "$set": {"timeline_content": tour_itinerary}
                 }
                 bookings_db.update_one(booking_query, updated)
-
-
-
 
                 # if "submit-setting" in request.form and uForm.validate_on_submit():
             # if 'tour_submit' in request.form and itineraryForm.validate_on_submit():
@@ -1367,6 +1385,7 @@ def business(book_id):
                                form=itineraryForm)
     # except BaseException:
     #     return 'Error trying to render'
+
 
 # CUSTOMER
 # Submit Review
@@ -1416,7 +1435,7 @@ def review(book_id):
                         listing=tour[0]['_id'])
                     print(review.return_obj())
 
-                    #Update the Listing db, append the review to 'Reviews'
+                    # Update the Listing db, append the review to 'Reviews'
                     review_data = review.return_obj()
                     listing_query = {'_id': ObjectId(booking['listing_id'])}
                     updated = {'$push': {'tour_reviews': review_data}}
@@ -1425,7 +1444,7 @@ def review(book_id):
                     # reviews_db.insert_one(review.return_obj())
                     update_booking = {"$set": {
                         'process_step': 8,
-                        'completed': 1,}}
+                        'completed': 1, }}
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=str(book_id)))
             return render_template(
@@ -1433,6 +1452,7 @@ def review(book_id):
                 booking=booking,
                 tour=tour,
                 form=form)
+
 
 # except BaseException:
 #     return 'Error trying to render'
@@ -1449,10 +1469,12 @@ def review(book_id):
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
 
+
 # Redirect user to dashboard if attempt to access file of /s/
 @app.route('/s')
 def sellerModeFile():
     return redirect(url_for('sellerDashboard'))
+
 
 # TOUR GUIDE
 # Dashboard
@@ -1470,6 +1492,7 @@ def sellerDashboard():
             loggedin=True,
             user=result)
 
+
 # INTERNAL
 # Admin Dashboard -- Private internal shit
 @app.route('/admin')
@@ -1485,6 +1508,7 @@ def adminDashboard():
             'internal/dashboard.html',
             loggedin=True,
             user=result)
+
 
 # INTERNAL
 # Admin Dashboard -- Manage users
@@ -1504,6 +1528,7 @@ def adminUsers():
             user=result,
             user_list=user_accounts)
 
+
 # INTERNAL
 # Admin Dashboard -- Manage listings
 @app.route('/admin/listings')
@@ -1520,6 +1545,7 @@ def adminListings():
             loggedin=True,
             user=result,
             listing=admin.list_listings())
+
 
 # SHARED
 # Login Page
@@ -1566,6 +1592,7 @@ def login():
     # If user is ALREADY logged in
     else:
         return redirect(url_for('home'))
+
 
 # SHARED
 # Sign up page
@@ -1619,6 +1646,7 @@ def signup():
     else:
         return redirect(url_for('home'))
 
+
 @app.route('/endpoint/resendEmail', methods=['POST'])
 def resend_email():
     resend_email_form = auth.ResendEmailForm()
@@ -1635,6 +1663,7 @@ def resend_email():
         if auth.send_confirmation_email(None, email):
             return redirect(url_for('signup', email_sent=True))
 
+
 # MEMBERS
 # Logout page
 @app.route('/logout')
@@ -1650,6 +1679,7 @@ def logout():
         return resp
     else:
         return redirect(url_for('home'))
+
 
 # SHARED
 # Chats: Render individual chats -- Stolen from Chloe
@@ -1670,6 +1700,7 @@ def chat():
             list=chat_list,
             chatroom_display=False,
             not_found=request.args.get('not_found'))
+
 
 @app.route('/chat/<room_id>', methods=['GET', 'POST'])
 def chat_room(room_id):
@@ -1708,6 +1739,7 @@ def chat_room(room_id):
             selected_chatroom=ObjectId(room_id),
             verification_code_OK=request.args.get('verification_code_OK'))
 
+
 # MEMBERS
 # Chat endpoint
 @app.route('/endpoint/chat')
@@ -1742,6 +1774,7 @@ def chatroom_endpoint():
         resp = make_response('Tourisit API Endpoint - Error 403', 403)
         return resp
 
+
 # Email confirmation endpoint:
 @app.route('/endpoint/email_confirmation')
 def email_confirmation_endpoint():
@@ -1750,6 +1783,7 @@ def email_confirmation_endpoint():
         return redirect(url_for('login', verification_code_OK=True))
     else:
         return redirect(url_for('login', verification_code_denied=True))
+
 
 @app.route('/set_acc_mode', methods=['GET', 'POST'])
 def setAccType():
@@ -1774,6 +1808,7 @@ def setAccType():
     message = 'Not authorized to perform this action!'
     return redirect(url_for('show_user_message', message=message))
 
+
 # Password reset:
 # TODO: Take token put into WTForm and check only after submission. Remove check on auth.py
 # @app.route('/login/reset_password')
@@ -1789,6 +1824,7 @@ def setAccType():
 @app.errorhandler(413)
 def error413(err):
     return f'Oh Noes! You got {err}'
+
 
 # Run app
 if __name__ == '__main__':
