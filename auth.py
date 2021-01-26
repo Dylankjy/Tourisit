@@ -226,7 +226,7 @@ def login_account(email, unencoded_password):
 
     # Get user data from db by email
     query = {
-        "email": email
+        "email": email.lower()
     }
 
     try:
