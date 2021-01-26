@@ -14,16 +14,16 @@
 {% block content %}
 <section class="section is-medium">
     <div class="container profile-container box p-6"
-        style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');">
+        style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');">
         <div class="profile-card-blur"></div>
         <div class="columns is-vcentered" style="position: inherit; z-index: 1">
             <div class="column is-one-fifth">
                 <div class="profile-img-onprofile"
-                    style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
+                    style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');"></div>
             </div>
             <div class="column">
                 <p class="title is-1 has-text-white">
-                    {{ user.name }}
+                    {{ person.name }}
                     {% if person.verified == 1 %}
                     <span class="tag is-success">
                         <i class="fas fa-check"></i>&ensp;Verified Guide
