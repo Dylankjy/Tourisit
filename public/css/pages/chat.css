@@ -9,6 +9,6 @@
 }
 
 #messageContainer {
-    height: 35rem;
-    overflow:scroll;
+    height: 50vh;
+    overflow: scroll;
 }
