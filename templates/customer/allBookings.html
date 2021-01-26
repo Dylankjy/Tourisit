@@ -85,6 +85,15 @@
         </div>
     </section>
     <!--END: Dropdown-->
+
+{#    {% if 1 <= item.process_step <= 4 %}#}
+{#    <span class="tag is-info is-light mb-4">Planning</span>#}
+{#{% elif 4 < item.process_step < 7 %}#}
+{#    <span class="tag is-success is-light mb-4">Confirmed</span>#}
+{#{% elif item.process_step >= 7 %}#}
+{#    <span class="tag is-warning is-light mb-4">Completed</span>#}
+{#{% endif %}#}
+
     <section>
         {% if booking_list == None %}
             <div>(to be replaced) No bookings</div>
@@ -127,6 +136,16 @@
                 <!--END: Card-->
             {% endfor %}
         {% endif %}
+    </section>
+
+    <section class="section">
+        <div class="container">
+            {% for item in booking_list %}
+
+                    {% include 'components/listing-card-horizontal.html' %}
+
+                {% endfor %}
+        </div>
     </section>
 
     <!--START: Scroll to top button-->
