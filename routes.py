@@ -1066,21 +1066,18 @@ def bookings(book_id):
                 update_booking = {"$set": {"process_step": 6}}
                 bookings_db.update_one(booking, update_booking)
             elif 'CompleteTour' in button_data.values():
-                # update_booking = {"$set": {"process_step": 7}}
-                # bookings_db.update_one(booking, update_booking)
+                update_booking = {"$set": {"process_step": 7}}
+                bookings_db.update_one(booking, update_booking)
 
                 # Tour is completed, transaction
                 tg_dashboard = dashboard_db.find_one({'uid': booking['tg_uid']})
-                print(tg_dashboard)
-                dashboard_earnings = list(tg_dashboard['earnings'])
-                print(dashboard_earnings)
-                print(type(dashboard_earnings))
+                dashboard_earnings = tg_dashboard['earnings']
                 earning = booking['book_charges']['baseprice'] + \
                                booking['book_charges']['customfee']
-                print(earning)
                 dashboard_earnings.append(earning)
-                print(f"updated earnings = {dashboard_earnings}")
-                # update_tg_dashboard = {'$set': }
+                update_tg_dashboard = {'$set': {'earnings': dashboard_earnings}}
+                dashboard_db.update_one(tg_dashboard, update_tg_dashboard)
+                
             return redirect(url_for('bookings', book_id=book_id))
             # elif request.form['TourComplete_submit'] == 'TourComplete':
             #     update_booking = {"$set": {"process_step": 7}}
