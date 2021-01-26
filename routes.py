@@ -199,8 +199,9 @@ def profile(user_id):
     result = auth.is_auth(True)
     # Find who is it from result
     if result:
-        # Boolean, will be editable if person is the owner of the listing
+        # Boolean, will be editable if person is the owner of the profile
         editable = person['_id'] == result['_id']
+        profile_img = result['profile_img']
         if request.method == 'POST':
             if bForm.validate_on_submit():
                 query_user = {'_id': ObjectId(result['_id'])}
@@ -216,9 +217,10 @@ def profile(user_id):
                 person=person,
                 form=bForm,
                 loggedin=True,
-                editable=editable)
+                editable=editable,
+                profile_img=profile_img
+            )
         else:
-            bForm.bio.default = person['bio']
             bForm.process()
             return render_template(
                 'profile.html',
@@ -226,12 +228,15 @@ def profile(user_id):
                 person=person,
                 form=bForm,
                 loggedin=True,
-                editable=editable)
+                editable=editable,
+                profile_img=profile_img
+            )
+    # if not result:
     else:
         editable = False
         profile_img = person['profile_img']
 
-    # if not result:
+    
         return render_template(
             'profile.html',
             form=bForm,
@@ -240,7 +245,7 @@ def profile(user_id):
             person=person,
             editable=editable,
             profile_img=profile_img
-            )
+        )
 
 # SHARED
 # USER SETTINGS AND CHANGE PASSWORD
