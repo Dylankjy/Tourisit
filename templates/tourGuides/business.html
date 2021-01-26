@@ -139,9 +139,6 @@
                 <a>Chat</a>
             </li>
             <li class="tab" onclick="openTab(event,'Charges')">
-                {% if process_step == 2 or process_step == 4 %}
-                    <span title="Badge top right" class="badge is-danger"></span>
-                {% endif %}
                 <a>Charges</a>
             </li>
         </ul>
@@ -431,9 +428,6 @@
                     <!--END: Info Table-->
                     <div class="is-pulled-right">
                         <span class="tag is-size-4">Price: ${{ booking.book_charges['baseprice'] }}</span><br>
-                        {% if process_step == 2 or process_step == 4 %}
-                            <a class="has-text-link is-size-7 pl-6" onclick="openTab(event,'Charges')">Edit Charges</a>
-                        {% endif %}
                     </div>
                     <br><br><br><br>
                     {% if process_step == 2 or process_step == 4 %}
@@ -452,10 +446,6 @@
                             <br>
                             </button>
                             </p>
-                        </div>
-                        <div class="is-pulled-right mb-4">
-                            <a class="has-text-link is-size-6" onclick="openTab(event,'Overview')">Submit Proposed
-                                Itinerary & Charges</a>
                         </div>
                         <!--END: cancel changes/draft/submit itinerary buttons-->
                     {% endif %}
@@ -630,7 +620,7 @@
                 <br>
                 {% if process_step == 2 or process_step == 4 %}
                     <!--START: Edit button-->
-                    <div class="has-text-centered mb-2" id="Cost_EditButton">
+                    <!-- <div class="has-text-centered mb-2" id="Cost_EditButton">
                         <p class="control">
                             <button class="button is-success is-light" onclick="editCost()">
                                 <i class="fas fa-edit"></i>
@@ -638,17 +628,17 @@
                         <br>
                         </button>
                         </p>
-                    </div>
+                    </div> -->
                     <!--END: Edit button-->
                     <!--START: Save button-->
-                    <div class="has-text-centered mb-2 is-hidden" id="Cost_SaveButton">
+                    <!-- <div class="has-text-centered mb-2 is-hidden" id="Cost_SaveButton">
                         <p class="control">
                             <button class="button is-success is-light" onclick="SaveCost()">
                         <div class="is-size-5">Save</div>
                         <br>
                         </button>
                         </p>
-                    </div>
+                    </div> -->
                     <!--END: Save button-->
                 {% endif %}
                 <!--START: form Display proposed cost-->
@@ -792,7 +782,7 @@
                                 </p>
                                 <form id="SubmitItinerary" method="POST" action="{{ url_for('business', book_id=booking._id) }}">
                                     <p class="control">
-                                        <button class="button is-success is-light" type="submit" name="SubmitItinerary"
+                                        <button class="button is-success is-light" type="submit" name="SubmitItinerary" value="Update Itinerary"
                                                 value="SubmitItinerary">
                                     <div class="is-size-5">Confirm</div>
                                     </button>

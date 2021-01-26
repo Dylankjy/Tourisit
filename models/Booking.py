@@ -38,6 +38,7 @@ class Booking:
             book_customfee,
             book_duration,
             timeline_content,
+            chat_id,
             revisions,
             process_step,
     ):
@@ -56,7 +57,7 @@ class Booking:
             'baseprice': float(book_baseprice),
             'customfee': float(book_customfee)}
         self.__book_info = ""
-        self.__book_chat = ""
+        self.__book_chat = chat_id
         self.__completed = 0
         self.__revision_text = ""
 
@@ -110,3 +111,4 @@ def calculate_totalcost(book_charges):
             return round(totalcost, 2)
     except BaseException:
         print("An error occured while trying to compute the total cost. Check Datatypes or negative inputs.")
+

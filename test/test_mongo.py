@@ -20,9 +20,10 @@ db = client['Listings']
 db_booking = client['Bookings']
 
 x = list(db_booking.find({'listing_id': ObjectId('600d72de9a9cad41198a0017')}))
-y = list(map(lambda x: x['book_time'], x))
-z = list(set(y))
-print(z)
+# y = list(map(lambda x: x['book_time'], x))
+# z = list(set(y))
+# print(z)
+print(x)
 # dates = list(map(lambda x: x['book_date'], x))
 # times = list(map(lambda x: x['book_time'], x))
 # print(dates)

@@ -49,13 +49,6 @@
 
 {% block content %}
 
-<!--START: New booknow form (set display to none for now bc its a wip)-->
-<section class="section mt-6" style="display:none;">
-                    <form id="book_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
-                        why
-                    </form>
-</section>    
-<!--END: New booknow form-->
 
     <section class="section mt-6">
         <div class="columns is-centered">
@@ -159,7 +152,7 @@
 
         }
 
-        $('#book_form').on('submit', validateTime() )
+        
 
 
 

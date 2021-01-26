@@ -61,6 +61,7 @@ support_db = client['Support']
 transaction_db = client['Transactions']
 reviews_db = client['Reviews']
 chats_db = client['Chats']
+dashboard_db = client['Dashboard']
 
 
 # Good Stuff
@@ -1065,8 +1066,21 @@ def bookings(book_id):
                 update_booking = {"$set": {"process_step": 6}}
                 bookings_db.update_one(booking, update_booking)
             elif 'CompleteTour' in button_data.values():
-                update_booking = {"$set": {"process_step": 7}}
-                bookings_db.update_one(booking, update_booking)
+                # update_booking = {"$set": {"process_step": 7}}
+                # bookings_db.update_one(booking, update_booking)
+
+                # Tour is completed, transaction
+                tg_dashboard = dashboard_db.find_one({'uid': booking['tg_uid']})
+                print(tg_dashboard)
+                dashboard_earnings = list(tg_dashboard['earnings'])
+                print(dashboard_earnings)
+                print(type(dashboard_earnings))
+                earning = booking['book_charges']['baseprice'] + \
+                               booking['book_charges']['customfee']
+                print(earning)
+                dashboard_earnings.append(earning)
+                print(f"updated earnings = {dashboard_earnings}")
+                # update_tg_dashboard = {'$set': }
             return redirect(url_for('bookings', book_id=book_id))
             # elif request.form['TourComplete_submit'] == 'TourComplete':
             #     update_booking = {"$set": {"process_step": 7}}
@@ -1116,7 +1130,7 @@ def book_now(tour_id):
 
                 print(book_date, book_time)
 
-
+                chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], True)
                 booking = Booking(
                     tg_uid=item['tg_uid'],
                     cust_uid=result['_id'],
@@ -1127,10 +1141,12 @@ def book_now(tour_id):
                     book_customfee=0,
                     book_duration="",
                     timeline_content=item['tour_itinerary'],
+                    chat_id=chat_id,
                     revisions=item['tour_revisions'],
                     process_step=5)
-
-                print(booking)
+                inserted_booking = bookings_db.insert_one(booking.return_obj())
+                book_id = inserted_booking.inserted_id
+                return redirect(url_for('checkout', book_id=book_id))
             # inserted_booking = bookings_db.insert_one(booking.return_obj())
             # submit button data as a dict
             button_data = request.form.to_dict()
@@ -1141,6 +1157,7 @@ def book_now(tour_id):
                 book_date = request.form["book_date"]
                 book_time = request.form["book_time"]
                 print(book_time)
+
                 booking = Booking(
                     tg_uid=item['tg_uid'],
                     cust_uid=result['_id'],
@@ -1158,6 +1175,7 @@ def book_now(tour_id):
                 return redirect(url_for('checkout', book_id=book_id))
             elif 'CustomiseTour' in button_data.values():
                 customfee = round(0.1 * float(item['tour_price']), 2)
+                chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], True)
                 booking = Booking(
                     tg_uid=item['tg_uid'],
                     cust_uid=result['_id'],
@@ -1168,6 +1186,7 @@ def book_now(tour_id):
                     book_customfee=customfee,
                     book_duration="",
                     timeline_content=item['tour_itinerary'],
+                    chat_id=chat_id,
                     revisions=item['tour_revisions'],
                     process_step=0)
                 print(booking.return_obj())
@@ -1318,6 +1337,8 @@ def business(book_id):
                 bookings_db.update_one(booking_query, updated)
 
 
+
+
                 # if "submit-setting" in request.form and uForm.validate_on_submit():
             # if 'tour_submit' in request.form and itineraryForm.validate_on_submit():
             #     itinerary_form_list = request.form.getlist('tour_items_list[]')
@@ -1354,17 +1375,20 @@ def business(book_id):
 # Submit Review
 @app.route('/review/<book_id>', methods=['GET', 'POST'])
 def review(book_id):
+    print("hi")
     # try:
-    booking = bookings_db.find_one({'_id': ObjectId(book_id)})
-    tour = shop_db.find_one({'_id': booking['listing_id']})
+    booking = list(bookings_db.find({'_id': ObjectId(book_id)}))
+    print(booking)
+    tour = shop_db.find_one({'_id': booking[0]['listing_id']})
+    print(tour)
     form = ReviewForm()
     result = auth.is_auth(True)
     if not result:
         return redirect(url_for('login', denied_access=True))
     else:
 
-        query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id':booking['listing_id']}
-
+        query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id':booking[0]['listing_id']}
+        print(tour)
         tmp1 = list(map(lambda i: i['tour_reviews'], tour))[0]
         # A list of all the booking IDs of the reviews for this listing
         listing_review_bookingIDs = list(map(lambda i: i['booking'], tmp1))
