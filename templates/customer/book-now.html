@@ -14,6 +14,7 @@
 
         var options = {
             type:'date',
+            lang: 'en',
             disabledWeekDays: {{ disabled_days }}
         }
             
@@ -79,8 +80,9 @@
 
                         <div class="field">
                             <label class="label">Select Time</label>
-                            <div >
+                            <div>
                                 {{ bookform.book_timeslot(id="book_timeslot", class="timeslot_button") }}
+                            </div>
                                 
                                 <!-- This is checked by default. Is a hidden radio button -->
                                 <input type='radio' id='book_timeslot_hidden' value="None" name='book_timeslot' checked='checked' style='display:none'>
