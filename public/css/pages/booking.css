@@ -25,6 +25,7 @@
 .timeslot_button input[type="radio"]:checked+label {
     background-color: rgb(79, 216, 127);
     border-color: rgb(79, 216, 127);
+    color: white !important
 }
 
 /* .timeslot_button input[type="radio"]:hover + label {
