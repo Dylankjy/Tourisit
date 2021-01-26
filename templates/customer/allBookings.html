@@ -94,57 +94,18 @@
 {#    <span class="tag is-warning is-light mb-4">Completed</span>#}
 {#{% endif %}#}
 
-    <section>
+    <section class="section">
+        <div class="container">
         {% if booking_list == None %}
             <div>(to be replaced) No bookings</div>
         {% else %}
             {% for item in booking_list %}
-                {% set listing = listings[loop.index0] %}
-                <!--START: Card -->
-                <div class='container mt-5'>
-                    <div class='box p-5'>
-                        <a href="/bookings/{{ item['_id'] }}">
-                            <div class="columns is-vcentered">
-                                <div class="column">
-                                    <div class="ml-4">
-                                        {% if 1 <= item.process_step <= 4 %}
-                                            <span class="tag is-info is-light mb-4">Planning</span>
-                                        {% elif 4 < item.process_step < 7 %}
-                                            <span class="tag is-success is-light mb-4">Confirmed</span>
-                                        {% elif item.process_step >= 7 %}
-                                            <span class="tag is-warning is-light mb-4">Completed</span>
-                                        {% endif %}
-                                        <div class="listing-author">
-                                            <div class="profile-img"
-                                                 style="background-image: url('data:image/jpeg;base64, {{ listing.tg_uid | user_pfp }}')">
-                                            </div>
-                                            <div class="ml-2"><b>{{ listing.tg_uid | user_name }}</b> <span>is offering:</span>
-                                            </div>
-                                        </div>
-                                        <h1 class='title'>{{ listing.tour_name }}</h1>
-                                        <p class="subtitle truncate is-size-6 has-text-grey">{{ listing.tour_desc }}</p>
-                                    </div>
-                                </div>
-                                <div class="column is-two-fifths">
-                                    <div class="box listing-img"
-                                         style="background-image: url('data:image/jpeg;base64, {{ listing.tour_img }}');"></div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <!--END: Card-->
-            {% endfor %}
-        {% endif %}
-    </section>
+                {% set list = listings[loop.index0] %}
 
-    <section class="section">
-        <div class="container">
-            {% for item in booking_list %}
-
-                    {% include 'components/listing-card-horizontal.html' %}
+                    {% include 'components/listing-card-bookings.html' %}
 
                 {% endfor %}
+        {% endif %}
         </div>
     </section>
 
