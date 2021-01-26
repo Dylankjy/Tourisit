@@ -26,24 +26,24 @@
                                     <div class="ml-2"><b>{{ tour.tg_name }}</b> <span>is offering:</span>
                                     </div>
                                 </div>
-                                <h1 class='title'>{{tour.tour_name}}</h1>
+                                <h1 class='title'>{{ tour.tour_name }}</h1>
                                 <p class="subtitle truncate is-size-6 has-text-grey">{{ tour.tour_desc }}</p>
                                 <br>
                             </div>
                         </div>
                         <div class="column">
-                                    <div class="box listing-img"
-                                         style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}');"></div>
+                            <div class="box listing-img"
+                                 style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}');"></div>
                         </div>
                     </div>
 
-                    
+
                     <form id='review_form' method="POST" action="{{ url_for('review', book_id=booking['_id']) }}">
                         {{ form.csrf_token }}
                         <fieldset>
                             <div class="field has-text-centered">
-                                <!-- <div class="star"></div> -->
-                                {{ form.rating(id ='result', class='star') }}
+                                <div class="star"></div>
+                                {{ form.rating(id="rating", class="rating") }}
                             </div>
 
                             <div class="field">
@@ -61,8 +61,7 @@
                                 <label class="label" for="review-submit"></label>
                                 <div class="control">
                                     <input id="review-submit" name="review-submit" type="submit"
-                                            class="button is-success is-medium is-fullwidth">Submit your review
-                                </input>
+                                           class="button is-success is-medium is-fullwidth">
                                 </div>
                             </div>
                         </fieldset>
@@ -72,12 +71,23 @@
         </div>
     </section>
     <script>
-        $('.star').raty({
-            path: '/imgs',
-            starOn: 'star-on-big.png',
-            starOff: 'star-off-big.png',
-            score: '#result',
-			targetKeep: true
+        $(document).ready(function () {
+            $('#rating').hide();
+            $('.star').raty({
+                score: function () {
+                    return $(this).data('score');
+                },
+                path: '/imgs',
+                starOn: 'star-on-big.png',
+                starOff: 'star-off-big.png',
+                targetKeep: true,
+                target: '#rating',
+                hints: [1, 2, 3, 4, 5]
+            });
+
+            $('#review-submit').click(function () {
+                $('#rating').val($('.star').raty(score));
+            });
         });
     </script>
 

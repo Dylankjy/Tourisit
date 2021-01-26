@@ -1,10 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, RadioField
-from wtforms.validators import InputRequired
+from wtforms import TextAreaField, StringField
+from wtforms.validators import InputRequired, NumberRange
 
 
 class ReviewForm(FlaskForm):
-    rating = RadioField('label', choices=[(1,'*'),(2,'**'),(3,'***'),(4,'****'),(5,'******')])
+    # rating = RadioField('label', choices=[(1,'*'),(2,'**'),(3,'***'),(4,'****'),(5,'******')])
+    rating = StringField(
+        'rating',
+        validators=[NumberRange(min=1, max=5)])
+
     review_text = TextAreaField('review_text', validators=[InputRequired()])
 
 

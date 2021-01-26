@@ -21,7 +21,7 @@ from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm, Review
 from models.Support import SupportForm, Support
 from models.Transaction import Transaction
-from models.User import BioForm, PasswordForm, UserForm, User
+from models.User import BioForm, PasswordForm, UserForm
 
 # For Images
 buffered = BytesIO()
@@ -61,7 +61,6 @@ support_db = client['Support']
 transaction_db = client['Transactions']
 reviews_db = client['Reviews']
 chats_db = client['Chats']
-
 
 # Good Stuff
 # return redirect(url_for('login', denied_access=True))
@@ -231,7 +230,7 @@ def profile(user_id):
         editable = False
         profile_img = person['profile_img']
 
-    # if not result:
+        # if not result:
         return render_template(
             'profile.html',
             form=bForm,
@@ -240,7 +239,7 @@ def profile(user_id):
             person=person,
             editable=editable,
             profile_img=profile_img
-            )
+        )
 
 # SHARED
 # USER SETTINGS AND CHANGE PASSWORD
@@ -483,7 +482,6 @@ def tourListing(tour_id):
                 # Retrieving the list of reviews under this listing
                 # reviews_list = list(reviews_db.find({'listing': ObjectId(tour_id)}))
 
-
                 # If it is 1, means display the listing. If 0 means make it invisible
 
                 return render_template(
@@ -560,7 +558,6 @@ def testing():
     # return render_template('tourGuides/makelisting.html', form=lForm,
     # user=result)
 
-
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
     result = auth.is_auth(True)
@@ -606,7 +603,6 @@ def makelisting():
                 tour_price = request.form['tour_price']
 
                 tg_uid = result['_id']
-
 
                 tour_listing = Listing(
                     tour_name=tour_name,
@@ -798,7 +794,6 @@ def hideList(id):
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
 
-
 # TOUR GUIDES
 # Show Listings: When click on show button
 @app.route('/listings/show/<id>', methods=['GET', 'POST'])
@@ -823,7 +818,6 @@ def showList(id):
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
 
-
 # TOUR GUIDES
 # Delete Listings: When click on Delete button
 @app.route('/listings/delete/<id>', methods=['GET', 'POST'])
@@ -835,9 +829,9 @@ def deleteList(id):
         if editable:
             # Implement validation to check if there are any exisitng tours for this listing. If there isn't, then allow it to be deleted
 
-            #Find the list of uncompleted bookings for this listing
+            # Find the list of uncompleted bookings for this listing
             uncompleted_bookings = list(bookings_db.find({'listing_id': ObjectId(id), 'completed': 0}))
-            #Boolean that checks if there are uncompleted bookings
+            # Boolean that checks if there are uncompleted bookings
             uncompleted_exists = len(uncompleted_bookings) != 0
 
             # If there are no outstanding bookings, then allow listing to be deleted
@@ -922,7 +916,6 @@ def removeWishlist(tour_id):
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
 
-
 # Chat with Tour Guide
 @app.route('/listings/chat/<tour_id>')
 def chatwithGuide(tour_id):
@@ -936,20 +929,19 @@ def chatwithGuide(tour_id):
         # Check if there are any existing UwU chats between these 2 people
         query = {'participants': {"$in": [browsing_object_id, tg_object_id]}, 'chat_type': 'UwU'}
         chats = list(chats_db.find(query))
-        #Boolean to check if a chat exists
+        # Boolean to check if a chat exists
         existing_chat = len(chats) > 0
 
-        #Redirect to existing chat if it exists
+        # Redirect to existing chat if it exists
         if existing_chat:
             existing_chat_id = chats[0]['_id']
             return redirect(url_for('chat_room', room_id=existing_chat_id))
 
-        #If doesnt exist, create new UwU chat
+        # If doesnt exist, create new UwU chat
         chat_id = msg.create_chat_room([browsing_user_id, tour_guide_id], False)
         return redirect(url_for('chat_room', room_id=chat_id))
 
     return redirect(url_for('login', denied_access=True))
-
 
 # To implement dynamic calendar function
 @app.route('/endpoint/bookingCalendar/<tour_id>')
@@ -962,15 +954,13 @@ def calendarUpdate(tour_id):
 
     print(day)
 
-
-
     query = {'listing_id': ObjectId(tour_id), 'book_date': day}
     print(query)
     bookings = list(bookings_db.find(query, {'book_time': 1, '_id': 0}))
 
-    #Return a list containing all the book_time of the bookings
+    # Return a list containing all the book_time of the bookings
     day_bookings = list(map(lambda x: x['book_time'], bookings))
-    #Ensure there are no duplicated timings in the list
+    # Ensure there are no duplicated timings in the list
     day_bookings = list(set(day_bookings))
 
     print(day_bookings)
@@ -981,7 +971,6 @@ def calendarUpdate(tour_id):
     if day:
         print('fired')
         return json.dumps({'bookedTimes': day_bookings})
-
 
     query = {}
 
@@ -1089,15 +1078,15 @@ def book_now(tour_id):
     if result:
         bookform = BookingForm()
 
-        #Do custom rendering to bookform for date and time rendering
+        # Do custom rendering to bookform for date and time rendering
         bookform.book_timeslot.choices = item['tour_time']
 
-        #Dict to convert the days to numbers; for bulma-calendar options
-        dayTonumber = {'Mon': 1, 'Tues':2, 'Wed': 3, 'Thurs': 4, 'Fri': 5, 'Sat': 6, 'Sun': 0}
+        # Dict to convert the days to numbers; for bulma-calendar options
+        dayTonumber = {'Mon': 1, 'Tues': 2, 'Wed': 3, 'Thurs': 4, 'Fri': 5, 'Sat': 6, 'Sun': 0}
         listing_tour_days = item['tour_days']
         total_days = [*range(7)]
         tour_days_numbers = list(map(lambda i: dayTonumber[i], listing_tour_days))
-        #Return the days that are not inside the listing days (Get the days that are not available)
+        # Return the days that are not inside the listing days (Get the days that are not available)
         disabled_days = list(set(total_days) - set(tour_days_numbers))
 
         if request.method == 'POST':
@@ -1105,7 +1094,6 @@ def book_now(tour_id):
             book_time = request.form["book_timeslot"]
 
             print(book_date, book_time)
-
 
             booking = Booking(
                 tg_uid=item['tg_uid'],
@@ -1221,7 +1209,7 @@ def checkout(book_id):
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=str(book_id)))
 
-                #do rmb to add haru's dashboard stuff
+                # do rmb to add haru's dashboard stuff
                 else:
                     print("Error occurred while trying to pay.")
 
@@ -1271,13 +1259,11 @@ def all_businesses():
     except BaseException:
         return 'Error trying to render'
 
-
 # TOUR GUIDES
 # Individual gigs
 # @app.route('/s/businesses/<id>')
 @app.route('/s/businesses/<book_id>', methods=['GET', 'POST'])
 def business(book_id):
-
     booking_query = {'_id': ObjectId(book_id)}
     booking = bookings_db.find_one(booking_query)
     listing = shop_db.find_one({'_id': booking['listing_id']})
@@ -1303,7 +1289,6 @@ def business(book_id):
                     "$set": {"timeline_content": tour_itinerary}
                 }
                 bookings_db.update_one(booking_query, updated)
-
 
                 # if "submit-setting" in request.form and uForm.validate_on_submit():
             # if 'tour_submit' in request.form and itineraryForm.validate_on_submit():
@@ -1350,57 +1335,57 @@ def review(book_id):
         return redirect(url_for('login', denied_access=True))
     else:
 
-        query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id':booking['listing_id']}
+        query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id': booking['listing_id']}
 
-        tmp1 = list(map(lambda i: i['tour_reviews'], tour))[0]
-        # A list of all the booking IDs of the reviews for this listing
-        listing_review_bookingIDs = list(map(lambda i: i['booking'], tmp1))
-        review_exists = ObjectId(book_id) in listing_review_bookingIDs
+        # tmp1 = list(map(lambda i: i['tour_reviews'], tour))[0]
+        # # A list of all the booking IDs of the reviews for this listing
+        # listing_review_bookingIDs = list(map(lambda i: i['booking'], tmp1))
+        # review_exists = ObjectId(book_id) in listing_review_bookingIDs
 
         # If this review already exists
-        if review_exists:
-            print("live fast eat ass, you left a review, funnyman")
-            return redirect(url_for('bookings', book_id=book_id))
-        elif booking['process_step'] < 7:
-            print("access denied, go on tour first")
-            return redirect(url_for('bookings', book_id=book_id))
-        else:
-            print("oh no u havent reviewed my guy? loooser")
-            if request.method == "POST":
-                if form.is_submitted():
-                    # if reviewer is customer/tg
-                    if result['_id'] == booking['cust_uid']:
-                        print('customer reviwer')
-                        reviewee_id = booking['tg_uid']
-                    elif result['_id'] == booking['tg_uid']:
-                        print('tg is reviewr')
-                        reviewee_id = booking['cust_uid']
-                    review = Review(
-                        stars=form.rating.data,
-                        text=request.form["review_text"],
-                        reviewer_id=result['_id'],
-                        reviewee_id=reviewee_id,
-                        booking=booking['_id'],
-                        listing=tour['_id'])
-                    print(review.return_obj())
+        # if review_exists:
+        #     print("live fast eat ass, you left a review, funnyman")
+        #     return redirect(url_for('bookings', book_id=book_id))
+        # elif booking['process_step'] < 7:
+        #     print("access denied, go on tour first")
+        #     return redirect(url_for('bookings', book_id=book_id))
+        # else:
+        #     print("oh no u havent reviewed my guy? loooser")
+        if request.method == "POST":
+            if form.is_submitted():
+                # if reviewer is customer/tg
+                if result['_id'] == booking['cust_uid']:
+                    print('customer reviwer')
+                    reviewee_id = booking['tg_uid']
+                elif result['_id'] == booking['tg_uid']:
+                    print('tg is reviewr')
+                    reviewee_id = booking['cust_uid']
+                review = Review(
+                    stars=request.form['rating'],
+                    text=request.form["review_text"],
+                    reviewer_id=result['_id'],
+                    reviewee_id=reviewee_id,
+                    booking=booking['_id'],
+                    listing=tour['_id'])
+                print(review.return_obj())
 
-                    #Update the Listing db, append the review to 'Reviews'
-                    review_data = review.return_obj()
-                    listing_query = {'_id': ObjectId(booking['listing_id'])}
-                    updated = {'$push': {'tour_reviews': review_data}}
-                    shop_db.update_one(listing_query, updated)
+                # Update the Listing db, append the review to 'Reviews'
+                review_data = review.return_obj()
+                listing_query = {'_id': ObjectId(booking['listing_id'])}
+                updated = {'$push': {'tour_reviews': review_data}}
+                shop_db.update_one(listing_query, updated)
 
-                    # reviews_db.insert_one(review.return_obj())
-                    update_booking = {"$set": {
-                        'process_step': 8,
-                        'completed': 1,}}
-                    bookings_db.update_one(booking, update_booking)
-                    return redirect(url_for('bookings', book_id=str(book_id)))
-            return render_template(
-                'customer/review.html',
-                booking=booking,
-                tour=tour,
-                form=form)
+                # reviews_db.insert_one(review.return_obj())
+                update_booking = {"$set": {
+                    'process_step': 8,
+                    'completed': 1, }}
+                bookings_db.update_one(booking, update_booking)
+                return redirect(url_for('bookings', book_id=str(book_id)))
+    return render_template(
+        'customer/review.html',
+        booking=booking,
+        tour=tour,
+        form=form)
 
 # except BaseException:
 #     return 'Error trying to render'

@@ -213,7 +213,7 @@
                     </div>
                     <div class="field is-grouped is-grouped-centered mt-5 has-text-centered">
                         <div class="control">
-                            <button class="button is-danger is-light" onclick="$('#ChangePasswordModal').fadeOut('fast');">
+                            <button class="button is-danger is-light" id="closebtn" onclick="$('#ChangePasswordModal').fadeOut('fast');">
                                 Cancel
                             </button>
                         </div>
@@ -244,7 +244,7 @@
             $(".modal").removeClass("is-active");
         });
 
-        $("#closebtn").click(function () {
+        $(".closebtn").click(function () {
             $(".modal").removeClass("is-active");
         });
     </script>
