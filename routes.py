@@ -1038,6 +1038,8 @@ def bookings(book_id):
         if booking['process_step'] < 1:
             print("access denied, pay first")
             return redirect(url_for('checkout', book_id=book_id))
+        chat_exist = chats_db.find({"":101}).count() > 0
+        print(chat_exist)
         if request.method == 'POST':
             # submit button data as a dict
             button_data = request.form.to_dict()
@@ -1101,27 +1103,34 @@ def book_now(tour_id):
         disabled_days = list(set(total_days) - set(tour_days_numbers))
 
         if request.method == 'POST':
-            book_date = request.form["book_day"]
-            book_time = request.form["book_timeslot"]
+            button_data = request.form.to_dict()
+            print(button_data)
+            if 'csrf_token' in button_data:
+                book_date = request.form["book_day"]
+                book_time = request.form["book_timeslot"]
 
-            print(book_date, book_time)
+                print(book_date, book_time)
 
 
-            booking = Booking(
-                tg_uid=item['tg_uid'],
-                cust_uid=result['_id'],
-                listing_id=item['_id'],
-                book_date=book_date,
-                book_time=book_time,
-                book_baseprice=item['tour_price'],
-                book_customfee=0,
-                book_duration="",
-                timeline_content=item['tour_itinerary'],
-                revisions=item['tour_revisions'],
-                process_step=5)
+                booking = Booking(
+                    tg_uid=item['tg_uid'],
+                    cust_uid=result['_id'],
+                    listing_id=item['_id'],
+                    book_date=book_date,
+                    book_time=book_time,
+                    book_baseprice=item['tour_price'],
+                    book_customfee=0,
+                    book_duration="",
+                    timeline_content=item['tour_itinerary'],
+                    revisions=item['tour_revisions'],
+                    process_step=5)
+
+                print(booking)
             # inserted_booking = bookings_db.insert_one(booking.return_obj())
             # submit button data as a dict
             button_data = request.form.to_dict()
+            if bookform.is_submitted():
+                print("bookform is sub")
             if bookform.validate_on_submit():
                 print('YESs')
                 book_date = request.form["book_date"]
@@ -1161,15 +1170,14 @@ def book_now(tour_id):
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
             elif 'ChatFirst' in button_data.values():
-                chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
-                if not chat_list:
-                    msg.create_chat_room([result['_id'], item["tg_uid"]], True)
-                    return redirect(url_for('chat'))
+                chat_list = list(chats_db.find({'participants': {"$in": [auth.get_sid(), item["tg_uid"]]}, 'chat_type': 'UwU'}))
+                print(chat_list)
+                if len(chat_list) > 0:
+                    chat_id = chat_list[0]['_id']
+                    return redirect(url_for('chat_room', room_id=chat_id))
                 else:
-                    for chat in chat_list:
-                        if item["tg_uid"] not in chat.values():
-                            msg.create_chat_room([result['_id'], item["tg_uid"]], True)
-                        return redirect(url_for('chat'))
+                    chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], False)
+                    return redirect(url_for('chat_room', room_id=chat_id))
 
         return render_template(
             'customer/book-now.html',
@@ -1359,13 +1367,11 @@ def review(book_id):
 
         # If this review already exists
         if review_exists:
-            print("live fast eat ass, you left a review, funnyman")
             return redirect(url_for('bookings', book_id=book_id))
         elif booking['process_step'] < 7:
             print("access denied, go on tour first")
             return redirect(url_for('bookings', book_id=book_id))
         else:
-            print("oh no u havent reviewed my guy? loooser")
             if request.method == "POST":
                 if form.is_submitted():
                     # if reviewer is customer/tg
@@ -1630,7 +1636,7 @@ def chat():
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
-        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'ALL')
+        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'UwU')
         return render_template(
             'chat.html',
             loggedin=True,
@@ -1659,7 +1665,7 @@ def chat_room(room_id):
                     auth.get_sid(),
                     chat_form.data["message"]))
 
-        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'ALL')
+        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'UwU')
         chat_room_messages = msg.get_chat_room(auth.get_sid(), room_id)
 
         if not chat_room_messages:

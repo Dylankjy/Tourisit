@@ -50,80 +50,9 @@
 
 <!--START: New booknow form (set display to none for now bc its a wip)-->
 <section class="section mt-6" style="display:none;">
-    <div class="columns is-centered">
-        <div class="column is-three-fifths">
-            <div class="container box">
-                <!--forgive me lord for what im about to do-->
-                <div class="columns is-vcentered">
-
-                    <!--START: Column 1 - Customise -->
-                    <div class="column has-text-centered">
-                    <!--START: Customise tour button-->
-                    <form id="custom_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
-                        <div class="field">
-                            <div class="control">
-                                <a href="">
-                                    <button class="button is-medium is-fullwidth is-success">
-                                        <p class="has-text-weight-semibold">Customise Tour</p>
-                                    </button>
-                                    <subtitle class="has-text-black">
-                                        For a fee, Customise your tour to fit your needs!
-                                    </subtitle>
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                    <!--END: Customise tour button-->                        
-                    </div>
-                    <!--END: Column 1 - Customise -->
-                    <div class="divider is-vertical">OR</div>
-                    <!--START: Column 2 - Book now-->
-                    <div class="column has-text-centered">
                     <form id="book_form" method="POST" action="{{ url_for('book_now', tour_id=tour_id) }}">
-                        {{ bookform.csrf_token }}
-                        <div class="field">
-                            <label class="label">Select Date</label>
-                            <div class="control">
-                                {{ bookform.book_date(id="book_date", type="date", class="input") }}
-                                <!--<input class="input" type="date" placeholder="">-->
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label class="label">Select Time</label>
-                            <div class="control">
-                                {{ bookform.book_time(id="book_time", type="time", class="input") }}
-                                <!--<input class="input" type="time" placeholder="">-->
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="control">
-                                <label class="checkbox">
-                                    {{ bookform.accept_tnc(id="accept_tnc") }}
-                                    <!--<input type="checkbox">-->
-                                    I agree to the <a href="#" data-tooltip="">terms and conditions.</a>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="control">
-                                <button type="submit" id="book_submit" class="button is-medium is-fullwidth is-link">
-                                    <p class="has-text-weight-semibold">Book Now</p>
-                                </button>
-                            </div>
-                            <p class="is-grey has-text-centered">Not sure if this tour is for you? <a
-                                    href="{{ url_for('chat') }}"> Chat with HidethePain first.</a></p>
-                        </div>
+                        why
                     </form>
-                    </div>
-                    <!--END: Column 2-->
-                    
-                </div>
-            </div>
-        </div>
-    </div>
 </section>    
 <!--END: New booknow form-->
 
