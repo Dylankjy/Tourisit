@@ -1,214 +1,74 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-    <link rel="stylesheet" href="/css/global/shop.css">
-    <link rel="stylesheet" href="/css/pages/profile.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
+<link rel="stylesheet" href="/css/global/shop.css">
+<link rel="stylesheet" href="/css/pages/profile.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
+<script>
+    var pfplink = window.location.href;
+    sessionStorage.setItem("pfpLink", pfplink);
+</script>
 {% endblock %}
 
 
 {% block content %}
-    <div class="columns" id="profile">
-        <!-- Side Profile Page -->
-        <!-- If user is viewing his own profile -->
-        {% if editable==True %}
-            <div class="column is-one-quarter mt-6">
-                <div class="section">
-                    <div class="box is-centered">
-                        <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
-                        <br>
-                        <p class="title is-5 is-spaced has-text-centered">{{ user.name }}</p>
-                        <form class="form-horizontal" action="/users/{{ user._id }}/profile" method="POST">
-                            {{ form.csrf_token }}
-                            <fieldset>
-                                <div class="field">
-                                    <label class="label" for="bio">Bio:</label>
-                                    <div class="control">
-                                        {{ form.bio(id="bio", type="textarea", class="input", rows="5", style="height:160px;") }}
-                                        <ul>
-                                            {% for error in form.bio.errors %}
-                                                <li class="has-text-danger"> {{ error }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="field is-small has-text-right">
-                                    <label class="label" for="bio-submit"></label>
-                                    <div class="control">
-                                        <input type='submit' value='Save' id="bio-submit" name="bio-submit"
-                                               class="button is-success">
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                        {% if person.verified == 1 %}
-                            <span class="tag is-success">Verified</span>
-                        {% endif %}
-                    </div>
-                </div>
+<section class="section is-medium">
+    <div class="container profile-container box p-6"
+        style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');">
+        <div class="profile-card-blur"></div>
+        <div class="columns is-vcentered" style="position: inherit; z-index: 1">
+            <div class="column is-one-fifth">
+                <div class="profile-img-onprofile"
+                    style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
             </div>
-        {% endif %}
-
-        <!-- If user is viewing someone else profile-->
-        {% if editable==False %}
-            <div class="column is-one-quarter mt-6">
-                <div class="section">
-                    <div class="box is-centered">
-                        <div class="dropdown post-options is-hoverable is-right is-pulled-right">
-                            <div class="dropdown-trigger">
-                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
-                                    </span>
-                                </button>
-                            </div>
-                            <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                                <div class="dropdown-content">
-                                    <a href="{{ url_for('support') }}" class="dropdown-item">
-                                        Report Abuse
-                                    </a>
+            <div class="column">
+                <p class="title is-1 has-text-white">
+                    {{ user.name }}
+                    {% if person.verified == 1 %}
+                    <span class="tag is-success">
+                        <i class="fas fa-check"></i>&ensp;Verified Guide
+                    </span>
+                    {% endif %}
+                </p>
+                <p id="bioContainer" class="is-size-5 has-text-grey-lighter">
+                    Please fill this in with a dynamic bio
+                    {% if editable==True %}
+                    &nbsp;
+                    <span class="has-text-grey">
+                        <i onclick="$('#bioContainer').fadeOut('fast', () => { $('#bioEditFormContainer').slideDown() });"
+                            class="fa fa-edit"></i>
+                    </span>
+                    {% endif %}
+                </p>
+                {% if editable==True %}
+                <div id="bioEditFormContainer" style="display: none;">
+                    <form class="form-horizontal" action="/users/{{ user._id }}/profile" method="POST">
+                        {{ form.csrf_token }}
+                        <fieldset>
+                            <div class="field">
+                                <div class="control">
+                                    {{ form.bio(id="bio", type="text", class="input", style="height:50px;") }}
+                                    <ul>
+                                        {% for error in form.bio.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
-                        </div>
-                        <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');"></div>
-                        <br>
-                        <p class="title is-5 is-spaced has-text-centered">{{ person.name }}</p>
-                        <div class="field">
-                            <label class="label" for="bio">Bio:</label>
-                            <div class="control">
-                                <textarea class="bio textarea" readonly>{{ person.bio }}</textarea>
+                            <div class="field is-small has-text-right">
+                                <label class="label" for="bio-submit"></label>
+                                <button type="submit" class="button is-success"><i class="fas fa-save"></i>&nbsp;
+                                    Save</button>
+                                <a class="button is-danger is-light"
+                                    onclick="$('#bioEditFormContainer').slideUp('', () => { $('#bioContainer').fadeIn() });">
+                                    <i class="fas fa-times"></i>&nbsp; Cancel</a>
                             </div>
-                        </div>
-                        {% if person.verified == 1 %}
-                            <span class="tag is-success">Verified</span>
-                        {% endif %}
-                    </div>
+                        </fieldset>
+                    </form>
                 </div>
+                {% endif %}
             </div>
-        {% endif %}
-
-        <!-- Content -->
-        <div class="column mt-6 pt-6">
-            <h1 class='title has-text-centered'>{{ person.name }} Offered Tours</h1>
-            <div class="columns">
-                <div class="column">
-                    <!-- START: Vertical Card -->
-                    <div class='box p-5 vertical'>
-                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
-                        <div class="ml-4">
-                            <div class="mb-2 listing-author">
-                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>{{ person.name }}</b> is offering:</div>
-                            </div>
-                            <h1 class='title is-4'>Bishan Nightlife</h1>
-                            <p class="subtitle is-6">Explore the night life of Bishan</p>
-                            <p class="has-text-weight-light is-size-3 has-text-dark"><small
-                                    class="is-size-5">From</small>
-                                $100
-                            </p>
-                            <br>
-                        </div>
-                        <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)">
-                                <i class="fas fa-heart-broken"></i>&ensp;Remove from wishlist</a>
-                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
-                        </div>
-                    </div>
-                    <!-- END: Vertical Card -->
-                </div>
-                <div class="column">
-                    <!-- START: Vertical Card -->
-
-                    <div class='box p-5 vertical'>
-                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
-                        <div class="ml-4">
-                            <div class="mb-2 listing-author">
-                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
-                            </div>
-                            <h1 class='title is-4'>Bishan Nightlife</h1>
-                            <p class="subtitle is-6">Explore the night life of Bishan</p>
-                            <p class="has-text-weight-light is-size-3 has-text-dark"><small
-                                    class="is-size-5">From</small>
-                                $100
-                            </p>
-                            <br>
-                        </div>
-                        <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i
-                                    class="fas fa-heart-broken"></i>&ensp;Remove from wishlist</a>
-                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
-                        </div>
-                    </div>
-                    <!-- END: Vertical Card -->
-                </div>
-                <div class="column">
-                    <!-- START: Vertical Card -->
-                    <div class='box p-5 vertical'>
-
-                        <div class="box listing-img" style="background-image: url('/places/bishan.jpg');"></div>
-                        <div class="ml-4">
-                            <div class="mb-2 listing-author">
-                                <div class="profile-img" style="background-image: url('/pfp.jpg');"></div>
-                                <div class="ml-2"><b>HidethePain</b> is offering:</div>
-                            </div>
-                            <h1 class='title is-4'>Bishan Nightlife</h1>
-                            <p class="subtitle is-6">Explore the night life of Bishan</p>
-                            <p class="has-text-weight-light is-size-3 has-text-dark"><small
-                                    class="is-size-5">From</small>
-                                $100
-                            </p>
-                            <br>
-                        </div>
-                        <div class="buttons">
-                            <a class="button is-white" style="color:rgb(226, 48, 78)"><i
-                                    class="fas fa-heart-broken"></i>&ensp;Remove from wishlist</a>
-                            <a class="button is-white has-text-primary"><i class="fas fa-arrow-right"></i>&ensp;Book now</a>
-                        </div>
-                    </div>
-                    <!-- END: Vertical Card -->
-                </div>
-            </div>
-            <!--Reviews-->
-            <h1 class='title has-centered'>
-                <a href="#reviews">{{ person.name }} Reviews</a></h1>
-            <div class="box">
-
-                <article class="media">
-                    <div class="media-left">
-                        <figure class="image is-64x64">
-                            <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
-                        </figure>
-                    </div>
-                    <div class="media-content">
-                        <div class="content">
-                            <p>
-                                <strong class="pr-5">Gordon Lansay</strong>
-                                <span class="fas fa-star checked"></span>
-                                <span class="fas fa-star checked"></span>
-                                <span class="fas fa-star checked"></span>
-                                <span class="fas fa-star"></span>
-                                <span class="fas fa-star"></span>
-                                <br>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
-                                fringilla egestas. Nullam condimentum luctus turpis.
-                            </p>
-                        </div>
-                    </div>
-                </article>
-            </div>
-            <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
-            <script>
-                bulmaCarousel.attach('#carousel-demo', {
-                    slidesToScroll: 1,
-                    slidesToShow: 4
-                });
-            </script>
         </div>
-
     </div>
-    <script>
-        var pfplink = window.location.href;
-        sessionStorage.setItem("pfpLink", pfplink);
-    </script>
+</section>
 {% endblock %}
