@@ -58,7 +58,7 @@
                         <a class="dropdown-item">
                             Request Cancellation
                         </a>
-                        <a href="{{ url_for('support') }}" class="dropdown-item">
+                        <a href="{{ url_for('support') }}" class="dropdown-item" id="report">
                             Report Abuse
                         </a>
                     </div>
@@ -175,8 +175,8 @@
                     Submit Requirements</span>
                     <!--START: Submit req button that is to removed once I figure out how to activate on first msg send-->
                     <form method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
-                    <input type="submit" name="SubmitRequirements" value="Submit Requirements"
-                    class="tag is-warning is-light is-size-5 is-clickable mt-2" style="border-width:0;">
+                        <input type="submit" name="SubmitRequirements" value="Submit Requirements"
+                               class="tag is-warning is-light is-size-5 is-clickable mt-2" style="border-width:0;">
                     </form>
                     <!--END: submit req button-->
                 {% elif process_step == 3 %}
@@ -190,7 +190,7 @@
                         <p class="control">
                             <button class="tag is-warning is-light is-size-5 is-clickable" type="submit" name="MakePayment"
                                     value="MakePayment" style="border-width:0;">Make Payment
-                        </button>
+                            </button>
                         </p>
                     </form>
 
@@ -367,26 +367,26 @@
                                 <p>You have {{ booking.revisions }} free revision(s) left.</p>
                                 <form id="revisionform" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
                                     {{ revisionform.csrf_token }}
-                                <div class="field">
-                                    {{ revisionform.revision_text(id="revision_text", class="textarea",
+                                    <div class="field">
+                                        {{ revisionform.revision_text(id="revision_text", class="textarea",
                                     placeholder="Enter the changes you would like to see..") }}
-                                    <!-- <textarea class="textarea"
-                                              placeholder="Enter the changes you would like to see.."></textarea> -->
-                                </div>
-                                <div class="field is-grouped is-grouped-centered mt-5">
-                                    <p class="control">
-                                        <button class="button is-danger is-light"
-                                                onclick="$('#ReqRevisionModal').fadeOut('fast');">
-                                    <div class="is-size-5">Cancel</div>
-                                    </button>
-                                    </p>
-                                    <p class="control">
-                                        {{revisionform.submit(id="revision_submit", class="button is-success is-light", type="submit")}}
-                                        <!-- <button class="button is-success is-light" type="submit">
-                                    <div class="is-size-5">Request A Revision</div>
-                                    </button> -->
-                                    </p>
-                                </div>
+                                        <!-- <textarea class="textarea"
+                                                  placeholder="Enter the changes you would like to see.."></textarea> -->
+                                    </div>
+                                    <div class="field is-grouped is-grouped-centered mt-5">
+                                        <p class="control">
+                                            <button class="button is-danger is-light"
+                                                    onclick="$('#ReqRevisionModal').fadeOut('fast');">
+                                        <div class="is-size-5">Cancel</div>
+                                        </button>
+                                        </p>
+                                        <p class="control">
+                                            {{ revisionform.submit(id="revision_submit", class="button is-success is-light", type="submit") }}
+                                            <!-- <button class="button is-success is-light" type="submit">
+                                        <div class="is-size-5">Request A Revision</div>
+                                        </button> -->
+                                        </p>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -651,5 +651,4 @@
                 onclick="$('#TourCompleteModal').fadeOut('fast');"></button>
     </div>
     <!--END:(Modal) Confirm that tour completed-->
-
 {% endblock %}
