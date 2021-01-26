@@ -1416,7 +1416,7 @@ def review(book_id):
                         reviewer_id=result['_id'],
                         reviewee_id=reviewee_id,
                         booking=booking['_id'],
-                        listing=tour['_id'])
+                        listing=tour[0]['_id'])
                     print(review.return_obj())
 
                     #Update the Listing db, append the review to 'Reviews'
