@@ -1377,20 +1377,20 @@ def business(book_id):
 def review(book_id):
     print("hi")
     # try:
-    booking = list(bookings_db.find({'_id': ObjectId(book_id)}))
-    print(booking)
-    tour = shop_db.find_one({'_id': booking[0]['listing_id']})
-    print(tour)
+    booking = list(bookings_db.find({'_id': ObjectId(book_id)}))[0]
+    listing_id = booking['listing_id']
+    print(listing_id)
+    tour = list(shop_db.find({'_id': ObjectId(listing_id)}))
+
     form = ReviewForm()
     result = auth.is_auth(True)
     if not result:
         return redirect(url_for('login', denied_access=True))
     else:
+        # query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id':ObjectId(booking[0]['listing_id'])}
 
-        query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id':booking[0]['listing_id']}
-        print(tour)
-        tmp1 = list(map(lambda i: i['tour_reviews'], tour))[0]
         # A list of all the booking IDs of the reviews for this listing
+        tmp1 = list(map(lambda i: i['tour_reviews'], tour))[0]
         listing_review_bookingIDs = list(map(lambda i: i['booking'], tmp1))
         review_exists = ObjectId(book_id) in listing_review_bookingIDs
 
