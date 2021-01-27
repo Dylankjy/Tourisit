@@ -81,7 +81,7 @@ def update_index(uid, new_data):
     return payload
 
 
-def generate_report(uid):
+def generate_report(uid, year, month):
     # Generate random string for download file
     raw_sid = ""
     # Using UUID4 to generate random strings
@@ -100,7 +100,9 @@ def generate_report(uid):
     col = 0
 
     query_uid = {
-        "tg_uid": ObjectId(uid)
+        "tg_uid": ObjectId(uid),
+        "month_paid": int(year),
+        "year_paid": int(month)
     }
 
     data_for_input = [
