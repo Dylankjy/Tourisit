@@ -1116,25 +1116,30 @@ def book_now(tour_id):
                 book_date = request.form["book_day"]
                 book_time = request.form["book_timeslot"]
 
-                print(book_date, book_time)
+                # oh lawdy he inefficient
+                tg_booking_list = list(bookings_db.find({'tg_uid': item['tg_uid']}))
 
-                chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], True)
-                booking = Booking(
-                    tg_uid=item['tg_uid'],
-                    cust_uid=result['_id'],
-                    listing_id=item['_id'],
-                    book_date=book_date,
-                    book_time=book_time,
-                    book_baseprice=item['tour_price'],
-                    book_customfee=0,
-                    book_duration="",
-                    timeline_content=item['tour_itinerary'],
-                    chat_id=chat_id,
-                    revisions=item['tour_revisions'],
-                    process_step=5)
-                inserted_booking = bookings_db.insert_one(booking.return_obj())
-                book_id = inserted_booking.inserted_id
-                return redirect(url_for('checkout', book_id=book_id))
+                if bookform.date_valid(book_date, tg_booking_list) and bookform.time_valid(book_time):
+                    print("yes")
+
+                    chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], True)
+                    booking = Booking(
+                        tg_uid=item['tg_uid'],
+                        cust_uid=result['_id'],
+                        listing_id=item['_id'],
+                        book_date=book_date,
+                        book_time=book_time,
+                        book_baseprice=item['tour_price'],
+                        book_customfee=0,
+                        book_duration="",
+                        timeline_content=item['tour_itinerary'],
+                        chat_id=chat_id,
+                        revisions=item['tour_revisions'],
+                        process_step=5)
+                    inserted_booking = bookings_db.insert_one(booking.return_obj())
+                    book_id = inserted_booking.inserted_id
+                    return redirect(url_for('checkout', book_id=book_id))
+
             # inserted_booking = bookings_db.insert_one(booking.return_obj())
             # submit button data as a dict
             button_data = request.form.to_dict()

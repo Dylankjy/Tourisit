@@ -313,11 +313,19 @@
                             <table class='table'>
                                 <tr>
                                     <td><i class="far fa-calendar"></i>&ensp;<b>Date</b></td>
+                                    {% if booking.book_date == '' %}
+                                    <td class='has-text-grey'>To-Be Decided</td>
+                                    {% else %}
                                     <td>{{ booking.book_date }}</td>
+                                    {% endif %}
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-clock"></i>&ensp;<b>Time</b></td>
+                                    {% if booking.book_time == '' %}
+                                    <td class='has-text-grey'>To-Be Decided</td>
+                                    {% else %}
                                     <td>{{ booking.book_time }}</td>
+                                    {% endif %}
                                 </tr>
                             </table>
                         </div>

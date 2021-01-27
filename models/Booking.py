@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time, timedelta, date
 
 from flask_wtf import FlaskForm
 from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField, StringField, DecimalField
@@ -8,10 +8,35 @@ from wtforms.validators import InputRequired, Length
 # Book now - default form
 class BookingForm(FlaskForm):
     book_date = DateField('book_date', validators=[InputRequired()])
-    book_time = TimeField('book_time', validators=[InputRequired()])
     book_timeslot = RadioField('book_timeslot', validators=[InputRequired()])
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
-    book_submit = SubmitField('Book Now')
+
+    def date_valid(self, bookdate, tg_booking_list):
+        # If there is date input in the booknow form
+        if bookdate:
+            formatted_date = datetime.strptime(bookdate, "%m/%d/%Y").date()
+            tmr_date = date.today() + timedelta(days=1)
+            # If the chosen date is tomorrow onwards
+            if formatted_date >= tmr_date:
+                for booking in tg_booking_list:
+                    if booking['book_date']:
+                        format_existing_bookdate = datetime.strptime(booking['book_date'], "%m/%d/%Y").date()
+                        # If TG already has a booking on the chosen date
+                        if format_existing_bookdate == formatted_date:
+                            print("Tour on that day")
+                            # Check time, if tours overlap, return false
+                return True
+            elif formatted_date < tmr_date:
+                return False
+        else:
+            return False
+
+    def time_valid(self, booktime):
+        if booktime == 'None':
+            return False
+        else:
+            return True
+
 
 # Payment Gateway Button
 class CheckoutForm(FlaskForm):
