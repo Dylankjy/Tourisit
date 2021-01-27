@@ -7,6 +7,9 @@ import xlsxwriter
 
 # MongoDB connection string
 from bson import ObjectId
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
 
 import models.DashboardIndex as dindex
 
@@ -81,7 +84,7 @@ def update_index(uid, new_data):
     return payload
 
 
-def generate_report(uid):
+def generate_report(uid, year, month):
     # Generate random string for download file
     raw_sid = ""
     # Using UUID4 to generate random strings
@@ -100,7 +103,9 @@ def generate_report(uid):
     col = 0
 
     query_uid = {
-        "tg_uid": ObjectId(uid)
+        "tg_uid": ObjectId(uid),
+        "month_paid": int(year),
+        "year_paid": int(month)
     }
 
     data_for_input = [
@@ -142,4 +147,14 @@ def generate_report(uid):
     workbook.close()
 
 
-generate_report("5feafbbf4dbad8d4b8614958")
+# generate_report("5feafbbf4dbad8d4b8614958")
+
+class ReportGenForm(FlaskForm):
+    month_filter = StringField(
+        'Month',
+        [DataRequired()]
+    )
+    year_filter = StringField(
+        'Year',
+        [DataRequired()]
+    )
