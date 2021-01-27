@@ -64,6 +64,7 @@ class UserForm(FlaskForm):
     profile_img = FileField(
         'profile_img',
         validators=[
+            Optional(),
             FileAllowed(['jpg', 'jpeg', 'png'], 'Only .jpg, .jpeg and .png images are allowed!')]
     )
     email = StringField(

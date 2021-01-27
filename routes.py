@@ -278,11 +278,12 @@ def accountinfo():
                 fb = request.form['fb']
                 insta = request.form['insta']
                 linkedin = request.form['linkedin']
-                if img_string == '' or fb == '' or insta == '' or linkedin == '':
+                if img_string == '':
                     img_string = item['profile_img']
                     updated = {
                         "$set": {
                             "name": name,
+                            "profile_img": img_string,
                             "email": email,
                             "phone_number": phone_number,
                             "socialmedia": {
