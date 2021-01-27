@@ -23,15 +23,3 @@ function SaveItinerary() {
     document.getElementById("ItineraryForm").classList.add("is-hidden");
     document.getElementById("editButton").classList.remove("is-hidden");
 }
-
-function editCost() {
-    document.getElementById("Cost_EditButton").classList.add("is-hidden");
-    document.getElementById("Cost_SaveButton").classList.remove("is-hidden");
-    document.getElementById("editCostForm").classList.remove("is-hidden");
-}
-
-function SaveCost() {
-    document.getElementById("Cost_EditButton").classList.remove("is-hidden");
-    document.getElementById("Cost_SaveButton").classList.add("is-hidden");
-    document.getElementById("editCostForm").classList.add("is-hidden");
-}

@@ -15,7 +15,7 @@ import auth as auth
 # Chat Library
 import chat as msg
 # Custom class imports
-from models.Booking import Booking, BookingForm, CheckoutForm, AddInfoForm, RevisionForm
+from models.Booking import Booking, BookingForm, CheckoutForm, AddInfoForm, RevisionForm, EditPlan
 from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm, Review
@@ -234,7 +234,9 @@ def profile(user_id):
     else:
         editable = False
         profile_img = person['profile_img']
-
+        print(result)
+        print(person)
+        print(person['name'])
         return render_template(
             'profile.html',
             form=bForm,
@@ -1301,7 +1303,7 @@ def business(book_id):
     # Get login status using accessor argument
     result = auth.is_auth(True)
     AddInfo_form = AddInfoForm()
-    itineraryForm = ListingForm()
+    itineraryForm = EditPlan()
     # if not logged in
     if not result:
         return redirect(url_for('login', denied_access=True))
@@ -1311,33 +1313,40 @@ def business(book_id):
             print("access denied")
             return redirect(url_for('all_businesses'))
         if request.method == "POST":
-            button_data = request.form.to_dict()
-            if itineraryForm.is_submitted():
-                print('HAHAHA')
+            data_dict = request.form.to_dict()
+            print(request.form.to_dict())
+            if itineraryForm.is_submitted() and 'Update Itinerary' in data_dict.values():
+                tour_date = request.form["tour_date"]
+                print(tour_date)
+                tour_date = datetime.strptime(tour_date, '%Y-%m-%d').strftime('%m/%d/%y')
+
+                tour_starttime = request.form["tour_starttime"]
+                tour_endtime = request.form["tour_endtime"]
+                format_starttime = datetime.strptime(tour_starttime, "%H:%M")
+                format_endtime = datetime.strptime(tour_endtime, "%H:%M")
+                tour_time = str(format_starttime.strftime("%I:%M %p") + " - " + format_endtime.strftime("%I:%M %p"))
+
+                tour_price = request.form["tour_price"]
+
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
+                print(itinerary_form_list)
                 tour_itinerary = formToArray(itinerary_form_list)
                 updated = {
-                    "$set": {"timeline_content": tour_itinerary}
+                    "$set": {"timeline_content": tour_itinerary,
+                             "book_date": tour_date,
+                             "book_time": tour_time,
+                             "book_charges.baseprice": tour_price,
+                             "process_step": 3}
                 }
                 bookings_db.update_one(booking_query, updated)
+                return redirect(url_for('business', book_id=book_id))
 
-                # if "submit-setting" in request.form and uForm.validate_on_submit():
-            # if 'tour_submit' in request.form and itineraryForm.validate_on_submit():
-            #     itinerary_form_list = request.form.getlist('tour_items_list[]')
-            #     tour_itinerary = formToArray(itinerary_form_list)
-            #     print('DONEDONE')
-            #     print(tour_itinerary)
-
-            # if 'SubmitItinerary' in button_data.values():
-            #     update_booking = {"$set": {"process_step": 3}}
-            #     bookings_db.update_one(booking, update_booking)
-            #     return redirect(url_for('business', book_id=book_id))
-            # if AddInfoForm.validate_on_submit():
-            #     AddInfo = request.form['AddInfo']
-            #     updated = {
-            #         "$set": {"book_info": AddInfo}
-            #     }
-            #     bookings_db.update_one(booking, updated)
+            if AddInfo_form.validate_on_submit():
+                AddInfo = request.form['AddInfo']
+                updated = {
+                    "$set": {"book_info": AddInfo}
+                }
+                bookings_db.update_one(booking, updated)
 
         # Edit Itinerary Stuff
         print(booking)
@@ -1349,7 +1358,8 @@ def business(book_id):
                                listing=listing,
                                loggedin=True,
                                user=result,
-                               form=itineraryForm)
+                               form=itineraryForm,
+                               addInfoForm=AddInfo_form)
     # except BaseException:
     #     return 'Error trying to render'
 

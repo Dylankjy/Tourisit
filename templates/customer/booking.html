@@ -312,17 +312,13 @@
                         <div class="column is-one-third">
                             <table class='table'>
                                 <tr>
-                                    <td><i class="far fa-calendar"></i>&ensp;<b>Date & Time</b></td>
-                                    <td>{{ booking.book_date }}, {{ booking.book_time }}</td>
+                                    <td><i class="far fa-calendar"></i>&ensp;<b>Date</b></td>
+                                    <td>{{ booking.book_date }}</td>
                                 </tr>
                                 <tr>
-                                    <td><i class="fas fa-map-marker-alt"></i>&ensp;<b>Meetup Point</b></td>
-                                    <td>{{ tour.tour_itinerary[0] }}</td>
+                                    <td><i class="fas fa-clock"></i>&ensp;<b>Time</b></td>
+                                    <td>{{ booking.book_time }}</td>
                                 </tr>
-                                <!-- <tr>
-                                    <td><i class="fas fa-hourglass-half"></i>&ensp;<b>Duration</b></td>
-                                    <td>{{ booking.book_duration }}</td>
-                                </tr> -->
                             </table>
                         </div>
                     </div>

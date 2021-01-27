@@ -1,9 +1,10 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField
+from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField, StringField, DecimalField
 from wtforms.validators import InputRequired, Length
 
+# Customer-side
 # Book now - default form
 class BookingForm(FlaskForm):
     book_date = DateField('book_date', validators=[InputRequired()])
@@ -16,14 +17,25 @@ class BookingForm(FlaskForm):
 class CheckoutForm(FlaskForm):
     submit = SubmitField('Pay & Proceed')
 
-# Additional Info form field
-class AddInfoForm(FlaskForm):
-    AddInfo = TextAreaField("AddInfo",validators=[Length(min=0, max=75, message="")])
-
 # Request Revisions form
 class RevisionForm(FlaskForm):
     revision_text = TextAreaField("revision_text",validators=[Length(min=0, max=75, message="")])
     submit = SubmitField("Request a Revision", validators=[InputRequired()])
+
+
+# TG-side
+# Edit Plan form
+class EditPlan(FlaskForm):
+    tour_items = StringField('tour_items')
+    tour_date = DateField('tour_date', validators=[InputRequired()])
+    tour_starttime = TimeField('tour_starttime', validators=[InputRequired()])
+    tour_endtime = TimeField('tour_endtime', validators=[InputRequired()])
+    tour_price = DecimalField('tour_price')
+
+
+# Additional Info form field
+class AddInfoForm(FlaskForm):
+    AddInfo = TextAreaField("AddInfo",validators=[Length(min=0, max=75, message="")])
 
 
 class Booking:
