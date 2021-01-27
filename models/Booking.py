@@ -44,7 +44,7 @@ class CheckoutForm(FlaskForm):
 
 # Request Revisions form
 class RevisionForm(FlaskForm):
-    revision_text = TextAreaField("revision_text",validators=[Length(min=0, max=75, message="")])
+    revision_text = TextAreaField("revision_text",validators=[InputRequired(), Length(min=0, max=75, message="")])
     submit = SubmitField("Request a Revision", validators=[InputRequired()])
 
 

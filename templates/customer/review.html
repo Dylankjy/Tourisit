@@ -21,9 +21,9 @@
                             <div class="ml-4">
                                 <div class="listing-author">
                                     <div class="profile-img"
-                                         style="background-image: url('data:image/jpeg;base64, {{ tour.tg_img }}')">
+                                         style="background-image: url('data:image/jpeg;base64, {{ tour.tg_uid | user_pfp }}')">
                                     </div>
-                                    <div class="ml-2"><b>{{ tour.tg_name }}</b> <span>is offering:</span>
+                                    <div class="ml-2"><b>{{ tour.tg_uid | user_name }}</b> <span>is offering:</span>
                                     </div>
                                 </div>
                                 <h1 class='title'>{{ tour.tour_name }}</h1>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="column">
                             <div class="box listing-img"
-                                 style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}');"></div>
+                                 style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}'); height:200px;"></div>
                         </div>
                     </div>
 

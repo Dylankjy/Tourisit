@@ -139,8 +139,8 @@
 
             <!--Start of review cards-->
             <h1 class='title'>Reviews for this tour</h1>
-            {%if reviews_list %}
-            {% for review in reviews_list %}
+            {% if item.tour_reviews %}
+            {% for review in item.tour_reviews %}
             <article class="media box">
                 <div class="media-left">
                     <div class="profile-img"

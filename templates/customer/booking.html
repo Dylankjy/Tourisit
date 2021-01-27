@@ -173,26 +173,12 @@
                 {% if process_step == 1 %}
                     <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Chat')">
                     Submit Requirements</span>
-                    <!--START: Submit req button that is to removed once I figure out how to activate on first msg send-->
-                    <form method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
-                        <input type="submit" name="SubmitRequirements" value="Submit Requirements"
-                               class="tag is-warning is-light is-size-5 is-clickable mt-2" style="border-width:0;">
-                    </form>
-                    <!--END: submit req button-->
                 {% elif process_step == 3 %}
                     <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
                     Review Custom Itinerary & Charges</span>
                 {% elif process_step == 5 %}
-                    <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Billing')">
-                    Make Payment</span>
-
-                    <form id="MakePayment" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
-                        <p class="control">
-                            <button class="tag is-warning is-light is-size-5 is-clickable" type="submit" name="MakePayment"
-                                    value="MakePayment" style="border-width:0;">Make Payment
-                            </button>
-                        </p>
-                    </form>
+                    <span class="tag is-warning is-light is-size-5 is-clickable"><a href="/checkout/{{ booking._id }}">
+                    Make Payment</a></span>
 
                 {% elif process_step == 6 %}
                     <span class="tag is-warning is-light is-size-5 is-clickable"
@@ -224,7 +210,7 @@
                 <a>Chat</a>
             </li>
             <li class="tab" onclick="openTab(event,'Billing')">
-                {% if process_step == 3 or process_step == 5 %}
+                {% if process_step == 5 %}
                     <span title="Badge top right" class="badge is-danger"></span>
                 {% endif %}
                 <a>Billing</a>
@@ -252,6 +238,32 @@
             </div>
             <!--END: About-->
             <br>
+            {% if process_step == 4 %}
+            <!--START: Customer Revision request-->
+            <div class="section">
+                <div class="container">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title has-background-grey-lighter">
+                                Your Revision Request
+                            </p>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <p>
+                                    {{booking.revision_text}}
+                                </p>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <p class="m-4">{{ booking.revisions }} free Revision(s) remaining.</p>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+            <!--END: Customer Revision request-->
+        {% endif %}
+            <br>
             <!--START: Card 3-->
             <div class='container mt-5'>
                 <div class='box p-5'>
@@ -275,26 +287,8 @@
                             <div class="timeline">
                                 <header class="timeline-header">
                                     <span class="tag is-medium is-success">Start</span>
-                                </header>
-                                <!-- <div class="timeline-item">
-                                    <div class="timeline-marker is-icon">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Meeting Point</p>
-                                        <p>Place</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker is-icon">
-                                        <i class="fas fa-utensils"></i>
-                                    </div>
-                                    <div class="timeline-content">
-                                        <p class="heading">Restaurant Name</p>
-                                        <p>Enjoy traditional Indian cuisine at this hidden gem of a restaurant!</p>
-                                    </div>
-                                </div> -->
-                                {% for item in tour.tour_itinerary %}
+                                    </header>
+                                {% for item in booking.timeline_content %}
                                     <div class="timeline-item">
                                         <div class="timeline-marker"></div>
                                         <div class="timeline-content">
@@ -361,43 +355,6 @@
                         </div>
                         <!--END: Revise/Confirm itinerary buttons-->
                     {% endif %}
-                    <!--START: (Modal) Confirm revision of itinerary-->
-                    <div class="modal is-active" id="ReqRevisionModal" style="display: none;">
-                        <div class="modal-background"></div>
-                        <div class="modal-content">
-                            <div class="box has-text-centered">
-                                <p class="is-size-5 has-text-weight-bold">Request a revision of the Proposed Itinerary
-                                    and Charges?</p>
-                                <p>You have {{ booking.revisions }} free revision(s) left.</p>
-                                <form id="revisionform" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
-                                    {{ revisionform.csrf_token }}
-                                    <div class="field">
-                                        {{ revisionform.revision_text(id="revision_text", class="textarea",
-                                    placeholder="Enter the changes you would like to see..") }}
-                                        <!-- <textarea class="textarea"
-                                                  placeholder="Enter the changes you would like to see.."></textarea> -->
-                                    </div>
-                                    <div class="field is-grouped is-grouped-centered mt-5">
-                                        <p class="control">
-                                            <button class="button is-danger is-light"
-                                                    onclick="$('#ReqRevisionModal').fadeOut('fast');">
-                                        <div class="is-size-5">Cancel</div>
-                                        </button>
-                                        </p>
-                                        <p class="control">
-                                            {{ revisionform.submit(id="revision_submit", class="button is-success is-light", type="submit") }}
-                                            <!-- <button class="button is-success is-light" type="submit">
-                                        <div class="is-size-5">Request A Revision</div>
-                                        </button> -->
-                                        </p>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <button class="modal-close is-large" aria-label="close"
-                                onclick="$('#ReqRevisionModal').fadeOut('fast');"></button>
-                    </div>
-                    <!--END: (Modal) Confirm revision of itinerary-->
                     <!--START: (Modal) Confirm accepting itinerary-->
                     <div class="modal is-active" id="AcceptItinModal" style="display: none;">
                         <div class="modal-background"></div>
@@ -450,100 +407,108 @@
 
         <!--START: Chat-->
         <div id="Chat" class="content-tab" style="display:none">
-            <div class="container">
-                <div class="box p-0">
-                    <div class="p-5 has-background-light recipient-header">
-                        <h2 class="title is-4 has-text-weight-bold has-text-dark">
-                            {{ chatroom_names|safe }}
-                        </h2>
-                    </div>
-                    <div id="messageContainer">
-                        <div class="p-5 has-background-light recipient-header-lower">
-                            <p class="subtitle has-text-grey"><i class="fas fa-heart"></i>&ensp;This is the
-                                humble
-                                beginnings of this conversation and the tippy top of it.</p>
-                        </div>
-                        <div id="messagesList" class="p-5">
-                            {% if chatroom_display|count == 0 %}
-                                <div>
-                                    <p class="has-text-centered has-text-grey has-text-weight-light is-size-5">
-                                        <span class="is-size-1"><i class="far fa-folder-open"></i></span>
-                                        <br>
-                                        <span>Looks like this chat is sparkling clean</span>
-                                        <br>
-                                        <small>This chat is empty</small>
-                                    </p>
-                                </div>
-                            {% else %}
-                                {% for i in chatroom_display %}
-                                    <div>
-                                        <small><a href=""
-                                                  class="has-text-weight-bold">{{ i["sender_name"] }}</a>
-                                            <span class="has-text-grey">
-                                            {% if i["self"] %}
-                                                — Me
-                                            {% endif %}
-                                        </span>
-                                        </small>
-                                        <p>{{ i["msg_content"] }}</p>
-                                        <hr>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <script>
-                        var $target = $('#messageContainer');
-                        $($target).animate({
-                            scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
-                        }, 0);
-                    </script>
-
-                    <!--START: Input field-->
-                    <div class="field has-addons">
-                        <!-- <div class="control">
-                            <div class="dropdown post-options is-hoverable is-up">
-                                <div class="dropdown-trigger">
-                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
-                                        <span class="icon is-small">
-                                            <i class="fas fa-paperclip"></i>
-                                        </span>
-                                    </button>
-                                </div>
-                                <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                                    <div class="dropdown-content">
-                                        <a class="dropdown-item">
-                                            Quote a Tour
-                                        </a>
-                                        <a class="dropdown-item">
-                                            <i class="fas fa-photo-video"></i>&ensp;Photos &
-                                            Videos
-                                        </a>
-                                    </div>
-                                </div>
+                            <!--Start: Console Column-->
+                            <div class="column">
+                                <div class="container chat-main">
+                                    {% if chatroom_display != False %}
+                                        <div class="box p-0">
+                                            <div class="p-5 has-background-light recipient-header">
+                                                <h2 class="title is-4 has-text-weight-bold has-text-dark">
+                                                    {{ chatroom_names|safe }}
+                                                </h2>
+                                            </div>
+                                            <div id="messageContainer">
+                                                <div class="p-5 has-background-light recipient-header-lower">
+                                                    <p class="subtitle has-text-grey"><i class="fas fa-heart"></i>&ensp;This is the
+                                                        humble
+                                                        beginnings of this conversation and the tippy top of it.</p>
+                                                </div>
+                                                <div id="messagesList" class="p-5">
+                                                    {% if chatroom_display|count == 0 %}
+                                                        <div>
+                                                            <p class="has-text-centered has-text-grey has-text-weight-light is-size-5">
+                                                                <span class="is-size-1"><i class="far fa-folder-open"></i></span>
+                                                                <br>
+                                                                <span>Looks like this chat is sparkling clean</span>
+                                                                <br>
+                                                                <small>This chat is empty</small>
+                                                            </p>
+                                                        </div>
+                                                    {% else %}
+                                                        {% for i in chatroom_display %}
+                                                            <div>
+                                                                <small><a href=""
+                                                                          class="has-text-weight-bold">{{ i["sender_name"] }}</a>
+                                                                    <span class="has-text-grey">
+                                                        {% if i["self"] %}
+                                                            — Me
+                                                        {% endif %}
+                                                    </span>
+                                                                </small>
+                                                                <p>{{ i["msg_content"] }}</p>
+                                                                <hr>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+            
+                                            <script>
+                                                var $target = $('#messageContainer');
+                                                $($target).animate({
+                                                    scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
+                                                }, 0);
+                                            </script>
+            
+                                            <!--START: Input field-->
+                                            <div class="field has-addons">
+                                                <!-- <div class="control">
+                                                    <div class="dropdown post-options is-hoverable is-up">
+                                                        <div class="dropdown-trigger">
+                                                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
+                                                                <span class="icon is-small">
+                                                                    <i class="fas fa-paperclip"></i>
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
+                                                            <div class="dropdown-content">
+                                                                <a class="dropdown-item">
+                                                                    Quote a Tour
+                                                                </a>
+                                                                <a class="dropdown-item">
+                                                                    <i class="fas fa-photo-video"></i>&ensp;Photos &
+                                                                    Videos
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                                <div class="control is-expanded">
+                                                    <form method="POST" style="width: 100%;"
+                                                          action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
+                                                        {{ chat_form.csrf_token }}
+                                                        <!-- <input class="input is-fullwidth" type="text" placeholder="Enter your message.." /> -->
+                                                        {{ chat_form.message(id="message", type="text", class="input is-fullwidth",
+                                                placeholder="Enter message", value="", autocomplete="off") }}
+                                                </div>
+                                                <div class="control">
+                                                    <button type="submit" class="button is-primary">
+                                                        <i class="fas fa-paper-plane"></i>
+                                                    </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--END: Input Field-->
+                                        </div>
+                                    {% else %}
+                                        <p class="has-text-centered title mt-6 has-text-grey-light"><i
+                                                class="fas fa-hand-point-left"></i>&ensp;Click a chat to display</p>
+                                    {% endif %}
                             </div>
-                        </div> -->
-                        <div class="control is-expanded">
-                            <form method="POST" style="width: 100%;"
-                                  action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
-                                {#                                            {{ form.csrf_token }}#}
-                                {#                                            <!-- <input class="input is-fullwidth" type="text" placeholder="Enter your message.." /> -->#}
-                                {#                                            {{ form.message(id="message", type="text", class="input is-fullwidth",#}
-                                {#                                    placeholder="Enter message", value="", autocomplete="off") }}#}
-                        </div>
-                        <div class="control">
-                            <button type="submit" class="button is-primary">
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!--END: Input Field-->
-            </div>
+                            <!--End: Console Column-->
         </div>
-    </div>
     <!--END: Chat-->
 
     <!--START: BIllinng-->
@@ -608,14 +573,15 @@
             </div>
             {% if process_step == 5 %}
                 <!--START: Payment button-->
-                <div class="field is-grouped is-grouped-right">
+                <form id="MakePayment" method="POST" action="{{ url_for('checkout', book_id=booking._id) }}">
+                    <div class="field is-grouped is-grouped-right">
                     <p class="control">
-                        <button class="button is-success is-light">
-                    <div class="is-size-4">Make Payment</div>
-                    <br>
-                    </button>
+                        <button class="button is-success is-light" type="submit" name="MakePayment"
+                                value="MakePayment" style="border-width:0;"><div class="is-size-4">Make Payment</div>
+                        </button>
                     </p>
                 </div>
+                </form>
                 <!--END: Payment button-->
             {% endif %}
         </div>
@@ -655,4 +621,42 @@
                 onclick="$('#TourCompleteModal').fadeOut('fast');"></button>
     </div>
     <!--END:(Modal) Confirm that tour completed-->
+
+    <!--START: (Modal) Confirm revision of itinerary-->
+    <div class="modal is-active" id="ReqRevisionModal" style="display: none;">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box has-text-centered">
+                <p class="is-size-5 has-text-weight-bold">Request a revision of the Proposed Itinerary
+                    and Charges?</p>
+                <p>You have {{ booking.revisions }} free revision(s) left.</p>
+                <form id="revisionform" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
+                    {{ revisionform.csrf_token }}
+                    <div class="field">
+                        {{ revisionform.revision_text(id="revision_text", class="textarea",
+                    placeholder="Enter the changes you would like to see..") }}
+                        <!-- <textarea class="textarea"
+                                  placeholder="Enter the changes you would like to see.."></textarea> -->
+                    </div>
+                    <div class="field is-grouped is-grouped-centered mt-5">
+                        <p class="control">
+                            <button class="button is-danger is-light"
+                                    onclick="$('#ReqRevisionModal').fadeOut('fast');">
+                        <div class="is-size-5">Cancel</div>
+                        </button>
+                        </p>
+                        <p class="control">
+                            {{ revisionform.submit(id="revision_submit", class="button is-success is-light", type="submit") }}
+                            <!-- <button class="button is-success is-light" type="submit">
+                        <div class="is-size-5">Request A Revision</div>
+                        </button> -->
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"
+                onclick="$('#ReqRevisionModal').fadeOut('fast');"></button>
+    </div>
+    <!--END: (Modal) Confirm revision of itinerary-->
 {% endblock %}

@@ -519,7 +519,6 @@ def tourListing(tour_id):
                     # userData=tg_userData,
                     inside_wl=inside_wl,
                     display_listing=display_listing
-                    # reviews_list=reviews_list
                 )
 
             return 'Listing is currently private'
@@ -1057,7 +1056,9 @@ def bookings(book_id):
     # try:
     booking = bookings_db.find_one({'_id': ObjectId(book_id)})
     tour = shop_db.find_one({'_id': booking['listing_id']})
+    bchat = chats_db.find_one({'_id': booking['book_chat']})
     revisionform = RevisionForm()
+    chat_form = msg.ChatForm() #mbr_chat
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
@@ -1068,17 +1069,35 @@ def bookings(book_id):
         if booking['process_step'] < 1:
             print("access denied, pay first")
             return redirect(url_for('checkout', book_id=book_id))
+        if request.method == 'GET':
+            if booking['process_step'] == 1:
+                if bchat['messages']:
+                    print('have messages')
+                    update_booking = {"$set": {"process_step": 2}}
+                    bookings_db.update_one(booking, update_booking)
+                    print('yes updated')
+                    return redirect(url_for('bookings', book_id=book_id))
+
         chat_exist = chats_db.find({"": 101}).count() > 0
         print(chat_exist)
         if request.method == 'POST':
+            if chat_form.validate_on_submit():
+                # print(chat_form.data["message"])
+                print(
+                    msg.add_message(
+                        booking['book_chat'],
+                        auth.get_sid(),
+                        chat_form.data["message"]))
             # submit button data as a dict
             button_data = request.form.to_dict()
             if 'Submit Requirements' in button_data.values():
                 update_booking = {"$set": {"process_step": 2}}
                 bookings_db.update_one(booking, update_booking)
+                return redirect(url_for('bookings', book_id=book_id))
             elif 'AcceptItinerary' in button_data.values():
                 update_booking = {"$set": {"process_step": 5}}
                 bookings_db.update_one(booking, update_booking)
+                return redirect(url_for('bookings', book_id=book_id))
             elif revisionform.validate_on_submit():
                 revision_text = request.form["revision_text"]
                 new_revisions = booking['revisions'] - 1
@@ -1087,9 +1106,7 @@ def bookings(book_id):
                 update_booking = {
                     "$set": {"process_step": 4, "revision_text": revision_text, "revisions": new_revisions}}
                 bookings_db.update_one(booking, update_booking)
-            elif 'MakePayment' in button_data.values():
-                update_booking = {"$set": {"process_step": 6}}
-                bookings_db.update_one(booking, update_booking)
+                return redirect(url_for('bookings', book_id=book_id))
             elif 'CompleteTour' in button_data.values():
                 update_booking = {"$set": {"process_step": 7}}
                 bookings_db.update_one(booking, update_booking)
@@ -1102,11 +1119,14 @@ def bookings(book_id):
                 dashboard_earnings.append(earning)
                 update_tg_dashboard = {'$set': {'earnings': dashboard_earnings}}
                 dashboard_db.update_one(tg_dashboard, update_tg_dashboard)
+                return redirect(url_for('bookings', book_id=book_id))
 
-            return redirect(url_for('bookings', book_id=book_id))
-            # elif request.form['TourComplete_submit'] == 'TourComplete':
-            #     update_booking = {"$set": {"process_step": 7}}
-            #     bookings_db.update_one(booking, update_booking)
+        # mbr_chat
+        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
+        chat_room_messages = msg.get_chat_room(auth.get_sid(), booking['book_chat'])
+        if not chat_room_messages:
+            return redirect(url_for('chat', not_found=True))
+        # mbr_chat
 
         return render_template('customer/booking.html',
                                process_step=booking['process_step'],
@@ -1114,7 +1134,14 @@ def bookings(book_id):
                                tour=tour,
                                revisionform=revisionform,
                                loggedin=True,
-                               user=result)
+                               user=result,
+                               # mbr_chat
+                               chat_list=chat_list,
+                               chat_form=chat_form,
+                               chatroom_display=chat_room_messages["chatroom"],
+                               chatroom_names=chat_room_messages["names"],
+                               selected_chatroom=booking['book_chat'],
+                               verification_code_OK=request.args.get('verification_code_OK'))
 
 
 # except:
@@ -1169,38 +1196,12 @@ def book_now(tour_id):
                         book_duration="",
                         timeline_content=item['tour_itinerary'],
                         chat_id=chat_id,
-                        revisions=item['tour_revisions'],
+                        revisions=int(item['tour_revisions']),
                         process_step=5)
                     inserted_booking = bookings_db.insert_one(booking.return_obj())
                     book_id = inserted_booking.inserted_id
                     return redirect(url_for('checkout', book_id=book_id))
 
-            # inserted_booking = bookings_db.insert_one(booking.return_obj())
-            # submit button data as a dict
-            button_data = request.form.to_dict()
-            if bookform.is_submitted():
-                print("bookform is sub")
-            if bookform.validate_on_submit():
-                print('YESs')
-                book_date = request.form["book_date"]
-                book_time = request.form["book_time"]
-                print(book_time)
-
-                booking = Booking(
-                    tg_uid=item['tg_uid'],
-                    cust_uid=result['_id'],
-                    listing_id=item['_id'],
-                    book_date=book_date,
-                    book_time=book_time,
-                    book_baseprice=item['tour_price'],
-                    book_customfee=0,
-                    book_duration="",
-                    timeline_content=item['tour_itinerary'],
-                    revisions=item['tour_revisions'],
-                    process_step=5)
-                inserted_booking = bookings_db.insert_one(booking.return_obj())
-                book_id = inserted_booking.inserted_id
-                return redirect(url_for('checkout', book_id=book_id))
             elif 'CustomiseTour' in button_data.values():
                 customfee = round(0.1 * float(item['tour_price']), 2)
                 chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], True)
@@ -1215,7 +1216,7 @@ def book_now(tour_id):
                     book_duration="",
                     timeline_content=item['tour_itinerary'],
                     chat_id=chat_id,
-                    revisions=item['tour_revisions'],
+                    revisions=int(item['tour_revisions']),
                     process_step=0)
                 print(booking.return_obj())
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
@@ -1343,10 +1344,12 @@ def business(book_id):
     booking_query = {'_id': ObjectId(book_id)}
     booking = bookings_db.find_one(booking_query)
     listing = shop_db.find_one({'_id': booking['listing_id']})
+    bchat = chats_db.find_one({'_id': booking['book_chat']})
     # Get login status using accessor argument
     result = auth.is_auth(True)
     AddInfo_form = AddInfoForm()
     itineraryForm = EditPlan()
+    chat_form = msg.ChatForm()  # mbr_chat
     # if not logged in
     if not result:
         return redirect(url_for('login', denied_access=True))
@@ -1355,6 +1358,8 @@ def business(book_id):
         if booking['process_step'] < 1:
             print("access denied")
             return redirect(url_for('all_businesses'))
+        chat_exist = chats_db.find({"": 101}).count() > 0
+        print(chat_exist)
         if request.method == "POST":
             data_dict = request.form.to_dict()
             print(request.form.to_dict())
@@ -1369,7 +1374,9 @@ def business(book_id):
                 format_endtime = datetime.strptime(tour_endtime, "%H:%M")
                 tour_time = str(format_starttime.strftime("%I:%M %p") + " - " + format_endtime.strftime("%I:%M %p"))
 
-                tour_price = request.form["tour_price"]
+                tour_price = float(request.form["tour_price"])
+                print(booking['book_charges'].baseprice)
+                print(type(booking['book_charges'].baseprice))
 
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
                 print(itinerary_form_list)
@@ -1390,11 +1397,21 @@ def business(book_id):
                     "$set": {"book_info": AddInfo}
                 }
                 bookings_db.update_one(booking, updated)
+            elif chat_form.validate_on_submit():
+                # print(chat_form.data["message"])
+                print(
+                    msg.add_message(
+                        booking['book_chat'],
+                        auth.get_sid(),
+                        chat_form.data["message"]))
 
-        # Edit Itinerary Stuff
-        print(booking)
-        print(listing)
-        print(booking['process_step'])
+        # mbr_chat
+        chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
+        chat_room_messages = msg.get_chat_room(auth.get_sid(), booking['book_chat'])
+        if not chat_room_messages:
+            return redirect(url_for('chat', not_found=True))
+        # mbr_chat
+
         return render_template('tourGuides/business.html',
                                process_step=booking['process_step'],
                                booking=booking,
@@ -1402,7 +1419,14 @@ def business(book_id):
                                loggedin=True,
                                user=result,
                                form=itineraryForm,
-                               addInfoForm=AddInfo_form)
+                               addInfoForm=AddInfo_form,
+                               # mbr_chat
+                               chat_list=chat_list,
+                               chat_form=chat_form,
+                               chatroom_display=chat_room_messages["chatroom"],
+                               chatroom_names=chat_room_messages["names"],
+                               selected_chatroom=booking['book_chat'],
+                               verification_code_OK=request.args.get('verification_code_OK')                               )
     # except BaseException:
     #     return 'Error trying to render'
 
@@ -1417,6 +1441,8 @@ def review(book_id):
     listing_id = booking['listing_id']
     tour = list(shop_db.find({'_id': ObjectId(listing_id)}))
 
+    print(booking)
+    print(len(tour))
     form = ReviewForm()
     result = auth.is_auth(True)
     if not result:
@@ -1455,6 +1481,7 @@ def review(book_id):
 
                     # Update the Listing db, append the review to 'Reviews'
                     review_data = review.return_obj()
+                    print(review_data)
                     listing_query = {'_id': ObjectId(booking['listing_id'])}
                     updated = {'$push': {'tour_reviews': review_data}}
                     shop_db.update_one(listing_query, updated)
@@ -1464,11 +1491,11 @@ def review(book_id):
                         'process_step': 8,
                         'completed': 1, }}
                     bookings_db.update_one(booking, update_booking)
-                    return redirect(url_for('bookings', book_id=str(book_id)))
+                    return redirect(url_for('bookings', book_id=book_id))
             return render_template(
                 'customer/review.html',
                 booking=booking,
-                tour=tour,
+                tour=tour[0],
                 form=form)
 
 
