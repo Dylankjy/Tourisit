@@ -37,7 +37,6 @@
                         </div>
                     </div>
 
-
                     <form id='review_form' method="POST" action="{{ url_for('review', book_id=booking['_id']) }}">
                         {{ form.csrf_token }}
                         <fieldset>
@@ -51,9 +50,6 @@
                                 <div class="control">
                                     {{ form.review_text(placeholder="What were some things you enjoyed about this experience? How can it be improved?",
                                     id="review", class="textarea") }}
-                                    <!-- <textarea class="textarea"
-                                              placeholder="What were some things you enjoyed about this experience? How can it be improved?"
-                                              id="review" name="review"></textarea> -->
                                 </div>
                             </div>
 

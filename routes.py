@@ -1371,7 +1371,6 @@ def review(book_id):
     # try:
     booking = list(bookings_db.find({'_id': ObjectId(book_id)}))[0]
     listing_id = booking['listing_id']
-    print(listing_id)
     tour = list(shop_db.find({'_id': ObjectId(listing_id)}))
 
     form = ReviewForm()
@@ -1409,7 +1408,6 @@ def review(book_id):
                         reviewee_id=reviewee_id,
                         booking=booking['_id'],
                         listing=tour[0]['_id'])
-                    print(review.return_obj())
 
                     # Update the Listing db, append the review to 'Reviews'
                     review_data = review.return_obj()
