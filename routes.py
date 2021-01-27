@@ -8,7 +8,7 @@ from io import BytesIO
 import bson
 import pymongo
 from bson.objectid import ObjectId
-from flask import Flask, render_template, request, redirect, url_for, make_response, Response
+from flask import Flask, render_template, request, redirect, url_for, make_response, Response, flash
 
 import admin as admin
 import auth as auth
@@ -210,7 +210,7 @@ def profile(user_id):
                     "$set": {"bio": bio}
                 }
                 user_db.update_one(query_user, updated)
-
+                return redirect(url_for('profile', user_id=person['_id']))
             return render_template(
                 'profile.html',
                 user=result,
@@ -221,8 +221,6 @@ def profile(user_id):
                 profile_img=profile_img
             )
         else:
-
-            bForm.process()
             return render_template(
                 'profile.html',
                 user=result,

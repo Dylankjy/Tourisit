@@ -1,75 +1,74 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-<link rel="stylesheet" href="/css/global/shop.css">
-<link rel="stylesheet" href="/css/pages/profile.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
-<script>
-    var pfplink = window.location.href;
-    sessionStorage.setItem("pfpLink", pfplink);
-
-</script>
+    <link rel="stylesheet" href="/css/global/shop.css">
+    <link rel="stylesheet" href="/css/pages/profile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
+    <script>
+        var pfplink = window.location.href;
+        sessionStorage.setItem("pfpLink", pfplink);
+    </script>
 {% endblock %}
 
-
 {% block content %}
-<section class="section is-medium">
-    <div class="container profile-container box p-6"
-        style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');">
-        <div class="profile-card-blur"></div>
-        <div class="columns is-vcentered" style="position: inherit; z-index: 1">
-            <div class="column is-one-fifth">
-                <div class="profile-img-onprofile"
-                    style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');"></div>
-            </div>
-            <div class="column">
-                <p class="title is-1 has-text-white">
-                    {{ person.name }}
-                    {% if person.verified == 1 %}
-                    <span class="tag is-success">
+    <section class="section is-medium">
+        <div class="container profile-container box p-6"
+             style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');">
+            <div class="profile-card-blur"></div>
+            <div class="columns is-vcentered" style="position: inherit; z-index: 1">
+                <div class="column is-one-fifth">
+                    <div class="profile-img-onprofile"
+                         style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');"></div>
+                </div>
+                <div class="column">
+                    <p class="title is-1 has-text-white">
+                        {{ person.name }}
+                        {% if person.verified == 1 %}
+                            <span class="tag is-success">
                         <i class="fas fa-check"></i>&ensp;Verified Guide
                     </span>
-                    {% endif %}
-                </p>
-                <p id="bioContainer" class="is-size-5 has-text-grey-lighter">
-                    {{ person.bio }}
-                    {% if editable==True %}
-                    &nbsp;
-                    <span class="has-text-grey">
+                        {% endif %}
+                    </p>
+                    <p id="bioContainer" class="is-size-5 has-text-grey-lighter">
+                        {{ person.bio }}
+                        {% if editable==True %}
+                            &nbsp;
+                            <span class="has-text-grey">
                         <i onclick="$('#bioContainer').fadeOut('fast', () => { $('#bioEditFormContainer').slideDown() });"
-                            class="fa fa-edit"></i>
+                           class="fa fa-edit"></i>
                     </span>
+                        {% endif %}
+                    </p>
+                    {% if editable==True %}
+                        <div id="bioEditFormContainer" style="display: none;">
+                            <form class="form-horizontal" action="/users/{{ user._id }}/profile" method="POST">
+                                {{ form.csrf_token }}
+                                <fieldset>
+                                    <div class="field">
+                                        <div class="control">
+                                            {{ form.bio(id="bio", type="text", class="input", style="height:50px;", value=user.bio) }}
+                                            <ul>
+                                                {% for error in form.bio.errors %}
+                                                    <li class="has-text-danger"> {{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="field is-small has-text-right">
+                                        <label class="label" for="bio-submit"></label>
+                                        <button type="submit" class="button is-success" id="bio-submit"><i class="fas fa-save"></i>&nbsp;
+                                            Save
+                                        </button>
+                                        <a class="button is-danger is-light"
+                                           onclick="$('#bioEditFormContainer').slideUp('', () => { $('#bioContainer').fadeIn() });">
+                                            <i class="fas fa-times"></i>&nbsp; Cancel</a>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
                     {% endif %}
-                </p>
-                {% if editable==True %}
-                <div id="bioEditFormContainer" style="display: none;">
-                    <form class="form-horizontal" action="/users/{{ user._id }}/profile" method="POST">
-                        {{ form.csrf_token }}
-                        <fieldset>
-                            <div class="field">
-                                <div class="control">
-                                    {{ form.bio(id="bio", type="text", class="input", style="height:50px;", value=user.bio) }}
-                                    <ul>
-                                        {% for error in form.bio.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="field is-small has-text-right">
-                                <label class="label" for="bio-submit"></label>
-                                <button type="submit" class="button is-success"><i class="fas fa-save"></i>&nbsp;
-                                    Save</button>
-                                <a class="button is-danger is-light"
-                                    onclick="$('#bioEditFormContainer').slideUp('', () => { $('#bioContainer').fadeIn() });">
-                                    <i class="fas fa-times"></i>&nbsp; Cancel</a>
-                            </div>
-                        </fieldset>
-                    </form>
                 </div>
-                {% endif %}
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}
