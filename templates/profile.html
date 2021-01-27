@@ -7,6 +7,7 @@
 <script>
     var pfplink = window.location.href;
     sessionStorage.setItem("pfpLink", pfplink);
+
 </script>
 {% endblock %}
 
@@ -47,7 +48,7 @@
                         <fieldset>
                             <div class="field">
                                 <div class="control">
-                                    {{ form.bio(id="bio", type="text", class="input", style="height:50px;") }}
+                                    {{ form.bio(id="bio", type="text", class="input", style="height:50px;", value=user.bio) }}
                                     <ul>
                                         {% for error in form.bio.errors %}
                                         <li class="has-text-danger"> {{ error }}</li>
