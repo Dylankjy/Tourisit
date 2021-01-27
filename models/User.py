@@ -113,6 +113,7 @@ class BioForm(FlaskForm):
     bio = StringField(
         "bio",
         validators=[
+            Optional(),
             Length(min=0, max=75, message="Bio can only be 75 characters long!")
         ]
     )
