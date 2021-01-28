@@ -61,7 +61,7 @@ class ListingForm(FlaskForm):
     # tour_items_list = FieldList(HiddenField('tour_items_list', validators=[InputRequired()]))
 
     tour_loc = SelectField('tour_loc', choices=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
-                                          'Bukit Panjang', 'Bukit Timah', 'Choa Chu Kang', 'Clementi', 'Changi',
+                                          'Bukit Panjang', 'Bukit Timah', 'Chinatown', 'Choa Chu Kang', 'Clementi', 'Changi',
                                           'Geylang', 'Hougang', 'Jurong East', 'Jurong West', 'Kallang',
                                           'Marine Parade', 'Orchard', 'Pasir Ris', 'Punggol', 'Queenstown',
                                           'Sembawang', 'Sengkang', 'Serangoon', 'Sentosa', 'Tampines', 'Toa Payoh',
