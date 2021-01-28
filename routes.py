@@ -1057,7 +1057,7 @@ def bookings(book_id):
     tour = shop_db.find_one({'_id': booking['listing_id']})
     bchat = chats_db.find_one({'_id': booking['book_chat']})
     revisionform = RevisionForm()
-    chat_form = msg.ChatForm() #mbr_chat
+    chat_form = msg.ChatForm()  # mbr_chat
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
@@ -1548,20 +1548,55 @@ def sellerModeFile():
 def sellerDashboard():
     # Get login status using accessor argument
     result = auth.is_auth(True)
+
+    # Declare WTForm
     form = dashboard.ReportGenForm()
+
     # if not logged in
     if not result:
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
         if form.validate_on_submit():
+            # Get data from form
             date_scope = form.data['date_filter']
 
-            date_splitted = date_scope.split("-")
+            # Parse data into machine readable format
+            date_split = date_scope.split("-")
 
-            report_name = dashboard.generate_report(auth.get_user_id(auth.get_sid()), date_splitted[0], date_splitted[1])
+            if date_scope == "":
+                report_name = dashboard.generate_report(auth.get_user_id(auth.get_sid()))
+            else:
+                report_name = dashboard.generate_report(auth.get_user_id(auth.get_sid()), date_split[0], date_split[1])
 
-            return redirect(url_for('reports', filename=report_name))
+            # Threading function to delete file if left undownloaded
+            def delete_after_generate():
+                # do something that takes a long time
+                import time
+
+                # Check after 10 seconds after report generation for file existence
+                time.sleep(20)
+
+                # File doesn't exist due to deletion by reports(), exit thread
+                if not os.path.exists(f"./tmp_data/{report_name}"):
+                    return
+
+                # Delay delete for 60 seconds to ensure file has been successfully fetched by client
+                time.sleep(60)
+
+                # Try to delete file again
+                os.remove(f"./tmp_data/{report_name}")
+
+            # Start process to delete file
+            thread = Thread(target=delete_after_generate)
+            thread.start()
+
+            # Change date_scope value for cosmetic purposes
+            if date_scope == "":
+                date_scope = "ALL"
+
+            return redirect(
+                url_for('reports', filename=f"{report_name}.xlsx", name=result["name"], date_scope=date_scope))
 
         return render_template(
             'tourGuides/dashboard.html',
@@ -1593,7 +1628,10 @@ def reports(filename):
     thread.start()
 
     # Send report to client
-    return send_from_directory(os.path.join('.', 'tmp_data'), filename)
+    return send_from_directory(os.path.join('.', 'tmp_data'), filename,
+                               as_attachment=True,
+                               attachment_filename=
+                               f'TourisitReport-{request.args.get("name")}-{request.args.get("date_scope")}.xlsx')
 
 
 # INTERNAL

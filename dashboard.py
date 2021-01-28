@@ -84,7 +84,26 @@ def update_index(uid, new_data):
     return payload
 
 
-def generate_report(uid, year, month):
+def generate_report(uid, year=None, month=None):
+    """
+    Generate a new xlsx file as report for download
+    :param uid: Target user's ID
+    :param year: (Optional) Filter for year
+    :param month: (Optional) Filter for month
+    :return: Report's file name
+    """
+    # Check whether filter is empty
+    if year is None or month is None:
+        query_uid = {
+            "tg_uid": ObjectId(uid),
+        }
+    else:
+        query_uid = {
+            "tg_uid": ObjectId(uid),
+            "month_paid": int(month),
+            "year_paid": int(year)
+        }
+
     # Generate random string for download file
     raw_sid = ""
     # Using UUID4 to generate random strings
@@ -92,21 +111,15 @@ def generate_report(uid, year, month):
         raw_sid += str(uuid.uuid4())
 
     # Generate even more random SID by using SHA3-512
-    value = hashlib.sha1(raw_sid.encode('utf-8')).hexdigest()
+    generated_filename = hashlib.sha1(raw_sid.encode('utf-8')).hexdigest()
 
     # Create a workbook and add a worksheet.
-    workbook = xlsxwriter.Workbook(f'tmp_data/{value}.xlsx')
+    workbook = xlsxwriter.Workbook(f'tmp_data/{generated_filename}.xlsx')
     worksheet = workbook.add_worksheet()
 
     # Start from the first cell. Rows and columns are zero indexed.
     row = 0
     col = 0
-
-    query_uid = {
-        "tg_uid": ObjectId(uid),
-        "month_paid": int(year),
-        "year_paid": int(month)
-    }
 
     data_for_input = [
         ['Listing Name', 'Timestamp', 'Total Earned', 'Payment Status']
@@ -146,11 +159,15 @@ def generate_report(uid, year, month):
 
     workbook.close()
 
+    return generated_filename
+
 
 # generate_report("5feafbbf4dbad8d4b8614958")
 
 class ReportGenForm(FlaskForm):
+    """
+    (FRONTEND, WTForm) For generation of report
+    """
     date_filter = StringField(
         'Date Scope'
     )
-
