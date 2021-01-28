@@ -6,6 +6,7 @@
 {% block scripts %}
     <link rel="stylesheet" href="/css/global/shop.css">
     <link rel="stylesheet" href="/css/pages/all_bookings.css">
+    <link rel="stylesheet" href="/css/frameworks/bulma-divider.css">
 {% endblock %}
 
 
@@ -37,6 +38,7 @@
                             {% endfor %}
                         </table>
                     </div>
+                    <div class="divider is-vertical is-right"></div>
                     <div class="column is-half">
                         <p class="subtitle">Required Action</p>
                         <table class='table is-striped is-fullwidth'>
@@ -75,8 +77,8 @@
     </section>
     <!--END: Dropdown-->
     <section>
-        {% if booking_list == None %}
-            <div>bro you no business.</div>
+        {% if booking_list == [] %}
+            <div>You don't have any jobs yet.</div>
         {% else %}
             {% for item in booking_list %}
                 {% set listing = listings[loop.index0] %}
