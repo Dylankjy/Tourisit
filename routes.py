@@ -1534,17 +1534,19 @@ def sellerDashboard():
     # if logged in
     else:
         if form.validate_on_submit():
-            year = form.data['year_filter']
-            month = form.data['month_filter']
+            date_scope = form.data['date_filter']
 
-            report_name = dashboard.generate_report(auth.get_user_id(auth.get_sid()), year, month)
+            date_splitted = date_scope.split("-")
+
+            report_name = dashboard.generate_report(auth.get_user_id(auth.get_sid()), date_splitted[0], date_splitted[1])
 
             return redirect(url_for('reports', filename=report_name))
 
         return render_template(
             'tourGuides/dashboard.html',
             loggedin=True,
-            user=result)
+            user=result,
+            form=form)
 
 
 @app.route('/s/report/<filename>')
