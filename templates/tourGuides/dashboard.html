@@ -132,6 +132,32 @@
         </div>
     </section>
 
+    <div id="reportGenerationModal" class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-card box" style="padding: 3em;">
+            <p class="title is-3 has-text-weight-bold has-text-centered">Generate Report</p>
+            <p class="mb-3">Enter month and year of report to generate.<br>You may leave this blank to get a full report for your entire account.</p>
+            <form method="POST" action="{{ url_for('sellerDashboard') }}">
+                {{ form.csrf_token }}
+            <div class="field is-grouped">
+                <p class="control is-expanded">
+                        <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
+                        {{ form.date_filter(type="month", class="input", placeholder="Month") }}
+                        <!-- <span class="icon is-small is-left">
+                    </span> -->
+                </p>
+                <p class="control">
+                  <button class="button is-primary" type="submit">
+                    <i class="fas fa-arrow-right"></i>&nbsp;Generate
+                  </button>
+                </p>
+              </div>
+            </form>
+            <a onclick="$('#reportGenerationModal').fadeOut('fast');" class="button is-light is-fullwidth mt-3"><i
+                    class="fas fa-times"></i>&ensp;Cancel</a>
+        </div>
+    </div>
+
     <script>
     const d = new Date()
     const months = ["January", "February", "March", "April", "May", "June", 'July', 'August', 'September', 'October', 'November', 'December']
