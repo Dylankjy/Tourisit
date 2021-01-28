@@ -92,10 +92,10 @@ def generate_report(uid, year, month):
         raw_sid += str(uuid.uuid4())
 
     # Generate even more random SID by using SHA3-512
-    token_value = hashlib.sha3_512(raw_sid.encode('utf-8')).hexdigest()
+    value = hashlib.sha1(raw_sid.encode('utf-8')).hexdigest()
 
     # Create a workbook and add a worksheet.
-    workbook = xlsxwriter.Workbook('tmp_data/Expenses01.xlsx')
+    workbook = xlsxwriter.Workbook(f'tmp_data/{value}.xlsx')
     worksheet = workbook.add_worksheet()
 
     # Start from the first cell. Rows and columns are zero indexed.
