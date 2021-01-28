@@ -462,28 +462,6 @@
             
                                             <!--START: Input field-->
                                             <div class="field has-addons">
-                                                <!-- <div class="control">
-                                                    <div class="dropdown post-options is-hoverable is-up">
-                                                        <div class="dropdown-trigger">
-                                                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
-                                                                <span class="icon is-small">
-                                                                    <i class="fas fa-paperclip"></i>
-                                                                </span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                                                            <div class="dropdown-content">
-                                                                <a class="dropdown-item">
-                                                                    Quote a Tour
-                                                                </a>
-                                                                <a class="dropdown-item">
-                                                                    <i class="fas fa-photo-video"></i>&ensp;Photos &
-                                                                    Videos
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
                                                 <div class="control is-expanded">
                                                     <form method="POST" style="width: 100%;"
                                                           action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
@@ -635,8 +613,6 @@
                     <div class="field">
                         {{ revisionform.revision_text(id="revision_text", class="textarea",
                     placeholder="Enter the changes you would like to see..") }}
-                        <!-- <textarea class="textarea"
-                                  placeholder="Enter the changes you would like to see.."></textarea> -->
                     </div>
                     <div class="field is-grouped is-grouped-centered mt-5">
                         <p class="control">
@@ -647,9 +623,6 @@
                         </p>
                         <p class="control">
                             {{ revisionform.submit(id="revision_submit", class="button is-success is-light", type="submit") }}
-                            <!-- <button class="button is-success is-light" type="submit">
-                        <div class="is-size-5">Request A Revision</div>
-                        </button> -->
                         </p>
                     </div>
                 </form>

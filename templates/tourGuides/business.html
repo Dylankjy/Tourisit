@@ -663,33 +663,10 @@
 
                             <!--START: Input field-->
                             <div class="field has-addons">
-                                <!-- <div class="control">
-                                    <div class="dropdown post-options is-hoverable is-up">
-                                        <div class="dropdown-trigger">
-                                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-post">
-                                                <span class="icon is-small">
-                                                    <i class="fas fa-paperclip"></i>
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <div class="dropdown-menu" id="dropdown-menu-post" role="menu">
-                                            <div class="dropdown-content">
-                                                <a class="dropdown-item">
-                                                    Quote a Tour
-                                                </a>
-                                                <a class="dropdown-item">
-                                                    <i class="fas fa-photo-video"></i>&ensp;Photos &
-                                                    Videos
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <div class="control is-expanded">
                                     <form method="POST" style="width: 100%;"
                                           action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
                                         {{ chat_form.csrf_token }}
-                                        <!-- <input class="input is-fullwidth" type="text" placeholder="Enter your message.." /> -->
                                         {{ chat_form.message(id="message", type="text", class="input is-fullwidth",
                                 placeholder="Enter message", value="", autocomplete="off") }}
                                 </div>
@@ -717,100 +694,7 @@
             <div class="container">
                 {% if 2 <= process_step <= 4 %}
                     <div class="is-size-3 has-text-centered has-text-weight-semibold">Proposed Cost</div>
-                {% endif %}
                 <br>
-                {% if process_step == 2 or process_step == 4 %}
-                    <!--START: Edit button-->
-                    <!-- <div class="has-text-centered mb-2" id="Cost_EditButton">
-                        <p class="control">
-                            <button class="button is-success is-light" onclick="editCost()">
-                                <i class="fas fa-edit"></i>
-                        <div class="is-size-5 ml-3">Edit</div>
-                        <br>
-                        </button>
-                        </p>
-                    </div> -->
-                    <!--END: Edit button-->
-                    <!--START: Save button-->
-                    <!-- <div class="has-text-centered mb-2 is-hidden" id="Cost_SaveButton">
-                        <p class="control">
-                            <button class="button is-success is-light" onclick="SaveCost()">
-                        <div class="is-size-5">Save</div>
-                        <br>
-                        </button>
-                        </p>
-                    </div> -->
-                    <!--END: Save button-->
-                {% endif %}
-                <!--START: form Display proposed cost-->
-                <div class="container box is-hidden" id="editCostForm">
-                    <!--START: Base price field-->
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">Base Price</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <div class="control is-expanded has-icons-left">
-                                    <input class="input" type="text" placeholder="Base Price">
-                                    <span class="icon is-small is-left">
-                                    <i class="fas fa-dollar-sign"></i>
-                                  </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--END: Base price field-->
-                    <!--START: Add-on form field-->
-                    <div class="field is-horizontal">
-                        <div class="field-label"></div>
-                        <div class="field-body">
-                            <div class="field has-addons">
-                                <p class="control">
-                                    <span class="select">
-                                      <select>
-                                        <option><i class="fas fa-plus"></i> Add-on</option>
-                                        <option><i class="fas fa-minus"></i> Reduction</option>
-                                      </select>
-                                    </span>
-                                </p>
-                                <p class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Caption">
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control is-expanded has-icons-left">
-                                    <input class="input" placeholder="Cost">
-                                    <span class="icon is-small is-left">
-                                    <i class="fas fa-dollar-sign"></i>
-                                  </span>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control">
-                                    <a class="button is-danger is-light">
-                                        <i class="fas fa-minus"></i>
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--insert plus/minus buttons div here-->
-                    <!--START: plus button-->
-                    <div class="field is-grouped is-grouped-right">
-                        <p class="control">
-                            <a class="button is-success is-light">
-                                <i class="fas fa-plus"></i>
-                                <span class="ml-3">Add Field</span>
-                            </a>
-                        </p>
-                    </div>
-                    <!--END: plus button-->
-                    <!--END: Add-on form field-->
-                </div>
-                <!--END: form Display proposed cost-->
-                {% if 2 <= process_step <= 4 %}
                     <!--START: Display proposed cost-->
                     <div class="container box">
                         <div class="heading">Tour Price</div>
