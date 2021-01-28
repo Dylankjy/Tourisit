@@ -10,9 +10,9 @@
 
 {% block content %}>
 
-    <section class="section has-background-white has-text-centered">
+    <section class="section has-background-white">
         <div class="container">
-            <h1 class="is-size-2 has-text-weight-bold mt-6">Account Settings & Preferences</h1>
+            <h1 class="is-size-2 has-text-weight-bold">My Settings</h1>
         </div>
     </section>
 
@@ -20,53 +20,46 @@
         <div class="columns">
             <!-- Side Profile Page -->
             <div class="column is-one-fifth">
-                <div class="section">
-                    <div class="box is-centered p-0">
-                        <p>
-                            <button class="button is-fullwidth is-black">Account Info</button>
-                        </p>
-                    </div>
-                </div>
+                <button class="button is-fullwidth is-black">Account Info</button>
             </div>
             <!-- Content -->
             <div class="column">
-                <div class="section">
-                    <!-- Update account settings -->
-                    <h1 class="is-size-4 has-text-left has-text-weight-bold">Account Details</h1>
-                    <form class="form-horizontal" action="/me/settings" method="POST" enctype="multipart/form-data">
-                        {{ form.csrf_token }}
-                        <fieldset>
-                            <div class="field">
-                                <label class="label" for="account_mode">Account Mode</label>
-                                <div class="umode control">
-                                    {{ form.account_mode(id="account_mode", type="select", class="input") }}
-                                    <ul>
-                                        {% for error in form.account_mode.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                <!-- Update account settings -->
+                <h1 class="is-size-4 has-text-left has-text-weight-bold">Account Details</h1>
+                <form class="form-horizontal" action="/me/settings" method="POST" enctype="multipart/form-data">
+                    {{ form.csrf_token }}
+                    <fieldset>
+                        <div class="field">
+                            <label class="label" for="account_mode">Account Mode:</label>
+                            <div class="umode control">
+                                {{ form.account_mode(id="account_mode", type="select", class="input") }}
+                                <ul>
+                                    {% for error in form.account_mode.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
-                            <div class="field">
-                                <label class="label" for="name">Name:</label>
-                                <div class="control">
-                                    {{ form.name(id="name", type="text", class="input", placeholder="", value=user.name) }}
-                                    <ul>
-                                        {% for error in form.name.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="name">Name:</label>
+                            <div class="control">
+                                {{ form.name(id="name", type="text", class="input", placeholder="", value=user.name) }}
+                                <ul>
+                                    {% for error in form.name.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
+                        </div>
 
-                            <div class='field'>
-                                <label class="label" for="name">Profile Image: </label>
-                                <div class="file has-name is-boxed">
-                                    <label class="file-label">
-                                        {{ form.profile_img(class="file-input", id='uploadImg', type="file", onchange="if
+                        <div class='field'>
+                            <label class="label" for="name">Profile Image: </label>
+                            <div class="file has-name is-boxed">
+                                <label class="file-label">
+                                    {{ form.profile_img(class="file-input", id='uploadImg', type="file", onchange="if
                             (this.files.length > 0) document.getElementById('filename-profile-img').innerHTML =
                             this.files[0].name;") }}
-                                        <span class="file-cta">
+                                    <span class="file-cta">
                                 <span class="file-icon">
                                     <i class="fas fa-upload"></i>
                                 </span>
@@ -74,93 +67,93 @@
                                     Upload an Image...
                                 </span>
                             </span>
-                                        <span class="file-name" id='filename-profile-img'>
+                                    <span class="file-name" id='filename-profile-img'>
                             </span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            {% for error in form.profile_img.errors %}
-                                <li class="has-text-danger"> {{ error }}</li>
-                            {% endfor %}
-
-                            <div>
-                                <img id="currentImg"/>
-                            </div>
-
-                            <div class="field">
-                                <label class="label" for="password">Password:
-                                    <input class="button is-primary" type="button" id="openbtn" name="openbtn" value="Change Password" onclick="$('#ChangePasswordModal').fadeIn('fast'); return false;">
                                 </label>
                             </div>
+                        </div>
 
-                            <div class="field">
-                                <label class="label" for="email">Email Address:</label>
-                                <div class="control">
-                                    {{ form.email(id="email", type="text", class="input", placeholder="", value=user.email) }}
-                                    <ul>
-                                        {% for error in form.email.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
+                        {% for error in form.profile_img.errors %}
+                            <li class="has-text-danger"> {{ error }}</li>
+                        {% endfor %}
 
-                            <div class="field">
-                                <label class="label" for="phone_number">Phone Number:</label>
-                                <div class="control">
-                                    {{ form.phone_number(id="phone_number", type="text", class="input", placeholder="", value=user.phone_number) }}
-                                    <ul>
-                                        {% for error in form.phone_number.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                        <div>
+                            <img id="currentImg"/>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="password">Password:
+                                <input class="button is-primary" type="button" id="openbtn" name="openbtn" value="Change Password" onclick="$('#ChangePasswordModal').fadeIn('fast'); return false;">
+                            </label>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="email">Email Address:</label>
+                            <div class="control">
+                                {{ form.email(id="email", type="text", class="input", placeholder="", value=user.email) }}
+                                <ul>
+                                    {% for error in form.email.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
-                            <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3">Social Media</h1>
-                            <div class="field">
-                                <label class="label" for="name">Facebook:</label>
-                                <div class="control">
-                                    {{ form.fb(id="fb", type="text", class="input", placeholder="", value=user.socialmedia["fb"]) }}
-                                    <ul>
-                                        {% for error in form.fb.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="phone_number">Phone Number:</label>
+                            <div class="control">
+                                {{ form.phone_number(id="phone_number", type="text", class="input", placeholder="", value=user.phone_number) }}
+                                <ul>
+                                    {% for error in form.phone_number.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
-                            <div class="field">
-                                <label class="label" for="insta">Instagram:</label>
-                                <div class="control">
-                                    {{ form.insta(id="insta", type="text", class="input", placeholder="", value=user.socialmedia["insta"]) }}
-                                    <ul>
-                                        {% for error in form.insta.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                        </div>
+                        <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3 pb-2">Social Networks</h1>
+                        <div class="field">
+                            <label class="label" for="name">Facebook</label>
+                            <div class="control">
+                                {{ form.fb(id="fb", type="text", class="input", placeholder="", value=user.socialmedia["fb"]) }}
+                                <ul>
+                                    {% for error in form.fb.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
-                            <div class="field">
-                                <label class="label" for="linkedin">LinkedIn:</label>
-                                <div class="control">
-                                    {{ form.linkedin(id="linkedin", type="text", class="input", placeholder="", value=user.socialmedia["linkedin"]) }}
-                                    <ul>
-                                        {% for error in form.linkedin.errors %}
-                                            <li class="has-text-danger"> {{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="insta">Instagram</label>
+                            <div class="control">
+                                {{ form.insta(id="insta", type="text", class="input", placeholder="", value=user.socialmedia["insta"]) }}
+                                <ul>
+                                    {% for error in form.insta.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
-                            <div class="field">
-                                <label class="label" for="submit-setting"></label>
-                                <div class="control">
-                                    <input type='submit' value='Update!' id="submit-setting" name="submit-setting"
-                                           class="button is-success">
-                                </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="linkedin">LinkedIn</label>
+                            <div class="control">
+                                {{ form.linkedin(id="linkedin", type="text", class="input", placeholder="", value=user.socialmedia["linkedin"]) }}
+                                <ul>
+                                    {% for error in form.linkedin.errors %}
+                                        <li class="has-text-danger"> {{ error }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
-                        </fieldset>
-                    </form>
-                </div>
+                        </div>
+                        <div class="field is-pulled-right">
+                            <label class="label" for="submit-setting"></label>
+                            <div class="control">
+                                <input type='submit' value='Update!' id="submit-setting" name="submit-setting"
+                                       class="button is-success">
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
             </div>
         </div>
     </div>
