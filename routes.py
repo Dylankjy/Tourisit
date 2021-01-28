@@ -1797,6 +1797,8 @@ def resend_email():
     # if resend_email_form.validate_on_submit():
     email = resend_email_form.data["email"]
 
+    # print(email)
+
     # if auth.get_sid() is not None:
     #     sid = auth.get_sid()
     #     if auth.send_confirmation_email(sid, None):
@@ -1804,7 +1806,7 @@ def resend_email():
     #         return redirect(url_for('signup', email_sent=True))
 
     if email is not None:
-        if auth.send_confirmation_email(None, email):
+        if auth.send_confirmation_email("email_verification", None, email):
             return redirect(url_for('signup', email_sent=True))
 
 
