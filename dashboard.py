@@ -150,11 +150,7 @@ def generate_report(uid, year, month):
 # generate_report("5feafbbf4dbad8d4b8614958")
 
 class ReportGenForm(FlaskForm):
-    month_filter = StringField(
-        'Month',
-        [DataRequired()]
+    date_filter = StringField(
+        'Date Scope'
     )
-    year_filter = StringField(
-        'Year',
-        [DataRequired()]
-    )
+
