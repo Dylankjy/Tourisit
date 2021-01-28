@@ -357,6 +357,9 @@ def accountinfo():
         return redirect(url_for('login', denied_access=True))
 
 
+
+
+
 # ALEX
 
 # CUSTOMERS
@@ -367,7 +370,7 @@ def home():
     query = {'tour_visibility': 1}
     all_listings = [i for i in shop_db.find(query)]
 
-    if all_listings:
+    if len(all_listings) >= 6:
         all_listings.reverse()
         shown_listings = []
 
