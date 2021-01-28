@@ -211,15 +211,15 @@
                         </div>
                     </li>
 
-                    <li class="steps-segment {{ 'is-active' if (process_step == 7) }}">
-                        <a class="{{ 'inactiveLink' if (process_step != 7) }}" href="">
-                        <span class="steps-marker {{ 'is-link' if(process_step == 7) }}">
+                    <li class="steps-segment {{ 'is-active' if (process_step == 7 or process_step == 7.1) }}">
+                        <a class="{{ 'inactiveLink' if (process_step >= 7.2) }}" href="">
+                        <span class="steps-marker {{ 'is-link' if(process_step == 7 or process_step == 7.1) }}">
                         {% if process_step > 7 %}
                             <i class="fas fa-check"></i>
                         {% endif %}
           </span>
                             <div class="steps-content">
-                                <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7) }}">Leave Feedback</p>
+                                <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7 or process_step == 7.1) }}">Leave Feedback</p>
                             </div>
                         </a>
                     </li>
@@ -228,30 +228,19 @@
             </div>
             <!--END: Steps-->
             <!--START: Action req-->
-            {% if process_step == 6 %}
-                <div class="has-text-centered m-2 is-size-6">
-                    You are now ready to host your Tour!
-                </div>
-            {% endif %}
 
-            {% if process_step >= 7 %}
-                <div class="has-text-centered m-2 is-size-4">
-                    You have completed your Tour!
-                </div>
-            {% endif %}
-
-            {% if process_step == 2 or process_step == 4 or process_step == 7 %}
+            {% if process_step == 2 or process_step == 4 or process_step == 7 or process_step == 7.1 %}
                 <div class="has-text-centered m-5 is-size-5">
                     Next Step:
                     {% if process_step == 2 or process_step == 4 %}
                         <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
                 Plan Custom Package</span>
-                    {% elif process_step == 7 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable"><a href="">
+                    {% elif process_step == 7  or process_step == 7.1 %}
+                        <span class="tag is-warning is-light is-size-5 is-clickable"><a href="/review/{{ booking._id }}">
                 Leave Feedback</a></span>
                     {% endif %}
                 </div>
-            {% elif process_step != 8 %}
+            {% elif not(process_step == 8 or process_step == 7.2) %}
                 <div class="has-text-centered m-5 is-size-5">
                     Waiting for Customer to:
                     {% if process_step == 1 %}

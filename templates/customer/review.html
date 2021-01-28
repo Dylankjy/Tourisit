@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
 {% block scripts %}
-    <link rel="stylesheet" href="../../public/css/global/shop.css">
+    <link rel="stylesheet" href="/css/global/shop.css"> 
     <link rel="stylesheet" href="../../public/css/global/rating.css">
     <link rel="stylesheet" href="/css/pages/all_bookings.css">
     <script src="/js/jquery.raty.js"></script>
 {% endblock %}
 
 {% block content %}
+{% if review_type == 'tour' %}
     <section class='section'>
         <div class="content has-text-centered">
             <h1>Rate your tour experience!</h1>
@@ -19,12 +20,12 @@
                     <div class="columns is-vcentered">
                         <div class="column">
                             <div class="ml-4">
-                                <div class="listing-author">
-                                    <div class="profile-img"
-                                         style="background-image: url('data:image/jpeg;base64, {{ tour.tg_uid | user_pfp }}')">
-                                    </div>
-                                    <div class="ml-2"><b>{{ tour.tg_uid | user_name }}</b> <span>is offering:</span>
-                                    </div>
+                                <div class="listing-author m-2">
+                                    <!--dynamic tg photo-->
+                                    <div>
+                                        <div class="profile-img"
+                                             style="background-image: url('data:image/jpeg;base64, {{ tour.tg_uid | user_pfp }}');"></div>
+                                        <b>{{ tour.tg_uid| user_name }}</b></div>
                                 </div>
                                 <h1 class='title'>{{ tour.tour_name }}</h1>
                                 <p class="subtitle truncate is-size-6 has-text-grey">{{ tour.tour_desc }}</p>
@@ -66,6 +67,67 @@
             </div>
         </div>
     </section>
+{% elif review_type == 'customer' %}
+<section class='section'>
+    <div class="content has-text-centered">
+        <h1>Rate your Experience with {{booking.cust_uid | user_name}}</h1>
+    </div>
+
+    <div class='columns is-centered'>
+        <div class='column is-half'>
+            <div class='box'>
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <div class="ml-4">
+                            <div class="listing-author m-2">
+                                <!--dynamic tg photo-->
+                                <div>
+                                    <div class="profile-img"
+                                         style="background-image: url('data:image/jpeg;base64, {{ tour.tg_uid | user_pfp }}');"></div>
+                                    <b>You Sold:</b></div>
+                            </div>
+                            <h1 class='title'>{{ tour.tour_name }}</h1>
+                            <p class="subtitle truncate is-size-6 has-text-grey">{{ tour.tour_desc }}</p>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box listing-img"
+                             style="background-image: url('data:image/jpeg;base64, {{ tour.tour_img }}'); height:200px;"></div>
+                    </div>
+                </div>
+
+                <form id='review_form' method="POST" action="{{ url_for('review', book_id=booking['_id']) }}">
+                    {{ form.csrf_token }}
+                    <fieldset>
+                        <div class="field has-text-centered">
+                            <div class="star"></div>
+                            {{ form.rating(id="rating", class="rating") }}
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="review">Leave a review</label>
+                            <div class="control">
+                                {{ form.review_text(placeholder="How were they as a customer?",
+                                id="review", class="textarea") }}
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="review-submit"></label>
+                            <div class="control">
+                                <input id="review-submit" name="review-submit" type="submit"
+                                       class="button is-success is-medium is-fullwidth">
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endif %}
     <script>
         $(document).ready(function () {
             $('#rating').hide();

@@ -142,16 +142,16 @@
                     </div>
                 </li>
 
-                <li class="steps-segment {{ 'is-active' if (process_step == 7) }}">
-                    <a class="{{ 'inactiveLink' if (process_step != 7) }}" href="/review/{{ booking._id }}">
-                            <span class="steps-marker {{ 'is-link' if(process_step == 7) }}">
-                                {% if process_step > 7 %}
+                <li class="steps-segment {{ 'is-active' if (process_step == 7 or process_step == 7.2) }}">
+                    <a class="{{ 'inactiveLink' if (process_step == 7.1 or process_step == 8) }}" href="/review/{{ booking._id }}">
+                            <span class="steps-marker {{ 'is-link' if(process_step == 7 or process_step == 7.2) }}">
+                                {% if process_step == 7 or process_step == 7.2 %}
                                     <i class="fas fa-check"></i>
                                 {% endif %}
                                 <!-- <i class="fas fa-comments"></i> -->
                             </span>
                         <div class="steps-content">
-                            <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7) }}">Leave Feedback</p>
+                            <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7 or process_step == 7.2) }}">Leave Feedback</p>
                         </div>
                     </a>
                 </li>
@@ -166,7 +166,7 @@
                 <span class="tag is-white-ter is-size-5 is-clickable">
                     Plan Custom Package</span>
             </div>
-        {% elif process_step != 8 %}
+        {% elif not(process_step == 8 or process_step == 7.1) %}
 
             <div class="has-text-centered m-5 is-size-5">
                 Next Step:
@@ -184,7 +184,7 @@
                     <span class="tag is-warning is-light is-size-5 is-clickable"
                           onclick="$('#TourCompleteModal').fadeIn('fast')">
                     Complete Tour</span>
-                {% elif process_step == 7 %}
+                {% elif process_step == 7 or process_step == 7.2 %}
                     <span class="tag is-warning is-light is-size-5 is-clickable"><a href="/review/{{ booking._id }}">
                         Leave Feedback</a></span>
                 {% endif %}
