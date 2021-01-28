@@ -347,6 +347,8 @@ def send_confirmation_email(email_type, sid=None, user_email=None):
     :param user_email: Target user's email
     :return: Status of operation
     """
+
+    # TODO: Fix this portion
     if sid is not None and user_email is None:
         # Find UID from SID
         query = {
