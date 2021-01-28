@@ -1046,7 +1046,6 @@ def all_bookings():
             loggedin=True,
             user=result)
 
-
 # except:
 #     return 'Error trying to render'
 
@@ -1061,7 +1060,7 @@ def bookings(book_id):
     tour = shop_db.find_one({'_id': booking['listing_id']})
     bchat = chats_db.find_one({'_id': booking['book_chat']})
     revisionform = RevisionForm()
-    chat_form = msg.ChatForm() #mbr_chat
+    chat_form = msg.ChatForm()  # mbr_chat
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
@@ -1097,10 +1096,12 @@ def bookings(book_id):
                 update_booking = {"$set": {"process_step": 2}}
                 bookings_db.update_one(booking, update_booking)
                 return redirect(url_for('bookings', book_id=book_id))
+
             elif 'AcceptItinerary' in button_data.values():
                 update_booking = {"$set": {"process_step": 5}}
                 bookings_db.update_one(booking, update_booking)
                 return redirect(url_for('bookings', book_id=book_id))
+
             elif revisionform.validate_on_submit():
                 revision_text = request.form["revision_text"]
                 new_revisions = booking['revisions'] - 1
@@ -1110,6 +1111,7 @@ def bookings(book_id):
                     "$set": {"process_step": 4, "revision_text": revision_text, "revisions": new_revisions}}
                 bookings_db.update_one(booking, update_booking)
                 return redirect(url_for('bookings', book_id=book_id))
+
             elif 'CompleteTour' in button_data.values():
                 update_booking = {"$set": {"process_step": 7, "completed": 1}}
                 bookings_db.update_one(booking, update_booking)
@@ -1182,12 +1184,9 @@ def book_now(tour_id):
                 book_date = request.form["book_day"]
                 book_time = request.form["book_timeslot"]
 
-                # oh lawdy he inefficient
                 tg_booking_list = list(bookings_db.find({'tg_uid': item['tg_uid']}))
 
                 if bookform.date_valid(book_date, tg_booking_list) and bookform.time_valid(book_time):
-                    print("yes")
-
                     chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], True)
                     booking = Booking(
                         tg_uid=item['tg_uid'],
@@ -1226,6 +1225,7 @@ def book_now(tour_id):
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
+
             elif 'ChatFirst' in button_data.values():
                 chat_list = list(
                     chats_db.find({'participants': {"$in": [auth.get_sid(), item["tg_uid"]]}, 'chat_type': 'UwU'}))
@@ -1267,7 +1267,6 @@ def checkout(book_id):
     if result:
         if request.method == 'POST':
             if form.validate_on_submit():
-                print(booking['process_step'])
                 if booking['process_step'] == 5:
                     update_booking = {"$set": {"process_step": 6}}
                     bookings_db.update_one(booking, update_booking)
@@ -1288,7 +1287,6 @@ def checkout(book_id):
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=str(book_id)))
 
-                # do rmb to add haru's dashboard stuff
                 else:
                     print("Error occurred while trying to pay.")
 
@@ -1428,7 +1426,7 @@ def business(book_id):
                                chatroom_display=chat_room_messages["chatroom"],
                                chatroom_names=chat_room_messages["names"],
                                selected_chatroom=booking['book_chat'],
-                               verification_code_OK=request.args.get('verification_code_OK')                               )
+                               verification_code_OK=request.args.get('verification_code_OK'))
     # except BaseException:
     #     return 'Error trying to render'
 
@@ -1553,20 +1551,55 @@ def sellerModeFile():
 def sellerDashboard():
     # Get login status using accessor argument
     result = auth.is_auth(True)
+
+    # Declare WTForm
     form = dashboard.ReportGenForm()
+
     # if not logged in
     if not result:
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
         if form.validate_on_submit():
+            # Get data from form
             date_scope = form.data['date_filter']
 
-            date_splitted = date_scope.split("-")
+            # Parse data into machine readable format
+            date_split = date_scope.split("-")
 
-            report_name = dashboard.generate_report(auth.get_user_id(auth.get_sid()), date_splitted[0], date_splitted[1])
+            if date_scope == "":
+                report_name = dashboard.generate_report(auth.get_user_id(auth.get_sid()))
+            else:
+                report_name = dashboard.generate_report(auth.get_user_id(auth.get_sid()), date_split[0], date_split[1])
 
-            return redirect(url_for('reports', filename=report_name))
+            # Threading function to delete file if left undownloaded
+            def delete_after_generate():
+                # do something that takes a long time
+                import time
+
+                # Check after 10 seconds after report generation for file existence
+                time.sleep(20)
+
+                # File doesn't exist due to deletion by reports(), exit thread
+                if not os.path.exists(f"./tmp_data/{report_name}"):
+                    return
+
+                # Delay delete for 60 seconds to ensure file has been successfully fetched by client
+                time.sleep(60)
+
+                # Try to delete file again
+                os.remove(f"./tmp_data/{report_name}")
+
+            # Start process to delete file
+            thread = Thread(target=delete_after_generate)
+            thread.start()
+
+            # Change date_scope value for cosmetic purposes
+            if date_scope == "":
+                date_scope = "ALL"
+
+            return redirect(
+                url_for('reports', filename=f"{report_name}.xlsx", name=result["name"], date_scope=date_scope))
 
         return render_template(
             'tourGuides/dashboard.html',
@@ -1598,7 +1631,10 @@ def reports(filename):
     thread.start()
 
     # Send report to client
-    return send_from_directory(os.path.join('.', 'tmp_data'), filename)
+    return send_from_directory(os.path.join('.', 'tmp_data'), filename,
+                               as_attachment=True,
+                               attachment_filename=
+                               f'TourisitReport-{request.args.get("name")}-{request.args.get("date_scope")}.xlsx')
 
 
 # INTERNAL

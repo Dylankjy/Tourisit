@@ -91,8 +91,8 @@
 
         <section class="section">
             <div class="container">
-                {% if booking_list == None %}
-                <div>(to be replaced) No bookings</div>
+                {% if booking_list == [] %}
+                <div>Nothing to show here. Start your first tour with Tourisit today!</div>
                 {% else %}
                 {% for item in booking_list %}
                 {% set list = listings[loop.index0] %}

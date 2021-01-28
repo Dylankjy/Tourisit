@@ -83,7 +83,8 @@
 
                         <div class="field">
                             <label class="label" for="password">Password:
-                                <input class="button is-primary" type="button" id="openbtn" name="openbtn" value="Change Password" onclick="$('#ChangePasswordModal').fadeIn('fast'); return false;">
+                                <input class="button is-primary" type="button" id="openbtn" name="openbtn" value="Change Password"
+                                       onclick="$('#ChangePasswordModal').fadeIn('fast'); return false;">
                             </label>
                         </div>
 
@@ -159,7 +160,7 @@
     </div>
 
     {#Start of modal#}
-    <div class="modal is-clipped" id="ChangePasswordModal">
+    <div class="modal is-clipped is-active" id="ChangePasswordModal" style="display: none;">
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="box">
@@ -224,17 +225,4 @@
             $('#ChangePasswordModal').fadeIn('fast');
         </script>
     {% endif %}
-    <script>
-        $("#openbtn").click(function () {
-            $(".modal").addClass("is-active");
-        });
-
-        $(".modal-close").click(function () {
-            $(".modal").removeClass("is-active");
-        });
-
-        $(".closebtn").click(function () {
-            $(".modal").removeClass("is-active");
-        });
-    </script>
 {% endblock %}
