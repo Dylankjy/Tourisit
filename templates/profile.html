@@ -28,6 +28,11 @@
                         <i class="fas fa-check"></i>&ensp;Verified Guide
                     </span>
                         {% endif %}
+                        {% if person.verified == 1 %}
+                            <span class="tag is-danger is-dark">
+                                <i class="fas fa-id-badge"></i>&ensp;Tourisit Admin
+                    </span>
+                        {% endif %}
                     </p>
                     <p id="bioContainer" class="is-size-5 has-text-grey-lighter">
                         {{ person.bio }}
