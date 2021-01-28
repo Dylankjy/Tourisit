@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, TextAreaField, SelectField, PasswordField
+from wtforms import StringField, SelectField, PasswordField
 from wtforms.validators import InputRequired, Length, ValidationError, EqualTo, Optional
 
 import auth as auth
