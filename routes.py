@@ -1108,17 +1108,18 @@ def bookings(book_id):
                 bookings_db.update_one(booking, update_booking)
                 return redirect(url_for('bookings', book_id=book_id))
             elif 'CompleteTour' in button_data.values():
-                update_booking = {"$set": {"process_step": 7}}
+                update_booking = {"$set": {"process_step": 7, "completed": 1}}
                 bookings_db.update_one(booking, update_booking)
 
                 # Tour is completed, transaction
                 tg_dashboard = dashboard_db.find_one({'uid': booking['tg_uid']})
-                dashboard_earnings = tg_dashboard['earnings']
-                earning = booking['book_charges']['baseprice'] + \
-                          booking['book_charges']['customfee']
-                dashboard_earnings.append(earning)
-                update_tg_dashboard = {'$set': {'earnings': dashboard_earnings}}
-                dashboard_db.update_one(tg_dashboard, update_tg_dashboard)
+                if tg_dashboard:
+                    dashboard_earnings = tg_dashboard['earnings']
+                    earning = booking['book_charges']['baseprice'] + \
+                              booking['book_charges']['customfee']
+                    dashboard_earnings.append(earning)
+                    update_tg_dashboard = {'$set': {'earnings': dashboard_earnings}}
+                    dashboard_db.update_one(tg_dashboard, update_tg_dashboard)
                 return redirect(url_for('bookings', book_id=book_id))
 
         # mbr_chat
@@ -1197,7 +1198,7 @@ def book_now(tour_id):
                         timeline_content=item['tour_itinerary'],
                         chat_id=chat_id,
                         revisions=int(item['tour_revisions']),
-                        process_step=5)
+                        process_step=float(5))
                     inserted_booking = bookings_db.insert_one(booking.return_obj())
                     book_id = inserted_booking.inserted_id
                     return redirect(url_for('checkout', book_id=book_id))
@@ -1217,7 +1218,7 @@ def book_now(tour_id):
                     timeline_content=item['tour_itinerary'],
                     chat_id=chat_id,
                     revisions=int(item['tour_revisions']),
-                    process_step=0)
+                    process_step=float(0))
                 print(booking.return_obj())
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
@@ -1375,8 +1376,6 @@ def business(book_id):
                 tour_time = str(format_starttime.strftime("%I:%M %p") + " - " + format_endtime.strftime("%I:%M %p"))
 
                 tour_price = float(request.form["tour_price"])
-                print(booking['book_charges'].baseprice)
-                print(type(booking['book_charges'].baseprice))
 
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
                 print(itinerary_form_list)
@@ -1440,20 +1439,37 @@ def review(book_id):
     booking = list(bookings_db.find({'_id': ObjectId(book_id)}))[0]
     listing_id = booking['listing_id']
     tour = list(shop_db.find({'_id': ObjectId(listing_id)}))
+    customer = list(user_db.find({'_id': booking['cust_uid']}))
 
-    print(booking)
-    print(len(tour))
     form = ReviewForm()
     result = auth.is_auth(True)
     if not result:
         return redirect(url_for('login', denied_access=True))
     else:
-        # query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id':ObjectId(booking[0]['listing_id'])}
+        # if reviewer is customer/tg
+        if result['_id'] == booking['cust_uid']:
+            # Customer is the reviewer, reviewing the tour/ tour guide
+            review_type = "tour"
+            reviewee_id = booking['tg_uid']
 
-        # A list of all the booking IDs of the reviews for this listing
-        tmp1 = list(map(lambda i: i['tour_reviews'], tour))[0]
-        listing_review_bookingIDs = list(map(lambda i: i['booking'], tmp1))
-        review_exists = ObjectId(book_id) in listing_review_bookingIDs
+            # query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id':ObjectId(booking[0]['listing_id'])}
+
+            # A list of all the booking IDs of the reviews for this listing
+            tmp1 = list(map(lambda i: i['tour_reviews'], tour))[0]
+            listing_review_bookingIDs = list(map(lambda i: i['booking'], tmp1))
+            review_exists = ObjectId(book_id) in listing_review_bookingIDs
+
+        elif result['_id'] == booking['tg_uid']:
+            # TG is the reviewer, reviewing the customer
+            review_type = "customer"
+            reviewee_id = booking['cust_uid']
+
+            # tmp1 = list(map(lambda i: i['user_reviews'], customer))[0]
+            # print(tmp1)
+            # user_review_bookingIDs = list(map(lambda i: i['booking'], tmp1))
+            # review_exists = ObjectId(book_id) in user_review_bookingIDs
+            # print(review_exists)
+            review_exists = False
 
         # If this review already exists
         if review_exists:
@@ -1464,13 +1480,6 @@ def review(book_id):
         else:
             if request.method == "POST":
                 if form.is_submitted():
-                    # if reviewer is customer/tg
-                    if result['_id'] == booking['cust_uid']:
-                        print('customer reviwer')
-                        reviewee_id = booking['tg_uid']
-                    elif result['_id'] == booking['tg_uid']:
-                        print('tg is reviewr')
-                        reviewee_id = booking['cust_uid']
                     review = Review(
                         stars=form.rating.data,
                         text=request.form["review_text"],
@@ -1479,24 +1488,38 @@ def review(book_id):
                         booking=booking['_id'],
                         listing=tour[0]['_id'])
 
-                    # Update the Listing db, append the review to 'Reviews'
                     review_data = review.return_obj()
                     print(review_data)
-                    listing_query = {'_id': ObjectId(booking['listing_id'])}
-                    updated = {'$push': {'tour_reviews': review_data}}
-                    shop_db.update_one(listing_query, updated)
+                    if review_type == "tour":
+                        # Update the Listing db, append the review to 'Reviews'
+                        listing_query = {'_id': ObjectId(booking['listing_id'])}
+                        updated = {'$push': {'tour_reviews': review_data}}
+                        shop_db.update_one(listing_query, updated)
+                    elif review_type == "customer":
+                        query = {'_id': ObjectId(booking['cust_uid'])}
+                        updated = {'$push': {'user_reviews': review_data}}
+                        user_db.update_one(query, updated)
 
                     # reviews_db.insert_one(review.return_obj())
-                    update_booking = {"$set": {
-                        'process_step': 8,
-                        'completed': 1, }}
+
+                    if booking['process_step'] == 7.1 or booking['process_step'] == 7.2:
+                        # The other party has left a review already
+                        new_step = 8
+                    elif booking['process_step'] == 7:
+                        if review_type == 'tour':
+                            new_step = 7.1
+                        elif review_type == 'customer':
+                            new_step = 7.2
+                    update_booking = {"$set": {'process_step': new_step}}
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=book_id))
+
             return render_template(
                 'customer/review.html',
                 booking=booking,
                 tour=tour[0],
-                form=form)
+                form=form,
+                review_type=review_type)
 
 
 # except BaseException:

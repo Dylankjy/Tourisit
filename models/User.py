@@ -176,6 +176,8 @@ class User:
         self.__socialmedia = {}
         self.set_socialmedia(socialmedia, fb, insta, linkedin)
 
+        self.__user_reviews = []
+
         self.__email_status = False
         self.set_email_status(email_status)
 
@@ -258,6 +260,7 @@ class User:
                 "insta": self.__insta,
                 "linkedin": self.__linkedin,
             },
+            "user_reviews": self.__user_reviews,
             "email_status": self.__email_status,
             "phone_status": self.__phone_status,
             "account_type": self.__account_type,
