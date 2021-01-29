@@ -17,7 +17,7 @@ def insta_check(form, field):
         raise ValidationError('Invalid Instagram Profile link')
 
 def linkedin_check(form, field):
-    if 'linkedin.com' not in field.data:
+    if 'linkedin.com/in' not in field.data:
         raise ValidationError('Invalid LinkedIn Profile link')
 
 def password_check(form, field):
