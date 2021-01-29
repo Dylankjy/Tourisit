@@ -1185,7 +1185,6 @@ def book_now(tour_id):
                 book_time = request.form["book_timeslot"]
 
                 tg_booking_list = list(bookings_db.find({'tg_uid': item['tg_uid']}))
-
                 if bookform.date_valid(book_date, tg_booking_list) and bookform.time_valid(book_time):
                     chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], True)
                     booking = Booking(
@@ -1260,6 +1259,8 @@ def book_now(tour_id):
 def checkout(book_id):
     # try:
     booking = bookings_db.find_one({'_id': ObjectId(book_id)})
+    tour = shop_db.find_one({'_id': ObjectId(booking['listing_id'])})
+    print(tour)
     form = CheckoutForm()
     # Get login status using accessor argument
     result = auth.is_auth(True)
@@ -1277,7 +1278,8 @@ def checkout(book_id):
                         tg_uid=booking['tg_uid'],
                         cust_uid=booking['cust_uid'],
                         earnings=earnings,
-                        booking=booking['_id'])
+                        booking=booking['_id'],
+                        tour_name=tour['tour_name'])
                     transaction.payment_made()
                     transaction_db.insert_one(transaction.return_obj())
 
@@ -1437,6 +1439,7 @@ def business(book_id):
 def review(book_id):
     print("hi")
     # try:
+    transaction = transaction_db.find_one({'booking': ObjectId(book_id)})
     booking = list(bookings_db.find({'_id': ObjectId(book_id)}))[0]
     listing_id = booking['listing_id']
     tour = list(shop_db.find({'_id': ObjectId(listing_id)}))
@@ -1496,6 +1499,8 @@ def review(book_id):
                         listing_query = {'_id': ObjectId(booking['listing_id'])}
                         updated = {'$push': {'tour_reviews': review_data}}
                         shop_db.update_one(listing_query, updated)
+                        update_transaction = {"$set": {'rating': form.rating.data}}
+                        transaction_db.update_one(transaction, update_transaction)
                     elif review_type == "customer":
                         query = {'_id': ObjectId(booking['cust_uid'])}
                         updated = {'$push': {'user_reviews': review_data}}
