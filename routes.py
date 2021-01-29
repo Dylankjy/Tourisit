@@ -1499,7 +1499,8 @@ def review(book_id):
                         listing_query = {'_id': ObjectId(booking['listing_id'])}
                         updated = {'$push': {'tour_reviews': review_data}}
                         shop_db.update_one(listing_query, updated)
-                        update_transaction = {"$set": {'rating': form.rating.data}}
+
+                        update_transaction = {"$set": {'rating': int(form.rating.data)}}
                         transaction_db.update_one(transaction, update_transaction)
                     elif review_type == "customer":
                         query = {'_id': ObjectId(booking['cust_uid'])}
