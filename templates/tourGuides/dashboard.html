@@ -177,7 +177,7 @@
 
     for (i = 0; i < 6; i++) {
         if (current_month - i < 0) {
-            recent_months.push(months[12 - i])
+            recent_months.push(months[12 - i + 1])
         } else {
             recent_months.push(months[current_month - i])
         }
