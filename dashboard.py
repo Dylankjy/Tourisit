@@ -85,6 +85,12 @@ def update_index(uid, new_data):
 
 
 def get_earning_breakdown(uid):
+    """
+    Get earnings from database per month
+    :param uid: Target user's ID
+    :return: Data per month in a list
+    """
+    
     query = [
         {"$match": {"tg_uid": ObjectId(uid)}},
         {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total": {"$sum": "$earnings"}}},
