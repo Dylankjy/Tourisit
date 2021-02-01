@@ -1817,7 +1817,7 @@ def resend_email():
     #         return redirect(url_for('signup', email_sent=True))
 
     if email is not None:
-        if auth.send_confirmation_email("email_verification", None, email):
+        if auth.send_confirmation_email("email_verification", email):
             return redirect(url_for('signup', email_sent=True))
 
 

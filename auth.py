@@ -127,7 +127,7 @@ def add_token(token_type, uid):
     raw_sid = ""
 
     # Using UUID4 to generate random strings
-    for i in range(10):
+    for _ in range(10):
         raw_sid += str(uuid.uuid4())
 
     # Generate even more random SID by using SHA3-512
@@ -339,38 +339,22 @@ def delete_account(uid):
         return Exception("Couldn't yeet user account due to an error.")
 
 
-def send_confirmation_email(email_type, sid=None, user_email=None):
+def send_confirmation_email(email_type, user_email):
     """
     Uses SMTP (via SendGrid) to send emails.
     :param email_type: Type of email to send
-    :param sid: Target User's current session ID
     :param user_email: Target user's email
     :return: Status of operation
     """
-
-    # TODO: Fix this portion
-    if sid is not None and user_email is None:
-        # Find UID from SID
-        query = {
-            "sid": sid
-        }
-        query_result = [i for i in db_sessions.find(query)]
-
-        # Get UID
-        if len(query_result) == 1:
-            uid = query_result[0]["uid"]
-
-            # Get user from uid
-            query_user = {
-                "_id": ObjectId(uid)
-            }
-
-            user = [i for i in db_users.find(query_user)]
-
-            # User's email
-            user_email = user[0]["email"]
-        else:
-            return False
+    
+    # Query user's email
+    query = {
+        "email": user_email
+    }
+    
+    # Query result for UID
+    uid = [i for i in db_users.find(query)][0]["_id"]
+    
 
     port = 465  # For SSL
     password = sendgrid_key
@@ -388,7 +372,7 @@ def send_confirmation_email(email_type, sid=None, user_email=None):
         message["To"] = user_email
 
         code = 'https://tourisit.ichiharu.com/endpoint/email_confirmation?token=' + \
-               add_token("email_verification", sid)
+               add_token("email_verification", uid)
 
         # Build email HTML from 2 parts. Format with URL
         content = template_header + template_email_confirmation.format(
@@ -404,7 +388,7 @@ def send_confirmation_email(email_type, sid=None, user_email=None):
         message["To"] = user_email
 
         code = 'https://tourisit.ichiharu.com/login/password_reset&token=' + \
-               add_token("password_reset", sid)
+               add_token("password_reset", uid)
 
         # Build email HTML from 2 parts. Format with URL
         content = template_header + template_email_confirmation.format(
