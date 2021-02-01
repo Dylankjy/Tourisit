@@ -15,7 +15,7 @@ Flask-Uploads==0.2.1
 Flask-WTF==0.14.3
 idna==2.9
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 joblib==1.0.0
 MarkupSafe==1.1.1
 mypy-extensions==0.4.3
