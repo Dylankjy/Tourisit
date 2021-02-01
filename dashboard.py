@@ -84,6 +84,33 @@ def update_index(uid, new_data):
     return payload
 
 
+def get_earning_breakdown(uid):
+    query = [
+        {"$match": {"tg_uid": ObjectId(uid)}},
+        {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total": {"$sum": "$earnings"}}},
+        {"$sort": {"year": -1}}
+
+        # {"$group": {"_id": {"$and": ["$month_paid"]}, "total": {"$sum": "$earnings"}}},
+    ]
+
+    transactions = list(db_transactions.aggregate(query))
+    for i in transactions:
+        i['Date'] = f"{i['_id']['month']}-{i['_id']['year']}"
+        i["Month"] = i['_id']['month']
+        i["Year"] = i['_id']['year']
+        del i['_id']
+
+
+    # transactions.sort(key=lambda x:x['Date'])
+    transactions.sort(key=lambda x: datetime.strptime(x['Date'], '%m-%Y'))
+    return transactions
+
+
+week  = 2 
+
+# print(get_earning_breakdown("600666f7ccab3b102fce39fb"))
+
+
 def generate_report(uid, year=None, month=None):
     """
     Generate a new xlsx file as report for download
@@ -92,6 +119,7 @@ def generate_report(uid, year=None, month=None):
     :param month: (Optional) Filter for month
     :return: Report's file name
     """
+    
     # Check whether filter is empty
     if year is None or month is None:
         query_uid = {
