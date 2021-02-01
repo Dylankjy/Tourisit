@@ -211,7 +211,6 @@ def profile(user_id):
     person = user_db.find_one({'_id': ObjectId(user_id)})
     result = auth.is_auth(True)
     items = list(shop_db.find({'tg_uid': ObjectId(user_id)}))[:3]
-    print(items)
     # Find who is it from result
     if result:
         # Boolean, will be editable if person is the owner of the profile
