@@ -1544,20 +1544,20 @@ def review(book_id):
 # Redirect user to dashboard if attempt to access root of /s/
 
 
-@app.route('/s/')
+@app.route('/tg/')
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
 
 
 # Redirect user to dashboard if attempt to access file of /s/
-@app.route('/s')
+@app.route('/tg')
 def sellerModeFile():
     return redirect(url_for('sellerDashboard'))
 
 
 # TOUR GUIDE
 # Dashboard
-@app.route('/s/dashboard', methods=['POST', 'GET'])
+@app.route('/tg/dashboard', methods=['POST', 'GET'])
 def sellerDashboard():
     # Get login status using accessor argument
     result = auth.is_auth(True)
