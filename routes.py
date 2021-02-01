@@ -19,7 +19,7 @@ import auth as auth
 # Chat Library
 import chat as msg
 # Custom class imports
-# import dashboard
+import dashboard
 from models.Booking import Booking, BookingForm, CheckoutForm, AddInfoForm, RevisionForm, EditPlan
 from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
