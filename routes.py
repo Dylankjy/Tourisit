@@ -211,7 +211,6 @@ def profile(user_id):
     person = user_db.find_one({'_id': ObjectId(user_id)})
     result = auth.is_auth(True)
     items = list(shop_db.find({'tg_uid': ObjectId(user_id)}))[:3]
-    print(items)
     # Find who is it from result
     if result:
         # Boolean, will be editable if person is the owner of the profile
@@ -1545,20 +1544,20 @@ def review(book_id):
 # Redirect user to dashboard if attempt to access root of /s/
 
 
-@app.route('/s/')
+@app.route('/tg/')
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
 
 
 # Redirect user to dashboard if attempt to access file of /s/
-@app.route('/s')
+@app.route('/tg')
 def sellerModeFile():
     return redirect(url_for('sellerDashboard'))
 
 
 # TOUR GUIDE
 # Dashboard
-@app.route('/s/dashboard', methods=['POST', 'GET'])
+@app.route('/tg/dashboard', methods=['POST', 'GET'])
 def sellerDashboard():
     # Get login status using accessor argument
     result = auth.is_auth(True)
@@ -1611,12 +1610,15 @@ def sellerDashboard():
 
             return redirect(
                 url_for('reports', filename=f"{report_name}.xlsx", name=result["name"], date_scope=date_scope))
+            
+        earnings_breakdown_data = dashboard.get_earning_breakdown(result['_id'])
 
         return render_template(
             'tourGuides/dashboard.html',
             loggedin=True,
             user=result,
-            form=form)
+            form=form,
+            earning_data=earnings_breakdown_data)
 
 
 @app.route('/s/report/<filename>')

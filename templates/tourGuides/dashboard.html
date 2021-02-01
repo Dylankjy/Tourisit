@@ -177,7 +177,7 @@
 
     for (i = 0; i < 6; i++) {
         if (current_month - i < 0) {
-            recent_months.push(months[12 - i])
+            recent_months.push(months[12 - i + 1])
         } else {
             recent_months.push(months[current_month - i])
         }
@@ -190,7 +190,7 @@
                 labels: recent_months.reverse(),
                 datasets: [{
                     label: 'Earnings',
-                    data: [533, 640, 780, 644, 743, 768],
+                    data: [{%for i in earning_data %} {{i["total"]}}, {%endfor%}],
                     backgroundColor: 'rgba(0, 145, 189, 0.2)',
                     borderWidth: 0
                 }]
