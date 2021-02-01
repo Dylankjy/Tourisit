@@ -5,6 +5,8 @@ from models.Format import ObjectId
 import pymongo
 from datetime import datetime
 
+from statistics import mean
+
 
 buffered = BytesIO()
 
@@ -43,38 +45,101 @@ def get_earning_breakdown(uid):
     transactions.sort(key=lambda x: datetime.strptime(x['Date'], '%m-%Y'))
     return transactions
 
-# x = get_earning_breakdown('600666f7ccab3b102fce39fb')
+xgg = get_earning_breakdown('600666f7ccab3b102fce39fb')
+# print(xgg)
 
 
 
 def get_satisfaction_rate(uid):
-    r = list(db.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
-    return r
+    x = list(db.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+    x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
+    l = []
+    for listing in x:
+        # print(listing)
+        d = {}
+        for review in listing['tour_reviews']:
+            print(review)
+            booking_id = review['booking']
+            # print(booking_id)
+            book = list(db_transactions.find({'booking': ObjectId(booking_id)}))[0]
+            date = f"{book['month_paid']}-{book['year_paid']}"
+            if 'date' in d:
+                d['stars'].append(int(review['stars']))
+            else:
+                d['date'] = date
+                d['stars'] = [int(review['stars'])]
+
+        d['stars'] = mean(d['stars'])
+        l.append(d)
+
+    l.sort(key=lambda x: datetime.strptime(x['date'], '%m-%Y'))
+
+    return l
 
 
 x = get_satisfaction_rate('600666f7ccab3b102fce39fb')
+print(x)
 # print(x)
 
 # for idx,listings in enumerate(x):
     # if len(listings['tour_reviews']) == 0:
     #     x.pop()
 
-print(x)
-idx_to_remove = []
-# x = [x[i] if len(x[i]['tour_reviews']) != 0 for i in range(len(x))]
-x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
-
-
-print(x)
-# for i in range(len(x)):
-#     if len(x[i]['tour_reviews']) == 0:
-#         del x[i]
-#         print('Done')
-
-
 
 
 # print(x)
+# x = [x[i] if len(x[i]['tour_reviews']) != 0 for i in range(len(x))]
+
+# l = []
+# this is the dictionary containing the mean starts
+
+# l = []
+# for listing in x:
+#     # print(listing)
+#     d = {}
+#     for review in listing['tour_reviews']:
+#         print(review)
+#         booking_id = review['booking']
+#         # print(booking_id)
+#         book = list(db_transactions.find({'booking': ObjectId(booking_id)}))[0]
+#         date = f"{book['month_paid']}-{book['year_paid']}"
+#         if 'date' in d:
+#             d['stars'].append(int(review['stars']))
+#         else:
+#             d['date'] = date
+#             d['stars'] = [int(review['stars'])]
+#
+#     d['stars'] = mean(d['stars'])
+#     l.append(d)
+        # if len(date) == 0:
+        #     d['date'] = date
+        #     d['stars'] = [int(review['stars'])]
+        # if date in d['date']:
+        #     d['date'].append(int(review['stars']))
+        # else:
+        #     d['date'] = date
+        #     d['stars'] = [int(review['stars'])]
+
+    # d['date'] = mean(d['date'])
+    # l.append(d)
+
+#     print(d)
+#
+# l.sort(key=lambda x: datetime.strptime(x['date'], '%m-%Y'))
+# print(l)
+#
+# rr = [{'date': 1-20, 'stars': 4.5}, {'date': 1-60, 'stars': 2}]
+
+# print(l)
+
+# l.sort(key=lambda x: datetime.strptime(x['Date'], '%m-%Y'))
+# print(l)
+
+# y = [{'tour_reviews': [{'stars': '4', 'text': 'Good tour', 'reviewer': ObjectId('601268c9fc45385ec00f554c'), 'reviewee': ObjectId('600666f7ccab3b102fce39fb'), 'booking': ObjectId('60126b4a996215452fb3d430'), 'listing': ObjectId('601256e4758ced26954f4d7f')}, {'stars': 5, 'text': 'Great guy', 'reviewer': ObjectId('601252cf758ced26954f4d77'), 'reviewee': ObjectId('600666f7ccab3b102fce39fb'), 'booking': ObjectId('6017bc6cbbf2d69d3990c292'), 'listing': ObjectId('601256e4758ced26954f4d7f')}]}]
+
+#  9
+# print(x)
+# y = [{'tour_reviews': [{'stars': '4', 'text': 'Good tour', 'reviewer': ObjectId('601268c9fc45385ec00f554c'), 'reviewee': ObjectId('600666f7ccab3b102fce39fb'), 'booking': ObjectId('60126b4a996215452fb3d430'), 'listing': ObjectId('601256e4758ced26954f4d7f')}, {'stars': 5, 'text': 'Great guy', 'reviewer': ObjectId('601252cf758ced26954f4d77'), 'reviewee': ObjectId('600666f7ccab3b102fce39fb'), 'booking': ObjectId('6017bc6cbbf2d69d3990c292'), 'listing': ObjectId('601256e4758ced26954f4d7f')}]}]
 
 
 # for i in range(len(test_list)):

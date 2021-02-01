@@ -13,6 +13,8 @@ from wtforms.validators import DataRequired
 
 import models.DashboardIndex as dindex
 
+from statistics import mean
+
 client = pymongo.MongoClient(
     'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
 
@@ -117,7 +119,31 @@ def get_earning_breakdown(uid):
     return transactions
 
 
-week  = 2 
+def get_satisfaction_rate(uid):
+    x = list(db.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+    x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
+    l = []
+    for listing in x:
+        # print(listing)
+        d = {}
+        for review in listing['tour_reviews']:
+            print(review)
+            booking_id = review['booking']
+            # print(booking_id)
+            book = list(db_transactions.find({'booking': ObjectId(booking_id)}))[0]
+            date = f"{book['month_paid']}-{book['year_paid']}"
+            if 'date' in d:
+                d['stars'].append(int(review['stars']))
+            else:
+                d['date'] = date
+                d['stars'] = [int(review['stars'])]
+
+        d['stars'] = mean(d['stars'])
+        l.append(d)
+
+    l.sort(key=lambda x: datetime.strptime(x['date'], '%m-%Y'))
+
+    return l
 
 # print(get_earning_breakdown("600666f7ccab3b102fce39fb"))
 
