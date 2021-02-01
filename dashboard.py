@@ -117,7 +117,7 @@ def get_earning_breakdown(uid):
     return transactions
 
 
-week  = 2 
+# week  = 2 
 
 # print(get_earning_breakdown("600666f7ccab3b102fce39fb"))
 
