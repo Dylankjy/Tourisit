@@ -21,6 +21,7 @@ client = pymongo.MongoClient(
 # Collections
 db_dashboard = client['Dashboard']
 db_transactions = client['Transactions']
+db_shop = client['Listings']
 
 
 def get_data_for_tg(uid):
@@ -120,7 +121,7 @@ def get_earning_breakdown(uid):
 
 
 def get_satisfaction_rate(uid):
-    x = list(db.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+    x = list(db_shop.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
     x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
     l = []
     for listing in x:
@@ -144,6 +145,7 @@ def get_satisfaction_rate(uid):
     l.sort(key=lambda x: datetime.strptime(x['date'], '%m-%Y'))
 
     return l
+
 
 # print(get_earning_breakdown("600666f7ccab3b102fce39fb"))
 
