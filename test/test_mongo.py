@@ -17,15 +17,18 @@ client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_
 
 
 db = client['Listings']
-db_booking = client['Bookings']
 
-book_id = '600d72de9a9cad41198a0017'
+items = list(db.find({'tg_uid': ObjectId('600666f7ccab3b102fce39fb')}))[:3]
+print(items)
+# db_booking = client['Bookings']
+#
+# book_id = '600d72de9a9cad41198a0017'
 
-item = list(db.find({'_id': ObjectId(book_id)}))
-# x = item[0]['tour_reviews']
-# print(len(x))
-tmp1 = list(map(lambda i: i['tour_reviews'], item))[0]
-print(len(tmp1))
+# item = list(db.find({'_id': ObjectId(book_id)}))
+# # x = item[0]['tour_reviews']
+# # print(len(x))
+# tmp1 = list(map(lambda i: i['tour_reviews'], item))[0]
+# print(len(tmp1))
 
 
 

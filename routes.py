@@ -210,6 +210,8 @@ def profile(user_id):
     # Find who is it from user_id
     person = user_db.find_one({'_id': ObjectId(user_id)})
     result = auth.is_auth(True)
+    items = list(shop_db.find({'tg_uid': ObjectId(user_id)}))[:3]
+    print(items)
     # Find who is it from result
     if result:
         # Boolean, will be editable if person is the owner of the profile
@@ -231,7 +233,8 @@ def profile(user_id):
                 form=bForm,
                 loggedin=True,
                 editable=editable,
-                profile_img=profile_img
+                profile_img=profile_img,
+                item_list=items
             )
         else:
             return render_template(
@@ -241,7 +244,8 @@ def profile(user_id):
                 form=bForm,
                 loggedin=True,
                 editable=editable,
-                profile_img=profile_img
+                profile_img=profile_img,
+                item_list=items
             )
     # if not result:
     else:
@@ -257,7 +261,8 @@ def profile(user_id):
             user=result,
             person=person,
             editable=editable,
-            profile_img=profile_img
+            profile_img=profile_img,
+            item_list=items
         )
 
 
