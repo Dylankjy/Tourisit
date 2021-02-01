@@ -3,6 +3,8 @@ from io import BytesIO
 from models.Format import ObjectId
 
 import pymongo
+from datetime import datetime
+
 
 buffered = BytesIO()
 
@@ -17,9 +19,76 @@ client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_
 
 
 db = client['Listings']
+db_transactions = client['Transactions']
+# ini_list.sort(key = lambda x: datetime.strptime(x['d.o.b'], '%Y-%m-%d'))
 
-items = list(db.find({'tg_uid': ObjectId('600666f7ccab3b102fce39fb')}))[:3]
-print(items)
+def get_earning_breakdown(uid):
+    query = [
+        {"$match": {"tg_uid": ObjectId(uid)}},
+        {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total": {"$sum": "$earnings"}}},
+        {"$sort": {"year": -1}}
+
+        # {"$group": {"_id": {"$and": ["$month_paid"]}, "total": {"$sum": "$earnings"}}},
+    ]
+
+    transactions = list(db_transactions.aggregate(query))
+    for i in transactions:
+        i['Date'] = f"{i['_id']['month']}-{i['_id']['year']}"
+        i["Month"] = i['_id']['month']
+        i["Year"] = i['_id']['year']
+        del i['_id']
+
+
+    # transactions.sort(key=lambda x:x['Date'])
+    transactions.sort(key=lambda x: datetime.strptime(x['Date'], '%m-%Y'))
+    return transactions
+
+# x = get_earning_breakdown('600666f7ccab3b102fce39fb')
+
+
+
+def get_satisfaction_rate(uid):
+    r = list(db.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+    return r
+
+
+x = get_satisfaction_rate('600666f7ccab3b102fce39fb')
+# print(x)
+
+# for idx,listings in enumerate(x):
+    # if len(listings['tour_reviews']) == 0:
+    #     x.pop()
+
+print(x)
+idx_to_remove = []
+# x = [x[i] if len(x[i]['tour_reviews']) != 0 for i in range(len(x))]
+x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
+
+
+print(x)
+# for i in range(len(x)):
+#     if len(x[i]['tour_reviews']) == 0:
+#         del x[i]
+#         print('Done')
+
+
+
+
+# print(x)
+
+
+# for i in range(len(test_list)):
+#     if test_list[i]['id'] == 2:
+#         del test_list[i]
+#         break
+
+
+
+
+
+
+# items = list(db.find({'tg_uid': ObjectId('600666f7ccab3b102fce39fb')}))[:3]
+# print(items)
 # db_booking = client['Bookings']
 #
 # book_id = '600d72de9a9cad41198a0017'
