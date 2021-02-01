@@ -109,6 +109,11 @@ def get_earning_breakdown(uid):
 
     # transactions.sort(key=lambda x:x['Date'])
     transactions.sort(key=lambda x: datetime.strptime(x['Date'], '%m-%Y'))
+    
+    if len(transactions) != 6:
+        for _ in range(6 - len(transactions)):
+            transactions.insert(0, {'total': 0})
+    
     return transactions
 
 
