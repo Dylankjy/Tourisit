@@ -93,7 +93,7 @@ def get_earning_breakdown(uid):
     :param uid: Target user's ID
     :return: Data per month in a list
     """
-    
+
     query = [
         {"$match": {"tg_uid": ObjectId(uid)}},
         {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total": {"$sum": "$earnings"}}},
@@ -109,14 +109,13 @@ def get_earning_breakdown(uid):
         i["Year"] = i['_id']['year']
         del i['_id']
 
-
     # transactions.sort(key=lambda x:x['Date'])
     transactions.sort(key=lambda x: datetime.strptime(x['Date'], '%m-%Y'))
-    
+
     if len(transactions) != 6:
         for _ in range(6 - len(transactions)):
             transactions.insert(0, {'total': 0})
-    
+
     return transactions
 
 
@@ -126,8 +125,8 @@ def get_satisfaction_rate(uid):
     :param uid: Target user's ID
     :return: Data per month in a list
     """
-    
-    x = list(db_shop.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+
+    x = list(db_shop.find({"tg_uid": ObjectId(uid), "tour_reviews": {"$ne": "null"}}, {"_id": 0, "tour_reviews": 1}))
     x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
     l = []
     for listing in x:
@@ -168,7 +167,7 @@ def generate_report(uid, year=None, month=None):
     :param month: (Optional) Filter for month
     :return: Report's file name
     """
-    
+
     # Check whether filter is empty
     if year is None or month is None:
         query_uid = {
