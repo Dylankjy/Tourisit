@@ -40,20 +40,14 @@
                         <div class="level">
                             <div class="level-item">
                                 <div>
-                                    <div class="heading">Gross Income</div>
+                                    <div class="heading">Average per tour</div>
                                     <div class="title is-5">$768</div>
                                 </div>
                             </div>
                             <div class="level-item">
                                 <div>
-                                    <div class="heading">Expenses</div>
-                                    <div class="title is-5">$72</div>
-                                </div>
-                            </div>
-                            <div class="level-item">
-                                <div>
-                                    <div class="heading">Expense Ratio</div>
-                                    <div class="title is-5">9.38%</div>
+                                    <div class="heading">Average per month</div>
+                                    <div class="title is-5">$768</div>
                                 </div>
                             </div>
                         </div>
@@ -74,32 +68,6 @@
                                 <div class="">
                                     <div class="heading">Negative</div>
                                     <div class="title is-5">2</div>
-                                </div>
-                            </div>
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Overall rate</div>
-                                    <div class="title is-5">78.6%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="box">
-                        <div class="heading">Impressions</div>
-                        <div class="title">128 <span class="tag is-success is-light">+2</span></div>
-                        <div class="level">
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Click-through rate</div>
-                                    <div class="title is-5">20%</div>
-                                </div>
-                            </div>
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Booking rate</div>
-                                    <div class="title is-5">90%</div>
                                 </div>
                             </div>
                         </div>
@@ -231,10 +199,10 @@
         var csatChartData = new Chart(csatChart, {
             type: 'line',
             data: {
-                labels: ['July', 'August', 'September', 'October', 'November', 'December'],
+                labels: recent_months,
                 datasets: [{
                     label: 'Satisfaction rate (%)',
-                    data: [98.6, 97.1, 98.4, 90.2, 86.4, 96.4],
+                    data: [{%for i in csat_data %} {{i["total"]}}, {%endfor%}],
                     backgroundColor: 'rgba(224, 34, 85, 0.2)',
                     borderWidth: 0
                 }]
