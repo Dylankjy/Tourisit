@@ -83,6 +83,11 @@ def timestamp_iso(s):
         return 'Unknown'
 
 
+@app.template_filter('stars_to_percentage')
+def stars_to_percentage(stars):
+    return 100 * (stars / 5)
+
+
 @app.template_filter('user_pfp')
 def user_pfp(uid):
     try:

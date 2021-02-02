@@ -134,7 +134,7 @@ def get_satisfaction_rate(uid):
         # print(listing)
         d = {}
         for review in listing['tour_reviews']:
-            print(review)
+            # print(review)
             booking_id = review['booking']
             # print(booking_id)
             book = list(db_transactions.find({'booking': ObjectId(booking_id)}))[0]
@@ -149,6 +149,10 @@ def get_satisfaction_rate(uid):
         l.append(d)
 
     l.sort(key=lambda x: datetime.strptime(x['date'], '%m-%Y'))
+
+    if len(l) != 6:
+        for _ in range(6 - len(l)):
+            l.insert(0, {'stars': 0})
 
     return l
 

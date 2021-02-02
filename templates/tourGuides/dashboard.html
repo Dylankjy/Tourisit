@@ -202,7 +202,7 @@
                 labels: recent_months,
                 datasets: [{
                     label: 'Satisfaction rate (%)',
-                    data: [{%for i in csat_data %} {{i["total"]}}, {%endfor%}],
+                    data: [{%for i in csat_data %} {{i["stars"]|stars_to_percentage}}, {%endfor%}],
                     backgroundColor: 'rgba(224, 34, 85, 0.2)',
                     borderWidth: 0
                 }]
