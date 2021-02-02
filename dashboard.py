@@ -121,6 +121,12 @@ def get_earning_breakdown(uid):
 
 
 def get_satisfaction_rate(uid):
+    """
+    Get satisfaction rate from database per month
+    :param uid: Target user's ID
+    :return: Data per month in a list
+    """
+    
     x = list(db_shop.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
     x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
     l = []
