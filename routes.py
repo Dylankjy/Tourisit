@@ -1612,13 +1612,18 @@ def sellerDashboard():
                 url_for('reports', filename=f"{report_name}.xlsx", name=result["name"], date_scope=date_scope))
             
         earnings_breakdown_data = dashboard.get_earning_breakdown(result['_id'])
+        satisfaction_breakdown_data = dashboard.get_satisfaction_rate(result['_id'])
+
+        print(satisfaction_breakdown_data)
 
         return render_template(
             'tourGuides/dashboard.html',
             loggedin=True,
             user=result,
             form=form,
-            earning_data=earnings_breakdown_data)
+            earning_data=earnings_breakdown_data,
+            csat_data=satisfaction_breakdown_data
+        )
 
 
 @app.route('/s/report/<filename>')
