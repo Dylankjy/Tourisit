@@ -83,9 +83,43 @@ def timestamp_iso(s):
         return 'Unknown'
 
 
+# ========= For tour guide dashboards =========
+# By touching this section, you fully agree to be executed if anything breaks here.
 @app.template_filter('stars_to_percentage')
 def stars_to_percentage(stars):
     return 100 * (stars / 5)
+
+
+@app.template_filter('earning_average_month')
+def earning_average_month(list):
+    total = 0
+
+    for i in list:
+        total += i['total']
+
+    return total / 5
+
+
+@app.template_filter('value_difference_earnings')
+def value_difference_earnings(list):
+    diff = list[5]['total'] - list[4]['total']
+    if list[5]['total'] > list[4]['total']:
+        neg_pos = True
+    else:
+        neg_pos = False
+    return [diff, neg_pos]
+
+
+@app.template_filter('value_difference_stars')
+def value_difference_stars(list):
+    diff = list[5]['stars'] - list[4]['stars']
+    if list[5]['stars'] > list[4]['stars']:
+        neg_pos = True
+    else:
+        neg_pos = False
+    return [diff / 5 * 100, neg_pos]
+
+# ========= END OF SECTION =========
 
 
 @app.template_filter('user_pfp')

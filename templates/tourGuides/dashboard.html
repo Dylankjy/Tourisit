@@ -35,19 +35,26 @@
             <div class="columns is-multiline">
                 <div class="column">
                     <div class="box">
-                        <div class="heading">Your Net Earnings</div>
-                        <div class="title">$696 <span class="tag is-danger is-light">-$18</span></div>
+                        <div class="heading">This month's earnings</div>
+                        <div class="title">${{ '%0.2f'| format(earning_data[5]['total']|float) }}
+                            <span class="tag
+                            {% if (earning_data|value_difference_earnings)[1] == False %}
+                            is-danger is-light">
+                            {% else %}
+                            is-success is-light">+
+                            {% endif %}
+                            ${{ '%0.2f'| format((earning_data|value_difference_earnings)[0]|float) }}</span></div>
                         <div class="level">
                             <div class="level-item">
                                 <div>
                                     <div class="heading">Average per tour</div>
-                                    <div class="title is-5">$768</div>
+{#                                    <div class="title is-5">${{ earning_data|earning_average_tour }}</div>#}
                                 </div>
                             </div>
                             <div class="level-item">
                                 <div>
                                     <div class="heading">Average per month</div>
-                                    <div class="title is-5">$768</div>
+                                    <div class="title is-5">${{ earning_data|earning_average_month }}</div>
                                 </div>
                             </div>
                         </div>
@@ -55,8 +62,15 @@
                 </div>
                 <div class="column">
                     <div class="box">
-                        <div class="heading">Your Satisfaction</div>
-                        <div class="title">96.4% <span class="tag is-success is-light">+10%</span></div>
+                        <div class="heading">This month's satisfaction</div>
+                        <div class="title">{{ csat_data[5]['stars']|stars_to_percentage }}%
+                            <span class="tag
+                            {% if (csat_data|value_difference_stars)[1] == False %}
+                            is-danger is-light">
+                            {% else %}
+                            is-success is-light">+
+                            {% endif %}
+                            {{ (csat_data|value_difference_stars)[0] }}%</span></div>
                         <div class="level">
                             <div class="level-item">
                                 <div class="">
