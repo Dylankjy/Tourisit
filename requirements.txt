@@ -27,7 +27,7 @@ pusher==3.0.0
 pyasn1==0.4.8
 pycparser==2.20
 PyJWT==2.0.1
-pymongo==3.11.2
+pymongo==3.11.3
 PyNaCl==1.4.0
 pyOpenSSL==20.0.1
 quantumrandom==1.9.0
