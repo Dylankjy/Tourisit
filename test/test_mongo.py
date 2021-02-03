@@ -24,6 +24,31 @@ db = client['Listings']
 db_transactions = client['Transactions']
 # ini_list.sort(key = lambda x: datetime.strptime(x['d.o.b'], '%Y-%m-%d'))
 
+# Average Earning per tour
+# Positive
+# Negative
+
+def get_pos_neg(uid):
+    x = list(db.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+    x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
+    stars = []
+    d = {}
+    for listing in x:
+        for review in listing['tour_reviews']:
+            if int(review['stars']) >2:
+                stars.append('p')
+            else:
+                stars.append('n')
+
+    d['Positive'] = stars.count('p')
+    d['Negative'] = stars.count('n')
+
+    return d
+
+# print(get_pos_neg('600666f7ccab3b102fce39fb'))
+
+
+
 def get_earning_breakdown(uid):
     query = [
         {"$match": {"tg_uid": ObjectId(uid)}},
@@ -45,9 +70,34 @@ def get_earning_breakdown(uid):
     transactions.sort(key=lambda x: datetime.strptime(x['Date'], '%m-%Y'))
     return transactions
 
-xgg = get_earning_breakdown('600666f7ccab3b102fce39fb')
+# xgg = get_earning_breakdown('600666f7ccab3b102fce39fb')
 # print(xgg)
 
+def er(uid):
+    query = [
+        {"$match": {"tg_uid": ObjectId(uid)}},
+        {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total_cost": {"$sum": "$earnings"}, "total_tours": {'$sum': 1}}},
+        {"$sort": {"year": -1}}
+
+        # {"$group": {"_id": {"$and": ["$month_paid"]}, "total": {"$sum": "$earnings"}}},
+    ]
+
+    transactions = list(db_transactions.aggregate(query))
+
+    total_cost = []
+    total_tours = []
+    for i in transactions:
+        total_cost.append(i['total_cost'])
+        total_tours.append(i['total_tours'])
+
+    total_cost = sum(total_cost)
+    total_tours = sum(total_tours)
+    avg = total_cost / total_tours
+    return round(avg, 2)
+
+# x = er('600666f7ccab3b102fce39fb')
+#
+# print(x)
 
 
 def get_satisfaction_rate(uid):
@@ -77,8 +127,8 @@ def get_satisfaction_rate(uid):
     return l
 
 
-x = get_satisfaction_rate('600666f7ccab3b102fce39fb')
-print(x)
+# x = get_satisfaction_rate('600666f7ccab3b102fce39fb')
+# print(x)
 # print(x)
 
 # for idx,listings in enumerate(x):

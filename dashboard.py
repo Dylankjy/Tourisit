@@ -159,6 +159,49 @@ def get_satisfaction_rate(uid):
 # print(get_earning_breakdown("600666f7ccab3b102fce39fb"))
 
 
+def get_avg_per_tour(uid):
+    # Returns the avg amt of money across all tours
+    query = [
+        {"$match": {"tg_uid": ObjectId(uid)}},
+        {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total_cost": {"$sum": "$earnings"}, "total_tours": {'$sum': 1}}},
+        {"$sort": {"year": -1}}
+
+        # {"$group": {"_id": {"$and": ["$month_paid"]}, "total": {"$sum": "$earnings"}}},
+    ]
+
+    transactions = list(db_transactions.aggregate(query))
+
+    total_cost = []
+    total_tours = []
+    for i in transactions:
+        total_cost.append(i['total_cost'])
+        total_tours.append(i['total_tours'])
+
+    total_cost = sum(total_cost)
+    total_tours = sum(total_tours)
+    avg = total_cost / total_tours
+    return round(avg, 2)
+
+
+def get_pos_neg(uid):
+    x = list(db_shop.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+    x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
+    stars = []
+    d = {}
+    for listing in x:
+        for review in listing['tour_reviews']:
+            if int(review['stars']) >2:
+                stars.append('p')
+            else:
+                stars.append('n')
+
+    d['Positive'] = stars.count('p')
+    d['Negative'] = stars.count('n')
+
+    return d
+
+
+
 def generate_report(uid, year=None, month=None):
     """
     Generate a new xlsx file as report for download
