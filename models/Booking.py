@@ -47,6 +47,10 @@ class RevisionForm(FlaskForm):
     revision_text = TextAreaField("revision_text",validators=[InputRequired(), Length(min=0, max=75, message="")])
     submit = SubmitField("Request a Revision", validators=[InputRequired()])
 
+# Submit Requirements form
+class RequirementsForm(FlaskForm):
+    req_text = TextAreaField("revision_text",validators=[InputRequired(), Length(min=0, max=75, message="")])
+    submit = SubmitField("Submit your Requirements", validators=[InputRequired()])
 
 # TG-side
 # Edit Plan form
@@ -96,7 +100,7 @@ class Booking:
         self.__book_info = ""
         self.__book_chat = chat_id
         self.__completed = 0
-        self.__revision_text = ""
+        self.__customer_req = {'requirements': '', 'revision': ''}
 
     def set_book_datetime(self, book_date, book_time):
         try:
@@ -132,8 +136,7 @@ class Booking:
             "book_charges": self.__book_charges,
             "book_info": self.__book_info,
             "book_chat": self.__book_chat,
-            "revision_text": self.__revision_text,
-            "completed": self.__completed
+            "customer_req": self.__customer_req
         }
 
 

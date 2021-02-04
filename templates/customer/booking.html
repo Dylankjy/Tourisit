@@ -251,7 +251,7 @@
                         <div class="card-content">
                             <div class="content">
                                 <p>
-                                    {{booking.revision_text}}
+                                    {{booking.customer_req['revision']}}
                                 </p>
                             </div>
                         </div>
@@ -632,4 +632,35 @@
                 onclick="$('#ReqRevisionModal').fadeOut('fast');"></button>
     </div>
     <!--END: (Modal) Confirm revision of itinerary-->
+        <!--START: (Modal) Submit Requirements-->
+        <div class="modal {{ 'is-active' if(process_step == 1) }}" id="ReqRevisionModal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box has-text-centered">
+                    <p class="is-size-5 has-text-weight-bold">Let's Personalise Your Experience!</p>
+                    <p>What would you like to customise?</p>
+                    <form id="req_form" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
+                        {{ req_form.csrf_token }}
+                        <div class="field">
+                            {{ req_form.req_text(id="req_text", class="textarea",
+                        placeholder="I'd like to add this activity to the itinerary..") }}
+                        </div>
+                        <div class="field is-grouped is-grouped-centered mt-5">
+                            <p class="control">
+                                <button class="button is-danger is-light"
+                                        onclick="$('#ReqRevisionModal').fadeOut('fast');">
+                            <div class="is-size-5">Cancel</div>
+                            </button>
+                            </p>
+                            <p class="control">
+                                {{ req_form.submit(id="revision_submit", class="button is-success is-light", type="submit") }}
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close"
+                    onclick="$('#ReqRevisionModal').fadeOut('fast');"></button>
+        </div>
+        <!--END: (Modal) Submit Requirements-->
 {% endblock %}

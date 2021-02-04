@@ -317,7 +317,7 @@
                         <div class="card-content">
                             <div class="content">
                                 <p>
-                                    {{booking.revision_text}}
+                                    {{booking.customer_req['revision']}}
                                 </p>
                             </div>
                         </div>
@@ -377,7 +377,7 @@
                             <div class='field'>
                     <label class="label" for="tour-starttime">Start Time</label>
                     <div class='control'>
-                        {{form.tour_starttime(class='input', id='tour-starttime', value=booking.book_time.split('-')[0], type='time')}}
+                        {{form.tour_starttime(class='input', id='tour-starttime', value=booking.book_time.split('-')[0], type='textarea')}}
                     </div>
                 </div>
 

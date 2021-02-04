@@ -20,7 +20,7 @@ import auth as auth
 import chat as msg
 # Custom class imports
 import dashboard
-from models.Booking import Booking, BookingForm, CheckoutForm, AddInfoForm, RevisionForm, EditPlan
+from models.Booking import Booking, BookingForm, CheckoutForm, AddInfoForm, RevisionForm, RequirementsForm, EditPlan
 from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm, Review
@@ -1103,6 +1103,7 @@ def bookings(book_id):
     tour = shop_db.find_one({'_id': booking['listing_id']})
     bchat = chats_db.find_one({'_id': booking['book_chat']})
     revisionform = RevisionForm()
+    req_form = RequirementsForm()
     chat_form = msg.ChatForm()  # mbr_chat
     # Get login status using accessor argument
     result = auth.is_auth(True)
@@ -1112,22 +1113,18 @@ def bookings(book_id):
     # if logged in
     else:
         if booking['process_step'] < 1:
-            print("access denied, pay first")
+            # Access denied, make payment first
             return redirect(url_for('checkout', book_id=book_id))
         if request.method == 'GET':
             if booking['process_step'] == 1:
                 if bchat['messages']:
-                    print('have messages')
                     update_booking = {"$set": {"process_step": 2}}
                     bookings_db.update_one(booking, update_booking)
-                    print('yes updated')
                     return redirect(url_for('bookings', book_id=book_id))
 
         chat_exist = chats_db.find({"": 101}).count() > 0
-        print(chat_exist)
         if request.method == 'POST':
             if chat_form.validate_on_submit():
-                # print(chat_form.data["message"])
                 print(
                     msg.add_message(
                         booking['book_chat'],
@@ -1135,8 +1132,9 @@ def bookings(book_id):
                         chat_form.data["message"]))
             # submit button data as a dict
             button_data = request.form.to_dict()
-            if 'Submit Requirements' in button_data.values():
-                update_booking = {"$set": {"process_step": 2}}
+            if 'Submit your Requirements' in button_data.values():
+                req_text = request.form["req_text"]
+                update_booking = {"$set": {"process_step": 2, "customer_req": {str('requirements'): req_text}}}
                 bookings_db.update_one(booking, update_booking)
                 return redirect(url_for('bookings', book_id=book_id))
 
@@ -1151,7 +1149,7 @@ def bookings(book_id):
                 if new_revisions <= 0:
                     print("paid from here on")
                 update_booking = {
-                    "$set": {"process_step": 4, "revision_text": revision_text, "revisions": new_revisions}}
+                    "$set": {"process_step": 4, "customer_req": {str('revision'): revision_text}, "revisions": new_revisions}}
                 bookings_db.update_one(booking, update_booking)
                 return redirect(url_for('bookings', book_id=book_id))
 
@@ -1182,6 +1180,7 @@ def bookings(book_id):
                                booking=booking,
                                tour=tour,
                                revisionform=revisionform,
+                               req_form=req_form,
                                loggedin=True,
                                user=result,
                                # mbr_chat
@@ -1222,7 +1221,6 @@ def book_now(tour_id):
 
         if request.method == 'POST':
             button_data = request.form.to_dict()
-            print(button_data)
             if 'csrf_token' in button_data:
                 book_date = request.form["book_day"]
                 book_time = request.form["book_timeslot"]
@@ -1263,7 +1261,6 @@ def book_now(tour_id):
                     chat_id=chat_id,
                     revisions=int(item['tour_revisions']),
                     process_step=float(0))
-                print(booking.return_obj())
                 inserted_booking = bookings_db.insert_one(booking.return_obj())
                 book_id = inserted_booking.inserted_id
                 return redirect(url_for('checkout', book_id=book_id))
@@ -1271,7 +1268,6 @@ def book_now(tour_id):
             elif 'ChatFirst' in button_data.values():
                 chat_list = list(
                     chats_db.find({'participants': {"$in": [auth.get_sid(), item["tg_uid"]]}, 'chat_type': 'UwU'}))
-                print(chat_list)
                 if len(chat_list) > 0:
                     chat_id = chat_list[0]['_id']
                     return redirect(url_for('chat_room', room_id=chat_id))
@@ -1303,7 +1299,6 @@ def checkout(book_id):
     # try:
     booking = bookings_db.find_one({'_id': ObjectId(book_id)})
     tour = shop_db.find_one({'_id': ObjectId(booking['listing_id'])})
-    print(tour)
     form = CheckoutForm()
     # Get login status using accessor argument
     result = auth.is_auth(True)
@@ -1403,16 +1398,13 @@ def business(book_id):
     # if logged in
     else:
         if booking['process_step'] < 1:
-            print("access denied")
+            # access denied, customer has yet to pay
             return redirect(url_for('all_businesses'))
         chat_exist = chats_db.find({"": 101}).count() > 0
-        print(chat_exist)
         if request.method == "POST":
             data_dict = request.form.to_dict()
-            print(request.form.to_dict())
             if itineraryForm.is_submitted() and 'Update Itinerary' in data_dict.values():
                 tour_date = request.form["tour_date"]
-                print(tour_date)
                 tour_date = datetime.strptime(tour_date, '%Y-%m-%d').strftime('%m/%d/%y')
 
                 tour_starttime = request.form["tour_starttime"]
@@ -1424,7 +1416,6 @@ def business(book_id):
                 tour_price = float(request.form["tour_price"])
 
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
-                print(itinerary_form_list)
                 tour_itinerary = formToArray(itinerary_form_list)
                 updated = {
                     "$set": {"timeline_content": tour_itinerary,
@@ -1480,7 +1471,6 @@ def business(book_id):
 # Submit Review
 @app.route('/review/<book_id>', methods=['GET', 'POST'])
 def review(book_id):
-    print("hi")
     # try:
     transaction = transaction_db.find_one({'booking': ObjectId(book_id)})
     booking = list(bookings_db.find({'_id': ObjectId(book_id)}))[0]
@@ -1536,7 +1526,6 @@ def review(book_id):
                         listing=tour[0]['_id'])
 
                     review_data = review.return_obj()
-                    print(review_data)
                     if review_type == "tour":
                         # Update the Listing db, append the review to 'Reviews'
                         listing_query = {'_id': ObjectId(booking['listing_id'])}
