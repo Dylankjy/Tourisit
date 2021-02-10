@@ -16,7 +16,7 @@ Flask-WTF==0.14.3
 idna==2.9
 itsdangerous==1.1.0
 Jinja2==2.11.3
-joblib==1.0.0
+joblib==1.0.1
 MarkupSafe==1.1.1
 mypy-extensions==0.4.3
 ndg-httpsclient==0.5.1
