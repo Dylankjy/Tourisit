@@ -5,8 +5,14 @@
     <link rel="stylesheet" href="/css/pages/profile.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
     <script>
-        var pfplink = window.location.href;
-        sessionStorage.setItem("pfpLink", pfplink);
+    $(document).ready(function () {
+        $('#reportbtn').click(function () {
+            var pfplink = window.location.href;
+            sessionStorage.setItem("pfpLink", pfplink);
+        });
+    });
+
+
     </script>
 {% endblock %}
 
@@ -72,9 +78,12 @@
                             </form>
                         </div>
                     {% endif %}
-
+                    {% if editable == False %}
+                        <a href="{{ url_for('support') }}" id="reportbtn">
+                            <button class="button is-danger is-outlined mt-4">Report Abuse</button>
+                        </a>
+                    {% endif %}
                 </div>
-
             </div>
         </div>
     </section>
@@ -82,5 +91,5 @@
     <div class="columns is-multiline">
         {% include 'components/listing-card.html' %}
     </div>
-    
+
 {% endblock %}
