@@ -1,0 +1,59 @@
+{% extends 'baseAdmin.html' %}
+
+{% block scripts %}
+    <!--<link rel="stylesheet" href="/css/global/shop.css">-->
+    <link rel="stylesheet" href="/css/global/navbar.css">
+    <link rel="stylesheet" href="/css/dashboards/admin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+            integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+            crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block content %}
+    <section id="admin-hero" class="hero is-dark is-medium">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Manage Users
+                </h1>
+                <h2 class="subtitle">
+                    Add accounts, change account status, remove accounts
+                </h2>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <table class="table is-fullwidth">
+                <tr>
+                    <th>Username</th>
+                    <th>Email status</th>
+                    <th>Registration date</th>
+                    <th>Last login</th>
+                    <th>Account Type</th>
+                    <th>Actions</th>
+                </tr>
+                {% for person in user_list %}
+                    <tr>
+                        <td>{{ person['name'] }}</td>
+                        {% if person['email_status'] == 1 %}
+                            <td><i class="fas fa-check"></i></td>
+                        {% else %}
+                            <td><i class="fas fa-times"></i></td>
+                        {% endif %}
+
+                        <td>{{ person['registration_time']|timestamp_iso }}</td>
+                        <td>{{ person['last_seen_time']|timestamp_iso }}</td>
+                        {% if person['account_type'] == 1 %}
+                            <td>Administrator</td>
+                        {% else %}
+                            <td>Member</td>
+                        {% endif %}
+                        <td><a class="has-text-danger"><i class="fas fa-times"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </section>
+    <script defer src="/js/admin.js"></script>
+{% endblock %}
