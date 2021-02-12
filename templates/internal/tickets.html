@@ -14,10 +14,10 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    Manage Users
+                    Manage Tickets
                 </h1>
                 <h2 class="subtitle">
-                    Add accounts, change account status, remove accounts
+                    View tickets, Change Status
                 </h2>
             </div>
         </div>
@@ -25,35 +25,80 @@
     <section class="section">
         <div class="container">
             <table class="table is-fullwidth">
-                <tr>
-                    <th>Username</th>
-                    <th>Email status</th>
-                    <th>Registration date</th>
-                    <th>Last login</th>
-                    <th>Account Type</th>
-                    <th>Actions</th>
+                <tr class="is-vcentered">
+                    <th>Ticket ID</th>
+                    <th>Support Type</th>
+                    <th>Status</th>
+                    <th>More Details</th>
                 </tr>
-                {% for person in user_list %}
+                {% for ticket in tickets %}
                     <tr>
-                        <td>{{ person['name'] }}</td>
-                        {% if person['email_status'] == 1 %}
-                            <td><i class="fas fa-check"></i></td>
-                        {% else %}
-                            <td><i class="fas fa-times"></i></td>
-                        {% endif %}
-
-                        <td>{{ person['registration_time']|timestamp_iso }}</td>
-                        <td>{{ person['last_seen_time']|timestamp_iso }}</td>
-                        {% if person['account_type'] == 1 %}
-                            <td>Administrator</td>
-                        {% else %}
-                            <td>Member</td>
-                        {% endif %}
-                        <td><a class="has-text-danger"><i class="fas fa-times"></i></a></td>
+                        <td>{{ ticket['_id'] }}</td>
+                        <td>{{ ticket['support_type'] }}</td>
+                        <td>{{ ticket['status'] }}</td>
+                        <td>
+                            <span class="tag is-success is-light is-size-5 is-clickable" onclick="$('#TicketStatusModal').fadeIn('fast')">
+                                View More
+                            </span>
+                        </td>
                     </tr>
+                    {#Start of modal#}
+                    <div class="modal is-clipped is-active" id="TicketStatusModal" style="display: none;">
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            <div class="box">
+                                <p class="is-size-5 has-text-weight-bold has-text-centered">User Information</p>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">ID:</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p class="control">
+                                                <input class="input is-static" type="text" value="{{ person['_id'] }}" readonly>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">User Name:</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p class="control">
+                                                <input class="input is-static" type="text" value="{{ person['name'] }}" readonly>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Email:</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <p class="control">
+                                                <input class="input is-static" type="text" value="{{ person['email'] }}" readonly>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="modal-close is-large" aria-label="close" onclick="$('#TicketStatusModal').fadeOut('fast');"></button>
+                    </div>
                 {% endfor %}
             </table>
         </div>
     </section>
+
+    {#    {% if form.errors %}#}
+    {#        <script>#}
+    {#            $('#ChangePasswordModal').fadeIn('fast');#}
+    {#        </script>#}
+    {#    {% endif %}#}
     <script defer src="/js/admin.js"></script>
 {% endblock %}

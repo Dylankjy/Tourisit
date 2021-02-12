@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SelectField, StringField
-from wtforms.validators import InputRequired, Length
+from wtforms.validators import InputRequired, Length, Optional
 
 
 class SupportForm(FlaskForm):
@@ -15,7 +15,7 @@ class SupportForm(FlaskForm):
     link = StringField(
         "link",
         validators=[
-            InputRequired(),
+            Optional(),
             Length(
                 min=0,
                 max=300,
@@ -33,7 +33,8 @@ class SupportForm(FlaskForm):
         ]
     )
 
-
+class StatusForm(FlaskForm):
+    status =
 class Support:
     def __init__(self,
                  uid,
