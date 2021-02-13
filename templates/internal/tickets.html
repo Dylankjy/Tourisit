@@ -48,6 +48,7 @@
                         <div class="modal-content">
                             <div class="box">
                                 <p class="is-size-5 has-text-weight-bold has-text-centered">User Information</p>
+
                                 <div class="field is-horizontal">
                                     <div class="field-label is-normal">
                                         <label class="label">ID:</label>
@@ -86,6 +87,29 @@
                                         </div>
                                     </div>
                                 </div>
+                                <form class="form-horizontal" action="/admin/tickets" method="POST">
+                                    {{ form.csrf_token }}
+                                    <div class="field">
+                                        <label class="label" for="status">Status:</label>
+                                        <div class="control">
+                                            {{ form.status(id="status", type="select", class="input") }}
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="field is-grouped is-grouped-centered mt-5 has-text-centered">
+                                    <div class="control">
+                                        <button class="button is-danger is-light" id="closebtn" onclick="$('#TicketStatusModal').fadeOut('fast');">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                    <form id="ChangePassword" method="POST">
+                                        <div class="control">
+                                            <input type="submit" class="button is-success" id="change-status" name="change-status" value="Update Status"
+                                                   onclick="$('#TicketStatusModal').fadeOut('fast');">
+                                        </div>
+                                    </form>
+                                </div>
+
                             </div>
                         </div>
                         <button class="modal-close is-large" aria-label="close" onclick="$('#TicketStatusModal').fadeOut('fast');"></button>
@@ -94,11 +118,10 @@
             </table>
         </div>
     </section>
-
-    {#    {% if form.errors %}#}
-    {#        <script>#}
-    {#            $('#ChangePasswordModal').fadeIn('fast');#}
-    {#        </script>#}
-    {#    {% endif %}#}
+    {% if form.errors %}
+        <script>
+            $('#TicketStatusModal').fadeIn('fast');
+        </script>
+    {% endif %}
     <script defer src="/js/admin.js"></script>
 {% endblock %}

@@ -22,7 +22,7 @@ from models.Booking import Booking, BookingForm, CheckoutForm, AddInfoForm, Revi
 from models.Format import JSONEncoder, img_to_base64, formToArray, sortDays, file_to_base64
 from models.Listing import ListingForm, Listing
 from models.Review import ReviewForm, Review
-from models.Support import SupportForm, Support
+from models.Support import SupportForm, Support, StatusForm
 from models.Transaction import Transaction
 from models.User import BioForm, PasswordForm, UserForm
 
@@ -390,25 +390,39 @@ def accountinfo():
 @app.route('/admin/tickets', methods=['GET', 'POST'])
 def adminTickets():
     # Get login status using accessor argument
-    global selected_user
     result = auth.is_auth(True)
     # if not logged in
     if not result or result['account_type'] != 1:
         return redirect(url_for('login', denied_access=True))
+
     # if logged in
     else:
         all_tickets = admin.list_tickets()
+        sForm = StatusForm()
         for ticket in all_tickets:
             query_user = {'_id': ObjectId(ticket['uid'])}
             selected_user = user_db.find_one(query_user)
+            if request.method == 'POST':
+                if "change-status" in request.form and sForm.validate_on_submit():
+                    query_ticket = {'_id': ObjectId(ticket['uid'])}
+                    status = request.form['status']
+                    updated = {
+                        "$set": {
+                            "status": status
+                        }
+                    }
 
-        return render_template(
-            'internal/tickets.html',
-            loggedin=True,
-            user=result,
-            tickets=all_tickets,
-            person=selected_user
-        )
+                    support_db.update_one(query_ticket, updated)
+                    return redirect(url_for('adminTickets'))
+                return redirect(url_for('adminTickets'))
+    return render_template(
+        'internal/tickets.html',
+        loggedin=True,
+        user=result,
+        tickets=all_tickets,
+        person=selected_user,
+        form=sForm
+    )
 
 # ALEX
 
