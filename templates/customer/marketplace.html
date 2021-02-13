@@ -139,17 +139,17 @@
                 $('.loading-screen').show()
                 $('.prod-cards').hide()
 
-                // Make a new timeout set to go off in 1000ms (1 second). 
+                // Make a new timeout set to go off in 1000ms (1 second).
                 // If there is no keyup in the next 1 second, then the timeout function will execute (Search the database)
                 timeout = setTimeout(function () {
                     receiveSearch(searchbox.value);
-                    
+
                     // Set a timeout of 0.6 seconds. As it takes time for the product cards to update (Based on the quering from the database)
                     setTimeout(()=>{
                         $('.loading-screen').hide()
                         $('.prod-cards').show()
-                    }, 1200)
-                    
+                    }, 700)
+
             }, timetostop);
         });
 
