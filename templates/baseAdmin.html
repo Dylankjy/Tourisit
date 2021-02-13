@@ -33,7 +33,7 @@
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item has-text-weight-bold" href="{{ url_for('adminDashboard') }}"><img src="/logo.png">&emsp;<span
+                <a class="navbar-item has-text-weight-bold" href="{{ url_for('adminUsers') }}"><img src="/logo.png">&emsp;<span
                         class="has-text-danger has-text-weight-bold">Admin</span></a>
 
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
@@ -45,9 +45,9 @@
 
             <div class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="{{ url_for('adminDashboard') }}">
-                        Home
-                    </a>
+{#                    <a class="navbar-item" href="{{ url_for('adminDashboard') }}">#}
+{#                        Home#}
+{#                    </a>#}
                     <a class="navbar-item" href="{{ url_for('adminUsers') }}">
                         Manage Users
                     </a>

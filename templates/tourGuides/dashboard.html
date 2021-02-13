@@ -48,13 +48,13 @@
                             <div class="level-item">
                                 <div>
                                     <div class="heading">Average per tour</div>
-{#                                    <div class="title is-5">${{ earning_data|earning_average_tour }}</div>#}
+                                    <div class="title is-5">${{ avg_per_tour }}</div>
                                 </div>
                             </div>
                             <div class="level-item">
                                 <div>
                                     <div class="heading">Average per month</div>
-                                    <div class="title is-5">${{ earning_data|earning_average_month }}</div>
+                                    <div class="title is-5">${{ '%0.2f'| format((earning_data|earning_average_month)|float) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -71,20 +71,20 @@
                             is-success is-light">+
                             {% endif %}
                             {{ (csat_data|value_difference_stars)[0] }}%</span></div>
-                        <div class="level">
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Positive</div>
-                                    <div class="title is-5">54</div>
-                                </div>
-                            </div>
-                            <div class="level-item">
-                                <div class="">
-                                    <div class="heading">Negative</div>
-                                    <div class="title is-5">2</div>
-                                </div>
-                            </div>
-                        </div>
+{#                        <div class="level">#}
+{#                            <div class="level-item">#}
+{#                                <div class="">#}
+{#                                    <div class="heading">Positive</div>#}
+{#                                    <div class="title is-5">54</div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="level-item">#}
+{#                                <div class="">#}
+{#                                    <div class="heading">Negative</div>#}
+{#                                    <div class="title is-5">2</div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
                     </div>
                 </div>
             </div>
