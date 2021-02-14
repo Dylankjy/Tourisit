@@ -56,7 +56,7 @@
                             <label class="label" for="support-submit"></label>
                             <div class="control">
                                 <input type='submit' value='Submit' id="support-submit" name="support-submit"
-                                       class="button is-success is-fullwidth">
+                                       class="button is-success is-fullwidth" onclick="$('#SuccessModal').fadeIn('fast'); return false;">
                             </div>
                         </div>
                     </fieldset>
@@ -64,6 +64,19 @@
             </div>
         </div>
     </section>
+
+    <div id="SuccessModal" class="modal is-active" style="display: none;">
+        <div class="modal-background"></div>
+        <div class="modal-card box" style="padding: 3em;">
+            <i class="far fa-check-circle fa-6x has-text-centered" style="color: limegreen;"></i>
+            <p class="title is-3 has-text-weight-bold has-text-centered">Successfully submitted!</p>
+            <p class="subtitle has-text-centered">We will get in touch with you via email</p>
+            <a href="{{ url_for('home') }}" class="button is-success is-fullwidth"><i
+                    class="fas fa-home"></i>&ensp;Return to Homepage</a>
+        </div>
+    </div>
+
+
     <script>
         var pfplink = sessionStorage.getItem("pfpLink");
         {# Print to tour guide profile link #}

@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime
 
 import pymongo
-# import xlsxwriter
+import xlsxwriter
 
 # MongoDB connection string
 from bson import ObjectId

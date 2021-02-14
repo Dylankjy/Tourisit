@@ -209,22 +209,23 @@ def support():
                     uid=uid,
                     support_type=support_type,
                     link=link,
-                    content=content)
+                    content=content
+                )
                 support_info = support_request.return_obj()
-                print(support_info)
                 support_db.insert_one(support_info)
-                return render_template('success-user.html', user=result)
-            return render_template(
-                'helpdesk.html',
-                user=result,
-                form=sForm,
-                loggedin=True)
-        else:
-            return render_template(
-                'helpdesk.html',
-                user=result,
-                form=sForm,
-                loggedin=True)
+
+            else:
+                return render_template(
+                    'helpdesk.html',
+                    user=result,
+                    form=sForm,
+                    loggedin=True)
+
+        return render_template(
+            'helpdesk.html',
+            user=result,
+            form=sForm,
+            loggedin=True)
     else:
         return redirect(url_for('login', denied_access=True))
 
@@ -431,8 +432,6 @@ def adminTickets():
                 tickets=admin.list_tickets(),
                 form=sForm
             )
-
-
 
 # ALEX
 
