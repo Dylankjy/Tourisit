@@ -65,6 +65,7 @@ support_db = client['Support']
 transaction_db = client['Transactions']
 reviews_db = client['Reviews']
 chats_db = client['Chats']
+token_db = client['Token']
 dashboard_db = client['Dashboard']
 
 # Good Stuff
@@ -384,6 +385,7 @@ def accountinfo():
     else:
         # Render the pls log in template here
         return redirect(url_for('login', denied_access=True))
+
 
 # SHARED
 # Change ticket status
@@ -1568,6 +1570,7 @@ def review(book_id):
                 form=form,
                 review_type=review_type)
 
+
 # except BaseException:
 #     return 'Error trying to render'
 
@@ -1577,16 +1580,16 @@ def review(book_id):
 
 # TOUR GUIDE
 # Redirect user to dashboard if attempt to access root of /s/
-
-
 @app.route('/tg/')
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
+
 
 # Redirect user to dashboard if attempt to access file of /s/
 @app.route('/tg')
 def sellerModeFile():
     return redirect(url_for('sellerDashboard'))
+
 
 # TOUR GUIDE
 # Dashboard
@@ -1660,6 +1663,7 @@ def sellerDashboard():
             avg_per_tour=earning_average_tour
         )
 
+
 @app.route('/s/report/<filename>')
 def reports(filename):
     def delete_after_download():
@@ -1687,6 +1691,7 @@ def reports(filename):
                                as_attachment=True,
                                attachment_filename=
                                f'TourisitReport-{request.args.get("name")}-{request.args.get("date_scope")}.xlsx')
+
 
 # INTERNAL
 # Admin Dashboard -- Private internal shit
@@ -1723,6 +1728,7 @@ def adminUsers():
             user=result,
             user_list=user_accounts)
 
+
 # INTERNAL
 # Admin Dashboard -- Manage listings
 @app.route('/admin/listings')
@@ -1739,6 +1745,7 @@ def adminListings():
             loggedin=True,
             user=result,
             listing=admin.list_listings())
+
 
 # SHARED
 # Login Page
@@ -1785,6 +1792,77 @@ def login():
     # If user is ALREADY logged in
     else:
         return redirect(url_for('home'))
+
+
+# Login Page
+@app.route('/login/recover_account', methods=['POST', 'GET'])
+def forgot_password():
+    # Login form
+    form = auth.RecoverAccountForm()
+
+    # If user is NOT logged in
+    if not auth.is_auth():
+        # Do if POST response // Form submission
+        if form.validate_on_submit():
+            email = form.data['email']
+            print(email)
+            auth.send_confirmation_email('password_reset', email)
+            return render_template('auth/recover.html', form=form, accepted=True)
+
+        return render_template('auth/recover.html', form=form)
+    else:
+        return redirect(url_for('home'))
+
+
+# Login Page
+@app.route('/login/recover_account/reset', methods=['POST', 'GET'])
+def reset_password():
+    # Login form
+    form = auth.PasswordReset()
+
+    # If user is NOT logged in
+    if not auth.is_auth():
+        token = request.args.get('token')
+        # Do if POST response // Form submission
+        if form.validate_on_submit():
+            # TODO: Settle routing
+            if auth.verify_remove_token('password_reset', token):
+                new_password = form.data['password']
+
+                # Query to check token's existence
+                query_for_token = {
+                    "token": token,
+                    "type": 'password_reset'
+                }
+
+                # Database Ops: Get list of tokens with query
+                try:
+                    token_obj = [i for i in token_db.find(query_for_token)][0]
+                except IndexError:
+                    return False
+
+                query_for_user = {
+                    "_id": token_obj['uid']
+                }
+
+                # Database Ops: Get list of tokens with query
+                try:
+                    user_obj = [i for i in user_db.find(query_for_user)][0]
+                except IndexError:
+                    return False
+
+                payload = {
+                    'password': auth.generate_password_hash(new_password)
+                }
+
+                user_db.update_one(query_for_user, payload)
+
+            return render_template('auth/reset_password.html', form=form, accepted=False)
+
+        return render_template('auth/reset_password.html', form=form)
+    else:
+        return redirect(url_for('home'))
+
 
 # SHARED
 # Sign up page
@@ -1838,6 +1916,7 @@ def signup():
     else:
         return redirect(url_for('home'))
 
+
 @app.route('/endpoint/resendEmail', methods=['POST'])
 def resend_email():
     resend_email_form = auth.ResendEmailForm()
@@ -1856,6 +1935,7 @@ def resend_email():
         if auth.send_confirmation_email("email_verification", email):
             return redirect(url_for('signup', email_sent=True))
 
+
 # MEMBERS
 # Logout page
 @app.route('/logout')
@@ -1871,6 +1951,7 @@ def logout():
         return resp
     else:
         return redirect(url_for('home'))
+
 
 # SHARED
 # Chats: Render individual chats -- Stolen from Chloe
@@ -1891,6 +1972,7 @@ def chat():
             list=chat_list,
             chatroom_display=False,
             not_found=request.args.get('not_found'))
+
 
 @app.route('/chat/<room_id>', methods=['GET', 'POST'])
 def chat_room(room_id):
@@ -1929,6 +2011,7 @@ def chat_room(room_id):
             selected_chatroom=ObjectId(room_id),
             verification_code_OK=request.args.get('verification_code_OK'))
 
+
 # MEMBERS
 # Chat endpoint
 @app.route('/endpoint/chat')
@@ -1963,6 +2046,7 @@ def chatroom_endpoint():
         resp = make_response('Tourisit API Endpoint - Error 403', 403)
         return resp
 
+
 # Email confirmation endpoint:
 @app.route('/endpoint/email_confirmation')
 def email_confirmation_endpoint():
@@ -1971,6 +2055,7 @@ def email_confirmation_endpoint():
         return redirect(url_for('login', verification_code_OK=True))
     else:
         return redirect(url_for('login', verification_code_denied=True))
+
 
 @app.route('/set_acc_mode', methods=['GET', 'POST'])
 def setAccType():
@@ -1995,6 +2080,7 @@ def setAccType():
     message = 'Not authorized to perform this action!'
     return redirect(url_for('show_user_message', message=message))
 
+
 # Password reset:
 # TODO: Take token put into WTForm and check only after submission. Remove check on auth.py
 # @app.route('/login/reset_password')
@@ -2010,6 +2096,7 @@ def setAccType():
 @app.errorhandler(413)
 def error413(err):
     return f'Oh Noes! You got {err}'
+
 
 # Run app
 if __name__ == '__main__':

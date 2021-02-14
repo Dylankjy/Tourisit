@@ -40,7 +40,7 @@ except BaseException:
 # Template: Confirmation
 template_email_confirmation = open("email/confirmation.html", "r").read()
 # Template: Password reset
-template_reset_password = open("email/pwdreset.html", "r").read()
+template_password_reset = open("email/pwdreset.html", "r").read()
 
 
 def create_account(name, raw_password, email):
@@ -346,15 +346,15 @@ def send_confirmation_email(email_type, user_email):
     :param user_email: Target user's email
     :return: Status of operation
     """
-    
+
     # Query user's email
     query = {
         "email": user_email
     }
-    
+
     # Query result for UID
-    uid = [i for i in db_users.find(query)][0]["_id"]
-    
+    user_obj = [i for i in db_users.find(query)]
+    uid = user_obj[0]["_id"]
 
     port = 465  # For SSL
     password = sendgrid_key
@@ -381,17 +381,21 @@ def send_confirmation_email(email_type, user_email):
         # Add content to email
         message.attach(MIMEText(content, "html"))
     elif email_type == "password_reset":
+        if len(user_obj) != 1:
+            # print(user_obj)
+            return False
+
         # Email headers
         message["Subject"] = "Tourisit - Password reset"
         message["From"] = formataddr(
             (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
         message["To"] = user_email
 
-        code = 'https://tourisit.ichiharu.com/login/password_reset&token=' + \
+        code = 'https://tourisit.hiy.sh/login/recovery_account/reset&token=' + \
                add_token("password_reset", uid)
 
         # Build email HTML from 2 parts. Format with URL
-        content = template_header + template_email_confirmation.format(
+        content = template_header + template_password_reset.format(
             reset_url=code)
 
         # Add content to email
@@ -520,6 +524,20 @@ class LoginForm(FlaskForm):
     )
     password = StringField(
         'Password',
+        [DataRequired()]
+    )
+
+
+class RecoverAccountForm(FlaskForm):
+    email = StringField(
+        'Email Address',
+        [DataRequired(), Email()]
+    )
+
+
+class PasswordReset(FlaskForm):
+    password = StringField(
+        'New password',
         [DataRequired()]
     )
 
