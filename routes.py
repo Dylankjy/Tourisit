@@ -68,6 +68,7 @@ chats_db = client['Chats']
 token_db = client['Token']
 dashboard_db = client['Dashboard']
 
+
 # Good Stuff
 # return redirect(url_for('login', denied_access=True))
 # message = 'No listings yet!'
@@ -81,11 +82,13 @@ def timestamp_iso(s):
     except ValueError:
         return 'Unknown'
 
+
 # ========= For tour guide dashboards =========
 # By touching this section, you fully agree to be executed if anything breaks here.
 @app.template_filter('stars_to_percentage')
 def stars_to_percentage(stars):
     return 100 * (stars / 5)
+
 
 @app.template_filter('earning_average_month')
 def earning_average_month(list):
@@ -96,6 +99,7 @@ def earning_average_month(list):
 
     return total / 5
 
+
 @app.template_filter('value_difference_earnings')
 def value_difference_earnings(list):
     diff = list[5]['total'] - list[4]['total']
@@ -105,6 +109,7 @@ def value_difference_earnings(list):
         neg_pos = False
     return [diff, neg_pos]
 
+
 @app.template_filter('value_difference_stars')
 def value_difference_stars(list):
     diff = list[5]['stars'] - list[4]['stars']
@@ -113,6 +118,7 @@ def value_difference_stars(list):
     else:
         neg_pos = False
     return [diff / 5 * 100, neg_pos]
+
 
 # ========= END OF SECTION =========
 
@@ -133,6 +139,7 @@ def user_pfp(uid):
 
     return pfp_data
 
+
 @app.template_filter('user_name')
 def user_name(uid):
     try:
@@ -148,6 +155,7 @@ def user_name(uid):
         tg_name = ''
 
     return tg_name
+
 
 # @app.before_request
 # def before_request_callback():
@@ -168,12 +176,14 @@ def user_name(uid):
 
 uwu_face = file_to_base64('public/imgs/uwu.png')
 
+
 @app.route('/testImg', methods=['GET', 'POST'])
 def test_img():
     return render_template(
         'tourGuides/testImg.html',
         user=None,
         imgBase64=uwu_face)
+
 
 # Use this to display messages to user
 # I.e if user is searching for a listing that doesn't exist, then say 'Listing does not exist' message
@@ -188,6 +198,7 @@ def show_user_message(message):
     # Create the message, then redirect to showMsg page where message is passed as parameter
     # message = 'No listings yet!'
     # return redirect(url_for('show_user_message', message=message))
+
 
 # --------------------------------------
 
@@ -229,6 +240,7 @@ def support():
             loggedin=True)
     else:
         return redirect(url_for('login', denied_access=True))
+
 
 # SHARED
 # User profile
@@ -291,6 +303,7 @@ def profile(user_id):
             profile_img=profile_img,
             item_list=items
         )
+
 
 # SHARED
 # USER SETTINGS AND CHANGE PASSWORD
@@ -435,6 +448,7 @@ def adminTickets():
                 form=sForm
             )
 
+
 # ALEX
 
 # CUSTOMERS
@@ -474,6 +488,7 @@ def home():
     return render_template('customer/index-customer.html',
                            item_list=shown_listings, loggedin=False)
 
+
 # CUSTOMERS
 # Marketplace: Display all listings
 @app.route('/discover')
@@ -499,6 +514,7 @@ def market():
         loggedin=True,
         user=result,
         item_list=all_listings)
+
 
 # To implement search function
 @app.route('/endpoint/search')
@@ -540,6 +556,7 @@ def search():
         resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
         return resp
 
+
 @app.route('/discover/random')
 def randomListing():
     query = [{"$match": {"tour_visibility": 1}},
@@ -548,6 +565,7 @@ def randomListing():
     # Extract the random_id so you can use it to render the discover page
     random_tour_id = random_listing['_id']
     return redirect(url_for('tourListing', tour_id=random_tour_id))
+
 
 # CUSTOMERS
 # Detailed Listing: More detailed listing when listing from Marketplace clicked
@@ -611,6 +629,7 @@ def tourListing(tour_id):
     message = 'This listing is either invalid, has been hidden or deleted'
     return redirect(url_for('show_user_message', message=message))
 
+
 # TOUR GUIDES
 # Manage Listings: For Tour Guides to Edit/Manage their listings
 @app.route('/listings')
@@ -640,10 +659,12 @@ def ownlisting():
         user=result,
         userData=userData)
 
+
 @app.route('/apis/upImg')
 def updateImg():
     text = request.args['currentImg']
     return json.dumps({"results": text})
+
 
 @app.route('/test/result')
 def testing():
@@ -656,6 +677,7 @@ def testing():
     # lForm = ListingForm()
     # return render_template('tourGuides/makelisting.html', form=lForm,
     # user=result)
+
 
 @app.route('/listings/add', methods=['GET', 'POST'])
 def makelisting():
@@ -748,6 +770,7 @@ def makelisting():
     # If not logged in
     # Return a modal where ppl have to login first
     return redirect(url_for('login', denied_access=True))
+
 
 # TOUR GUIDES
 # Edit Listings: When click on own listing to edit
@@ -860,6 +883,7 @@ def editListing(id):
     else:
         return redirect(url_for('login', denied_access=True))
 
+
 # @app.route('/testImg', methods=['GET', 'POST'])
 # def test_img():
 #     lForm = ListingForm()
@@ -893,6 +917,7 @@ def hideList(id):
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
 
+
 # TOUR GUIDES
 # Show Listings: When click on show button
 @app.route('/listings/show/<id>', methods=['GET', 'POST'])
@@ -916,6 +941,7 @@ def showList(id):
             message = 'You are not authorized to edit this listing!'
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
+
 
 # TOUR GUIDES
 # Delete Listings: When click on Delete button
@@ -946,6 +972,7 @@ def deleteList(id):
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
 
+
 # CUSTOMERS
 # Favourites: Shows all the liked listings
 @app.route('/me/favourites')
@@ -971,6 +998,7 @@ def favourites():
 
     return redirect(url_for('login', denied_access=True))
 
+
 # Add to wishlist
 @app.route('/me/wishlist/add/<tour_id>')
 def addWishlist(tour_id):
@@ -991,6 +1019,7 @@ def addWishlist(tour_id):
         return redirect(f'/discover/{tour_id}')
 
     return redirect(url_for('login', denied_access=True))
+
 
 # Remove from wishlist
 @app.route('/me/wishlist/remove/<tour_id>')
@@ -1014,6 +1043,7 @@ def removeWishlist(tour_id):
             message = 'Unable to remove from wishlist as item does not exist in wishlist!'
             return redirect(url_for('show_user_message', message=message))
     return redirect(url_for('login', denied_access=True))
+
 
 # Chat with Tour Guide
 @app.route('/listings/chat/<tour_id>')
@@ -1041,6 +1071,7 @@ def chatwithGuide(tour_id):
         return redirect(url_for('chat_room', room_id=chat_id))
 
     return redirect(url_for('login', denied_access=True))
+
 
 # To implement dynamic calendar function
 @app.route('/endpoint/bookingCalendar/<tour_id>')
@@ -1073,6 +1104,7 @@ def calendarUpdate(tour_id):
 
     query = {}
 
+
 # --------------------------------------
 
 # Chloe
@@ -1102,6 +1134,7 @@ def all_bookings():
             listings=listings,
             loggedin=True,
             user=result)
+
 
 # except:
 #     return 'Error trying to render'
@@ -1206,6 +1239,7 @@ def bookings(book_id):
                                selected_chatroom=booking['book_chat'],
                                verification_code_OK=request.args.get('verification_code_OK'))
 
+
 # except:
 #     return 'Error trying to render'
 
@@ -1301,6 +1335,7 @@ def book_now(tour_id):
     else:
         return redirect(url_for('login', denied_access=True))
 
+
 # except:
 #     return 'Error trying to render'
 
@@ -1354,6 +1389,7 @@ def checkout(book_id):
     else:
         return redirect(url_for('login', denied_access=True))
 
+
 # except:
 #     return 'Error trying to render (checkout)'
 
@@ -1388,6 +1424,7 @@ def all_businesses():
                 user=result)
     except BaseException:
         return 'Error trying to render'
+
 
 # TOUR GUIDES
 # Individual gigs
@@ -1476,6 +1513,7 @@ def business(book_id):
                                verification_code_OK=request.args.get('verification_code_OK'))
     # except BaseException:
     #     return 'Error trying to render'
+
 
 # CUSTOMER
 # Submit Review
