@@ -368,10 +368,10 @@ def send_confirmation_email(email_type, user_email):
         # Email headers
         message["Subject"] = "Tourisit - Confirm your Email"
         message["From"] = formataddr(
-            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
+            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
         message["To"] = user_email
 
-        code = 'https://tourisit.ichiharu.com/endpoint/email_confirmation?token=' + \
+        code = 'https://tourisit.hiy.sh/endpoint/email_confirmation?token=' + \
                add_token("email_verification", uid)
 
         # Build email HTML from 2 parts. Format with URL
@@ -384,7 +384,7 @@ def send_confirmation_email(email_type, user_email):
         # Email headers
         message["Subject"] = "Tourisit - Password reset"
         message["From"] = formataddr(
-            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.ichiharu.com'))
+            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
         message["To"] = user_email
 
         code = 'https://tourisit.ichiharu.com/login/password_reset&token=' + \
@@ -401,7 +401,7 @@ def send_confirmation_email(email_type, user_email):
     with smtplib.SMTP_SSL("smtp.sendgrid.net", port, context=context) as server:
         server.login("apikey", password)
         server.sendmail(
-            "notifications@tourisit.ichiharu.com",
+            "notifications@tourisit.hiy.sh",
             user_email,
             message.as_string())
 
