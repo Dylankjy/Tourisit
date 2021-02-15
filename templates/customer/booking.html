@@ -74,7 +74,7 @@
             <!--END: More options dropdown-->
             <div class="listing-author">
                 <!--dynamic tg photo-->
-                <div>By
+                <div>Tour Guide:
                     <div class="profile-img mt-2"
                          style="background-image: url('data:image/jpeg;base64, {{ tour.tg_uid | user_pfp }}');"></div>
                     <b>{{ tour.tg_uid| user_name }}</b></div>
@@ -211,9 +211,6 @@
                 <a>Details</a>
             </li>
             <li class="tab" onclick="openTab(event,'Chat')">
-                {% if process_step == 1 %}
-                    <span title="Badge top right" class="badge is-danger"></span>
-                {% endif %}
                 <a>Chat</a>
             </li>
             <li class="tab" onclick="openTab(event,'Billing')">
@@ -645,6 +642,13 @@
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="box has-text-centered">
+                <a href="{{ url_for('all_bookings') }}">
+                <p class="is-pulled-left">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Bookings
+                </p>
+                </a>
+                <br>
                 <p class="is-size-5 has-text-weight-bold">Let's Personalise Your Experience!</p>
                 <p>What would you like to customise?</p>
                 <form id="req_form" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
@@ -655,20 +659,12 @@
                     </div>
                     <div class="field is-grouped is-grouped-centered mt-5">
                         <p class="control">
-                            <button class="button is-danger is-light"
-                                    onclick="$('#ReqRevisionModal').fadeOut('fast');">
-                        <div class="is-size-5">Cancel</div>
-                        </button>
-                        </p>
-                        <p class="control">
-                            {{ req_form.submit(id="revision_submit", class="button is-success is-light", type="submit") }}
+                            {{ req_form.submit(id="revision_submit", class="button is-success is-light", type="submit", onclick="$('#ReqRevisionModal').fadeOut('fast');") }}
                         </p>
                     </div>
                 </form>
             </div>
         </div>
-        <button class="modal-close is-large" aria-label="close"
-                onclick="$('#ReqRevisionModal').fadeOut('fast');"></button>
     </div>
     <!--END: (Modal) Submit Requirements-->
 {% endblock %}

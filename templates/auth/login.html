@@ -34,7 +34,7 @@
                     <div class="field">
                         <div class="control has-icons-left has-icons-right">
                             <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
-                            {{ form.email(id="loginEmail", type="email", class="input", placeholder="Email Address") }}
+                            {{ form.email(id="loginEmail", type="email", class="input", placeholder="Email Address", required=True) }}
                             <span class="icon is-small is-left">
                             <i class="fas fa-at"></i>
                         </span>
@@ -43,7 +43,7 @@
                     <div class="field">
                         <div class="control has-icons-left has-icons-right">
                             <!-- <input id="registerPassword" class="input" type="password" placeholder="Password"> -->
-                            {{ form.password(id="loginPassword", type="password", class="input", placeholder="Password", value="") }}
+                            {{ form.password(id="loginPassword", type="password", class="input", placeholder="Password", value="", required=True) }}
                             <span class="icon is-small is-left">
                             <i class="fas fa-key"></i>
                         </span>
@@ -60,9 +60,9 @@
                     </div>
                     <br>
                     <div class="buttons">
-                        <a class="button is-light has-text-grey" data-pjax='main' href="./signup"><i
+                        <a class="button is-light has-text-grey" data-pjax='main' href="{{ url_for('signup') }}"><i
                                 class="fas fa-user-plus"></i>&ensp;Get an account</a>
-                        <a class="button is-light has-text-grey" data-pjax='main' href="./resetpassword"><i
+                        <a class="button is-light has-text-grey" data-pjax='main' href="{{ url_for('forgot_password') }}"><i
                                 class="fas fa-question-circle"></i>&ensp;Lost password</a>
                         <button type="submit" class="button is-primary">Login&ensp;<i class="fas fa-arrow-right"></i>
                         </button>

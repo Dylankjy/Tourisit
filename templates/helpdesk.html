@@ -8,62 +8,67 @@
 {% block content %}
     <section class="section">
         <div class="container">
-            <h1 class="is-size-1 has-text-weight-bold mt-6">Support & Help</h1>
+            <h1 class="is-size-3 has-text-weight-bold mt-6 has-text-centered is-vcentered">Support & Help</h1>
         </div>
     </section>
 
-    <section class='section'>
-        <div class="container">
-            <div class="box is-centered ml-5 mr-5">
-                <form class="form-horizontal pt-5 pb-5" action="/support" method="POST">
-                    {{ form.csrf_token }}
-                    <fieldset>
-                        <div class="field">
-                            <label class="label">What can we help you with?</label>
-                            <div class="control">
-                                {{ form.support_type(id="support_type", type="select", class="input") }}
-                                <ul>
-                                    {% for error in form.support_type.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label" for="link">Tour Guide profile link</label>
-                            <div class="control">
-                                {{ form.link(id="link", type="text", class="input") }}
-                                <ul>
-                                    {% for error in form.link.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Message</label>
-                            <div class="control">
-                                {{ form.content(id="content", type="textarea", class="input", rows="5", style="height:
-                        150px;") }}
-                                <ul>
-                                    {% for error in form.content.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label" for="support-submit"></label>
-                            <div class="control">
-                                <input type='submit' value='Submit' id="support-submit" name="support-submit"
-                                       class="button is-success is-fullwidth">
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
+    <div class="box" style="width: 50%; margin-left: 25%">
+        <form class="form-horizontal" action="/support" method="POST" onsubmit="$('#SuccessModal').fadeIn('fast'); return false;">
+            {{ form.csrf_token }}
+            <fieldset>
+                <div class="field">
+                    <label class="label">What can we help you with?</label>
+                    <div class="select is-fullwidth">
+                        {{ form.support_type(id="support_type", type="select", class="select") }}
+                        <ul>
+                            {% for error in form.support_type.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        {{ form.link(id="link", type="hidden", class="input") }}
+                        <ul>
+                            {% for error in form.link.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Message</label>
+                    <div class="control">
+                        {{ form.content(id="content", type="textarea", class="input", rows="5", style="height: 150px;") }}
+                        <ul>
+                            {% for error in form.content.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="field has-text-centered mt-6">
+                    <div class="control">
+                        <input type='submit' value='Submit' id="support-submit" name="support-submit"
+                               class="button is-success is-medium" style="width:20%;" onclick="preventDefault();">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div id="SuccessModal" class="modal is-active" style="display: none;">
+        <div class="modal-background"></div>
+        <div class="modal-card box" style="padding: 3em;">
+            <i class="far fa-check-circle fa-6x has-text-centered" style="color: limegreen;"></i>
+            <p class="title is-3 has-text-weight-bold has-text-centered">Successfully submitted!</p>
+            <p class="subtitle has-text-centered">We will get in touch with you via email</p>
+            <a href="{{ url_for('home') }}" class="button is-success is-fullwidth">
+                <i class="fas fa-home"></i>&ensp;Return to Homepage</a>
         </div>
-    </section>
+    </div>
+
     <script>
         var pfplink = sessionStorage.getItem("pfpLink");
         {# Print to tour guide profile link #}

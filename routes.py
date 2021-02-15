@@ -67,6 +67,7 @@ support_db = client['Support']
 transaction_db = client['Transactions']
 reviews_db = client['Reviews']
 chats_db = client['Chats']
+token_db = client['Token']
 dashboard_db = client['Dashboard']
 
 
@@ -213,7 +214,7 @@ def support():
     if result:
         sForm = SupportForm()
         if request.method == 'POST':
-            if sForm.validate_on_submit():
+            if 'support-submit' and sForm.validate_on_submit():
                 uid = result['_id']
                 support_type = request.form['support_type']
                 link = request.form['link']
@@ -222,29 +223,33 @@ def support():
                     uid=uid,
                     support_type=support_type,
                     link=link,
-                    content=content)
+                    content=content
+                )
                 support_info = support_request.return_obj()
-                print(support_info)
                 support_db.insert_one(support_info)
-                return render_template('success-user.html', user=result)
-            return render_template(
-                'helpdesk.html',
-                user=result,
-                form=sForm,
-                loggedin=True)
-        else:
-            return render_template(
-                'helpdesk.html',
-                user=result,
-                form=sForm,
-                loggedin=True)
+                return render_template(
+                    'helpdesk.html',
+                    user=result,
+                    form=sForm,
+                    loggedin=True)
+            else:
+                return render_template(
+                    'helpdesk.html',
+                    user=result,
+                    form=sForm,
+                    loggedin=True)
+
+        return render_template(
+            'helpdesk.html',
+            user=result,
+            form=sForm,
+            loggedin=True)
     else:
         return redirect(url_for('login', denied_access=True))
 
 
 # SHARED
 # User profile
-# noinspection PyUnusedFunction
 @app.route('/users/<user_id>/profile', methods=['GET', 'POST'])
 def profile(user_id):
     bForm = BioForm()
@@ -376,7 +381,6 @@ def accountinfo():
                         }
                     }
                     user_db.update_one(query_user, updated)
-                    # flash('Your expense has been created!', 'success')
                     return render_template(
                         'success-support.html', user=item, id=id, loggedin=True)
                 else:
@@ -388,7 +392,7 @@ def accountinfo():
                 form1=pForm,
                 loggedin=True)
 
-        # Else if not logged in. May be redundant due to the else statement at the bottom alr
+        # Else if not POST
         else:
             return render_template(
                 'setting.html',
@@ -408,38 +412,47 @@ def accountinfo():
 def adminTickets():
     # Get login status using accessor argument
     result = auth.is_auth(True)
+    sForm = StatusForm()
     # if not logged in
     if not result or result['account_type'] != 1:
         return redirect(url_for('login', denied_access=True))
-
     # if logged in
     else:
-        all_tickets = admin.list_tickets()
-        sForm = StatusForm()
-        for ticket in all_tickets:
-            query_user = {'_id': ObjectId(ticket['uid'])}
-            selected_user = user_db.find_one(query_user)
-            if request.method == 'POST':
-                if "change-status" in request.form and sForm.validate_on_submit():
-                    query_ticket = {'_id': ObjectId(ticket['uid'])}
-                    status = request.form['status']
-                    updated = {
-                        "$set": {
-                            "status": status
-                        }
+        if 'change-status' in request.form and request.method == 'POST':
+            if sForm.validate_on_submit():
+                tid = request.form['id']
+                query_ticket = {'_id': ObjectId(tid)}
+                status = request.form['status']
+                updated = {
+                    "$set": {
+                        "status": status
                     }
+                }
+                print(admin.list_tickets())
+                support_db.update_one(query_ticket, updated)
 
-                    support_db.update_one(query_ticket, updated)
-                    return redirect(url_for('adminTickets'))
-                return redirect(url_for('adminTickets'))
-    return render_template(
-        'internal/tickets.html',
-        loggedin=True,
-        user=result,
-        tickets=all_tickets,
-        person=selected_user,
-        form=sForm
-    )
+                return render_template(
+                    'internal/tickets.html',
+                    loggedin=True,
+                    user=result,
+                    tickets=admin.list_tickets(),
+                    form=sForm
+                )
+            return render_template(
+                'internal/tickets.html',
+                loggedin=True,
+                user=result,
+                tickets=admin.list_tickets(),
+                form=sForm
+            )
+        else:
+            return render_template(
+                'internal/tickets.html',
+                loggedin=True,
+                user=result,
+                tickets=admin.list_tickets(),
+                form=sForm
+            )
 
 
 # ALEX
@@ -1260,6 +1273,7 @@ def book_now(tour_id):
         # Return the days that are not inside the listing days (Get the days that are not available)
         disabled_days = list(set(total_days) - set(tour_days_numbers))
 
+        customfee = round(0.1 * float(item['tour_price']), 2)
         if request.method == 'POST':
             button_data = request.form.to_dict()
             if 'csrf_token' in button_data:
@@ -1287,7 +1301,6 @@ def book_now(tour_id):
                     return redirect(url_for('checkout', book_id=book_id))
 
             elif 'CustomiseTour' in button_data.values():
-                customfee = round(0.1 * float(item['tour_price']), 2)
                 chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], True)
                 booking = Booking(
                     tg_uid=item['tg_uid'],
@@ -1323,6 +1336,7 @@ def book_now(tour_id):
             bookform=bookform,
             item=item,
             tour_id=tour_id,
+            customfee=customfee,
             disabled_days=disabled_days)
     # if not logged in
     else:
@@ -1446,7 +1460,7 @@ def business(book_id):
             data_dict = request.form.to_dict()
             if itineraryForm.is_submitted() and 'Update Itinerary' in data_dict.values():
                 tour_date = request.form["tour_date"]
-                tour_date = datetime.strptime(tour_date, '%Y-%m-%d').strftime('%m/%d/%y')
+                tour_date = datetime.strptime(tour_date, '%Y-%m-%d').strftime('%m/%d/%Y')
 
                 tour_starttime = request.form["tour_starttime"]
                 tour_endtime = request.form["tour_endtime"]
@@ -1611,8 +1625,6 @@ def review(book_id):
 
 # TOUR GUIDE
 # Redirect user to dashboard if attempt to access root of /s/
-
-
 @app.route('/tg/')
 def sellerModeDir():
     return redirect(url_for('sellerDashboard'))
@@ -1823,6 +1835,76 @@ def login():
             verification_code_OK=request.args.get('verification_code_OK'),
             verification_code_denied=request.args.get('verification_code_denied'))
     # If user is ALREADY logged in
+    else:
+        return redirect(url_for('home'))
+
+
+# Login Page
+@app.route('/login/recover_account', methods=['POST', 'GET'])
+def forgot_password():
+    # Login form
+    form = auth.RecoverAccountForm()
+
+    # If user is NOT logged in
+    if not auth.is_auth():
+        # Do if POST response // Form submission
+        if form.validate_on_submit():
+            email = form.data['email']
+            print(email)
+            auth.send_confirmation_email('password_reset', email)
+            return render_template('auth/recover.html', form=form, accepted=True)
+
+        return render_template('auth/recover.html', form=form)
+    else:
+        return redirect(url_for('home'))
+
+
+# Login Page
+@app.route('/login/recover_account/reset', methods=['POST', 'GET'])
+def reset_password():
+    # Login form
+    form = auth.PasswordReset()
+
+    # If user is NOT logged in
+    if not auth.is_auth():
+        token = request.args.get('token')
+        # Do if POST response // Form submission
+        if form.validate_on_submit():
+            # TODO: Settle routing
+            if auth.verify_remove_token('password_reset', token):
+                new_password = form.data['password']
+
+                # Query to check token's existence
+                query_for_token = {
+                    "token": token,
+                    "type": 'password_reset'
+                }
+
+                # Database Ops: Get list of tokens with query
+                try:
+                    token_obj = [i for i in token_db.find(query_for_token)][0]
+                except IndexError:
+                    return False
+
+                query_for_user = {
+                    "_id": token_obj['uid']
+                }
+
+                # Database Ops: Get list of tokens with query
+                try:
+                    user_obj = [i for i in user_db.find(query_for_user)][0]
+                except IndexError:
+                    return False
+
+                payload = {
+                    'password': auth.generate_password_hash(new_password)
+                }
+
+                user_db.update_one(query_for_user, payload)
+
+            return render_template('auth/reset_password.html', form=form, accepted=False)
+
+        return render_template('auth/reset_password.html', form=form)
     else:
         return redirect(url_for('home'))
 

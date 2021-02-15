@@ -140,6 +140,7 @@
             </div>
 
             <!--Start of review cards-->
+            <div class="mt-5">
             <h1 class='title'>Reviews for this tour</h1>
             {% if item.tour_reviews %}
             {% for review in item.tour_reviews %}
@@ -168,9 +169,10 @@
             {% endfor %}
             {% else %}
             <div class="has-text-grey has-text-centered mt-5 mb-5">
-                This Tour does not have any reviews yet!
+                No reviews have been left for this tour yet.
             </div>
             {% endif %}
+            </div>
         </div>
     </section>
 {% endblock %}

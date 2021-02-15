@@ -24,104 +24,134 @@
     </section>
     <section class="section">
         <div class="container">
-            <table class="table is-fullwidth">
+            <table class="table is-fullwidth" id="ticket_list">
                 <tr class="is-vcentered">
                     <th>Ticket ID</th>
+                    <th style="display: none;">User ID</th>
                     <th>Support Type</th>
+                    <th style="display: none;">Link</th>
+                    <th style="display: none;">Content</th>
                     <th>Status</th>
                     <th>More Details</th>
                 </tr>
                 {% for ticket in tickets %}
                     <tr>
                         <td>{{ ticket['_id'] }}</td>
+                        <td style="display: none;">{{ ticket['uid'] }}</td>
                         <td>{{ ticket['support_type'] }}</td>
+                        <td style="display: none;">{{ ticket['link'] }}</td>
+                        <td style="display: none;">{{ ticket['content'] }}</td>
                         <td>{{ ticket['status'] }}</td>
                         <td>
-                            <span class="tag is-success is-light is-size-5 is-clickable" onclick="$('#TicketStatusModal').fadeIn('fast')">
+                            <span class="viewbtn tag is-success is-light is-size-5 is-clickable" onclick="$('#TicketStatusModal').fadeIn('fast'); return false;">
                                 View More
                             </span>
                         </td>
                     </tr>
-                    {#Start of modal#}
-                    <div class="modal is-clipped is-active" id="TicketStatusModal" style="display: none;">
-                        <div class="modal-background"></div>
-                        <div class="modal-content">
-                            <div class="box">
-                                <p class="is-size-5 has-text-weight-bold has-text-centered">User Information</p>
 
-                                <div class="field is-horizontal">
-                                    <div class="field-label is-normal">
-                                        <label class="label">ID:</label>
-                                    </div>
-                                    <div class="field-body">
-                                        <div class="field">
-                                            <p class="control">
-                                                <input class="input is-static" type="text" value="{{ person['_id'] }}" readonly>
-                                            </p>
-                                        </div>
+                {% endfor %}
+                {#Start of modal#}
+                <div class="modal is-clipped is-active" id="TicketStatusModal" style="display: none;">
+                    <div class="modal-background"></div>
+                    <div class="modal-content">
+                        <div class="box">
+                            <p class="is-size-5 has-text-weight-bold has-text-centered">User Information</p>
+
+                            <div class="field">
+                                <label class="label" for="tid">Ticket ID:</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="tid" readonly>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="uid">User ID:</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="uid" readonly>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="support_type">Support Type:</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="support_type" readonly>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="link">Link:</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="link" readonly>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="content">Content:</label>
+                                <div class="control">
+                                    <textarea class="textarea" id="content" rows="8"></textarea>
+                                </div>
+                            </div>
+
+                            <form class="form-horizontal" action="/admin/tickets" method="POST">
+                                {{ form.csrf_token }}
+                                <div class="field">
+                                    <div class="control">
+                                        <input class="input" type="hidden" id="id" readonly>
                                     </div>
                                 </div>
-
-                                <div class="field is-horizontal">
-                                    <div class="field-label is-normal">
-                                        <label class="label">User Name:</label>
-                                    </div>
-                                    <div class="field-body">
-                                        <div class="field">
-                                            <p class="control">
-                                                <input class="input is-static" type="text" value="{{ person['name'] }}" readonly>
-                                            </p>
-                                        </div>
+                                <div class="field">
+                                    <label class="label" for="status">Status:</label>
+                                    <div class="control">
+                                        {{ form.status(id="status", type="select", class="input") }}
+                                        <ul>
+                                            {% for error in form.status.errors %}
+                                                <li class="has-text-danger"> {{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
                                     </div>
                                 </div>
+                            </form>
 
-                                <div class="field is-horizontal">
-                                    <div class="field-label is-normal">
-                                        <label class="label">Email:</label>
-                                    </div>
-                                    <div class="field-body">
-                                        <div class="field">
-                                            <p class="control">
-                                                <input class="input is-static" type="text" value="{{ person['email'] }}" readonly>
-                                            </p>
-                                        </div>
-                                    </div>
+                            <div class="field is-grouped is-grouped-centered mt-5 has-text-centered">
+                                <div class="control">
+                                    <button class="button is-danger is-light" id="closebtn" onclick="$('#TicketStatusModal').fadeOut('fast');">
+                                        Cancel
+                                    </button>
                                 </div>
-                                <form class="form-horizontal" action="/admin/tickets" method="POST">
-                                    {{ form.csrf_token }}
-                                    <div class="field">
-                                        <label class="label" for="status">Status:</label>
-                                        <div class="control">
-                                            {{ form.status(id="status", type="select", class="input") }}
-                                        </div>
+                                <form id="TicketStatus" method="POST">
+                                    <div class="control">
+                                        <input type="submit" class="button is-success" id="change-status" name="change-status" value="Update Status"
+                                               onclick="$('#TicketStatusModal').fadeOut('fast');">
                                     </div>
                                 </form>
-                                <div class="field is-grouped is-grouped-centered mt-5 has-text-centered">
-                                    <div class="control">
-                                        <button class="button is-danger is-light" id="closebtn" onclick="$('#TicketStatusModal').fadeOut('fast');">
-                                            Cancel
-                                        </button>
-                                    </div>
-                                    <form id="ChangePassword" method="POST">
-                                        <div class="control">
-                                            <input type="submit" class="button is-success" id="change-status" name="change-status" value="Update Status"
-                                                   onclick="$('#TicketStatusModal').fadeOut('fast');">
-                                        </div>
-                                    </form>
-                                </div>
-
                             </div>
                         </div>
-                        <button class="modal-close is-large" aria-label="close" onclick="$('#TicketStatusModal').fadeOut('fast');"></button>
                     </div>
-                {% endfor %}
+                    <button class="modal-close is-large" aria-label="close" onclick="$('#TicketStatusModal').fadeOut('fast');"></button>
+                </div>
             </table>
         </div>
     </section>
-    {% if form.errors %}
-        <script>
-            $('#TicketStatusModal').fadeIn('fast');
-        </script>
-    {% endif %}
-    <script defer src="/js/admin.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#ticket_list").on('click', '.viewbtn', function () {
+                // get the current row
+                var currentRow = $(this).closest("tr");
+                var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+                var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD value
+                var col3 = currentRow.find("td:eq(2)").text(); // get current row 3rd TD value
+                var col4 = currentRow.find("td:eq(3)").text(); // get current row 4th TD value
+                var col5 = currentRow.find("td:eq(4)").text(); // get current row 5th TD value
+                var col6 = currentRow.find("td:eq(5)").text(); // get current row 6th TD value
+
+                $('#id').val(col1);
+                $('#tid').val(col1);
+                $('#uid').val(col2);
+                $('#support_type').val(col3);
+                $('#link').val(col4);
+                $('#content').val(col5);
+                $('#status').val(col6);
+            });
+        });
+    </script>
 {% endblock %}

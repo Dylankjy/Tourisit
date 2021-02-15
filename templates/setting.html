@@ -10,151 +10,148 @@
 
 {% block content %}>
 
-    <section class="section has-background-white">
+    <section class="section has-background-white" style="width:70%; margin-left: 15%;">
         <div class="container">
-            <h1 class="is-size-2 has-text-weight-bold">My Settings</h1>
+            <h2 class="is-size-3 has-text-weight-bold">Account Settings</h2>
+            <h6>Change your profile and account settings</h6>
         </div>
     </section>
 
     <div class="container">
         <div class="columns">
-            <!-- Side Profile Page -->
-            <div class="column is-one-fifth">
-                <button class="button is-fullwidth is-black">Account Info</button>
-            </div>
             <!-- Content -->
-            <div class="column">
-                <!-- Update account settings -->
-                <h1 class="is-size-4 has-text-left has-text-weight-bold">Account Details</h1>
-                <form class="form-horizontal" action="/me/settings" method="POST" enctype="multipart/form-data">
-                    {{ form.csrf_token }}
-                    <fieldset>
-                        <div class="field">
-                            <label class="label" for="account_mode">Account Mode:</label>
-                            <div class="umode control">
-                                {{ form.account_mode(id="account_mode", type="select", class="input") }}
-                                <ul>
-                                    {% for error in form.account_mode.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
+            <div class="box" style="width:75%; margin-left: 12.5%;">
+                <div class="column">
+                    <!-- Update account settings -->
+                    <h1 class="is-size-4 has-text-left has-text-weight-bold pb-4">General Info</h1>
+                    <form class="form-horizontal" action="/me/settings" method="POST" enctype="multipart/form-data">
+                        {{ form.csrf_token }}
+                        <fieldset>
+                            <div class="field">
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="account_mode">Account Mode:</label>
+                                <div class="umode select">
+                                    {{ form.account_mode(id="account_mode", type="select", class="formfield input") }}
+                                    <ul>
+                                        {% for error in form.account_mode.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="field">
-                            <label class="label" for="name">Name:</label>
-                            <div class="control">
-                                {{ form.name(id="name", type="text", class="input", placeholder="", value=user.name) }}
-                                <ul>
-                                    {% for error in form.name.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
+                            <div class="field">
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="name">Name:</label>
+                                <div class="control">
+                                    {{ form.name(id="name", type="text", class="formfield input", value=user.name) }}
+                                    <ul>
+                                        {% for error in form.name.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class='field'>
-                            <label class="label" for="name">Profile Image: </label>
-                            <div class="file has-name is-boxed">
-                                <label class="file-label">
-                                    {{ form.profile_img(class="file-input", id='uploadImg', type="file", onchange="if
+                            <div class='field'>
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="name">Profile Image: </label>
+                                <div class="file has-name is-boxed">
+                                    <label class="file-label">
+                                        {{ form.profile_img(class="formfield file-input", id='uploadImg', type="file", onchange="if
                             (this.files.length > 0) document.getElementById('filename-profile-img').innerHTML =
                             this.files[0].name;") }}
-                                    <span class="file-cta">
+                                        <span class="file-cta">
                                 <span class="file-icon">
                                     <i class="fas fa-upload"></i>
                                 </span>
-                                <span class="file-label">
+                                <span class="file-label has-text-weight-medium has-text-grey">
                                     Upload an Image...
                                 </span>
                             </span>
-                                    <span class="file-name" id='filename-profile-img'>
+                                        <span class="file-name" id='filename-profile-img'>
                             </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            {% for error in form.profile_img.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                            {% endfor %}
+
+                            <div>
+                                <img id="currentImg"/>
+                            </div>
+
+                            <div class="field">
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="password">Password:
+                                    <input class="button is-primary" type="button" id="openbtn" name="openbtn" value="Change Password"
+                                           onclick="$('#ChangePasswordModal').fadeIn('fast'); return false;">
                                 </label>
                             </div>
-                        </div>
 
-                        {% for error in form.profile_img.errors %}
-                            <li class="has-text-danger"> {{ error }}</li>
-                        {% endfor %}
+                            <div class="field">
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="email">Email:</label>
+                                <div class="control">
+                                    {{ form.email(id="email", type="text", class="formfield input", value=user.email) }}
+                                    <ul>
+                                        {% for error in form.email.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
 
-                        <div>
-                            <img id="currentImg"/>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" for="password">Password:
-                                <input class="button is-primary" type="button" id="openbtn" name="openbtn" value="Change Password"
-                                       onclick="$('#ChangePasswordModal').fadeIn('fast'); return false;">
-                            </label>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" for="email">Email Address:</label>
-                            <div class="control">
-                                {{ form.email(id="email", type="text", class="input", placeholder="", value=user.email) }}
-                                <ul>
-                                    {% for error in form.email.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
+                            <div class="field">
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="phone_number">Phone Number:</label>
+                                <div class="control">
+                                    {{ form.phone_number(id="phone_number", type="text", class="formfield input", value=user.phone_number) }}
+                                    <ul>
+                                        {% for error in form.phone_number.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="field">
-                            <label class="label" for="phone_number">Phone Number:</label>
-                            <div class="control">
-                                {{ form.phone_number(id="phone_number", type="text", class="input", placeholder="", value=user.phone_number) }}
-                                <ul>
-                                    {% for error in form.phone_number.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
+                            <h1 class="is-size-4 has-text-left has-text-weight-bold pt-6 pb-4">Social Networks</h1>
+                            <div class="field">
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="name">Facebook (Optional)</label>
+                                <div class="control">
+                                    {{ form.fb(id="fb", type="text", class="formfield input", placeholder="e.g. www.facebook.com/Tourisit", value=user.socialmedia["fb"]) }}
+                                    <ul>
+                                        {% for error in form.fb.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <h1 class="is-size-4 has-text-left has-text-weight-bold pt-3 pb-2">Social Networks (optional)</h1>
-                        <div class="field">
-                            <label class="label" for="name">Facebook</label>
-                            <div class="control">
-                                {{ form.fb(id="fb", type="text", class="input", placeholder="e.g. www.facebook.com/Tourisit", value=user.socialmedia["fb"]) }}
-                                <ul>
-                                    {% for error in form.fb.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
+                            <div class="field">
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="insta">Instagram (Optional)</label>
+                                <div class="control">
+                                    {{ form.insta(id="insta", type="text", class="formfield input", placeholder="e.g. www.instagram.com/Tourisit", value=user.socialmedia["insta"]) }}
+                                    <ul>
+                                        {% for error in form.insta.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="field">
-                            <label class="label" for="insta">Instagram</label>
-                            <div class="control">
-                                {{ form.insta(id="insta", type="text", class="input", placeholder="e.g. www.instagram.com/Tourisit", value=user.socialmedia["insta"]) }}
-                                <ul>
-                                    {% for error in form.insta.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
+                            <div class="field">
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="linkedin">LinkedIn (Optional)</label>
+                                <div class="control">
+                                    {{ form.linkedin(id="linkedin", type="text", class="formfield input", placeholder="e.g. www.linkedin.com/in/Tourisit", value=user.socialmedia["linkedin"]) }}
+                                    <ul>
+                                        {% for error in form.linkedin.errors %}
+                                            <li class="has-text-danger"> {{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="field">
-                            <label class="label" for="linkedin">LinkedIn</label>
-                            <div class="control">
-                                {{ form.linkedin(id="linkedin", type="text", class="input", placeholder="e.g. www.linkedin.com/in/Tourisit", value=user.socialmedia["linkedin"]) }}
-                                <ul>
-                                    {% for error in form.linkedin.errors %}
-                                        <li class="has-text-danger"> {{ error }}</li>
-                                    {% endfor %}
-                                </ul>
+                            <div class="field is-pulled-right">
+                                <div class="control">
+                                    <input type='submit' value='Save Changes' id="submit-setting" name="submit-setting"
+                                           class="button is-success is-medium" disabled>
+                                </div>
                             </div>
-                        </div>
-                        <div class="field is-pulled-right">
-                            <label class="label" for="submit-setting"></label>
-                            <div class="control">
-                                <input type='submit' value='Update!' id="submit-setting" name="submit-setting"
-                                       class="button is-success">
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -169,7 +166,7 @@
                 <form class="form-horizontal" action="/me/settings" method="POST">
                     {{ form1.csrf_token }}
                     <div class="field">
-                        <label class="label" for="old_password">Current Password:</label>
+                        <label class="label has-text-weight-medium has-text-grey-dark" for="old_password">Current Password:</label>
                         <div class="control">
                             {{ form1.old_password(id="old_password", type="password", class="input") }}
                             <ul>
@@ -180,7 +177,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label" for="password">New Password:</label>
+                        <label class="label has-text-weight-medium has-text-grey-dark" for="password">New Password:</label>
                         <div class="control">
                             {{ form1.password(id="password", type="password", class="input") }}
                             <ul>
@@ -191,7 +188,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label" for="confirm">Confirm New Password:</label>
+                        <label class="label has-text-weight-medium has-text-grey-dark" for="confirm">Confirm New Password:</label>
                         <div class="control">
                             {{ form1.confirm(id="confirm", type="password", class="input") }}
                             <ul>
@@ -220,6 +217,15 @@
         </div>
         <button class="modal-close is-large" aria-label="close" onclick="$('#ChangePasswordModal').fadeOut('fast');"></button>
     </div>
+    <script>
+        var somethingChanged = false;
+        $(document).ready(function () {
+            $('.formfield').change(function () {
+                somethingChanged = true;
+                $('#submit-setting').prop("disabled", false);
+            });
+        });
+    </script>
     {% if form1.errors %}
         <script>
             $('#ChangePasswordModal').fadeIn('fast');
