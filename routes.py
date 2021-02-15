@@ -27,6 +27,8 @@ from models.Support import SupportForm, Support, StatusForm
 from models.Transaction import Transaction
 from models.User import BioForm, PasswordForm, UserForm
 
+import stripe
+
 # For Images
 buffered = BytesIO()
 
