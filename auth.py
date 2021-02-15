@@ -391,7 +391,7 @@ def send_confirmation_email(email_type, user_email):
             (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
         message["To"] = user_email
 
-        code = 'https://tourisit.hiy.sh/login/recovery_account/reset&token=' + \
+        code = 'https://tourisit.hiy.sh/login/recover_account/reset?token=' + \
                add_token("password_reset", uid)
 
         # Build email HTML from 2 parts. Format with URL
