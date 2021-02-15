@@ -1198,7 +1198,7 @@ def bookings(book_id):
                 new_revisions = booking['revisions'] - 1
                 if new_revisions <= 0:
                     new_revisions = 0
-                    new_revisionfee = booking['book_charges']['revisionfee'] + 0.025*(tour['tour_price'])
+                    new_revisionfee = booking['book_charges']['revisionfee'] + 0.025 * (tour['tour_price'])
                 else:
                     new_revisionfee = booking['book_charges']['revisionfee']
                 update_booking = {
@@ -1415,31 +1415,33 @@ def checkout(book_id):
 @app.route('/s/businesses')
 def all_businesses():
     # try:
-        # Get login status using accessor argument
-        result = auth.is_auth(True)
-        # if not logged in
-        if not result:
-            return redirect(url_for('login', denied_access=True))
-        # if logged in
-        else:
-            tg_uid = result['_id']
-            booking_list = list(bookings_db.find({'tg_uid': tg_uid}))
-            listings = []
-            # [for i in bookings_db.find(
-            #     {'tg_uid': tg_uid})]
+    # Get login status using accessor argument
+    result = auth.is_auth(True)
+    # if not logged in
+    if not result:
+        return redirect(url_for('login', denied_access=True))
+    # if logged in
+    else:
+        tg_uid = result['_id']
+        booking_list = list(bookings_db.find({'tg_uid': tg_uid}))
+        listings = []
+        # [for i in bookings_db.find(
+        #     {'tg_uid': tg_uid})]
 
-            for item in booking_list:
-                listings.append(shop_db.find_one({'_id': item['listing_id']}))
-            booking_list.reverse()
-            listings.reverse()
-            return render_template(
-                'tourGuides/allBusinesses.html',
-                booking_list=booking_list,
-                listings=listings,
-                loggedin=True,
-                user=result)
-    # except BaseException:
-    #     return 'Error trying to render'
+        for item in booking_list:
+            listings.append(shop_db.find_one({'_id': item['listing_id']}))
+        booking_list.reverse()
+        listings.reverse()
+        return render_template(
+            'tourGuides/allBusinesses.html',
+            booking_list=booking_list,
+            listings=listings,
+            loggedin=True,
+            user=result)
+
+
+# except BaseException:
+#     return 'Error trying to render'
 
 
 # TOUR GUIDES
