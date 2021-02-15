@@ -467,8 +467,7 @@
                             <!--START: Input field-->
                             <div class="field has-addons">
                                 <div class="control is-expanded">
-                                    <form method="POST" style="width: 100%;"
-                                          action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
+                                    <form method="POST" style="width: 100%;" action="?gotoChat=true">
                                         {{ chat_form.csrf_token }}
                                         <!-- <input class="input is-fullwidth" type="text" placeholder="Enter your message.." /> -->
                                         {{ chat_form.message(id="message", type="text", class="input is-fullwidth",

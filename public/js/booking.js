@@ -12,6 +12,14 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " is-active";
 }
 
+const urlParams = new URLSearchParams(window.location.search);
+const arg = urlParams.get('gotoChat');
+console.log(arg)
+
+if (arg==='true') {
+    openTab(event, 'Chat')
+}
+
 function editItinerary() {
     document.getElementById("editItineraryButtons").classList.remove("is-hidden");
     document.getElementById("ItineraryForm").classList.remove("is-hidden");
