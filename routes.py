@@ -1175,11 +1175,10 @@ def bookings(book_id):
         chat_exist = chats_db.find({"": 101}).count() > 0
         if request.method == 'POST':
             if chat_form.validate_on_submit():
-                print(
-                    msg.add_message(
-                        booking['book_chat'],
-                        auth.get_sid(),
-                        chat_form.data["message"]))
+                msg.add_message(
+                    booking['book_chat'],
+                    auth.get_sid(),
+                    chat_form.data["message"])
             # submit button data as a dict
             button_data = request.form.to_dict()
             if 'Submit your Requirements' in button_data.values():
@@ -1383,14 +1382,21 @@ def checkout(book_id):
 
                 else:
                     print("Error occurred while trying to pay.")
-
+        if booking['process_step'] == 5:
+            customize = 0
+            amount = booking['book_charges']['baseprice']
+        elif booking['process_step'] == 0:
+            customize = 1
+            amount = round(0.1 * float(tour['tour_price']), 2)
         return render_template(
             'customer/checkout.html',
             loggedin=True,
             user=result,
             booking=booking,
             form=form,
-            book_id=book_id)
+            book_id=book_id,
+            customize=customize,
+            amount=amount)
     # if not logged in
     else:
         return redirect(url_for('login', denied_access=True))
@@ -1404,7 +1410,7 @@ def checkout(book_id):
 # My Businesses: Access all gigs
 @app.route('/s/businesses')
 def all_businesses():
-    try:
+    # try:
         # Get login status using accessor argument
         result = auth.is_auth(True)
         # if not logged in
@@ -1428,8 +1434,6 @@ def all_businesses():
                 listings=listings,
                 loggedin=True,
                 user=result)
-    except RuntimeError as e:
-        print(e)
     # except BaseException:
     #     return 'Error trying to render'
 
@@ -1491,6 +1495,7 @@ def business(book_id):
                 bookings_db.update_one(booking, updated)
             elif chat_form.validate_on_submit():
                 # print(chat_form.data["message"])
+
                 print(
                     msg.add_message(
                         booking['book_chat'],
@@ -1603,11 +1608,14 @@ def review(book_id):
                     elif booking['process_step'] == 7:
                         if review_type == 'tour':
                             new_step = 7.1
+                            update_booking = {"$set": {'process_step': new_step}}
+                            bookings_db.update_one(booking, update_booking)
+                            return redirect(url_for('bookings', book_id=book_id))
                         elif review_type == 'customer':
                             new_step = 7.2
-                    update_booking = {"$set": {'process_step': new_step}}
-                    bookings_db.update_one(booking, update_booking)
-                    return redirect(url_for('bookings', book_id=book_id))
+                            update_booking = {"$set": {'process_step': new_step}}
+                            bookings_db.update_one(booking, update_booking)
+                            return redirect(url_for('business', book_id=book_id))
 
             return render_template(
                 'customer/review.html',
