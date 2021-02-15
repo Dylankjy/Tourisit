@@ -14,8 +14,8 @@
 {% block content %}
 <section class="section has-background-white is-medium">
     <div class="container">
-        <h1 class="is-size-1 has-text-weight-bold mt-6">Your bookings</h1>
-        <h3 class="subtitle">List of all bookings you have made</h3>
+        <h1 class="is-size-1 has-text-weight-bold mt-6">Your Bookings</h1>
+        <h3 class="subtitle">List of all bookings you have made.</h3>
     </div>
 </section>
 
@@ -26,8 +26,10 @@
                 <div class="column">
                     <p class="subtitle">Upcoming Tours</p>
                     <table class='table is-striped is-fullwidth'>
+                        {% set content = 0 %}
                         {% for item in booking_list %}
                         {% if item.process_step == 6 %}
+                        {% set content = 1 %}
                         <tr>
                             <td>{{ item.book_date }}</td>
                             <td>
@@ -36,6 +38,9 @@
                         </tr>
                         {% endif %}
                         {% endfor %}
+                        {% if content == 0%}
+                        <p>no upcomong tour lmao</p>
+                        {% endif %}
                     </table>
                 </div>
                 <div class="divider is-vertical is-right"></div>
@@ -69,7 +74,7 @@
 </section>
 
 <!--START: Dropdown-->
-<section class='section'>
+<!-- <section class='section'>
     <div class='container has-text-centered'>
         <div class="control">
             <div class="select">
@@ -80,7 +85,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 <!--END: Dropdown-->
 
 {# {% if 1 <= item.process_step <=4 %}#} {# <span class="tag is-info is-light mb-4">Planning</span>#}

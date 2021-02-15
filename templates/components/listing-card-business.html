@@ -1,0 +1,26 @@
+<a class="listing-card-a mb-5" href="/s/businesses/{{ item['_id'] }}">
+    <div class="box listing-card p-6" style="background-image: url('data:image/jpeg;base64, {{ list.tour_img }}')">
+        <div class="listing-card-blur"></div>
+        {% if 1 <= item.process_step <= 4 %}
+            <span class="tag is-info is-light mb-4">Planning</span>
+        {% elif 4 < item.process_step < 7 %}
+            <span class="tag is-success is-light mb-4">Confirmed</span>
+        {% elif item.process_step >= 7 %}
+            <span class="tag is-warning is-light mb-4">Completed</span>
+        {% endif %}
+        <div class="listing-author">
+            <div class="profile-img"
+                style="background-image: url('data:image/jpeg;base64, {{ item.cust_uid | user_pfp }}')">
+            </div>
+            <div class="ml-2 has-text-light">
+                <p class="has-text-white" href="/users/{{ item.cust_uid }}">
+                    <b>{{ item.cust_uid| user_name }}</b>
+                </p>
+                <span>is buying:</span>
+            </div>
+        </div>
+        <div class="m-2">
+            <h1 class='title is-2 has-text-white'>{{ list.tour_name }}</h1>
+        </div>
+    </div>
+</a>

@@ -11,114 +11,113 @@
 
 
 {% block content %}
-    <section class='hero is-medium is-black' id='bookings-hero'>
-        <div class='hero-body'>
+<section class="section has-background-white is-medium">
+    <div class="container">
+        <h1 class="is-size-1 has-text-weight-bold mt-6">Your Business</h1>
+        <h3 class="subtitle">List of all jobs you have.</h3>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="box">
+            <div class="columns">
+                <div class="column is-half">
+                    <p class="subtitle">Upcoming Tours</p>
+                    <table class='table is-striped is-fullwidth'>
+                        {% for item in booking_list %}
+                            {% if item.process_step == 6 %}
+                                <tr>
+                                    <td>{{ item.book_date }}</td>
+                                    <td><a href="">{{ listings[loop.index0].tour_name }}</a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="divider is-vertical is-right"></div>
+                <div class="column is-half">
+                    <p class="subtitle">Required Action</p>
+                    <table class='table is-striped is-fullwidth'>
+                        {% for item in booking_list %}
+                            {% if item.process_step in (2, 4, 7) %}
+                                <tr>
+                                    <td><b>{{ listings[loop.index0].tour_name }}</b></td>
+                                    {% if item.process_step == 2 or item.process_step == 4 %}
+                                        <td><a href="">Plan Custom Package</a></td>
+                                    {% elif item.process_step == 7 %}
+                                        <td><a href="">Leave Feedback</a></td>
+                                    {% endif %}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!--START: Dropdown-->
+<!-- <section class='section'>
+    <div class='container has-text-centered'>
+        <div class="control">
+            <div class="select">
+                <select>
+                    <option>Current Bookings</option>
+                    <option>Completed</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</section> -->
+<!--END: Dropdown-->
+
+        <section class="section">
             <div class="container">
-                <h1 class="title is-size-1 has-text-weight-bold">
-                    Your Business
-                </h1>
-            </div>
-        </div>
-    </section>
+                {% if booking_list == [] %}
+                <div>Nothing to show here. Start your first tour with Tourisit today!</div>
+                {% else %}
+                {% for item in booking_list %}
+                {% set list = listings[loop.index0] %}
 
-    <section class="section">
-        <div class="container">
-            <div class="box">
-                <div class="columns">
-                    <div class="column is-half">
-                        <p class="subtitle">Upcoming Tours</p>
-                        <table class='table is-striped is-fullwidth'>
-                            {% for item in booking_list %}
-                                {% if item.process_step == 6 %}
-                                    <tr>
-                                        <td>{{ item.book_date }}</td>
-                                        <td><a href="">{{ listings[loop.index0].tour_name }}</a></td>
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </table>
-                    </div>
-                    <div class="divider is-vertical is-right"></div>
-                    <div class="column is-half">
-                        <p class="subtitle">Required Action</p>
-                        <table class='table is-striped is-fullwidth'>
-                            {% for item in booking_list %}
-                                {% if item.process_step in (2, 4, 7) %}
-                                    <tr>
-                                        <td><b>{{ listings[loop.index0].tour_name }}</b></td>
-                                        {% if item.process_step == 2 or item.process_step == 4 %}
-                                            <td><a href="">Plan Custom Package</a></td>
-                                        {% elif item.process_step == 7 %}
-                                            <td><a href="">Leave Feedback</a></td>
-                                        {% endif %}
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
+                {% include 'components/listing-card-business.html' %}
 
-    <!--START: Dropdown-->
-    <section class='section'>
-        <div class='container has-text-centered'>
-            <div class="control">
-                <div class="select">
-                    <select>
-                        <option>Ongoing Jobs</option>
-                        <option>Completed</option>
-                    </select>
-                </div>
+                {% endfor %}
+                {% endif %}
             </div>
-        </div>
-    </section>
-    <!--END: Dropdown-->
-    <section>
-        {% if booking_list == [] %}
-            <div>You don't have any jobs yet.</div>
-        {% else %}
-            {% for item in booking_list %}
-                {% set listing = listings[loop.index0] %}
-                <!--START: Card -->
-                <div class='container mt-5'>
-                    <div class='box p-5'>
-                        <a href="/s/businesses/{{ item['_id'] }}">
-                            <div class="columns is-vcentered">
-                                <div class="column">
-                                    <div class="ml-4">
-                                        {% if 1 <= item.process_step <= 4 %}
-                                            <span class="tag is-info is-light mb-4">Planning</span>
-                                        {% elif 4 < item.process_step < 7 %}
-                                            <span class="tag is-success is-light mb-4">Confirmed</span>
-                                        {% elif item.process_step >= 7 %}
-                                            <span class="tag is-warning is-light mb-4">Completed</span>
-                                        {% endif %}
-                                        <div class="listing-author">
-                                            <div class="profile-img"
-                                                 style="background-image: url('data:image/jpeg;base64, {{ listing.tg_uid | user_pfp }}')">
-                                            </div>
-                                            <div class="ml-2"><b>{{ item.cust_uid| user_name }}</b>
-                                                <span>is buying:</span></div>
-                                        </div>
-                                        <h1 class='title'>{{ listing.tour_name }}</h1>
-                                        <p class="subtitle truncate is-size-6 has-text-grey">{{ listing.tour_desc }}</p>
-                                    </div>
-                                </div>
-                                <div class="column is-two-fifths">
-                                    <div class="box listing-img"
-                                         style="background-image: url('data:image/jpeg;base64, {{ listing.tour_img }}');"></div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <!--END: Card-->
-            {% endfor %}
-        {% endif %}
-    </section>
+        </section>
 
+        <!--START: Scroll to top button-->
+        <button onclick="topFunction()" id="TopBtn" title="Go to top">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+        <!--END: Scroll to top button-->
+
+        <!--Scroll to top button's js-->
+        <script>
+            //Get the button:
+            mybutton = document.getElementById("TopBtn");
+
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function () {
+                scrollFunction()
+            };
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 1200 || document.documentElement.scrollTop > 1200) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        </script>
 
 {% endblock %}
