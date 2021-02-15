@@ -65,7 +65,7 @@ support_db = client['Support']
 transaction_db = client['Transactions']
 reviews_db = client['Reviews']
 chats_db = client['Chats']
-token_db = client['Token']
+token_db = client['Tokens']
 dashboard_db = client['Dashboard']
 
 
@@ -1878,13 +1878,16 @@ def reset_password():
     # Login form
     form = auth.PasswordReset()
 
+    token = request.args.get('token')
+
+    if token is None:
+        return redirect(url_for('login'))
+
     # If user is NOT logged in
     if not auth.is_auth():
-        token = request.args.get('token')
         # Do if POST response // Form submission
         if form.validate_on_submit():
-            # TODO: Settle routing
-            if auth.verify_remove_token('password_reset', token):
+            if auth.verify_remove_token('password_reset', token, True):
                 new_password = form.data['password']
 
                 # Query to check token's existence
@@ -1896,8 +1899,9 @@ def reset_password():
                 # Database Ops: Get list of tokens with query
                 try:
                     token_obj = [i for i in token_db.find(query_for_token)][0]
+                    print(token_obj)
                 except IndexError:
-                    return False
+                    return render_template('auth/reset_password.html', form=form, accepted=False)
 
                 query_for_user = {
                     "_id": token_obj['uid']
@@ -1907,13 +1911,17 @@ def reset_password():
                 try:
                     user_obj = [i for i in user_db.find(query_for_user)][0]
                 except IndexError:
-                    return False
+                    return render_template('auth/reset_password.html', form=form, accepted=False)
 
                 payload = {
-                    'password': auth.generate_password_hash(new_password)
+                    '$set': {
+                        'password': auth.generate_password_hash(new_password)
+                    }
                 }
 
-                user_db.update_one(query_for_user, payload)
+                if auth.verify_remove_token('password_reset', token):
+                    user_db.update_one(query_for_user, payload)
+                    return render_template('auth/reset_password.html', form=form, accepted=True)
 
             return render_template('auth/reset_password.html', form=form, accepted=False)
 
