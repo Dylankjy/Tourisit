@@ -1,0 +1,22 @@
+<article class="media box">
+    <div class="media-left">
+        <div class="profile-img"
+        style="background-image: url('data:image/jpeg;base64, {{ review['reviewer']|user_pfp }}');"></div>
+    </div>
+    <div class="media-content">
+        <div class="content">
+            <p>
+                <strong class="pr-5">{{ review['reviewer']| user_name }}</strong>
+                {% set stars = review.stars | int %}
+                {% for i in range(stars)%}
+                <span class="fas fa-star checked"></span>
+                {% endfor %}
+                {% for i in range(5 - stars)%}
+                <span class="fas fa-star"></span>
+                {% endfor %}
+                <br>
+                {{review.text}}
+            </p>
+        </div>
+    </div>
+</article>

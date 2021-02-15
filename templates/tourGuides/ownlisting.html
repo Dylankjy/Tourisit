@@ -16,7 +16,7 @@
         <div class="container">
 
             <!-- START: Horizontal Card -->
-            {% if listings == None %}
+            {% if listings | length == 0 %}
                 <h1 class="'has-text-dark">Nothing to show here.</h1>
             {% else %}
                 {% for item in listings|reverse %}
