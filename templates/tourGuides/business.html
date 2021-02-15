@@ -138,7 +138,7 @@
             <!--END: More options dropdown-->
             <div class="listing-author">
                 <!--dynamic tg photo-->
-                <div>By
+                <div>Customer: 
                     <div class="profile-img mt-2"
                          style="background-image: url('data:image/jpeg;base64, {{ booking.cust_uid | user_pfp }}');"></div>
                     <b>{{ booking.cust_uid| user_name }}</b></div>
@@ -233,7 +233,7 @@
                 <div class="has-text-centered m-5 is-size-5">
                     Next Step:
                     {% if process_step == 2 or process_step == 4 %}
-                        <span class="tag is-warning is-light is-size-5 is-clickable" onclick="openTab(event,'Details')">
+                        <span class="tag is-warning is-light is-size-5 is-clickable" id="PlanCustom_button">
                 Plan Custom Package</span>
                     {% elif process_step == 7  or process_step == 7.1 %}
                         <span class="tag is-warning is-light is-size-5 is-clickable"><a href="/review/{{ booking._id }}">
@@ -303,6 +303,26 @@
                 </div>
             </div>
             <!--END: About-->
+            <!--START: Requirements-->
+            <div class="section">
+                <div class="container">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title has-background-grey-lighter">
+                                Custom Requirements
+                            </p>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <p>
+                                    {{booking.customer_req['requirements']}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END: Requirements-->
             <br>
             {% if process_step == 4 %}
             <!--START: Customer Revision request-->
@@ -331,7 +351,7 @@
         {% endif %}
             <br>
             <!--START: Card 3-->
-            <div class='container mt-5'>
+            <div class='container mt-5' id="EditPlan_div">
                 <div class='box p-5'>
                     <div class="has-text-centered">
                         <span class='is-size-3 mr-1'><b>Tour Plan</b></span>

@@ -1267,6 +1267,7 @@ def book_now(tour_id):
         # Return the days that are not inside the listing days (Get the days that are not available)
         disabled_days = list(set(total_days) - set(tour_days_numbers))
 
+        customfee = round(0.1 * float(item['tour_price']), 2)
         if request.method == 'POST':
             button_data = request.form.to_dict()
             if 'csrf_token' in button_data:
@@ -1294,7 +1295,6 @@ def book_now(tour_id):
                     return redirect(url_for('checkout', book_id=book_id))
 
             elif 'CustomiseTour' in button_data.values():
-                customfee = round(0.1 * float(item['tour_price']), 2)
                 chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], True)
                 booking = Booking(
                     tg_uid=item['tg_uid'],
@@ -1330,6 +1330,7 @@ def book_now(tour_id):
             bookform=bookform,
             item=item,
             tour_id=tour_id,
+            customfee=customfee,
             disabled_days=disabled_days)
     # if not logged in
     else:
@@ -1453,7 +1454,7 @@ def business(book_id):
             data_dict = request.form.to_dict()
             if itineraryForm.is_submitted() and 'Update Itinerary' in data_dict.values():
                 tour_date = request.form["tour_date"]
-                tour_date = datetime.strptime(tour_date, '%Y-%m-%d').strftime('%m/%d/%y')
+                tour_date = datetime.strptime(tour_date, '%Y-%m-%d').strftime('%m/%d/%Y')
 
                 tour_starttime = request.form["tour_starttime"]
                 tour_endtime = request.form["tour_endtime"]

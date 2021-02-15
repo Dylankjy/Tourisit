@@ -90,4 +90,68 @@
         {% include 'components/listing-card.html' %}
     </div>
 
+    <!--Reviews as a Customer-->
+    <div>
+    <p>{{person.name}} as a Customer</p>
+    {% if person.user_reviews %}
+    {% for review in person.user_reviews %}
+    <article class="media box">
+        <div class="media-left">
+            <div class="profile-img"
+            style="background-image: url('data:image/jpeg;base64, {{ review['reviewer']|user_pfp }}');"></div>
+        </div>
+        <div class="media-content">
+            <div class="content">
+                <p>
+                    <strong class="pr-5">{{ review['reviewer']| user_name }}</strong>
+                    {% set stars = review.stars | int %}
+                    {% for i in range(stars)%}
+                    <span class="fas fa-star checked"></span>
+                    {% endfor %}
+                    {% for i in range(5 - stars)%}
+                    <span class="fas fa-star"></span>
+                    {% endfor %}
+                    <br>
+                    {{review.text}}
+                </p>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+    {% endif %}
+    </div>
+
+    <!--Reviews as a tour guide-->
+    <div>
+        <p>{{person.name}} as a Tour Guide</p>
+        {% for item in item_list %}
+        {% if item.tour_reviews %}
+        {% for review in item.tour_reviews %}
+        <article class="media box">
+            <div class="media-left">
+                <div class="profile-img"
+                style="background-image: url('data:image/jpeg;base64, {{ review['reviewer']|user_pfp }}');"></div>
+            </div>
+            <div class="media-content">
+                <div class="content">
+                    <p>
+                        <strong class="pr-5">{{ review['reviewer']| user_name }}</strong>
+                        {% set stars = review.stars | int %}
+                        {% for i in range(stars)%}
+                        <span class="fas fa-star checked"></span>
+                        {% endfor %}
+                        {% for i in range(5 - stars)%}
+                        <span class="fas fa-star"></span>
+                        {% endfor %}
+                        <br>
+                        {{review.text}}
+                    </p>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </div>
+
 {% endblock %}
