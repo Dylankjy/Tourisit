@@ -1063,7 +1063,7 @@ def chatwithGuide(tour_id):
         browsing_object_id = ObjectId(browsing_user_id)
         tg_object_id = ObjectId(tour_guide_id)
         # Check if there are any existing UwU chats between these 2 people
-        query = {'participants': {"$in": [browsing_object_id, tg_object_id]}, 'chat_type': 'UwU'}
+        query = {'participants': {"$all": [browsing_object_id, tg_object_id]}, 'chat_type': 'UwU'}
         chats = list(chats_db.find(query))
         # Boolean to check if a chat exists
         existing_chat = len(chats) > 0
@@ -1200,10 +1200,13 @@ def bookings(book_id):
                 revision_text = request.form["revision_text"]
                 new_revisions = booking['revisions'] - 1
                 if new_revisions <= 0:
-                    print("paid from here on")
+                    new_revisions = 0
+                    new_revisionfee = booking['book_charges']['revisionfee'] + 0.025*(tour['tour_price'])
+                else:
+                    new_revisionfee = booking['book_charges']['revisionfee']
                 update_booking = {
                     "$set": {"process_step": 4, "customer_req": {str('revision'): revision_text},
-                             "revisions": new_revisions}}
+                             "revisions": new_revisions, "book_charges.revisionfee": new_revisionfee}}
                 bookings_db.update_one(booking, update_booking)
                 return redirect(url_for('bookings', book_id=book_id))
 

@@ -96,7 +96,8 @@ class Booking:
         self.__process_step = process_step
         self.__book_charges = {
             'baseprice': float(book_baseprice),
-            'customfee': float(book_customfee)}
+            'customfee': float(book_customfee),
+            'revisionfee': float(0)}
         self.__book_info = ""
         self.__book_chat = chat_id
         self.__completed = 0
