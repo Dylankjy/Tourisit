@@ -97,7 +97,11 @@ def earning_average_month(list):
     for i in list:
         total += i['total']
 
-    return total / 5
+    try:
+        result = total / 5
+    except ZeroDivisionError:
+        result = 0
+    return result
 
 
 @app.template_filter('value_difference_earnings')
