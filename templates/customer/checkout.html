@@ -11,16 +11,25 @@
 {% block content %}
     <section class="section">
         <div class="container">
-            Placeholder check-out page until Stripe is implemented.
-            <form id="payment" method="POST" action="{{ url_for('checkout', book_id=book_id) }}">
-                {{ form.csrf_token }}
-                <div class="control">
-                    {{ form.submit(id="submit", class="button is-primary", type="submit") }}
-                    <!-- <a href="">
-                        <button type="submit" id="pay_submit" class="button is-primary">Pay & Proceed</button>
-                    </a> -->
+            <div class='card has-text-centered'>
+                <div class='section'>
+                    <h1 class='title has-text-centered'>Amount: ${{amount}}</h1>
+                    {% if customize == 1 %}
+                    <h1 class='title has-text-centered'>Type: Customization Fee</h1>
+                    {% else %}
+                    <h1 class='title has-text-centered'>Type: Tour Fee</h1>
+                    {% endif %}
                 </div>
-            </form>
+                <form id="payment" method="POST" action="{{ url_for('checkout', book_id=book_id) }}">
+                    {{ form.csrf_token }}
+                    <div class="control">
+                        {{ form.submit(id="submit", class="button is-primary", type="submit") }}
+                        <!-- <a href="">
+                            <button type="submit" id="pay_submit" class="button is-primary">Pay & Proceed</button>
+                        </a> -->
+                    </div>
+                </form>
+            </div>
         </div>
     </section>
 {% endblock %}

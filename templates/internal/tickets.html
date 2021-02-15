@@ -96,12 +96,12 @@
                                 {{ form.csrf_token }}
                                 <div class="field">
                                     <div class="control">
-                                        <input class="input" type="hidden" id="id" readonly>
+                                        <input class="input" type="hidden" id="ticket_id" name="ticket_id" readonly>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label" for="status">Status:</label>
-                                    <div class="control">
+                                    <div class="select">
                                         {{ form.status(id="status", type="select", class="input") }}
                                         <ul>
                                             {% for error in form.status.errors %}
@@ -110,21 +110,21 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </form>
 
-                            <div class="field is-grouped is-grouped-centered mt-5 has-text-centered">
-                                <div class="control">
-                                    <button class="button is-danger is-light" id="closebtn" onclick="$('#TicketStatusModal').fadeOut('fast');">
-                                        Cancel
-                                    </button>
-                                </div>
-                                <form id="TicketStatus" method="POST">
+                                <div class="field is-grouped is-grouped-centered mt-5 has-text-centered">
+                                    <div class="control">
+                                        <button class="button is-danger is-light" id="closebtn" onclick="$('#TicketStatusModal').fadeOut('fast');">
+                                            Cancel
+                                        </button>
+                                    </div>
                                     <div class="control">
                                         <input type="submit" class="button is-success" id="change-status" name="change-status" value="Update Status"
                                                onclick="$('#TicketStatusModal').fadeOut('fast');">
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
+
+
                         </div>
                     </div>
                     <button class="modal-close is-large" aria-label="close" onclick="$('#TicketStatusModal').fadeOut('fast');"></button>
@@ -144,7 +144,7 @@
                 var col5 = currentRow.find("td:eq(4)").text(); // get current row 5th TD value
                 var col6 = currentRow.find("td:eq(5)").text(); // get current row 6th TD value
 
-                $('#id').val(col1);
+                $('#ticket_id').val(col1);
                 $('#tid').val(col1);
                 $('#uid').val(col2);
                 $('#support_type').val(col3);
