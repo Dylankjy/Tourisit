@@ -30,7 +30,7 @@
                             <div class="field">
                                 <label class="label has-text-weight-medium has-text-grey-dark" for="account_mode">Account Mode:</label>
                                 <div class="umode select">
-                                    {{ form.account_mode(id="account_mode", type="select", class="formfield input", option selected=user.account_mode) }}
+                                    {{ form.account_mode(id="account_mode", type="select", class="formfield input") }}
                                     <ul>
                                         {% for error in form.account_mode.errors %}
                                             <li class="has-text-danger"> {{ error }}</li>
