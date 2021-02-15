@@ -18,12 +18,6 @@ db_users = client['Users']
 db_sessions = client['Sessions']
 db_chats = client['Chats']
 
-test_sid = "b687c32ba5cbcde4ddb20504d832a0e7857cbff22bd6df1137097a78f0752" \
-           "060ab64074de7acc8933c073f219fe30f62044bb1618e798e1d77703bfaf15827cd"
-
-test_sid2 = '9d1c1cff7e66b604cc8df66a075e61fcd239a1fc5154def7964bf87ea99772f13e' \
-            '7886d986180bab9194e9bd089d2cb364a3f8fc22e5ff68a97c3e7a1b928327'
-
 
 def create_chat_room(participants, is_booking_chat):
     if is_booking_chat:
