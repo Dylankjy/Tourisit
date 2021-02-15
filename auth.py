@@ -354,7 +354,10 @@ def send_confirmation_email(email_type, user_email):
 
     # Query result for UID
     user_obj = [i for i in db_users.find(query)]
-    uid = user_obj[0]["_id"]
+    try:
+        uid = user_obj[0]["_id"]
+    except IndexError:
+        pass
 
     port = 465  # For SSL
     password = sendgrid_key
