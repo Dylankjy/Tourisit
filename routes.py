@@ -2042,11 +2042,10 @@ def chat_room(room_id):
 
         if chat_form.validate_on_submit():
             # print(chat_form.data["message"])
-            print(
-                msg.add_message(
-                    room_id,
-                    auth.get_sid(),
-                    chat_form.data["message"]))
+            msg.add_message(
+                room_id,
+                auth.get_sid(),
+                chat_form.data["message"])
 
         chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'UwU')
         chat_room_messages = msg.get_chat_room(auth.get_sid(), room_id)
