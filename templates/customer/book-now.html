@@ -51,6 +51,11 @@
 
 
     <section class="section mt-6">
+        <div class="container">
+        <a href="/discover/{{tour_id}}">
+            <i class="fas fa-arrow-left"></i> Back to {{item.tour_name}}
+            </a>
+        </div>
         <div class="columns is-centered">
             <div class="column is-two-fifths">
                 <div class="container box">
@@ -60,7 +65,16 @@
                             value="CustomiseTour">
                         Customise Tour
                         </button>
+                        <button class="button is-white is-pulled-right has-tooltip-multiline has-tooltip-right" 
+                        data-tooltip="Pay an extra Customisation fee of ${{customfee}}0 to Customise this tour to fit your needs. 
+                        To start the process, the Customisation fee is paid upfront. 
+                        Once the tour plan is tailored and perfect for you, the remaining fees are paid. This tour comes 
+                        with {{item.tour_revisions}} free revisions, such that you may request additional changes if the tour plan is
+                        unsatisfactory.">
+                            <i class="far fa-question-circle"></i>
+                        </button>
                     </form>
+                    <br>
                     <!--END: Customise tour button-->
                     <div class="divider">OR</div>
                     <!--START: Book now form-->
