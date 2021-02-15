@@ -134,7 +134,7 @@
                                                         <span class="has-text-grey">
                                             {% if i["self"] %}
                                                 — Me
-                                            {% endif %}
+                                            {% endif %}&nbsp;({{ i['timestamp']|timestamp_iso }})
                                         </span>
                                                     </small>
                                                     <p>{{ i["msg_content"] }}</p>

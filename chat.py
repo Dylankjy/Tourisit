@@ -177,6 +177,7 @@ def get_chat_room(sid, chat_id):
                 is_self = True
 
             message = chatroom_data["messages"][i]['msg_content']
+            timestamp = chatroom_data["messages"][i]['timestamp']
             user_name = [a for a in db_users.find(
                 query_uid_get_participants)][0]["name"]
 
@@ -185,7 +186,8 @@ def get_chat_room(sid, chat_id):
                     "sender_name": user_name,
                     "uid": query_uid_get_participants,
                     "msg_content": message,
-                    "self": is_self})
+                    "self": is_self,
+                    "timestamp": timestamp})
     except IndexError:
         pass
 
