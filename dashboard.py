@@ -179,7 +179,10 @@ def get_avg_per_tour(uid):
 
     total_cost = sum(total_cost)
     total_tours = sum(total_tours)
-    avg = total_cost / total_tours
+    try:
+        avg = total_cost / total_tours
+    except ZeroDivisionError:
+        avg = 0
     return round(avg, 2)
 
 
