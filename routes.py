@@ -212,7 +212,7 @@ def support():
     if result:
         sForm = SupportForm()
         if request.method == 'POST':
-            if sForm.validate_on_submit():
+            if 'support-submit' and sForm.validate_on_submit():
                 uid = result['_id']
                 support_type = request.form['support_type']
                 link = request.form['link']
@@ -225,7 +225,11 @@ def support():
                 )
                 support_info = support_request.return_obj()
                 support_db.insert_one(support_info)
-
+                return render_template(
+                    'helpdesk.html',
+                    user=result,
+                    form=sForm,
+                    loggedin=True)
             else:
                 return render_template(
                     'helpdesk.html',
