@@ -27,8 +27,6 @@ from models.Support import SupportForm, Support, StatusForm
 from models.Transaction import Transaction
 from models.User import BioForm, PasswordForm, UserForm
 
-import stripe
-
 # For Images
 buffered = BytesIO()
 
@@ -1361,6 +1359,7 @@ def checkout(book_id):
     if result:
         if request.method == 'POST':
             if form.validate_on_submit():
+                # Paying full amt after customization (100%)
                 if booking['process_step'] == 5:
                     update_booking = {"$set": {"process_step": 6}}
                     bookings_db.update_one(booking, update_booking)
@@ -1377,6 +1376,7 @@ def checkout(book_id):
                     transaction_db.insert_one(transaction.return_obj())
 
                     return redirect(url_for('bookings', book_id=str(book_id)))
+                # No customization (10%)
                 elif booking['process_step'] == 0:
                     update_booking = {"$set": {"process_step": 1}}
                     bookings_db.update_one(booking, update_booking)
@@ -1429,8 +1429,10 @@ def all_businesses():
                 listings=listings,
                 loggedin=True,
                 user=result)
-    except BaseException:
-        return 'Error trying to render'
+    except RuntimeError as e:
+        print(e)
+    # except BaseException:
+    #     return 'Error trying to render'
 
 
 # TOUR GUIDES
