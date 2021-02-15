@@ -418,7 +418,7 @@ def adminTickets():
     else:
         if 'change-status' in request.form and request.method == 'POST':
             if sForm.validate_on_submit():
-                tid = request.form['id']
+                tid = request.form['ticket_id']
                 query_ticket = {'_id': ObjectId(tid)}
                 status = request.form['status']
                 updated = {
@@ -426,7 +426,6 @@ def adminTickets():
                         "status": status
                     }
                 }
-                print(admin.list_tickets())
                 support_db.update_one(query_ticket, updated)
 
                 return render_template(
