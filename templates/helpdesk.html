@@ -70,15 +70,6 @@
     </div>
 
     <script>
-        document.getElementById("support-submit").disabled = true;
-        var somethingChanged = false;
-        $(document).ready(function () {
-            $('#content').change(function () {
-                somethingChanged = true;
-                $('#support-submit').prop("disabled", false);
-            });
-        });
-
         var pfplink = sessionStorage.getItem("pfpLink");
         {# Print to tour guide profile link #}
         document.getElementById('link').value = pfplink;
