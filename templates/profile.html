@@ -82,6 +82,23 @@
                             <button class="button is-danger is-outlined mt-4">Report Abuse</button>
                         </a>
                     {% endif %}
+                    <div class="field is-grouped mt-3">
+                        {% if person.socialmedia['fb'] != '' %}
+                            <a id="fb" href="{{ person.socialmedia['fb'] }}">
+                                <i class="fab fa-facebook-square fa-2x" style="color: #3B5998;"></i>
+                            </a>
+                        {% endif %}
+                        {% if person.socialmedia['insta'] != '' %}
+                            <a id="fb" href="{{ person.socialmedia['insta'] }}">
+                            <i class="fab fa-instagram-square fa-2x" style="color: #DD2A7D;"></i>
+                        </a>
+                        {% endif %}
+                        {% if person.socialmedia['linkedin'] != '' %}
+                            <a id="fb" href="{{ person.socialmedia['linkedin'] }}">
+                                <i class="fab fa-linkedin fa-2x" style="color: #0077B5;"></i>
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
