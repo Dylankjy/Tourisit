@@ -178,7 +178,7 @@ def get_chat_room(sid, chat_id):
             compiled_chat_room.append(
                 {
                     "sender_name": user_name,
-                    "uid": query_uid_get_participants,
+                    "uid": str(query_uid_get_participants['_id']),
                     "msg_content": message,
                     "self": is_self,
                     "timestamp": timestamp})
