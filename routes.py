@@ -64,7 +64,6 @@ user_db = client['Users']
 bookings_db = client['Bookings']
 support_db = client['Support']
 transaction_db = client['Transactions']
-reviews_db = client['Reviews']
 chats_db = client['Chats']
 token_db = client['Tokens']
 dashboard_db = client['Dashboard']
@@ -85,7 +84,6 @@ def timestamp_iso(s):
 
 
 # ========= For tour guide dashboards =========
-# By touching this section, you fully agree to be executed if anything breaks here.
 @app.template_filter('stars_to_percentage')
 def stars_to_percentage(stars):
     return 100 * (stars / 5)
@@ -1105,7 +1103,6 @@ def calendarUpdate(tour_id):
 # Your Bookings: Access all bookings
 @app.route('/bookings')
 def all_bookings():
-    # try:
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
@@ -1113,9 +1110,11 @@ def all_bookings():
         return redirect(url_for('login', denied_access=True))
     # if logged in
     else:
+        # Retrieve ID & booking list of current user
         cust_uid = result['_id']
         booking_list = list(bookings_db.find({'cust_uid': cust_uid}))
         listings = []
+        # Creating a correlated list of tour listings
         for item in booking_list:
             listings.append(shop_db.find_one({'_id': item['listing_id']}))
         booking_list.reverse()
@@ -1128,22 +1127,17 @@ def all_bookings():
             user=result)
 
 
-# except:
-#     return 'Error trying to render'
-
-
 # CUSTOMER
-# Individual Bookings
+# View Individual Bookings
 # @app.route('/bookings/<id>')
 @app.route('/bookings/<book_id>', methods=['GET', 'POST'])
 def bookings(book_id):
-    # try:
     booking = bookings_db.find_one({'_id': ObjectId(book_id)})
     tour = shop_db.find_one({'_id': booking['listing_id']})
     bchat = chats_db.find_one({'_id': booking['book_chat']})
     revisionform = RevisionForm()
     req_form = RequirementsForm()
-    chat_form = msg.ChatForm()  # mbr_chat
+    chat_form = msg.ChatForm()
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
@@ -1154,12 +1148,6 @@ def bookings(book_id):
         if booking['process_step'] < 1:
             # Access denied, make payment first
             return redirect(url_for('checkout', book_id=book_id))
-        if request.method == 'GET':
-            if booking['process_step'] == 1:
-                if bchat['messages']:
-                    update_booking = {"$set": {"process_step": 2}}
-                    bookings_db.update_one(booking, update_booking)
-                    return redirect(url_for('bookings', book_id=book_id))
 
         chat_exist = chats_db.find({"": 101}).count() > 0
         if request.method == 'POST':
@@ -1168,7 +1156,8 @@ def bookings(book_id):
                     booking['book_chat'],
                     auth.get_sid(),
                     chat_form.data["message"])
-            # submit button data as a dict
+
+            # form data as a dictionary
             button_data = request.form.to_dict()
             if 'Submit your Requirements' in button_data.values():
                 req_text = request.form["req_text"]
@@ -1209,14 +1198,14 @@ def bookings(book_id):
                     dashboard_earnings.append(earning)
                     update_tg_dashboard = {'$set': {'earnings': dashboard_earnings}}
                     dashboard_db.update_one(tg_dashboard, update_tg_dashboard)
+
                 return redirect(url_for('bookings', book_id=book_id))
 
-        # mbr_chat
+
         chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
         chat_room_messages = msg.get_chat_room(auth.get_sid(), booking['book_chat'])
         if not chat_room_messages:
             return redirect(url_for('chat', not_found=True))
-        # mbr_chat
 
         return render_template('customer/booking.html',
                                process_step=booking['process_step'],
@@ -1226,7 +1215,6 @@ def bookings(book_id):
                                req_form=req_form,
                                loggedin=True,
                                user=result,
-                               # mbr_chat
                                chat_list=chat_list,
                                chat_form=chat_form,
                                chatroom_display=chat_room_messages["chatroom"],
@@ -1235,15 +1223,10 @@ def bookings(book_id):
                                verification_code_OK=request.args.get('verification_code_OK'))
 
 
-# except:
-#     return 'Error trying to render'
-
-
 # CUSTOMER
 # Book Now Page
 @app.route('/discover/<tour_id>/booknow', methods=['GET', 'POST'])
 def book_now(tour_id):
-    # try:
     item = shop_db.find_one({'_id': ObjectId(tour_id)})
     # Get login status using accessor argument
     result = auth.is_auth(True)
@@ -1318,12 +1301,15 @@ def book_now(tour_id):
                 return redirect(url_for('checkout', book_id=book_id))
 
             elif 'ChatFirst' in button_data.values():
+                # Check for existing chat
                 chat_list = list(
                     chats_db.find({'participants': {"$in": [auth.get_sid(), item["tg_uid"]]}, 'chat_type': 'UwU'}))
                 if len(chat_list) > 0:
                     chat_id = chat_list[0]['_id']
+                    # Redirect to existing chat
                     return redirect(url_for('chat_room', room_id=chat_id))
                 else:
+                    # Make new chat room
                     chat_id = msg.create_chat_room([result['_id'], item["tg_uid"]], False)
                     return redirect(url_for('chat_room', room_id=chat_id))
 
@@ -1341,15 +1327,10 @@ def book_now(tour_id):
         return redirect(url_for('login', denied_access=True))
 
 
-# except:
-#     return 'Error trying to render'
-
-
 # CUSTOMER
-# Checkout page (placeholder)
+# Checkout page
 @app.route('/checkout/<book_id>', methods=['GET', 'POST'])
 def checkout(book_id):
-    # try:
     booking = bookings_db.find_one({'_id': ObjectId(book_id)})
     tour = shop_db.find_one({'_id': ObjectId(booking['listing_id'])})
     form = CheckoutForm()
@@ -1359,6 +1340,7 @@ def checkout(book_id):
     if result:
         if request.method == 'POST':
             if form.validate_on_submit():
+
                 # Paying full amt after customization (100%)
                 if booking['process_step'] == 5:
                     update_booking = {"$set": {"process_step": 6}}
@@ -1377,12 +1359,14 @@ def checkout(book_id):
                     transaction_db.insert_one(transaction.return_obj())
 
                     return redirect(url_for('bookings', book_id=str(book_id)))
+
                 # No customization (10%)
                 elif booking['process_step'] == 0:
                     update_booking = {"$set": {"process_step": 1}}
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=str(book_id)))
 
+        # Calculating payment amount
         if booking['process_step'] == 5:
             customize = 0
             amount = booking['book_charges']['baseprice'] + booking['book_charges']['revisionfee'] + 0.05*(booking['book_charges']['baseprice'])
@@ -1405,15 +1389,10 @@ def checkout(book_id):
         return redirect(url_for('login', denied_access=True))
 
 
-# except:
-#     return 'Error trying to render (checkout)'
-
-
 # TOUR GUIDES
 # My Businesses: Access all gigs
 @app.route('/s/businesses')
 def all_businesses():
-    # try:
     # Get login status using accessor argument
     result = auth.is_auth(True)
     # if not logged in
@@ -1424,8 +1403,6 @@ def all_businesses():
         tg_uid = result['_id']
         booking_list = list(bookings_db.find({'tg_uid': tg_uid}))
         listings = []
-        # [for i in bookings_db.find(
-        #     {'tg_uid': tg_uid})]
 
         for item in booking_list:
             listings.append(shop_db.find_one({'_id': item['listing_id']}))
@@ -1437,10 +1414,6 @@ def all_businesses():
             listings=listings,
             loggedin=True,
             user=result)
-
-
-# except BaseException:
-#     return 'Error trying to render'
 
 
 # TOUR GUIDES
@@ -1456,7 +1429,7 @@ def business(book_id):
     result = auth.is_auth(True)
     AddInfo_form = AddInfoForm()
     itineraryForm = EditPlan()
-    chat_form = msg.ChatForm()  # mbr_chat
+    chat_form = msg.ChatForm()
     # if not logged in
     if not result:
         return redirect(url_for('login', denied_access=True))
@@ -1508,12 +1481,10 @@ def business(book_id):
                         auth.get_sid(),
                         chat_form.data["message"]))
 
-        # mbr_chat
         chat_list = msg.get_chat_list_for_ui(auth.get_sid(), 'BOOKING')
         chat_room_messages = msg.get_chat_room(auth.get_sid(), booking['book_chat'])
         if not chat_room_messages:
             return redirect(url_for('chat', not_found=True))
-        # mbr_chat
 
         return render_template('tourGuides/business.html',
                                process_step=booking['process_step'],
@@ -1523,22 +1494,18 @@ def business(book_id):
                                user=result,
                                form=itineraryForm,
                                addInfoForm=AddInfo_form,
-                               # mbr_chat
                                chat_list=chat_list,
                                chat_form=chat_form,
                                chatroom_display=chat_room_messages["chatroom"],
                                chatroom_names=chat_room_messages["names"],
                                selected_chatroom=booking['book_chat'],
                                verification_code_OK=request.args.get('verification_code_OK'))
-    # except BaseException:
-    #     return 'Error trying to render'
 
 
 # CUSTOMER
 # Submit Review
 @app.route('/review/<book_id>', methods=['GET', 'POST'])
 def review(book_id):
-    # try:
     transaction = transaction_db.find_one({'booking': ObjectId(book_id)})
     booking = list(bookings_db.find({'_id': ObjectId(book_id)}))[0]
     listing_id = booking['listing_id']
@@ -1555,8 +1522,6 @@ def review(book_id):
             # Customer is the reviewer, reviewing the tour/ tour guide
             review_type = "tour"
             reviewee_id = booking['tg_uid']
-
-            # query = {'tour_reviews': {"$in": [ObjectId(book_id)]}, '_id':ObjectId(booking[0]['listing_id'])}
 
             # A list of all the booking IDs of the reviews for this listing
             tmp1 = list(map(lambda i: i['tour_reviews'], tour))[0]
@@ -1600,7 +1565,6 @@ def review(book_id):
                         updated = {'$push': {'user_reviews': review_data}}
                         user_db.update_one(query, updated)
 
-                    # reviews_db.insert_one(review.return_obj())
                     if booking['process_step'] == 7.1 or booking['process_step'] == 7.2:
                         # The other party has left a review already
                         new_step = 8
@@ -1623,9 +1587,6 @@ def review(book_id):
             form=form,
             review_type=review_type)
 
-
-# except BaseException:
-#     return 'Error trying to render'
 
 # --------------------------------------
 
@@ -2016,7 +1977,7 @@ def logout():
 
 
 # SHARED
-# Chats: Render individual chats -- Stolen from Chloe
+# Chats: Render individual chats
 @app.route('/chat')
 def chat():
     # Get login status using accessor argument
