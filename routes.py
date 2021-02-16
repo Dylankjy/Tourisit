@@ -673,7 +673,6 @@ def testing():
     listing = list(shop_db.find({'tour_name': 'new'}))
     items = listing[0]['tour_itinerary']
     x = json.dumps(items)
-    print(type(x))
     return x
     # result = auth.is_auth(True)
     # lForm = ListingForm()
@@ -691,7 +690,6 @@ def makelisting():
         userImg = userData['profile_img']
         userName = userData['name']
 
-        print(f'User img is: {userImg}')
         lForm = ListingForm()
         # If user submit form
         if request.method == 'POST':
@@ -743,7 +741,6 @@ def makelisting():
                     tour_time=tour_timings)
 
                 listingInfo = tour_listing.return_obj()
-                print(listingInfo)
                 shop_db.insert_one(listingInfo)
 
                 return render_template(
@@ -822,7 +819,6 @@ def editListing(id):
                     img_string = img_to_base64(tour_img)
                     # If there's no change to image (User doesnt upload new image),
                     # keep the current image
-                    print(tour_timings)
 
                     if img_string == '':
                         img_string = item['tour_img']
@@ -870,7 +866,6 @@ def editListing(id):
 
             # To render the form (GET request)
             else:
-                # print(item['tour_name'])
                 lForm.tour_desc.default = item['tour_desc']
                 lForm.process()
                 return render_template(
@@ -992,7 +987,6 @@ def favourites():
         all_listings = [i for i in shop_db.find(
             {'_id': {"$in": current_wishlist}}
         )]
-        print(all_listings)
 
         # if logged in
         return render_template(
@@ -1014,7 +1008,6 @@ def addWishlist(tour_id):
         query_user = {'_id': ObjectId(user_id)}
         current_wishlist = user_db.find_one(query_user)['wishlist']
         current_wishlist.append(tour_id)
-        print(current_wishlist)
         updated = {
             '$set': {'wishlist': current_wishlist}
         }
@@ -1036,7 +1029,6 @@ def removeWishlist(tour_id):
         current_wishlist = user_db.find_one(query_user)['wishlist']
         try:
             current_wishlist.remove(tour_id)
-            print(current_wishlist)
             updated = {
                 '$set': {'wishlist': current_wishlist}
             }
@@ -1081,16 +1073,13 @@ def chatwithGuide(tour_id):
 # To implement dynamic calendar function
 @app.route('/endpoint/bookingCalendar/<tour_id>')
 def calendarUpdate(tour_id):
-    print('YESH')
     try:
         day = request.args['day']
     except:
         day = None
 
-    print(day)
 
     query = {'listing_id': ObjectId(tour_id), 'book_date': day}
-    print(query)
     bookings = list(bookings_db.find(query, {'book_time': 1, '_id': 0}))
 
     # Return a list containing all the book_time of the bookings
@@ -1098,13 +1087,11 @@ def calendarUpdate(tour_id):
     # Ensure there are no duplicated timings in the list
     day_bookings = list(set(day_bookings))
 
-    print(day_bookings)
 
     if len(day_bookings) == 0:
         day_bookings = []
 
     if day:
-        print('fired')
         return json.dumps({'bookedTimes': day_bookings})
 
     query = {}
@@ -1270,15 +1257,8 @@ def book_now(tour_id):
         choices = []
         for num in range(tour_size):
             choices.append(num)
-        print(choices)
         bookform.book_pax.choices = [(i+1, i+1) for i in choices]
 
-        # for num in tour_size:
-        #     option = ((num + 1), str(num))
-        #     print(option)
-        #     choices.append(option)
-        #     print(choices)
-        # bookform.book_pax.choices = choices
 
         # Dict to convert the days to numbers; for bulma-calendar options
         dayTonumber = {'Mon': 1, 'Tues': 2, 'Wed': 3, 'Thurs': 4, 'Fri': 5, 'Sat': 6, 'Sun': 0}
@@ -1403,9 +1383,6 @@ def checkout(book_id):
                     bookings_db.update_one(booking, update_booking)
                     return redirect(url_for('bookings', book_id=str(book_id)))
 
-                else:
-                    print("Error occurred while trying to pay.")
-
         if booking['process_step'] == 5:
             customize = 0
             amount = booking['book_charges']['baseprice'] + booking['book_charges']['revisionfee'] + 0.05*(booking['book_charges']['baseprice'])
@@ -1518,16 +1495,12 @@ def business(book_id):
                 return redirect(url_for('business', book_id=book_id))
 
             if 'AddInfo' in data_dict.values() and AddInfo_form.validate_on_submit():
-                print('yeesus')
-                print(request.form)
                 AddInfo = request.form.to_dict()['AddInfo']
                 updated = {
                     "$set": {"book_info": AddInfo}
                 }
                 bookings_db.update_one(booking, updated)
             elif chat_form.validate_on_submit():
-                print('bb')
-                # print(chat_form.data["message"])
 
                 print(
                     msg.add_message(
@@ -1594,19 +1567,13 @@ def review(book_id):
             # TG is the reviewer, reviewing the customer
             review_type = "customer"
             reviewee_id = booking['cust_uid']
-
-            # tmp1 = list(map(lambda i: i['user_reviews'], customer))[0]
-            # print(tmp1)
-            # user_review_bookingIDs = list(map(lambda i: i['booking'], tmp1))
-            # review_exists = ObjectId(book_id) in user_review_bookingIDs
-            # print(review_exists)
             review_exists = False
 
         # If this review already exists
         if review_exists:
             return redirect(url_for('bookings', book_id=book_id))
         elif booking['process_step'] < 7:
-            print("access denied, go on tour first")
+            # Access denied, go on tour first
             return redirect(url_for('bookings', book_id=book_id))
         else:
             if request.method == "POST":
@@ -1643,7 +1610,6 @@ def review(book_id):
                             new_step = 7.1
                             redirect_to = "bookings"
                         elif review_type == 'customer':
-                            print('customer')
                             new_step = 7.2
                             redirect_to = "business"
                     update_booking = {"$set": {'process_step': new_step}}
@@ -1738,7 +1704,6 @@ def sellerDashboard():
         satisfaction_breakdown_data = dashboard.get_satisfaction_rate(result['_id'])
         earning_average_tour = dashboard.get_avg_per_tour(result['_id'])
 
-        # print(satisfaction_breakdown_data)
 
         return render_template(
             'tourGuides/dashboard.html',
@@ -1896,7 +1861,6 @@ def forgot_password():
         # Do if POST response // Form submission
         if form.validate_on_submit():
             email = form.data['email']
-            print(email)
             auth.send_confirmation_email('password_reset', email)
             return render_template('auth/recover.html', form=form, accepted=True)
 
@@ -1932,7 +1896,6 @@ def reset_password():
                 # Database Ops: Get list of tokens with query
                 try:
                     token_obj = [i for i in token_db.find(query_for_token)][0]
-                    print(token_obj)
                 except IndexError:
                     return render_template('auth/reset_password.html', form=form, accepted=False)
 
@@ -2162,7 +2125,6 @@ def setAccType():
         sForm = auth.SelectAccModeForm()
         if request.method == 'POST':
             acc_mode = int(request.form['acc_mode'])
-            print(acc_mode)
             query = {'_id': ObjectId(result['_id'])}
             updated = {
                 "$set": {
