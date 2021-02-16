@@ -86,11 +86,16 @@
         </div>
     </section>
 
-    <div class="columns is-multiline">
-        {% include 'components/listing-card.html' %}
-    </div>
-
-    <!--Reviews as a Customer-->
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline">
+                {% include 'components/listing-card.html' %}
+            </div>
+        </div>
+    </section>
+    <section class="section">
+    <div class="container">
+            <!--Reviews as a Customer-->
     <div>
     {% if person.user_reviews %}
         <p>{{person.name}} as a Customer</p>
@@ -117,5 +122,8 @@
             {% endfor %}
         {% endif %}
     </div>
+    </div>
+    </section>
+
 
 {% endblock %}
