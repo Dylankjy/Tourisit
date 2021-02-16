@@ -11,7 +11,7 @@
 {% else %}
     {% for i in chatroom_display %}
         <div>
-            <small><a href="" class="has-text-weight-bold">{{ i["sender_name"] }}</a>
+            <small><a href="/users/{{ i['uid'] }}/profile" class="has-text-weight-bold">{{ i["sender_name"] }}</a>
                 <span class="has-text-grey">
             {% if i["self"] %}
                 — Me
