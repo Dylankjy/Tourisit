@@ -12,24 +12,40 @@
 
     <section class="section has-background-white">
         <div class="container">
-            <h1 class="is-size-1 has-text-weight-bold mt-6">Account Settings & Preferences</h1>
+            <h1 class="is-size-1 has-text-weight-bold mt-6">Welcome to Tourisit!</h1>
         </div>
     </section>
 
     <section class='section'>
-        <div class='section container'>
+        <div class='container'>
 
             <form id='makeListingForm' class="form-horizontal" enctype="multipart/form-data"
                   action="{{ url_for('setAccType') }}" method="POST">
 
                 {{ setAccModeForm.csrf_token }}
-                {{ setAccModeForm.acc_mode(id="account_mode", class="dropdown-item item-level-item") }}
-
 
                 <div class="field">
+                  <label class="label">Are you a tourist or a tour guide?</label>
+                    <p>This changes the way Tourisit displays its functions. Tour guide features will be hidden if you select 'Tourist' as your account mode.<br><span class="has-text-grey">You may change this setting under Account Settings later.</span></p>
+                  <div class="control mt-3">
+                      <div class="select">
+                    {{ setAccModeForm.acc_mode(id="account_mode", type="select") }}
+                          </div>
+                  </div>
+                </div>
+                <hr>
+                <div>
+                    <h1 class="title is-5">Are you a licensed tour guide?</h1>
+                    <p><b>Increase your reputability and attractiveness:</b> You can approach our support desk to get verified.<br>This puts a badge next to your profile to let tourist know that you are a licensed tour guide.</p>
+                </div>
+                <hr>
+                <div>
+                    <p><b>Loaded and ready?</b> Continue to tourisit:</p>
+                </div>
+                <br>
+                <div class="field">
                     <div class="control">
-                        <input type='submit' value='Select Acc Type' id="type-submit" name="type-submit"
-                               class="button is-success">
+                        <button type="submit" class="button is-dark"><i class="fas fa-plane"></i>&nbsp; Finish and continue</button>
                     </div>
                 </div>
 
