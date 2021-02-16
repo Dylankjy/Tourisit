@@ -26,6 +26,7 @@ from models.Review import ReviewForm, Review
 from models.Support import SupportForm, Support, StatusForm
 from models.Transaction import Transaction
 from models.User import BioForm, PasswordForm, UserForm
+import htmlmin
 
 # For Images
 buffered = BytesIO()
@@ -2106,7 +2107,7 @@ def chatroom_endpoint():
                     chatroom_display=chat_room_messages["chatroom"])
                 resp = Response(
                     response=JSONEncoder().encode({
-                        "data": shard_payload
+                        "data": htmlmin.minify(shard_payload, remove_comments=True, remove_empty_space=True)
                     }),
                     mimetype='application/json',
                     status=200
