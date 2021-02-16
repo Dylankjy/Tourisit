@@ -1493,13 +1493,16 @@ def business(book_id):
                 bookings_db.update_one(booking_query, updated)
                 return redirect(url_for('business', book_id=book_id))
 
-            if AddInfo_form.validate_on_submit():
-                AddInfo = request.form['AddInfo']
+            if 'AddInfo' in data_dict.values() and AddInfo_form.validate_on_submit():
+                print('yeesus')
+                print(request.form)
+                AddInfo = request.form.to_dict()['AddInfo']
                 updated = {
                     "$set": {"book_info": AddInfo}
                 }
                 bookings_db.update_one(booking, updated)
             elif chat_form.validate_on_submit():
+                print('bb')
                 # print(chat_form.data["message"])
 
                 print(
@@ -2171,4 +2174,4 @@ def error413(err):
 
 # Use this if running on server
 if __name__ == '__main__':
-    app.run(debug=True, threaded=True, host='0.0.0.0')
+    app.run(debug=True, threaded=True, host='127.1.0.1')
