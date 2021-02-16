@@ -18,6 +18,9 @@ from wtforms.validators import DataRequired, Email
 
 import models.User as User
 
+from routes import setAccType
+from flask import redirect, url_for
+
 # MongoDB connection string
 client = pymongo.MongoClient(
     'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
@@ -237,6 +240,10 @@ def login_account(email, unencoded_password):
 
         if query_result["email_status"] is False:
             return "UNVERIFIED"
+
+        # print(query_result)
+        # if query_result['account_mode'] == -1:
+        #     return redirect(url_for('setAccType'))
 
         # Generate timestamp in ISO format
         date = datetime.now()
