@@ -381,7 +381,7 @@ def accountinfo():
                     }
                     user_db.update_one(query_user, updated)
                     return render_template(
-                        'success-support.html', user=item, id=id, loggedin=True)
+                        'success-user.html', user=item, id=id, loggedin=True)
                 else:
                     return render_template('setting.html', user=item, id=id, loggedin=True)
             return render_template(
