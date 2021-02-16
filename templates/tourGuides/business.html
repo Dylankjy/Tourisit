@@ -304,6 +304,7 @@
             </div>
             <!--END: About-->
             <!--START: Requirements-->
+            {% if booking.customer_req['requirements'] != '' %}
             <div class="section">
                 <div class="container">
                     <div class="card">
@@ -322,6 +323,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             <!--END: Requirements-->
             <br>
             {% if process_step == 4 %}
