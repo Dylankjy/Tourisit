@@ -241,7 +241,7 @@ def generate_report(uid, year=None, month=None):
     col = 0
 
     data_for_input = [
-        ['Listing Name', 'Date of Payment', 'Total Earned', 'Payment Status']
+        ['Listing Name', 'Date of Completion', 'Total Earned', 'Payment Status']
     ]
 
     # Get all in relates to UID from Transaction database
