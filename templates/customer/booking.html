@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/frameworks/bulma-steps.css">
     <link rel="stylesheet" href="/css/pages/chat.css">
     <link rel="stylesheet" href="/css/frameworks/bulma-badge.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
     <link rel="stylesheet" href="/css/pages/all_bookings.css">
 
     <script>
@@ -88,13 +89,13 @@
     <div class="container">
         {% if process_step == 6 %}
             <div class="has-text-centered m-2 is-size-6">
-                You are now ready to go for your Tour
+                You are now ready to go for your Tour.
             </div>
         {% endif %}
 
         {% if process_step >= 7 %}
             <div class="has-text-centered m-2 is-size-4">
-                You have completed your Tour
+                You have completed your Tour.
             </div>
         {% endif %}
         <!--START: Steps-->
@@ -196,6 +197,9 @@
                         Leave Feedback</a></span>
                 {% endif %}
             </div>
+        {% endif %}
+        {% if process_step == 6 %}
+        <p class='has-text-centered has-text-grey'><i class="fas fa-arrow-up"></i> Click once you have completed your tour.</p>
         {% endif %}
         <!--END: Action req-->
     </div>
@@ -504,11 +508,12 @@
                         <br>
                         <div class="container box">
                             <div class="heading">Tour Price</div>
-                            <div class="title">{{ booking.book_charges['baseprice'] }}</div>
+                            <div class="title">${{ booking.book_charges['baseprice'] }}</div>
                         </div>
                     </div>
                     <!--END: Proposed Cost-->
                 {% endif %}
+
                 <div class="columns">
                     <div class="column">
                         <h1 class="is-size-3 has-text-centered has-text-weight-semibold">Charges</h1>
@@ -519,6 +524,16 @@
                                 <div class="title">${{ booking.book_charges['customfee'] }} <span
                                         class="tag is-success is-light">Paid</span></div>
                             </div>
+                        {% endif %}
+                        {% if booking.book_charges['revisionfee'] != 0 %}
+                        <div class="container box">
+                            <div class="heading">Extra Revisions</div>
+                            <div class="title">${{ booking.book_charges['revisionfee'] }} 
+                                {% if process_step > 5 %}
+                                <span class="tag is-success is-light">Paid</span>
+                                {% endif %}
+                            </div>
+                        </div>
                         {% endif %}
                         {% if process_step >= 5 %}
                             <div class="container box">
@@ -543,7 +558,7 @@
                             <div class="container box">
                                 <div class="heading">Total Cost</div>
                                 <div class="title">
-                                    ${{ booking.book_charges['baseprice']+booking.book_charges['customfee'] }}
+                                    ${{ booking.book_charges['baseprice']+booking.book_charges['customfee']+booking.book_charges['revisionfee'] }}
                                     {% if process_step >=6 %}
                                         <span class="tag is-success is-light">Paid</span>
                                     {% endif %}
@@ -559,7 +574,7 @@
                             <p class="control">
                                 <button class="button is-success is-light" type="submit" name="MakePayment"
                                         value="MakePayment" style="border-width:0;">
-                            <div class="is-size-4">Make Payment</div>
+                            <div class="is-size-4">Make Payment <i class="fas fa-arrow-right"></i></div>
                             </button>
                             </p>
                         </div>
@@ -612,6 +627,11 @@
                 <p class="is-size-5 has-text-weight-bold">Request a revision of the Proposed Itinerary
                     and Charges?</p>
                 <p>You have {{ booking.revisions }} free revision(s) left.</p>
+
+                <button class="button is-white is-pulled-right has-tooltip-multiline has-tooltip-left" 
+                        data-tooltip="Every extra revision after all your free revisions have been used will cost an extra ${{'%0.2f'|format(0.025*(tour['tour_price'] | float ))}}">
+                            <i class="far fa-question-circle"></i>
+                        </button>
                 <form id="revisionform" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
                     {{ revisionform.csrf_token }}
                     <div class="field">

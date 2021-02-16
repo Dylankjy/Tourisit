@@ -13,13 +13,13 @@
         <div class="container">
             <div class='card has-text-centered'>
                 <div class='section'>
+                    <div class="container">
                     <h1 class='title has-text-centered'>Amount: ${{amount}}</h1>
                     {% if customize == 1 %}
                     <h1 class='title has-text-centered'>Type: Customization Fee</h1>
                     {% else %}
                     <h1 class='title has-text-centered'>Type: Tour Fee</h1>
                     {% endif %}
-                </div>
                 <form id="payment" method="POST" action="{{ url_for('checkout', book_id=book_id) }}">
                     {{ form.csrf_token }}
                     <div class="control">
@@ -29,6 +29,8 @@
                         </a> -->
                     </div>
                 </form>
+                </div>
+                </div>
             </div>
         </div>
     </section>
