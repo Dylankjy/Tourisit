@@ -656,18 +656,18 @@
                                         </div>
                                     {% else %}
                                         {% for i in chatroom_display %}
-                                            <div>
-                                                <small><a href=""
-                                                          class="has-text-weight-bold">{{ i["sender_name"] }}</a>
-                                                    <span class="has-text-grey">
-                                        {% if i["self"] %}
-                                            — Me
-                                        {% endif %}
-                                    </span>
-                                                </small>
-                                                <p>{{ i["msg_content"] }}</p>
-                                                <hr>
-                                            </div>
+                                        <div>
+                                            <small><a href=""
+                                                      class="has-text-weight-bold">{{ i["sender_name"] }}</a>
+                                                <span class="has-text-grey">
+                                                    {% if i["self"] %}
+                                                        — Me
+                                                    {% endif %}&nbsp; at {{ i['timestamp']|timestamp_iso }}
+                                                </span>
+                                            </small>
+                                            <p>{{ i["msg_content"] }}</p>
+                                            <hr>
+                                        </div>
                                         {% endfor %}
                                     {% endif %}
                                 </div>
@@ -684,7 +684,7 @@
                             <div class="field has-addons">
                                 <div class="control is-expanded">
                                     <form method="POST" style="width: 100%;"
-                                          action="{{ url_for('chat_room', room_id=selected_chatroom) }}">
+                                          action="?gotoChat=true">
                                         {{ chat_form.csrf_token }}
                                         {{ chat_form.message(id="message", type="text", class="input is-fullwidth",
                                 placeholder="Enter message", value="", autocomplete="off") }}

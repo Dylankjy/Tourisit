@@ -32,7 +32,7 @@
                         <i class="fas fa-check"></i>&ensp;Verified Guide
                     </span>
                         {% endif %}
-                        {% if person.verified == 1 %}
+                        {% if person.account_type == 1 %}
                             <span class="tag is-danger is-dark">
                                 <i class="fas fa-id-badge"></i>&ensp;Tourisit Admin
                     </span>
@@ -86,11 +86,16 @@
         </div>
     </section>
 
-    <div class="columns is-multiline">
-        {% include 'components/listing-card.html' %}
-    </div>
-
-    <!--Reviews as a Customer-->
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline">
+                {% include 'components/listing-card.html' %}
+            </div>
+        </div>
+    </section>
+    <section class="section">
+    <div class="container">
+            <!--Reviews as a Customer-->
     <div>
     {% if person.user_reviews %}
         <p>{{person.name}} as a Customer</p>
@@ -117,5 +122,8 @@
             {% endfor %}
         {% endif %}
     </div>
+    </div>
+    </section>
+
 
 {% endblock %}
