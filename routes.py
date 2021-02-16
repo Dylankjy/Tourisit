@@ -724,6 +724,8 @@ def makelisting():
 
                 tour_revisions = request.form['tour_revisions']
 
+                tour_size = request.form['tour_size']
+
                 tour_price = request.form['tour_price']
 
                 tg_uid = result['_id']
@@ -735,6 +737,7 @@ def makelisting():
                     tour_img=img_string,
                     tg_uid=tg_uid,
                     tour_location=tour_locations,
+                    tour_size=tour_size,
                     tour_revs=tour_revisions,
                     tour_itinerary=tour_itinerary,
                     tour_days=sorted_tour_days,
@@ -2177,4 +2180,8 @@ def error413(err):
 
 # Use this if running on server
 if __name__ == '__main__':
-    app.run(debug=True, threaded=True, host='0.0.0.0')
+    app.run(debug=True, threaded=True)
+
+
+# if __name__ == '__main__':
+#     app.run(debug=True, threaded=True, host='0.0.0.0')

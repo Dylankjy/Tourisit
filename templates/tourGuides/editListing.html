@@ -443,6 +443,19 @@
                         </div>
                     </div>
 
+                    <label class="label" for="tour-size">Maximum Tour Participants
+                    &nbsp<span class='has-tooltip-right has-tooltip-arrow' data-tooltip='Maximum Tour Pax'><i class="fas fa-question-circle"></i></span></label>
+                    <div class="field">
+                        <div class="control">
+                            {{ form.tour_size(id="tour-size", type="number", class="input", value=listing.tour_size) }}
+                            <ul>
+                                {% for error in form.tour_size.errors %}
+                                <li class="has-text-danger"> {{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
 
                     <label class="label" for="tour-price">Minimum Price ($SGD)</label>
                     <div class="field">

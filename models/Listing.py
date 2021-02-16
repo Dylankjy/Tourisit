@@ -59,6 +59,7 @@ class ListingForm(FlaskForm):
     tour_items = StringField('tour_items')
 
     # tour_items_list = FieldList(HiddenField('tour_items_list', validators=[InputRequired()]))
+    tour_size = IntegerField('tour_size', validators=[InputRequired(), NumberRange(min=0, max=8, message="Max Participants must be at least 1 and cannot exceed 8")])
 
     tour_loc = SelectField('tour_loc', choices=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
                                           'Bukit Panjang', 'Bukit Timah', 'Chinatown', 'Choa Chu Kang', 'Clementi', 'Changi',
@@ -145,6 +146,7 @@ class Listing:
             tour_days,
             tour_time,
             tour_img='',
+            tour_size='',
             tour_bookings={}
     ):
 
@@ -174,6 +176,9 @@ class Listing:
 
         self.__tour_img = ''
         self.set_tour_img(tour_img)
+
+        self.__tour_size = ''
+        self.set_tour_size(tour_size)
 
         self.set_tg_uid(tg_uid)
 
@@ -240,6 +245,9 @@ class Listing:
         else:
             self.__tour_price = tour_price
 
+    def set_tour_size(self, tour_size):
+        self.__tour_size = tour_size
+
     def set_tour_img(self, tour_img):
         self.__tour_img = tour_img
 
@@ -276,6 +284,7 @@ class Listing:
             "date_created": self.__date_created,
             "tour_rating": self.__tour_rating,
             "tour_reviews": self.__tour_reviews,
+            "tour_size": self.__tour_size,
             "tg_uid": self.__tg_uid,
             "tour_visibility": self.__visibility,
             "tour_bookings": self.__tour_bookings
