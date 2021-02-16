@@ -76,7 +76,7 @@ def create_account(name, raw_password, email):
     db_users.insert_one(user_dict)
 
     # Automatically send confirmation email to user
-    send_confirmation_email(None, email)
+    send_confirmation_email("email_verification", email)
 
     return True
 
