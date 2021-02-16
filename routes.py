@@ -26,6 +26,7 @@ from models.Review import ReviewForm, Review
 from models.Support import SupportForm, Support, StatusForm
 from models.Transaction import Transaction
 from models.User import BioForm, PasswordForm, UserForm
+import htmlmin
 
 # For Images
 buffered = BytesIO()
@@ -448,6 +449,8 @@ def adminTickets():
                 tickets=admin.list_tickets(),
                 form=sForm
             )
+
+
 
 
 # ALEX
@@ -1839,8 +1842,12 @@ def login():
                         unverified_email_ref=True,
                         email=email))
             else:
+                user = list(user_db.find({'email': email}))[0]
                 # If pass, set cookie and redirect
-                resp = redirect(url_for('home'))
+                if user['account_mode'] == -1:
+                    resp = redirect((url_for('setAccType')))
+                else:
+                    resp = redirect(url_for('home'))
                 resp.set_cookie('tourisitapp-sid', result)
                 # resp.set_cookie('tourisitapp-uid', auth.get_user_id(result))
                 return resp
@@ -2103,7 +2110,7 @@ def chatroom_endpoint():
                     chatroom_display=chat_room_messages["chatroom"])
                 resp = Response(
                     response=JSONEncoder().encode({
-                        "data": shard_payload
+                        "data": htmlmin.minify(shard_payload, remove_comments=True, remove_empty_space=True)
                     }),
                     mimetype='application/json',
                     status=200
