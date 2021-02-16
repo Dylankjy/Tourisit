@@ -1266,6 +1266,19 @@ def book_now(tour_id):
 
         # Do custom rendering to bookform for date and time rendering
         bookform.book_timeslot.choices = item['tour_time']
+        tour_size = int(item['tour_size'])
+        choices = []
+        for num in range(tour_size):
+            choices.append(num)
+        print(choices)
+        bookform.book_pax.choices = [(i+1, i+1) for i in choices]
+
+        # for num in tour_size:
+        #     option = ((num + 1), str(num))
+        #     print(option)
+        #     choices.append(option)
+        #     print(choices)
+        # bookform.book_pax.choices = choices
 
         # Dict to convert the days to numbers; for bulma-calendar options
         dayTonumber = {'Mon': 1, 'Tues': 2, 'Wed': 3, 'Thurs': 4, 'Fri': 5, 'Sat': 6, 'Sun': 0}
@@ -1281,6 +1294,7 @@ def book_now(tour_id):
             if 'csrf_token' in button_data:
                 book_date = request.form["book_day"]
                 book_time = request.form["book_timeslot"]
+                book_pax = request.form["book_pax"]
 
                 tg_booking_list = list(bookings_db.find({'tg_uid': item['tg_uid']}))
                 if bookform.date_valid(book_date, tg_booking_list) and bookform.time_valid(book_time):
@@ -1294,6 +1308,7 @@ def book_now(tour_id):
                         book_baseprice=item['tour_price'],
                         book_customfee=0,
                         book_duration="",
+                        book_pax=book_pax,
                         timeline_content=item['tour_itinerary'],
                         chat_id=chat_id,
                         revisions=int(item['tour_revisions']),
@@ -1313,6 +1328,7 @@ def book_now(tour_id):
                     book_baseprice=item['tour_price'],
                     book_customfee=customfee,
                     book_duration="",
+                    book_pax=0,
                     timeline_content=item['tour_itinerary'],
                     chat_id=chat_id,
                     revisions=int(item['tour_revisions']),
@@ -1485,6 +1501,7 @@ def business(book_id):
                 tour_time = str(format_starttime.strftime("%I:%M %p") + " - " + format_endtime.strftime("%I:%M %p"))
 
                 tour_price = float(request.form["tour_price"])
+                tour_pax = int(request.form["tour_pax"])
 
                 itinerary_form_list = request.form.getlist('tour_items_list[]')
                 tour_itinerary = formToArray(itinerary_form_list)
@@ -1493,9 +1510,10 @@ def business(book_id):
                              "book_date": tour_date,
                              "book_time": tour_time,
                              "book_charges.baseprice": tour_price,
+                             "book_pax": tour_pax,
                              "process_step": 3}
                 }
-                bookings_db.update_one(booking_query, updated)
+                # bookings_db.update_one(booking_query, updated)
                 return redirect(url_for('business', book_id=book_id))
 
             if 'AddInfo' in data_dict.values() and AddInfo_form.validate_on_submit():

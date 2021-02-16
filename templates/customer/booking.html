@@ -334,6 +334,14 @@
                                         <td>{{ booking.book_time }}</td>
                                     {% endif %}
                                 </tr>
+                                <tr>
+                                    <td><i class="fas fa-clock"></i>&ensp;<b>Number of Participants</b></td>
+                                    {% if booking.book_pax == 0 %}
+                                        <td class='has-text-grey'>To-Be Decided</td>
+                                    {% else %}
+                                        <td>{{ booking.book_pax }}</td>
+                                    {% endif %}
+                                </tr>
                             </table>
                         </div>
                     </div>

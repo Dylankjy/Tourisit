@@ -31,11 +31,11 @@
             UpdateItems()
         });
 
-        function AddItinerary() {
-            // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
-            current_item = document.getElementById('tour-items')
-            text =
-                `
+    function AddItinerary() {
+        // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
+        current_item = document.getElementById('tour-items')
+        text =
+            `
             <li id='list_${listno}'>
                 <div class="field has-addons" >
                     <div class="control is-expanded">
@@ -50,18 +50,18 @@
             </li>
             <br>
         `
-            $("#itinerary-list").append(`${text}`)
-            itemList.push(current_item.value + '#$%^#')
-            current_item.value = ''
-            listno += 1
-        }
+        $("#itinerary-list").append(`${text}`)
+        itemList.push(current_item.value + '#$%^#')
+        current_item.value = ''
+        listno += 1
+    }
 
-
-        // To return the itinerary from a previously defined listing
-        // tour_item is a single tour itinerary
-        function AddItineraryFromList(tour_item) {
-            text =
-                `
+    
+    // To return the itinerary from a previously defined listing
+    // tour_item is a single tour itinerary
+    function AddItineraryFromList(tour_item) {
+        text =
+            `
             <li id='list_${listno}'>
                 <div class="field has-addons" >
                     <div class="control is-expanded">
@@ -76,14 +76,13 @@
             </li>
             <br>
         `
-            $("#itinerary-list").append(`${text}`)
-            itemList.push(tour_item + '#$%^#')
-            listno += 1
-        }
-
-        // End: Edit Itinerary
-        // Start: chat
-        setInterval(syncEndpoint = () => {
+        $("#itinerary-list").append(`${text}`)
+        itemList.push(tour_item + '#$%^#')
+        listno += 1
+    }
+    // End: Edit Itinerary
+    // Start: chat
+    setInterval(syncEndpoint = () => {
             $.ajax({
                 url: "/endpoint/chat?chat_id={{selected_chatroom}}",
                 dataType: "json",
@@ -107,7 +106,7 @@
         }, 2500)
 
         syncEndpoint()
-        // End: chat
+    // End: chat
 
     </script>
 {% endblock %}
@@ -118,7 +117,7 @@
     <section class='section mb-0 pb-0'>
         <div class="container mt-5 p-5">
             <a href="{{ url_for('all_businesses') }}"><i class="fas fa-chevron-left"></i>&ensp;Back to My Business</a>
-            <h1 class="title is-size-1 m-0">{{ listing.tour_name }}</h1>
+            <h1 class="title is-size-1 m-0">{{listing.tour_name }}</h1>
             <!--START: More options dropdown-->
             <div class="dropdown post-options is-hoverable is-right is-pulled-right">
                 <div class="dropdown-trigger">
@@ -139,7 +138,7 @@
             <!--END: More options dropdown-->
             <div class="listing-author">
                 <!--dynamic tg photo-->
-                <div>Customer:
+                <div>Customer: 
                     <div class="profile-img mt-2"
                          style="background-image: url('data:image/jpeg;base64, {{ booking.cust_uid | user_pfp }}');"></div>
                     <b>{{ booking.cust_uid| user_name }}</b></div>
@@ -152,115 +151,114 @@
 
     <!--START-->
     <div class="container">
-        {% if process_step == 6 %}
-            <div class="has-text-centered m-2 is-size-6">
-                You are now ready to host your Tour!
-            </div>
-        {% endif %}
+            {% if process_step == 6 %}
+                <div class="has-text-centered m-2 is-size-6">
+                    You are now ready to host your Tour!
+                </div>
+            {% endif %}
 
-        {% if process_step >= 7 %}
-            <div class="has-text-centered m-2 is-size-4">
-                You have completed your Tour!
-            </div>
-        {% endif %}
+            {% if process_step >= 7 %}
+                <div class="has-text-centered m-2 is-size-4">
+                    You have completed your Tour!
+                </div>
+            {% endif %}
 
-        <!--START: Steps-->
-        <div>
-            <ul class="steps has-content-centered is-small">
+             <!--START: Steps-->
+             <div>
+                <ul class="steps has-content-centered is-small">
 
-                <li class="steps-segment {{ 'is-active' if (process_step == 1) }}">
+                    <li class="steps-segment {{ 'is-active' if (process_step == 1) }}">
           <span class="steps-marker {{ 'is-link' if (process_step == 1) }}">
                             {% if process_step > 1 %}
                                 <i class="fas fa-check"></i>
                             {% endif %}
           </span>
-                    <div class="steps-content">
-                        <p class="is-size-5 {{ 'has-text-link' if(process_step == 1) }}">Submit Requirements</p>
-                    </div>
-                </li>
+                        <div class="steps-content">
+                            <p class="is-size-5 {{ 'has-text-link' if(process_step == 1) }}">Submit Requirements</p>
+                        </div>
+                    </li>
 
-                <li class="steps-segment {{ 'is-active' if (2 <= process_step <= 4) }}">
+                    <li class="steps-segment {{ 'is-active' if (2 <= process_step <= 4) }}">
           <span class="steps-marker {{ 'is-link' if (2 <= process_step <= 4) }}">
             {% if process_step > 4 %}
-                <i class="fas fa-check"></i>
+                                <i class="fas fa-check"></i>
             {% endif %}
           </span>
-                    <div class="steps-content">
-                        <p class="is-size-5 {{ 'has-text-link' if(2 <= process_step <= 4) }}">Planning Itinerary</p>
-                    </div>
-                </li>
+                        <div class="steps-content">
+                            <p class="is-size-5 {{ 'has-text-link' if(2 <= process_step <= 4) }}">Planning Itinerary</p>
+                        </div>
+                    </li>
 
-                <li class="steps-segment {{ 'is-active' if (process_step == 5) }}">
+                    <li class="steps-segment {{ 'is-active' if (process_step == 5) }}">
                     <span class="steps-marker {{ 'is-link' if (process_step == 5) }}">
                         {% if process_step > 5 %}
-                            <i class="fas fa-check"></i>
+                        <i class="fas fa-check"></i>
                         {% endif %}
                     </span>
-                    <div class="steps-content">
-                        <p class="is-size-5 {{ 'has-text-link' if(process_step == 5) }}">Confirmation & Payment</p>
-                    </div>
-                </li>
+                        <div class="steps-content">
+                            <p class="is-size-5 {{ 'has-text-link' if(process_step == 5) }}">Confirmation & Payment</p>
+                        </div>
+                    </li>
 
-                <li class="steps-segment {{ 'is-active' if (process_step == 6) }}">
+                    <li class="steps-segment {{ 'is-active' if (process_step == 6) }}">
           <span class="steps-marker {{ 'is-link' if (process_step == 6) }}">
                             {% if process_step > 6 %}
                                 <i class="fas fa-check"></i>
                             {% endif %}
           </span>
-                    <div class="steps-content">
-                        <p class="is-size-5 {{ 'has-text-link' if(process_step == 6) }}">Complete Tour</p>
-                    </div>
-                </li>
+                        <div class="steps-content">
+                            <p class="is-size-5 {{ 'has-text-link' if(process_step == 6) }}">Complete Tour</p>
+                        </div>
+                    </li>
 
-                <li class="steps-segment {{ 'is-active' if (process_step == 7 or process_step == 7.1) }}">
-                    <a class="{{ 'inactiveLink' if (process_step >= 7.2) }}" href="">
+                    <li class="steps-segment {{ 'is-active' if (process_step == 7 or process_step == 7.1) }}">
+                        <a class="{{ 'inactiveLink' if (process_step >= 7.2) }}" href="">
                         <span class="steps-marker {{ 'is-link' if(process_step == 7 or process_step == 7.1) }}">
                         {% if process_step > 7 %}
                             <i class="fas fa-check"></i>
                         {% endif %}
           </span>
-                        <div class="steps-content">
-                            <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7 or process_step == 7.1) }}">
-                                Leave Feedback</p>
-                        </div>
-                    </a>
-                </li>
+                            <div class="steps-content">
+                                <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7 or process_step == 7.1) }}">Leave Feedback</p>
+                            </div>
+                        </a>
+                    </li>
 
-            </ul>
-        </div>
-        <!--END: Steps-->
-        <!--START: Action req-->
+                </ul>
+            </div>
+            <!--END: Steps-->
+            <!--START: Action req-->
 
-        {% if process_step == 2 or process_step == 4 or process_step == 7 or process_step == 7.1 %}
-            <div class="has-text-centered m-5 is-size-5">
-                Next Step:
-                {% if process_step == 2 or process_step == 4 %}
-                    <span class="tag is-warning is-light is-size-5 is-clickable" id="PlanCustom_button">
+            {% if process_step == 2 or process_step == 4 or process_step == 7 or process_step == 7.1 %}
+                <div class="has-text-centered m-5 is-size-5">
+                    Next Step:
+                    {% if process_step == 2 or process_step == 4 %}
+                        <span class="tag is-warning is-light is-size-5 is-clickable" id="PlanCustom_button">
                 Plan Custom Package</span>
-                {% elif process_step == 7  or process_step == 7.1 %}
-                    <span class="tag is-warning is-light is-size-5 is-clickable"><a href="/review/{{ booking._id }}">
+                    {% elif process_step == 7  or process_step == 7.1 %}
+                        <span class="tag is-warning is-light is-size-5 is-clickable"><a href="/review/{{ booking._id }}">
                 Leave Feedback</a></span>
-                {% endif %}
-            </div>
-        {% elif not(process_step == 8 or process_step == 7.2) %}
-            <div class="has-text-centered m-5 is-size-5">
-                Waiting for Customer to:
-                {% if process_step == 1 %}
-                    <span class="tag is-white-ter is-size-5 is-clickable">
+                    {% endif %}
+                </div>
+            {% elif not(process_step == 8 or process_step == 7.2) %}
+                <div class="has-text-centered m-5 is-size-5">
+                    Waiting for Customer to:
+                    {% if process_step == 1 %}
+                        <span class="tag is-white-ter is-size-5 is-clickable">
                 Submit Requirements</span>
-                {% elif process_step == 3 %}
-                    <span class="tag is-white-ter is-size-5 is-clickable">
+                    {% elif process_step == 3 %}
+                        <span class="tag is-white-ter is-size-5 is-clickable">
                 Review Custom Itinerary & Charges</span>
-                {% elif process_step == 5 %}
-                    <span class="tag is-white-ter is-size-5 is-clickable">
+                    {% elif process_step == 5 %}
+                        <span class="tag is-white-ter is-size-5 is-clickable">
                 Make Payment</span>
-                {% elif process_step == 6 %}
-                    <span class="tag is-white-ter is-size-5 is-clickable">
+                    {% elif process_step == 6 %}
+                        <span class="tag is-white-ter is-size-5 is-clickable">
                 Complete Tour</span>
-                {% endif %}
-            </div>
-        {% endif %}
-        <!--END: Action req-->
+                    {% endif %}
+                </div>
+            {% endif %}
+            <!--END: Action req-->
 
     </div>
     <!--END-->
@@ -317,7 +315,7 @@
                         <div class="card-content">
                             <div class="content">
                                 <p>
-                                    {{ booking.customer_req['requirements'] }}
+                                    {{booking.customer_req['requirements']}}
                                 </p>
                             </div>
                         </div>
@@ -327,30 +325,30 @@
             <!--END: Requirements-->
             <br>
             {% if process_step == 4 %}
-                <!--START: Customer Revision request-->
-                <div class="section">
-                    <div class="container">
-                        <div class="card">
-                            <header class="card-header">
-                                <p class="card-header-title has-background-grey-lighter">
-                                    Customer Revision Request
+            <!--START: Customer Revision request-->
+            <div class="section">
+                <div class="container">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title has-background-grey-lighter">
+                                Customer Revision Request
+                            </p>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <p>
+                                    {{booking.customer_req['revision']}}
                                 </p>
-                            </header>
-                            <div class="card-content">
-                                <div class="content">
-                                    <p>
-                                        {{ booking.customer_req['revision'] }}
-                                    </p>
-                                </div>
                             </div>
-                            <footer class="card-footer">
-                                <p class="m-4">{{ booking.revisions }} free Revision(s) remaining.</p>
-                            </footer>
                         </div>
+                        <footer class="card-footer">
+                            <p class="m-4">{{ booking.revisions }} free Revision(s) remaining.</p>
+                        </footer>
                     </div>
                 </div>
-                <!--END: Customer Revision request-->
-            {% endif %}
+            </div>
+            <!--END: Customer Revision request-->
+        {% endif %}
             <br>
             <!--START: Card 3-->
             <div class='container mt-5' id="EditPlan_div">
@@ -383,126 +381,127 @@
                     <!--START: Edit Itinerary Form (from Alex)-->
                     <div class="container is-hidden p-5" id="ItineraryForm">
                         <form id='editItineraryForm' class="form-horizontal" enctype="multipart/form-data"
-                              action="/s/businesses/{{ booking['_id'] }}" method="POST">
-                            {{ form.csrf_token }}
-                            <fieldset>
+                  action="/s/businesses/{{ booking['_id'] }}" method="POST">
+                {{ form.csrf_token }}
+                <fieldset>
 
-                                <div class='field'>
-                                    <label class="label" for="tour-date">Tour Date</label>
-                                    <div class='control'>
-                                        {{ form.tour_date(class='input', id='tour-date', value=booking.book_date, type='date') }}
-                                    </div>
-                                </div>
+                    <div class='field'>
+                    <label class="label" for="tour-date">Tour Date</label>
+                    <div class='control'>
+                        {{form.tour_date(class='input', id='tour-date', value=booking.book_date, type='date')}}
+                    </div>
+                    </div>
 
-                                <div class='field is-horizontal mb-5'>
-                                    <div class='field-body'>
-                                        <div class='field'>
-                                            <label class="label" for="tour-starttime">Start Time</label>
-                                            <div class='control'>
-                                                {{ form.tour_starttime(class='input', id='tour-starttime', value=booking.book_time.split('-')[0], type='time') }}
-                                            </div>
-                                        </div>
+                    <div class='field is-horizontal mb-5'>
+                        <div class='field-body'>
+                            <div class='field'>
+                    <label class="label" for="tour-starttime">Start Time</label>
+                    <div class='control'>
+                        {{form.tour_starttime(class='input', id='tour-starttime', value=booking.book_time.split('-')[0], type='time')}}
+                    </div>
+                </div>
 
-                                        <div class='field'>
-                                            <label class="label" for="tour-endtime">End Time</label>
-                                            <div class='control'>
-                                                {{ form.tour_endtime(class='input', id='tour-endtime', value=booking.book_time.split('-')[1], type='time') }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <label class="label" for="tour-items">Tour itinerary</label>
-                                <div class="field has-addons">
-                                    <div class="control">
-                                        <a id='addItemButton' class="button" onclick="AddItinerary();AppendtoItem()">
-                                            Add Itinerary
-                                        </a>
-                                    </div>
-                                    <div class="control is-expanded">
-                                        {{ form.tour_items(class='input', id='tour-items', placeholder='Visit famous museum at Newton: Newton War Memorial Museum', type='text') }}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <ol id='itinerary-list'></ol>
-                                </div>
-
-                                <div class='field'>
-                                    <div class='control'>
-                                        <input name='tour_items_list[]' , class='input' , id='tour-item-list' ,
-                                               type='hidden'>
-                                    </div>
-                                </div>
-
-                                <div class='field'>
-                                    <label class="label" for="tour-price">Tour Price</label>
-                                    <div class='control'>
-                                        {{ form.tour_price(class='input', id='tour-price', value=booking.book_charges['baseprice'], type="number", step="0.1") }}
-                                    </div>
-                                </div>
-
-
-                                <!--START: cancel changes/draft/submit itinerary buttons-->
-                                <div class="field is-grouped is-grouped-right is-hidden" id="editItineraryButtons">
-                                    <p class="control">
-                                        <button type='button' class="button is-warning is-light"
-                                                onclick="$('#CancelItineraryModal').fadeIn('fast');">
-                                    <div class="is-size-5">Cancel Changes</div>
-                                    <br>
-                                    </button>
-                                    </p>
-                                    <p class="control">
-                                        <button type='button' class="button is-success is-light"
-                                                onclick="$('#SubmitPlanModal').fadeIn('fast')">
-                                    <div class="is-size-5">Save</div>
-                                    <br>
-                                    </button>
-                                    </p>
-                                </div>
-                                <!--END: cancel changes/draft/submit itinerary buttons-->
-                                <!--START:(Modal) Confirm submit plan-->
-                                <div class="modal is-active" id="SubmitPlanModal" style="display: none;">
-                                    <div class="modal-background"></div>
-                                    <div class="modal-content">
-                                        <div class="box has-text-centered">
-                                            <p class="is-size-5 has-text-weight-bold">Submit your new Itinerary &
-                                                Charges to the
-                                                Customer?</p>
-                                            <p>This action cannot be undone.</p>
-                                            <div class="field is-grouped is-grouped-centered mt-5">
-                                                <p class="control">
-                                                    <button type='button' class="button is-danger is-light"
-                                                            onclick="$('#SubmitPlanModal').fadeOut('fast');">
-                                                <div class="is-size-5">Cancel</div>
-                                                </button>
-                                                </p>
-                                                <!-- <form id="SubmitItinerary" method="POST" action="{{ url_for('business', book_id=booking._id) }}"> -->
-                                                <p class="control">
-                                                    <button class="button is-success is-light" type="submit"
-                                                            name="SubmitItinerary" value="Update Itinerary"
-                                                            value="SubmitItinerary"
-                                                            onclick="$('#SubmitPlanModal').fadeOut('fast');UpdateItems();AppendtoDay();">
-                                                <div class="is-size-5">Confirm</div>
-                                                </button>
-                                                </p>
-                                                <!-- </form> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type='button' class="modal-close is-large" aria-label="close"
-                                            onclick="$('#SubmitPlanModal').fadeOut('fast');"></button>
-                                </div>
-                                <!--END:(Modal) Confirm submit plan-->
-
-
-                            </fieldset>
-                        </form>
-
-                        <div class="divider is-left"></div>
-                        <div class='has-text-centered'>
-                            <span class='is-size-4 mt-5'><b>Previous Plan</b></span>
+                    <div class='field'>
+                        <label class="label" for="tour-endtime">End Time</label>
+                        <div class='control'>
+                            {{form.tour_endtime(class='input', id='tour-endtime', value=booking.book_time.split('-')[1], type='time')}}
                         </div>
+                        </div>  
+                    </div>
+                    </div>
+
+                    <label class="label" for="tour-items">Tour itinerary</label>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <a id='addItemButton' class="button" onclick="AddItinerary();AppendtoItem()">
+                                Add Itinerary
+                            </a>
+                        </div>
+                        <div class="control is-expanded">
+                            {{ form.tour_items(class='input', id='tour-items', placeholder='Visit famous museum at Newton: Newton War Memorial Museum', type='text') }}
+                        </div>
+                    </div>
+
+                    <div>
+                        <ol id='itinerary-list'></ol>
+                    </div>
+
+                    <div class='field'>
+                        <div class='control'>
+                            <input name='tour_items_list[]' , class='input' , id='tour-item-list' , type='hidden'>
+                        </div>
+                    </div>
+
+                    <div class='field'>
+                        <label class="label" for="tour-price">Tour Price</label>
+                        <div class='control'>
+                            {{form.tour_price(class='input', id='tour-price', value=booking.book_charges['baseprice'], type="number", step="0.1")}}
+                        </div>
+                        </div>   
+                    <div class='field'>
+                        <label class="label" for="tour-price">Number of Tour Participants</label>
+                        <div class='control'>
+                            {{form.tour_pax(class='input', id='tour-pax', value=booking.book_pax, type="number", step="1")}}
+                        </div>
+                        </div>      
+
+
+                        <!--START: cancel changes/draft/submit itinerary buttons-->
+                        <div class="field is-grouped is-grouped-right is-hidden" id="editItineraryButtons">
+                            <p class="control">
+                                <button type='button' class="button is-warning is-light"
+                                        onclick="$('#CancelItineraryModal').fadeIn('fast');">
+                            <div class="is-size-5">Cancel Changes</div>
+                            <br>
+                            </button>
+                            </p>
+                            <p class="control">
+                                <button type='button' class="button is-success is-light" onclick="$('#SubmitPlanModal').fadeIn('fast')">
+                            <div class="is-size-5">Save</div>
+                            <br>
+                            </button>
+                            </p>
+                        </div>
+                        <!--END: cancel changes/draft/submit itinerary buttons-->
+                    <!--START:(Modal) Confirm submit plan-->
+                <div class="modal is-active" id="SubmitPlanModal" style="display: none;">
+                    <div class="modal-background"></div>
+                    <div class="modal-content">
+                        <div class="box has-text-centered">
+                            <p class="is-size-5 has-text-weight-bold">Submit your new Itinerary & Charges to the
+                                Customer?</p>
+                            <p>This action cannot be undone.</p>
+                            <div class="field is-grouped is-grouped-centered mt-5">
+                                <p class="control">
+                                    <button type='button' class="button is-danger is-light"
+                                            onclick="$('#SubmitPlanModal').fadeOut('fast');">
+                                <div class="is-size-5">Cancel</div>
+                                </button>
+                                </p>
+                                <!-- <form id="SubmitItinerary" method="POST" action="{{ url_for('business', book_id=booking._id) }}"> -->
+                                    <p class="control">
+                                        <button class="button is-success is-light" type="submit" name="SubmitItinerary" value="Update Itinerary"
+                                                value="SubmitItinerary" onclick="$('#SubmitPlanModal').fadeOut('fast');UpdateItems();AppendtoDay();">
+                                    <div class="is-size-5">Confirm</div>
+                                    </button>
+                                    </p>
+                                <!-- </form> -->
+                            </div>
+                        </div>
+                    </div>
+                    <button type='button' class="modal-close is-large" aria-label="close"
+                            onclick="$('#SubmitPlanModal').fadeOut('fast');"></button>
+                </div>
+                <!--END:(Modal) Confirm submit plan-->
+                        
+
+                </fieldset>
+            </form>
+
+            <div class="divider is-left"></div>
+            <div class='has-text-centered'>
+            <span class='is-size-4 mt-5'><b>Previous Plan</b></span>
+            </div>
                     </div>
                     <!--END: Edit Itinerary Form-->
                     <div class="columns pt-5">
@@ -533,17 +532,25 @@
                                 <tr>
                                     <td><i class="far fa-calendar"></i>&ensp;<b>Date</b></td>
                                     {% if booking.book_date == '' %}
-                                        <td class='has-text-grey'>To-Be Decided</td>
+                                    <td class='has-text-grey'>To-Be Decided</td>
                                     {% else %}
-                                        <td>{{ booking.book_date }}</td>
+                                    <td>{{ booking.book_date }}</td>
                                     {% endif %}
                                 </tr>
                                 <tr>
                                     <td><i class="fas fa-clock"></i>&ensp;<b>Time</b></td>
                                     {% if booking.book_time == '' %}
+                                    <td class='has-text-grey'>To-Be Decided</td>
+                                    {% else %}
+                                    <td>{{ booking.book_time }}</td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-clock"></i>&ensp;<b>Number of Participants</b></td>
+                                    {% if booking.book_pax == 0 %}
                                         <td class='has-text-grey'>To-Be Decided</td>
                                     {% else %}
-                                        <td>{{ booking.book_time }}</td>
+                                        <td>{{ booking.book_pax }}</td>
                                     {% endif %}
                                 </tr>
                             </table>
@@ -565,8 +572,7 @@
                             </button>
                             </p>
                             <p class="control">
-                                <button class="button is-success is-light"
-                                        onclick="$('#SubmitPlanModal').fadeIn('fast')">
+                                <button class="button is-success is-light" onclick="$('#SubmitPlanModal').fadeIn('fast')">
                             <div class="is-size-5">Save</div>
                             <br>
                             </button>
@@ -589,7 +595,7 @@
                                     </p>
                                     <p class="control">
                                         <button class="button is-success is-light"
-                                                onclick="location.reload();">
+                                        onclick="location.reload();">
                                     <div class="is-size-5">Continue</div>
                                     </button>
                                     </p>
@@ -610,22 +616,22 @@
                     <span class='is-size-3 mr-1'><b>Additional Information</b></span>
                 </div>
                 <form id='AddInfoForm' class="form-horizontal" enctype="multipart/form-data"
-                      action="/s/businesses/{{ booking['_id'] }}" method="POST">
-                    {{ addInfoForm.csrf_token }}
-                    <div class="field">
-                        <div class="control">
-                            {{ addInfoForm.AddInfo(class="textarea input", type="textarea", value=booking.book_info,
-                        placeholder="Enter Additional Information you would like your Customer to know.") }}
-                        </div>
+                  action="/s/businesses/{{ booking['_id'] }}" method="POST">
+                {{ addInfoForm.csrf_token }}
+                <div class="field">
+                    <div class="control">
+                        {{addInfoForm.AddInfo(class="textarea input", type="textarea", value=booking.book_info,
+                        placeholder="Enter Additional Information you would like your Customer to know.")}}
                     </div>
-                    <div class="field is-grouped is-grouped-right">
-                        <p class="control">
-                            <button class="button is-success is-light" name="add-info-submit" type="submit">
-                        <div class="is-size-5">Save</div>
-                        <br>
-                        </button>
-                        </p>
-                    </div>
+                </div>
+                <div class="field is-grouped is-grouped-right">
+                    <p class="control">
+                        <button class="button is-success is-light" name="add-info-submit" type="submit">
+                    <div class="is-size-5">Save</div>
+                    <br>
+                    </button>
+                    </p>
+                </div>
                 </form>
             </div>
             <!--END: Additional Info-->
@@ -664,18 +670,18 @@
                                         </div>
                                     {% else %}
                                         {% for i in chatroom_display %}
-                                            <div>
-                                                <small><a href=""
-                                                          class="has-text-weight-bold">{{ i["sender_name"] }}</a>
-                                                    <span class="has-text-grey">
+                                        <div>
+                                            <small><a href=""
+                                                      class="has-text-weight-bold">{{ i["sender_name"] }}</a>
+                                                <span class="has-text-grey">
                                                     {% if i["self"] %}
                                                         — Me
                                                     {% endif %}&nbsp; at {{ i['timestamp']|timestamp_iso }}
                                                 </span>
-                                                </small>
-                                                <p>{{ i["msg_content"] }}</p>
-                                                <hr>
-                                            </div>
+                                            </small>
+                                            <p>{{ i["msg_content"] }}</p>
+                                            <hr>
+                                        </div>
                                         {% endfor %}
                                     {% endif %}
                                 </div>
@@ -721,7 +727,7 @@
             <div class="container">
                 {% if 2 <= process_step <= 4 %}
                     <div class="is-size-3 has-text-centered has-text-weight-semibold">Proposed Cost</div>
-                    <br>
+                <br>
                     <!--START: Display proposed cost-->
                     <div class="container box">
                         <div class="heading">Tour Price</div>

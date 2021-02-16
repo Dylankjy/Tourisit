@@ -1,16 +1,15 @@
-from datetime import datetime, timedelta, date
+from datetime import datetime, time, timedelta, date
 
 from flask_wtf import FlaskForm
-from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField, StringField, \
-    DecimalField
+from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField, StringField, DecimalField, IntegerField, SelectField
 from wtforms.validators import InputRequired, Length
-
 
 # Customer-side
 # Book now - default form
 class BookingForm(FlaskForm):
     book_date = DateField('book_date', validators=[InputRequired()])
     book_timeslot = RadioField('book_timeslot', validators=[InputRequired()])
+    book_pax = SelectField('book_pax', validators=[InputRequired()])
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
 
     def date_valid(self, bookdate, tg_booking_list):
@@ -44,18 +43,15 @@ class BookingForm(FlaskForm):
 class CheckoutForm(FlaskForm):
     submit = SubmitField('Pay & Proceed')
 
-
 # Request Revisions form
 class RevisionForm(FlaskForm):
-    revision_text = TextAreaField("revision_text", validators=[InputRequired(), Length(min=0, max=75, message="")])
+    revision_text = TextAreaField("revision_text",validators=[InputRequired(), Length(min=0, max=75, message="")])
     submit = SubmitField("Request a Revision", validators=[InputRequired()])
-
 
 # Submit Requirements form
 class RequirementsForm(FlaskForm):
-    req_text = TextAreaField("revision_text", validators=[InputRequired(), Length(min=0, max=75, message="")])
+    req_text = TextAreaField("revision_text",validators=[InputRequired(), Length(min=0, max=75, message="")])
     submit = SubmitField("Submit your Requirements", validators=[InputRequired()])
-
 
 # TG-side
 # Edit Plan form
@@ -65,11 +61,12 @@ class EditPlan(FlaskForm):
     tour_starttime = TimeField('tour_starttime', validators=[InputRequired()])
     tour_endtime = TimeField('tour_endtime', validators=[InputRequired()])
     tour_price = DecimalField('tour_price')
+    tour_pax = IntegerField('tour_pax')
 
 
 # Additional Info form field
 class AddInfoForm(FlaskForm):
-    AddInfo = TextAreaField("AddInfo", validators=[Length(min=0, max=75, message="")])
+    AddInfo = TextAreaField("AddInfo",validators=[Length(min=0, max=75, message="")])
 
 
 class Booking:
@@ -83,6 +80,7 @@ class Booking:
             book_baseprice,
             book_customfee,
             book_duration,
+            book_pax,
             timeline_content,
             chat_id,
             revisions,
@@ -96,6 +94,7 @@ class Booking:
         # self.__book_datetime = ''
         # self.set_book_datetime(book_date, book_time)
         self.__book_duration = book_duration
+        self.__book_pax = book_pax
         self.__timeline_content = timeline_content
         self.__revisions = revisions
         self.__process_step = process_step
@@ -136,12 +135,14 @@ class Booking:
             "book_time": self.__book_time,
             # "book_datetime": self.__book_datetime,
             "book_duration": self.__book_duration,
+            "book_pax": self.__book_pax,
             "timeline_content": self.__timeline_content,
             "revisions": self.__revisions,
             "process_step": self.__process_step,
             "book_charges": self.__book_charges,
             "book_info": self.__book_info,
             "book_chat": self.__book_chat,
+            "completed": self.__completed,
             "customer_req": self.__customer_req
         }
 
@@ -157,3 +158,4 @@ def calculate_totalcost(book_charges):
             return round(totalcost, 2)
     except BaseException:
         print("An error occured while trying to compute the total cost. Check Datatypes or negative inputs.")
+
