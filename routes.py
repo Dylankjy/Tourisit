@@ -381,7 +381,7 @@ def accountinfo():
                     }
                     user_db.update_one(query_user, updated)
                     return render_template(
-                        'success-support.html', user=item, id=id, loggedin=True)
+                        'success-user.html', user=item, id=id, loggedin=True)
                 else:
                     return render_template('setting.html', user=item, id=id, loggedin=True)
             return render_template(
@@ -2167,9 +2167,9 @@ def error413(err):
 
 
 # Run app
-if __name__ == '__main__':
-    app.run(debug=True, threaded=True)
+# if __name__ == '__main__':
+#     app.run(debug=True, threaded=True)
 
 # Use this if running on server
-# if __name__ == '__main__':
-#     app.run(debug=True, threaded=True, host='0.0.0.0')
+if __name__ == '__main__':
+    app.run(debug=True, threaded=True, host='0.0.0.0')
