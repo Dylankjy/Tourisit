@@ -1513,7 +1513,7 @@ def business(book_id):
                              "book_pax": tour_pax,
                              "process_step": 3}
                 }
-                # bookings_db.update_one(booking_query, updated)
+                bookings_db.update_one(booking_query, updated)
                 return redirect(url_for('business', book_id=book_id))
 
             if 'AddInfo' in data_dict.values() and AddInfo_form.validate_on_submit():
