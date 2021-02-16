@@ -1,7 +1,7 @@
 from datetime import datetime, time, timedelta, date
 
 from flask_wtf import FlaskForm
-from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField, StringField, DecimalField
+from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField, StringField, DecimalField, IntegerField, SelectField
 from wtforms.validators import InputRequired, Length
 
 # Customer-side
@@ -9,6 +9,7 @@ from wtforms.validators import InputRequired, Length
 class BookingForm(FlaskForm):
     book_date = DateField('book_date', validators=[InputRequired()])
     book_timeslot = RadioField('book_timeslot', validators=[InputRequired()])
+    book_pax = SelectField('book_pax', validators=[InputRequired()])
     accept_tnc = BooleanField('Accept?', validators=[InputRequired()])
 
     def date_valid(self, bookdate, tg_booking_list):
@@ -60,6 +61,7 @@ class EditPlan(FlaskForm):
     tour_starttime = TimeField('tour_starttime', validators=[InputRequired()])
     tour_endtime = TimeField('tour_endtime', validators=[InputRequired()])
     tour_price = DecimalField('tour_price')
+    tour_pax = IntegerField('tour_pax')
 
 
 # Additional Info form field
@@ -78,6 +80,7 @@ class Booking:
             book_baseprice,
             book_customfee,
             book_duration,
+            book_pax,
             timeline_content,
             chat_id,
             revisions,
@@ -91,6 +94,7 @@ class Booking:
         # self.__book_datetime = ''
         # self.set_book_datetime(book_date, book_time)
         self.__book_duration = book_duration
+        self.__book_pax = book_pax
         self.__timeline_content = timeline_content
         self.__revisions = revisions
         self.__process_step = process_step
@@ -131,12 +135,14 @@ class Booking:
             "book_time": self.__book_time,
             # "book_datetime": self.__book_datetime,
             "book_duration": self.__book_duration,
+            "book_pax": self.__book_pax,
             "timeline_content": self.__timeline_content,
             "revisions": self.__revisions,
             "process_step": self.__process_step,
             "book_charges": self.__book_charges,
             "book_info": self.__book_info,
             "book_chat": self.__book_chat,
+            "completed": self.__completed,
             "customer_req": self.__customer_req
         }
 

@@ -437,7 +437,13 @@
                         <div class='control'>
                             {{form.tour_price(class='input', id='tour-price', value=booking.book_charges['baseprice'], type="number", step="0.1")}}
                         </div>
-                        </div>    
+                        </div>   
+                    <div class='field'>
+                        <label class="label" for="tour-price">Number of Tour Participants</label>
+                        <div class='control'>
+                            {{form.tour_pax(class='input', id='tour-pax', value=booking.book_pax, type="number", step="1")}}
+                        </div>
+                        </div>      
 
 
                         <!--START: cancel changes/draft/submit itinerary buttons-->
@@ -537,6 +543,14 @@
                                     <td class='has-text-grey'>To-Be Decided</td>
                                     {% else %}
                                     <td>{{ booking.book_time }}</td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-clock"></i>&ensp;<b>Number of Participants</b></td>
+                                    {% if booking.book_pax == 0 %}
+                                        <td class='has-text-grey'>To-Be Decided</td>
+                                    {% else %}
+                                        <td>{{ booking.book_pax }}</td>
                                     {% endif %}
                                 </tr>
                             </table>
