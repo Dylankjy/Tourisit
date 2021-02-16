@@ -47,9 +47,9 @@
 
             <div class="navbar-menu">
                 <div class="navbar-start">
-{#                    <a class="navbar-item" href="{{ url_for('adminDashboard') }}">#}
-{#                        Home#}
-{#                    </a>#}
+                    {#                    <a class="navbar-item" href="{{ url_for('adminDashboard') }}">#}
+                    {#                        Home#}
+                    {#                    </a>#}
                     <a class="navbar-item" href="{{ url_for('adminUsers') }}">
                         Manage Users
                     </a>
@@ -69,7 +69,8 @@
                     </a>
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-item">
-                            <div class="profile-img" style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
+                            <div class="profile-img"
+                                 style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
                         </a>
 
                         <div class="navbar-dropdown is-boxed is-right">

@@ -25,7 +25,8 @@
             <div class="level">
                 <div class="level-right">
                     <div class="level-item">
-                        <button onclick="$('#reportGenerationModal').fadeIn('fast');" type="button" class="button is-success">
+                        <button onclick="$('#reportGenerationModal').fadeIn('fast');" type="button"
+                                class="button is-success">
                             <i class="fas fa-download"></i>&ensp;Generate new report
                         </button>
                     </div>
@@ -41,7 +42,7 @@
                             {% if (earning_data|value_difference_earnings)[1] == False %}
                             is-danger is-light">
                             {% else %}
-                            is-success is-light">+
+                                is-success is-light">+
                             {% endif %}
                             ${{ '%0.2f'| format((earning_data|value_difference_earnings)[0]|float) }}</span></div>
                         <div class="level">
@@ -54,7 +55,8 @@
                             <div class="level-item">
                                 <div>
                                     <div class="heading">Average per month</div>
-                                    <div class="title is-5">${{ '%0.2f'| format((earning_data|earning_average_month)|float) }}</div>
+                                    <div class="title is-5">
+                                        ${{ '%0.2f'| format((earning_data|earning_average_month)|float) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -68,23 +70,23 @@
                             {% if (csat_data|value_difference_stars)[1] == False %}
                             is-danger is-light">
                             {% else %}
-                            is-success is-light">+
+                                is-success is-light">+
                             {% endif %}
                             {{ (csat_data|value_difference_stars)[0] }}%</span></div>
-{#                        <div class="level">#}
-{#                            <div class="level-item">#}
-{#                                <div class="">#}
-{#                                    <div class="heading">Positive</div>#}
-{#                                    <div class="title is-5">54</div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="level-item">#}
-{#                                <div class="">#}
-{#                                    <div class="heading">Negative</div>#}
-{#                                    <div class="title is-5">2</div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
+                        {#                        <div class="level">#}
+                        {#                            <div class="level-item">#}
+                        {#                                <div class="">#}
+                        {#                                    <div class="heading">Positive</div>#}
+                        {#                                    <div class="title is-5">54</div>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                            <div class="level-item">#}
+                        {#                                <div class="">#}
+                        {#                                    <div class="heading">Negative</div>#}
+                        {#                                    <div class="title is-5">2</div>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
                     </div>
                 </div>
             </div>
@@ -118,22 +120,24 @@
         <div class="modal-background"></div>
         <div class="modal-card box" style="padding: 3em;">
             <p class="title is-3 has-text-weight-bold has-text-centered">Generate Report</p>
-            <p class="mb-3">Enter month and year of report to generate.<br>You may leave this blank to get a full report for your entire account.</p>
+            <p class="mb-3">Enter month and year of report to generate.<br>You may leave this blank to get a full report
+                for your entire account.</p>
             <form method="POST" action="{{ url_for('sellerDashboard') }}" target="_blank">
                 {{ form.csrf_token }}
-            <div class="field is-grouped">
-                <p class="control is-expanded">
+                <div class="field is-grouped">
+                    <p class="control is-expanded">
                         <!-- <input id="registerEmail" class="input" type="text" placeholder="Email"> -->
                         {{ form.date_filter(type="month", class="input", placeholder="Month") }}
                         <!-- <span class="icon is-small is-left">
                     </span> -->
-                </p>
-                <p class="control">
-                  <button onclick="$('#reportGenerationModal').fadeOut('fast');$('#reportGenerationModalResult').fadeIn('fast');" class="button is-primary" type="submit">
-                    <i class="fas fa-arrow-right"></i>&nbsp;Generate
-                  </button>
-                </p>
-              </div>
+                    </p>
+                    <p class="control">
+                        <button onclick="$('#reportGenerationModal').fadeOut('fast');$('#reportGenerationModalResult').fadeIn('fast');"
+                                class="button is-primary" type="submit">
+                            <i class="fas fa-arrow-right"></i>&nbsp;Generate
+                        </button>
+                    </p>
+                </div>
             </form>
             <a onclick="$('#reportGenerationModal').fadeOut('fast');" class="button is-light is-fullwidth mt-3"><i
                     class="fas fa-times"></i>&ensp;Cancel</a>
@@ -152,18 +156,18 @@
     </div>
 
     <script>
-    const d = new Date()
-    const months = ["January", "February", "March", "April", "May", "June", 'July', 'August', 'September', 'October', 'November', 'December']
-    const current_month = d.getMonth()
-    var recent_months = []
+        const d = new Date()
+        const months = ["January", "February", "March", "April", "May", "June", 'July', 'August', 'September', 'October', 'November', 'December']
+        const current_month = d.getMonth()
+        var recent_months = []
 
-    for (i = 0; i < 6; i++) {
-        if (current_month - i < 0) {
-            recent_months.push(months[12 - i + 1])
-        } else {
-            recent_months.push(months[current_month - i])
+        for (i = 0; i < 6; i++) {
+            if (current_month - i < 0) {
+                recent_months.push(months[12 - i + 1])
+            } else {
+                recent_months.push(months[current_month - i])
+            }
         }
-    }
 
         var incomeChart = document.getElementById('incomeChart').getContext('2d');
         var incomeChartData = new Chart(incomeChart, {

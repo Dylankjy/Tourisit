@@ -20,21 +20,21 @@
         <div class='section container'>
 
             <form id='makeListingForm' class="form-horizontal" enctype="multipart/form-data"
-            action="{{ url_for('setAccType') }}" method="POST">
-    
+                  action="{{ url_for('setAccType') }}" method="POST">
+
                 {{ setAccModeForm.csrf_token }}
                 {{ setAccModeForm.acc_mode(id="account_mode", class="dropdown-item item-level-item") }}
-    
-    
+
+
                 <div class="field">
                     <div class="control">
                         <input type='submit' value='Select Acc Type' id="type-submit" name="type-submit"
-                            class="button is-success">
+                               class="button is-success">
                     </div>
                 </div>
-                
+
             </form>
-        
+
         </div>
     </section>
 {% endblock %}

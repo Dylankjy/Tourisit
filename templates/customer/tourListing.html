@@ -19,7 +19,9 @@
                         <div class="box mb-2 list-author has-background-black">
                             <div class="profile-img"
                                  style="background-image: url('data:image/jpeg;base64, {{ item['tg_uid']|user_pfp }}');"></div>
-                            <div class="ml-2 has-text-white"><b><a class='has-text-white' href='/users/{{ item["tg_uid"] }}/profile'>{{ item['tg_uid']| user_name }}</a></b></div>
+                            <div class="ml-2 has-text-white"><b><a class='has-text-white'
+                                                                   href='/users/{{ item["tg_uid"] }}/profile'>{{ item['tg_uid']| user_name }}</a></b>
+                            </div>
                         </div>
                         <hr>
                         <h3 class="title is-4">Pricing</h3>
@@ -45,10 +47,10 @@
                             <ul>
                                 {% for day in item.tour_days %}
                                     <li>{{ day }}</li>
-                                {% endfor %}                            
+                                {% endfor %}
                             </ul>
                         </div>
-                        
+
                         <br>
 
                         <div class="tour-content">
@@ -62,10 +64,10 @@
                         <br>
 
                         <div class="tour-content">
-                                <h3 class="title is-4">Max Tour Participants</h3>
-                                {{ item.tour_size }} People
-                            </div>
+                            <h3 class="title is-4">Max Tour Participants</h3>
+                            {{ item.tour_size }} People
                         </div>
+                    </div>
 
                 </div>
                 <div class="tour-footer has-background-light">
@@ -74,18 +76,19 @@
                         {% if editable == True %}
 
                             <a class="button is-white" style="color:rgb(226, 48, 78)"
-                                href='/listings/delete/{{ item["_id"] }}'><i class="fas fa-trash-alt"></i>&ensp;Delete</a>
+                               href='/listings/delete/{{ item["_id"] }}'><i
+                                    class="fas fa-trash-alt"></i>&ensp;Delete</a>
                             <a class="button has-text-link" href='/listings/edit/{{ item["_id"] }}'><i
-                                class="fas fa-clipboard"></i>&ensp;Edit Listing</a>
+                                    class="fas fa-clipboard"></i>&ensp;Edit Listing</a>
 
                             {% if display_listing == True %}
-                            <a class="button has-text-link" href='/listings/hide/{{ item["_id"] }}'><i
-                                class="fas fa-clipboard"></i>&ensp;Hide Listing</a>
+                                <a class="button has-text-link" href='/listings/hide/{{ item["_id"] }}'><i
+                                        class="fas fa-clipboard"></i>&ensp;Hide Listing</a>
                             {% else %}
-                            <a class="button has-text-link" href='/listings/show/{{ item["_id"] }}'><i
-                                class="fas fa-clipboard"></i>&ensp;Show Listing</a>
-                            
-                            <p class='has-text-danger is-italic'>Listing is currently hidden!</p>
+                                <a class="button has-text-link" href='/listings/show/{{ item["_id"] }}'><i
+                                        class="fas fa-clipboard"></i>&ensp;Show Listing</a>
+
+                                <p class='has-text-danger is-italic'>Listing is currently hidden!</p>
                             {% endif %}
 
 
@@ -96,20 +99,22 @@
                                     class="fas fa-arrow-right"></i>&ensp;Book now</a>
 
                             {% if inside_wl == True %}
-                                <a class="button" style="color:rgb(226, 48, 78)" href='/me/wishlist/remove/{{ item["_id"] }}'><i
-                                    class="fas fa-heart-broken"></i>&ensp;Remove from wishlist</a>
-                                {% else %}
-                                <a class="button" style="color:rgb(226, 48, 78)" href='/me/wishlist/add/{{ item["_id"] }}'><i
+                                <a class="button" style="color:rgb(226, 48, 78)"
+                                   href='/me/wishlist/remove/{{ item["_id"] }}'><i
+                                        class="fas fa-heart-broken"></i>&ensp;Remove from wishlist</a>
+                            {% else %}
+                                <a class="button" style="color:rgb(226, 48, 78)"
+                                   href='/me/wishlist/add/{{ item["_id"] }}'><i
                                         class="fas fa-heart"></i>&ensp;Add
                                     to wishlist</a>
                             {% endif %}
 
                             <a class="button" style="color:rgb(48, 119, 226)" href='/listings/chat/{{ item["_id"] }}'><i
-                                class="fas fa-comment"></i>&ensp;Chat with Guide</a>
-                        
+                                    class="fas fa-comment"></i>&ensp;Chat with Guide</a>
+
                         {% endif %}
 
-                            <!-- <p>Insert date created here</p> -->
+                        <!-- <p>Insert date created here</p> -->
                     </div>
                 </div>
             </div>
@@ -148,37 +153,37 @@
 
             <!--Start of review cards-->
             <div class="mt-5">
-            <h1 class='title'>Reviews for this tour</h1>
-            {% if item.tour_reviews %}
-            {% for review in item.tour_reviews %}
-            <article class="media box">
-                <div class="media-left">
-                    <div class="profile-img"
-                    style="background-image: url('data:image/jpeg;base64, {{ review['reviewer']|user_pfp }}');"></div>
-                </div>
-                <div class="media-content">
-                    <div class="content">
-                        <p>
-                            <strong class="pr-5">{{ review['reviewer']| user_name }}</strong>
-                            {% set stars = review.stars | int %}
-                            {% for i in range(stars)%}
-                            <span class="fas fa-star checked"></span>
-                            {% endfor %}
-                            {% for i in range(5 - stars)%}
-                            <span class="fas fa-star"></span>
-                            {% endfor %}
-                            <br>
-                            {{review.text}}
-                        </p>
+                <h1 class='title'>Reviews for this tour</h1>
+                {% if item.tour_reviews %}
+                    {% for review in item.tour_reviews %}
+                        <article class="media box">
+                            <div class="media-left">
+                                <div class="profile-img"
+                                     style="background-image: url('data:image/jpeg;base64, {{ review['reviewer']|user_pfp }}');"></div>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong class="pr-5">{{ review['reviewer']| user_name }}</strong>
+                                        {% set stars = review.stars | int %}
+                                        {% for i in range(stars) %}
+                                            <span class="fas fa-star checked"></span>
+                                        {% endfor %}
+                                        {% for i in range(5 - stars) %}
+                                            <span class="fas fa-star"></span>
+                                        {% endfor %}
+                                        <br>
+                                        {{ review.text }}
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor %}
+                {% else %}
+                    <div class="has-text-grey has-text-centered mt-5 mb-5">
+                        No reviews have been left for this tour yet.
                     </div>
-                </div>
-            </article>
-            {% endfor %}
-            {% else %}
-            <div class="has-text-grey has-text-centered mt-5 mb-5">
-                No reviews have been left for this tour yet.
-            </div>
-            {% endif %}
+                {% endif %}
             </div>
         </div>
     </section>

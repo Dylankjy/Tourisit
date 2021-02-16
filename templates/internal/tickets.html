@@ -43,7 +43,8 @@
                         <td style="display: none;">{{ ticket['content'] }}</td>
                         <td>{{ ticket['status'] }}</td>
                         <td>
-                            <span class="viewbtn tag is-success is-light is-size-5 is-clickable" onclick="$('#TicketStatusModal').fadeIn('fast'); return false;">
+                            <span class="viewbtn tag is-success is-light is-size-5 is-clickable"
+                                  onclick="$('#TicketStatusModal').fadeIn('fast'); return false;">
                                 View More
                             </span>
                         </td>
@@ -113,12 +114,14 @@
 
                                 <div class="field is-grouped is-grouped-centered mt-5 has-text-centered">
                                     <div class="control">
-                                        <button class="button is-danger is-light" id="closebtn" onclick="$('#TicketStatusModal').fadeOut('fast');">
+                                        <button class="button is-danger is-light" id="closebtn"
+                                                onclick="$('#TicketStatusModal').fadeOut('fast');">
                                             Cancel
                                         </button>
                                     </div>
                                     <div class="control">
-                                        <input type="submit" class="button is-success" id="change-status" name="change-status" value="Update Status"
+                                        <input type="submit" class="button is-success" id="change-status"
+                                               name="change-status" value="Update Status"
                                                onclick="$('#TicketStatusModal').fadeOut('fast');">
                                     </div>
                                 </div>
@@ -127,7 +130,8 @@
 
                         </div>
                     </div>
-                    <button class="modal-close is-large" aria-label="close" onclick="$('#TicketStatusModal').fadeOut('fast');"></button>
+                    <button class="modal-close is-large" aria-label="close"
+                            onclick="$('#TicketStatusModal').fadeOut('fast');"></button>
                 </div>
             </table>
         </div>

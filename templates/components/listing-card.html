@@ -4,15 +4,16 @@
         <div class="column is-one-third">
             <a class="listing-card-a mb-5" href="/discover/{{ item['_id'] }}">
                 <div class="box listing-card small p-6"
-                    style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}')">
+                     style="background-image: url('data:image/jpeg;base64, {{ item['tour_img'] }}')">
                     <div class="listing-card-blur"></div>
                     <div class="listing-author">
                         <div class="profile-img"
-                            style="background-image: url('data:image/jpeg;base64, {{ item['tg_uid']|user_pfp }}')">
+                             style="background-image: url('data:image/jpeg;base64, {{ item['tg_uid']|user_pfp }}')">
                         </div>
                         <div class="ml-2 has-text-light">
                             <b>
-                                <p class="has-text-white" href="/users/{{ item['tg_uid'] }}">{{ item['tg_uid']|user_name }}</p>
+                                <p class="has-text-white"
+                                   href="/users/{{ item['tg_uid'] }}">{{ item['tg_uid']|user_name }}</p>
                             </b>
                             <span>is offering:</span>
                         </div>
@@ -29,7 +30,7 @@
 {% else %}
     <div class='section'>
         <p class='subtitle has-text-centered'>
-            Nothing to display here. 
+            Nothing to display here.
         </p>
     </div>
 

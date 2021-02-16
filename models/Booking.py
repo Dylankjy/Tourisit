@@ -1,8 +1,10 @@
-from datetime import datetime, time, timedelta, date
+from datetime import datetime, timedelta, date
 
 from flask_wtf import FlaskForm
-from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField, StringField, DecimalField
+from wtforms import DateField, TimeField, BooleanField, SubmitField, TextAreaField, RadioField, StringField, \
+    DecimalField
 from wtforms.validators import InputRequired, Length
+
 
 # Customer-side
 # Book now - default form
@@ -42,15 +44,18 @@ class BookingForm(FlaskForm):
 class CheckoutForm(FlaskForm):
     submit = SubmitField('Pay & Proceed')
 
+
 # Request Revisions form
 class RevisionForm(FlaskForm):
-    revision_text = TextAreaField("revision_text",validators=[InputRequired(), Length(min=0, max=75, message="")])
+    revision_text = TextAreaField("revision_text", validators=[InputRequired(), Length(min=0, max=75, message="")])
     submit = SubmitField("Request a Revision", validators=[InputRequired()])
+
 
 # Submit Requirements form
 class RequirementsForm(FlaskForm):
-    req_text = TextAreaField("revision_text",validators=[InputRequired(), Length(min=0, max=75, message="")])
+    req_text = TextAreaField("revision_text", validators=[InputRequired(), Length(min=0, max=75, message="")])
     submit = SubmitField("Submit your Requirements", validators=[InputRequired()])
+
 
 # TG-side
 # Edit Plan form
@@ -64,7 +69,7 @@ class EditPlan(FlaskForm):
 
 # Additional Info form field
 class AddInfoForm(FlaskForm):
-    AddInfo = TextAreaField("AddInfo",validators=[Length(min=0, max=75, message="")])
+    AddInfo = TextAreaField("AddInfo", validators=[Length(min=0, max=75, message="")])
 
 
 class Booking:
@@ -152,4 +157,3 @@ def calculate_totalcost(book_charges):
             return round(totalcost, 2)
     except BaseException:
         print("An error occured while trying to compute the total cost. Check Datatypes or negative inputs.")
-

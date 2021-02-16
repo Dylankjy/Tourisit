@@ -26,12 +26,9 @@
         var timingList = []
 
 
-
-
-
         function AppendtoDay() {
             $("input:checkbox[name=tour_days]:checked").each(function () {
-                dayList.push($(this).val() + '#$%^#') 
+                dayList.push($(this).val() + '#$%^#')
             });
             AppendtoDayList()
         }
@@ -128,8 +125,8 @@
             current_start_time = $('#tour-start-time').val()
             current_end_time = $('#tour-end-time').val()
             console.log(current_start_time)
-            text = 
-            `
+            text =
+                `
                 <ul id='timing_${intno}' class='timing_interval'>
                     <div class='level-left'>
                         <p class='level-item timing_interval_str'>${current_start_time} - ${current_end_time}</p>
@@ -146,21 +143,21 @@
 
         }
 
-    function pushTimings() {
-        var interval_str = $(this).text()
-        timingList.push(interval_str + '#$%^#')
-    }
+        function pushTimings() {
+            var interval_str = $(this).text()
+            timingList.push(interval_str + '#$%^#')
+        }
 
-    function loopPushTimings() {
-        $(".timing_interval_str").each(pushTimings)
-    }
+        function loopPushTimings() {
+            $(".timing_interval_str").each(pushTimings)
+        }
 
 
-    function AddItinerary() {
-        // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
-        current_item = document.getElementById('tour-items')
-        text =
-            `
+        function AddItinerary() {
+            // Dont delete element from array, but replace with 'None' instead. So can still continue to use the indexing
+            current_item = document.getElementById('tour-items')
+            text =
+                `
             <li id='list_${listno}'>
                 <div class="field has-addons" >
                     <div class="control is-expanded">
@@ -175,17 +172,17 @@
             </li>
             <br>
         `
-        $("#itinerary-list").append(`${text}`)
-        itemList.push(current_item.value + '#$%^#')
-        current_item.value = ''
-        listno += 1
-    }
+            $("#itinerary-list").append(`${text}`)
+            itemList.push(current_item.value + '#$%^#')
+            current_item.value = ''
+            listno += 1
+        }
 
-    // To return the itinerary from a previously defined listing
-    // tour_item is a single tour itinerary
-    function AddItineraryFromList(tour_item) {
-        text =
-            `
+        // To return the itinerary from a previously defined listing
+        // tour_item is a single tour itinerary
+        function AddItineraryFromList(tour_item) {
+            text =
+                `
             <li id='list_${listno}'>
                 <div class="field has-addons" >
                     <div class="control is-expanded">
@@ -200,14 +197,14 @@
             </li>
             <br>
         `
-        $("#itinerary-list").append(`${text}`)
-        itemList.push(tour_item + '#$%^#')
-        listno += 1
-    }
+            $("#itinerary-list").append(`${text}`)
+            itemList.push(tour_item + '#$%^#')
+            listno += 1
+        }
 
-    function AddTimingFromList(tour_timing) {
-        text = 
-        `
+        function AddTimingFromList(tour_timing) {
+            text =
+                `
             <ul id='timing_${intno}' class='timing_interval'>
                 <div class='level-left'>
                     <p class='level-item timing_interval_str'>${tour_timing}</p>
@@ -219,37 +216,37 @@
             </ul>
         `
 
-        intno += 1
-        $('#timing-list').append(text)
-    }
+            intno += 1
+            $('#timing-list').append(text)
+        }
 
 
-    function AddLocationFromList(tour_location) {
-        current_locs = document.getElementById('locations')
+        function AddLocationFromList(tour_location) {
+            current_locs = document.getElementById('locations')
 
-        var template = document.createElement('span')
-        template.className = "tag is-info"
-        template.textContent = tour_location
-        current_locs.appendChild(template)
+            var template = document.createElement('span')
+            template.className = "tag is-info"
+            template.textContent = tour_location
+            current_locs.appendChild(template)
 
 
-        let removeElement = document.createElement('a');
-        removeElement.textContent = '\u274c';
-        removeElement.id = locno
-        removeElement.addEventListener('click', () => {
-            current_locs.removeChild(template)
-            console.log(`Loc no is: ${locno}`)
-            locList.splice(removeElement.id, 1, 'None')
-            AppendtoLocationList()
-        });
-        template.appendChild(removeElement);
+            let removeElement = document.createElement('a');
+            removeElement.textContent = '\u274c';
+            removeElement.id = locno
+            removeElement.addEventListener('click', () => {
+                current_locs.removeChild(template)
+                console.log(`Loc no is: ${locno}`)
+                locList.splice(removeElement.id, 1, 'None')
+                AppendtoLocationList()
+            });
+            template.appendChild(removeElement);
 
-        // current_locs.innerHTML += template
-        locList.push(tour_location + '#$%^#')
-        console.log(locList)
+            // current_locs.innerHTML += template
+            locList.push(tour_location + '#$%^#')
+            console.log(locList)
 
-        locno += 1
-    }
+            locno += 1
+        }
 
     </script>
 
@@ -323,7 +320,7 @@
                             {{ form.tour_days(name='tour_days', type='checkbox', class='checkbox') }}
                             <ul>
                                 {% for error in form.tour_days.errors %}
-                                <li class="has-text-danger"> {{ error }}</li>
+                                    <li class="has-text-danger"> {{ error }}</li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -336,18 +333,19 @@
                     </div>
 
 
-
                     <label class="label">Tour Timings</label>
                     <div class='field'>
                         <div class='control level-left'>
-                            {{ form.tour_start_time(id='tour-start-time', class='dropdown-item level-item') }} <p class='level-item'>-</p>  {{ form.tour_end_time(id='tour-end-time', class='dropdown-item level-item') }}
+                            {{ form.tour_start_time(id='tour-start-time', class='dropdown-item level-item') }} <p
+                                class='level-item'>
+                            -</p> {{ form.tour_end_time(id='tour-end-time', class='dropdown-item level-item') }}
                             <a id='addTimingButton' class="button" onclick="AddTiming()">
                                 Add Timing
                             </a>
                             <br>
                             <ul>
                                 {% for error in form.tour_end_time.errors %}
-                                <li class="has-text-danger"> {{ error }}</li>
+                                    <li class="has-text-danger"> {{ error }}</li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -444,13 +442,14 @@
                     </div>
 
                     <label class="label" for="tour-size">Maximum Tour Participants
-                    &nbsp<span class='has-tooltip-right has-tooltip-arrow' data-tooltip='Maximum Tour Pax'><i class="fas fa-question-circle"></i></span></label>
+                        &nbsp<span class='has-tooltip-right has-tooltip-arrow' data-tooltip='Maximum Tour Pax'><i
+                                class="fas fa-question-circle"></i></span></label>
                     <div class="field">
                         <div class="control">
                             {{ form.tour_size(id="tour-size", type="number", class="input", value=listing.tour_size) }}
                             <ul>
                                 {% for error in form.tour_size.errors %}
-                                <li class="has-text-danger"> {{ error }}</li>
+                                    <li class="has-text-danger"> {{ error }}</li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -489,7 +488,7 @@
 
         persistedlocList.forEach(AddLocationFromList)
         AppendtoLocationList()
-        
+
         persistedDayList.forEach(checkDayfromList)
 
         persistedTimeList.forEach(AddTimingFromList)
@@ -522,9 +521,9 @@
         });
 
         $('#makeListingForm').submit(() => {
-        loopPushTimings()
-        AppendtoTimings()
-    });
+            loopPushTimings()
+            AppendtoTimings()
+        });
 
 
     </script>

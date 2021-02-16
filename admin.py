@@ -12,6 +12,7 @@ db_tokens = client['Tokens']
 db_listings = client['Listings']
 db_support = client['Support']
 
+
 def list_user_accounts():
     # Wildcard query
     wildcard_query = {}
@@ -19,6 +20,7 @@ def list_user_accounts():
     query_result = [i for i in db_users.find(wildcard_query)]
 
     return query_result
+
 
 def list_listings():
     # Wildcard query
@@ -28,10 +30,11 @@ def list_listings():
 
     return query_result
 
+
 def list_tickets():
     # Wildcard query
     wildcard_query = {}
-    
+
     query_result = [i for i in db_support.find(wildcard_query)]
 
     return query_result
