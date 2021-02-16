@@ -295,9 +295,6 @@ def profile(user_id):
     else:
         editable = False
         profile_img = person['profile_img']
-        print(result)
-        print(person)
-        print(person['name'])
         return render_template(
             'profile.html',
             form=bForm,
