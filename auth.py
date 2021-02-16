@@ -76,7 +76,7 @@ def create_account(name, raw_password, email):
     db_users.insert_one(user_dict)
 
     # Automatically send confirmation email to user
-    send_confirmation_email(None, email)
+    send_confirmation_email("email_verification", email)
 
     return True
 
@@ -367,12 +367,13 @@ def send_confirmation_email(email_type, user_email):
 
     message = MIMEMultipart("alternative")
 
+    message["From"] = formataddr(
+        (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
+    message["To"] = user_email
+
     if email_type == "email_verification":
         # Email headers
         message["Subject"] = "Tourisit - Confirm your Email"
-        message["From"] = formataddr(
-            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
-        message["To"] = user_email
 
         code = 'https://tourisit.hiy.sh/endpoint/email_confirmation?token=' + \
                add_token("email_verification", uid)
@@ -385,14 +386,10 @@ def send_confirmation_email(email_type, user_email):
         message.attach(MIMEText(content, "html"))
     elif email_type == "password_reset":
         if len(user_obj) != 1:
-            # print(user_obj)
             return False
 
         # Email headers
         message["Subject"] = "Tourisit - Password reset"
-        message["From"] = formataddr(
-            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
-        message["To"] = user_email
 
         code = 'https://tourisit.hiy.sh/login/recover_account/reset?token=' + \
                add_token("password_reset", uid)
