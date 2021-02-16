@@ -244,7 +244,7 @@ def generate_report(uid, year=None, month=None):
     col = 0
 
     data_for_input = [
-        ['Listing Name', 'Timestamp', 'Total Earned', 'Payment Status']
+        ['Listing Name', 'Date of Payment', 'Total Earned', 'Payment Status']
     ]
 
     # Get all in relates to UID from Transaction database
@@ -255,7 +255,7 @@ def generate_report(uid, year=None, month=None):
         #     "tour_name": transaction['']
         # }
 
-        listing_name = str(transaction['booking'])
+        listing_name = transaction['tour_name']
 
         date_paid = datetime.fromisoformat(transaction["date_paid"]).strftime('%d %B %Y @ %X')
 
