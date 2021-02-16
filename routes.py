@@ -1196,13 +1196,13 @@ def bookings(book_id):
             elif revisionform.validate_on_submit():
                 revision_text = request.form["revision_text"]
                 new_revisions = booking['revisions'] - 1
-                if new_revisions <= 0:
+                if new_revisions < 0:
                     new_revisions = 0
                     new_revisionfee = booking['book_charges']['revisionfee'] + 0.025 * (tour['tour_price'])
                 else:
                     new_revisionfee = booking['book_charges']['revisionfee']
                 update_booking = {
-                    "$set": {"process_step": 4, "customer_req": {str('revision'): revision_text},
+                    "$set": {"process_step": 4, "customer_req.revision": revision_text,
                              "revisions": new_revisions, "book_charges.revisionfee": new_revisionfee}}
                 bookings_db.update_one(booking, update_booking)
                 return redirect(url_for('bookings', book_id=book_id))
@@ -1388,7 +1388,8 @@ def checkout(book_id):
                     print("Error occurred while trying to pay.")
         if booking['process_step'] == 5:
             customize = 0
-            amount = booking['book_charges']['baseprice']
+            amount = booking['book_charges']['baseprice']+booking['book_charges']['revisionfee']+booking['book_charges']['customfee']
+
         elif booking['process_step'] == 0:
             customize = 1
             amount = round(0.1 * float(tour['tour_price']), 2)
@@ -1607,23 +1608,23 @@ def review(book_id):
                         user_db.update_one(query, updated)
 
                     # reviews_db.insert_one(review.return_obj())
-
                     if booking['process_step'] == 7.1 or booking['process_step'] == 7.2:
                         # The other party has left a review already
                         new_step = 8
+                        redirect_to = "home"
                     elif booking['process_step'] == 7:
                         if review_type == 'tour':
                             new_step = 7.1
-                            update_booking = {"$set": {'process_step': new_step}}
-                            bookings_db.update_one(booking, update_booking)
-                            return redirect(url_for('bookings', book_id=book_id))
+                            redirect_to = "bookings"
                         elif review_type == 'customer':
+                            print('customer')
                             new_step = 7.2
-                            update_booking = {"$set": {'process_step': new_step}}
-                            bookings_db.update_one(booking, update_booking)
-                            return redirect(url_for('business', book_id=book_id))
+                            redirect_to = "business"
+                    update_booking = {"$set": {'process_step': new_step}}
+                    bookings_db.update_one(booking, update_booking)
+                    return redirect(url_for(redirect_to, book_id=book_id))
 
-            return render_template(
+        return render_template(
                 'customer/review.html',
                 booking=booking,
                 tour=tour[0],
