@@ -1,10 +1,9 @@
 from datetime import datetime
-import os
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField, SelectMultipleField, widgets, SubmitField
-from wtforms.validators import InputRequired, Length, NumberRange, ValidationError
+from wtforms import StringField, TextAreaField, FloatField, IntegerField, SelectField, SelectMultipleField, widgets
+from wtforms.validators import InputRequired, Length, NumberRange
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -35,15 +34,14 @@ class CustomSelectField(FlaskForm):
 
 
 time_list = ['6:00 AM', '6:30 AM', '7:00 AM', '7.30 AM', '8:00 AM', '8:30 AM', '9:00 AM',
-              '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM',
-              '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM',
-              '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM',
-              '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM', '11:00 PM']
+             '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM',
+             '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM',
+             '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM',
+             '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM', '11:00 PM']
 
 
 # Add no. of revisions, itineary, location
 class ListingForm(FlaskForm):
-
     tour_name = StringField('tour_name', validators=[InputRequired(), Length(min=1, max=30,
                                                                              message='Name can only be 30 characters long!')])
 
@@ -53,20 +51,26 @@ class ListingForm(FlaskForm):
 
     tour_end_time = SelectField('tour_end_time', choices=time_list, validators=[InputRequired()])
 
-    tour_days = MultiCheckboxField('tour_days', choices=[('Mon', 'Monday'), ('Tues','Tuesday'),('Wed', 'Wednesday'), ('Thurs','Thursday'), ('Fri', 'Friday'), ('Sat','Saturday'), ('Sun','Sunday')], validators=[InputRequired('Please select at least one available day')])
+    tour_days = MultiCheckboxField('tour_days', choices=[('Mon', 'Monday'), ('Tues', 'Tuesday'), ('Wed', 'Wednesday'),
+                                                         ('Thurs', 'Thursday'), ('Fri', 'Friday'), ('Sat', 'Saturday'),
+                                                         ('Sun', 'Sunday')],
+                                   validators=[InputRequired('Please select at least one available day')])
 
     # Tour itinerary
     tour_items = StringField('tour_items')
 
     # tour_items_list = FieldList(HiddenField('tour_items_list', validators=[InputRequired()]))
-    tour_size = IntegerField('tour_size', validators=[InputRequired(), NumberRange(min=0, max=8, message="Max Participants must be at least 1 and cannot exceed 8")])
+    tour_size = IntegerField('tour_size', validators=[InputRequired(), NumberRange(min=0, max=8,
+                                                                                   message="Max Participants must be at least 1 and cannot exceed 8")])
 
     tour_loc = SelectField('tour_loc', choices=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
-                                          'Bukit Panjang', 'Bukit Timah', 'Chinatown', 'Choa Chu Kang', 'Clementi', 'Changi',
-                                          'Geylang', 'Hougang', 'Jurong East', 'Jurong West', 'Kallang',
-                                          'Marine Parade', 'Orchard', 'Pasir Ris', 'Punggol', 'Queenstown',
-                                          'Sembawang', 'Sengkang', 'Serangoon', 'Sentosa', 'Tampines', 'Toa Payoh',
-                                          'Woodlands', 'Yishun'] )
+                                                'Bukit Panjang', 'Bukit Timah', 'Chinatown', 'Choa Chu Kang',
+                                                'Clementi', 'Changi',
+                                                'Geylang', 'Hougang', 'Jurong East', 'Jurong West', 'Kallang',
+                                                'Marine Parade', 'Orchard', 'Pasir Ris', 'Punggol', 'Queenstown',
+                                                'Sembawang', 'Sengkang', 'Serangoon', 'Sentosa', 'Tampines',
+                                                'Toa Payoh',
+                                                'Woodlands', 'Yishun'])
 
     # tour_loc = CustomSelectField(fieldName='tour_loc', start_name='loc',
     #                              options=['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah',
@@ -112,16 +116,14 @@ class ListingForm(FlaskForm):
             return False
         return True
 
-
     # def check_filesize(self, filesize):
     #     if int(filesize) <= 1 * 1024 * 1024:
     #         return True
     #     else:
     #         return False
 
-
     def validate(self):
-        #This is the default flask validation rules (Which you define in the wtforms fields)
+        # This is the default flask validation rules (Which you define in the wtforms fields)
         if not FlaskForm.validate(self):
             return False
 
@@ -289,4 +291,3 @@ class Listing:
             "tour_visibility": self.__visibility,
             "tour_bookings": self.__tour_bookings
         }
-

@@ -4,7 +4,7 @@
     width: 0;
 }
 
-.timeslot_button>* {
+.timeslot_button > * {
     margin-top: 10px
 }
 
@@ -17,12 +17,12 @@
     border-radius: 4px;
 }
 
-.timeslot_button input[type="radio"]:disabled+label {
+.timeslot_button input[type="radio"]:disabled + label {
     background-color: rgb(161, 159, 161);
     border-color: rgb(161, 159, 161);
 }
 
-.timeslot_button input[type="radio"]:checked+label {
+.timeslot_button input[type="radio"]:checked + label {
     background-color: rgb(79, 216, 127);
     border-color: rgb(79, 216, 127);
     color: white !important

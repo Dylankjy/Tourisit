@@ -1,19 +1,16 @@
 import hashlib
 import uuid
 from datetime import datetime
+from statistics import mean
 
 import pymongo
 import xlsxwriter
-
 # MongoDB connection string
 from bson import ObjectId
 from flask_wtf import FlaskForm
 from wtforms import StringField
-from wtforms.validators import DataRequired
 
 import models.DashboardIndex as dindex
-
-from statistics import mean
 
 client = pymongo.MongoClient(
     'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
@@ -163,7 +160,8 @@ def get_avg_per_tour(uid):
     # Returns the avg amt of money across all tours
     query = [
         {"$match": {"tg_uid": ObjectId(uid)}},
-        {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total_cost": {"$sum": "$earnings"}, "total_tours": {'$sum': 1}}},
+        {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total_cost": {"$sum": "$earnings"},
+                    "total_tours": {'$sum': 1}}},
         {"$sort": {"year": -1}}
 
         # {"$group": {"_id": {"$and": ["$month_paid"]}, "total": {"$sum": "$earnings"}}},
@@ -187,13 +185,13 @@ def get_avg_per_tour(uid):
 
 
 def get_pos_neg(uid):
-    x = list(db_shop.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+    x = list(db_shop.find({"tg_uid": ObjectId(uid), "tour_reviews": {"$ne": "null"}}, {"_id": 0, "tour_reviews": 1}))
     x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
     stars = []
     d = {}
     for listing in x:
         for review in listing['tour_reviews']:
-            if int(review['stars']) >2:
+            if int(review['stars']) > 2:
                 stars.append('p')
             else:
                 stars.append('n')
@@ -202,7 +200,6 @@ def get_pos_neg(uid):
     d['Negative'] = stars.count('n')
 
     return d
-
 
 
 def generate_report(uid, year=None, month=None):

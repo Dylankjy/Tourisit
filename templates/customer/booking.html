@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="/css/frameworks/bulma-steps.css">
     <link rel="stylesheet" href="/css/pages/chat.css">
     <link rel="stylesheet" href="/css/frameworks/bulma-badge.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
     <link rel="stylesheet" href="/css/pages/all_bookings.css">
 
     <script>
@@ -145,13 +146,15 @@
                             {% endif %}
                         </span>
                     <div class="steps-content">
-                        <p class="is-size-5 {{ 'has-text-link' if(process_step == 6) }}" onclick="$('#TourCompleteModal').fadeIn('fast')"
+                        <p class="is-size-5 {{ 'has-text-link' if(process_step == 6) }}"
+                           onclick="$('#TourCompleteModal').fadeIn('fast')"
                         >Complete Tour</p>
                     </div>
                 </li>
 
                 <li class="steps-segment {{ 'is-active' if (process_step == 7 or process_step == 7.2) }}">
-                    <a class="{{ 'inactiveLink' if (process_step == 7.1 or process_step == 8) }}" href="/review/{{ booking._id }}">
+                    <a class="{{ 'inactiveLink' if (process_step == 7.1 or process_step == 8) }}"
+                       href="/review/{{ booking._id }}">
                             <span class="steps-marker {{ 'is-link' if(process_step == 7 or process_step == 7.2) }}">
                                 {% if process_step == 7 or process_step == 7.2 %}
                                     <i class="fas fa-check"></i>
@@ -159,7 +162,8 @@
                                 <!-- <i class="fas fa-comments"></i> -->
                             </span>
                         <div class="steps-content">
-                            <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7 or process_step == 7.2) }}">Leave Feedback</p>
+                            <p class="is-size-5 has-text-black {{ 'has-text-link' if(process_step == 7 or process_step == 7.2) }}">
+                                Leave Feedback</p>
                         </div>
                     </a>
                 </li>
@@ -199,7 +203,8 @@
             </div>
         {% endif %}
         {% if process_step == 6 %}
-        <p class='has-text-centered has-text-grey'><i class="fas fa-arrow-up"></i> Click once you have completed your tour.</p>
+            <p class='has-text-centered has-text-grey'><i class="fas fa-arrow-up"></i> Click once you have completed
+                your tour.</p>
         {% endif %}
         <!--END: Action req-->
     </div>
@@ -377,9 +382,11 @@
                                     <div class="is-size-5">Cancel</div>
                                     </button>
                                     </p>
-                                    <form id="AcceptItinerary" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
+                                    <form id="AcceptItinerary" method="POST"
+                                          action="{{ url_for('bookings', book_id=booking._id) }}">
                                         <p class="control">
-                                            <button class="button is-success is-light" type="submit" name="AcceptItinerary"
+                                            <button class="button is-success is-light" type="submit"
+                                                    name="AcceptItinerary"
                                                     value="AcceptItinerary">
                                         <div class="is-size-5">Accept & Confirm</div>
                                         </button>
@@ -526,14 +533,14 @@
                             </div>
                         {% endif %}
                         {% if booking.book_charges['revisionfee'] != 0 %}
-                        <div class="container box">
-                            <div class="heading">Extra Revisions</div>
-                            <div class="title">${{ booking.book_charges['revisionfee'] }} 
-                                {% if process_step > 5 %}
-                                <span class="tag is-success is-light">Paid</span>
-                                {% endif %}
+                            <div class="container box">
+                                <div class="heading">Extra Revisions</div>
+                                <div class="title">${{ booking.book_charges['revisionfee'] }}
+                                    {% if process_step > 5 %}
+                                        <span class="tag is-success is-light">Paid</span>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
                         {% endif %}
                         {% if process_step >= 5 %}
                             <div class="container box">
@@ -628,10 +635,10 @@
                     and Charges?</p>
                 <p>You have {{ booking.revisions }} free revision(s) left.</p>
 
-                <button class="button is-white is-pulled-right has-tooltip-multiline has-tooltip-left" 
-                        data-tooltip="Every extra revision after all your free revisions have been used will cost an extra ${{'%0.2f'|format(0.025*(tour['tour_price'] | float ))}}">
-                            <i class="far fa-question-circle"></i>
-                        </button>
+                <button class="button is-white is-pulled-right has-tooltip-multiline has-tooltip-left"
+                        data-tooltip="Every extra revision after all your free revisions have been used will cost an extra ${{ '%0.2f'|format(0.025*(tour['tour_price'] | float )) }}">
+                    <i class="far fa-question-circle"></i>
+                </button>
                 <form id="revisionform" method="POST" action="{{ url_for('bookings', book_id=booking._id) }}">
                     {{ revisionform.csrf_token }}
                     <div class="field">
@@ -662,10 +669,10 @@
         <div class="modal-content">
             <div class="box has-text-centered">
                 <a href="{{ url_for('all_bookings') }}">
-                <p class="is-pulled-left">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Bookings
-                </p>
+                    <p class="is-pulled-left">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Bookings
+                    </p>
                 </a>
                 <br>
                 <p class="is-size-5 has-text-weight-bold">Let's Personalise Your Experience!</p>

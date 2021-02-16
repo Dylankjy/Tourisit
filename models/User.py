@@ -8,17 +8,21 @@ from wtforms.validators import InputRequired, Length, ValidationError, EqualTo, 
 import auth as auth
 from models.Format import file_to_base64
 
+
 def fb_check(form, field):
     if 'facebook.com' not in field.data:
         raise ValidationError('Invalid Facebook Profile link')
+
 
 def insta_check(form, field):
     if 'instagram.com' not in field.data:
         raise ValidationError('Invalid Instagram Profile link')
 
+
 def linkedin_check(form, field):
     if 'linkedin.com/in' not in field.data:
         raise ValidationError('Invalid LinkedIn Profile link')
+
 
 def password_check(form, field):
     result = auth.is_auth(True, True)
@@ -28,6 +32,7 @@ def password_check(form, field):
             raise ValidationError('Wrong password entered!')
     else:
         return False
+
 
 class PasswordForm(FlaskForm):
     old_password = PasswordField(
@@ -46,6 +51,7 @@ class PasswordForm(FlaskForm):
         ]
     )
     confirm = PasswordField('Repeat Password')
+
 
 class UserForm(FlaskForm):
     account_mode = SelectField(
@@ -109,6 +115,7 @@ class UserForm(FlaskForm):
         ],
     )
 
+
 class BioForm(FlaskForm):
     bio = StringField(
         "bio",
@@ -117,6 +124,7 @@ class BioForm(FlaskForm):
             Length(min=0, max=75, message="Bio can only be 75 characters long!")
         ]
     )
+
 
 class User:
     def __init__(

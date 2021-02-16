@@ -18,9 +18,6 @@ from wtforms.validators import DataRequired, Email
 
 import models.User as User
 
-from routes import setAccType
-from flask import redirect, url_for
-
 # MongoDB connection string
 client = pymongo.MongoClient(
     'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']

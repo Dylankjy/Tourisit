@@ -15,7 +15,8 @@
             <div class="column is-one-quarter mt-6">
                 <div class="section">
                     <div class="box is-centered">
-                        <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
+                        <div class="profile-img-onprofile"
+                             style="background-image: url('data:image/jpeg;base64, {{ user.profile_img }}');"></div>
                         <br>
                         <p class="title is-5 is-spaced has-text-centered">{{ user.name }}</p>
                         <form class="form-horizontal" action="/users/{{ user._id }}/profile" method="POST">
@@ -70,7 +71,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="profile-img-onprofile" style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');"></div>
+                        <div class="profile-img-onprofile"
+                             style="background-image: url('data:image/jpeg;base64, {{ person.profile_img }}');"></div>
                         <br>
                         <p class="title is-5 is-spaced has-text-centered">{{ person.name }}</p>
                         <div class="field">

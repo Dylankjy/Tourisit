@@ -48,7 +48,7 @@ def formToArray(formListField):
     return tour_itinerary
 
 
-#Takes an array and sorts it (From Mon - Sun sequentially)
+# Takes an array and sorts it (From Mon - Sun sequentially)
 def sortDays(dayArr):
     intToDate = {0: 'Mon', 1: 'Tues', 2: 'Wed', 3: 'Thurs', 4: 'Fri', 5: 'Sat', 6: 'Sun'}
     dateToInt = {'Mon': 0, 'Tues': 1, 'Wed': 2, 'Thurs': 3, 'Fri': 4, 'Sat': 5, 'Sun': 6}
