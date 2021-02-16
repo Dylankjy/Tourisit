@@ -14,29 +14,32 @@
 
     <script>
         setInterval(syncEndpoint = () => {
-            $.ajax({
-                url: "/endpoint/chat?chat_id={{selected_chatroom}}",
-                dataType: "json",
-                success: (data) => {
-                    console.log('Syncing with endpoint data.')
-                    incomingMsgs = data.data
-                    currentList = $('#messagesList').html()
+            previousSyncData = null
+                setInterval(syncEndpoint = () => {
+                    $.ajax({
+                        url: "/endpoint/chat?chat_id={{selected_chatroom}}",
+                        dataType: "json",
+                        success: (data) => {
+                            console.log('Syncing with endpoint data.')
+                            incomingMsgs = data.data
 
-                    if (incomingMsgs !== currentList) {
-                        $('#messagesList').html(data.data)
-                        console.log('New data received.')
-                        var $target = $('#messageContainer');
-                        $($target).animate({
-                            scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
-                        }, 0);
-                    } else {
-                        console.log('Nothing new. Ignoring.')
-                    }
-                }
-            })
-        }, 2500)
+                            if (incomingMsgs != previousSyncData) {
+                                $('#messagesList').html(data.data)
+                                console.log('New data received.')
+                                var $target = $('#messageContainer');
+                                $($target).animate({
+                                    scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
+                                }, 0);
+                                previousSyncData = incomingMsgs
+                            } else {
+                                console.log('Nothing new. Ignoring.')
+                            }
+                        }
+                    })
+                }, 2500)
 
         syncEndpoint()
+
         $(document).ready(function () {
             $('#report').click(function () {
                 const startlink = location.origin;

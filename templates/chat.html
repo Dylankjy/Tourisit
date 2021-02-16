@@ -14,6 +14,7 @@
         </div>
         {% if chatroom_display != False %}
             <script>
+            previousSyncData = null
                 setInterval(syncEndpoint = () => {
                     $.ajax({
                         url: "/endpoint/chat?chat_id={{selected_chatroom}}",
@@ -21,15 +22,15 @@
                         success: (data) => {
                             console.log('Syncing with endpoint data.')
                             incomingMsgs = data.data
-                            currentList = $('#messagesList').html()
 
-                            if (incomingMsgs != currentList) {
+                            if (incomingMsgs != previousSyncData) {
                                 $('#messagesList').html(data.data)
                                 console.log('New data received.')
                                 var $target = $('#messageContainer');
                                 $($target).animate({
                                     scrollTop: $($target)[0].scrollHeight - $($target)[0].clientHeight
                                 }, 0);
+                                previousSyncData = incomingMsgs
                             } else {
                                 console.log('Nothing new. Ignoring.')
                             }
