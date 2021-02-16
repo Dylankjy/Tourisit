@@ -558,7 +558,7 @@
                     </div>
                     <!--END: Info Table-->
                     <div class="is-pulled-right">
-                        <span class="tag is-size-4">Price: ${{ booking.book_charges['baseprice'] }}</span><br>
+                        <span class="tag is-size-4">Tour Base Price: ${{ '%0.2f'| format(( booking.book_charges['baseprice'] )|float) }}</span><br>
                     </div>
                     <br><br><br><br>
                     {% if process_step == 2 or process_step == 4 %}
@@ -731,7 +731,7 @@
                     <!--START: Display proposed cost-->
                     <div class="container box">
                         <div class="heading">Tour Price</div>
-                        <div class="title">${{ booking.book_charges['baseprice'] }}</div>
+                        <div class="title">${{ '%0.2f'| format((booking.book_charges['baseprice'])|float) }}</div>
                     </div>
                 {% endif %}
                 <div class="columns">
@@ -741,14 +741,24 @@
                         {% if booking.book_charges['customfee'] != 0 %}
                             <div class="container box">
                                 <div class="heading">Customisation Fee</div>
-                                <div class="title">${{ booking.book_charges['customfee'] }} <span
+                                <div class="title">${{ '%0.2f'| format((booking.book_charges['customfee'])|float) }} <span
                                         class="tag is-success is-light">Paid</span></div>
+                            </div>
+                        {% endif %}
+                        {% if booking.book_charges['revisionfee'] != 0 %}
+                            <div class="container box">
+                                <div class="heading">Extra Revisions</div>
+                                <div class="title">${{ '%0.2f'| format((booking.book_charges['revisionfee'])|float) }}
+                                    {% if process_step > 5 %}
+                                        <span class="tag is-success is-light">Paid</span>
+                                    {% endif %}
+                                </div>
                             </div>
                         {% endif %}
                         {% if process_step >= 5 %}
                             <div class="container box">
                                 <div class="heading">Tour Price</div>
-                                <div class="title">${{ booking.book_charges['baseprice'] }}
+                                <div class="title">${{ '%0.2f'| format((booking.book_charges['baseprice'])|float) }}
                                     {% if process_step > 5 %}
                                         <span class="tag is-success is-light">Paid</span>
                                     {% endif %}
@@ -761,14 +771,18 @@
                         <br>
                         {% if process_step < 5 %}
                             <div class="container box">
-                                <div class="heading">Final Cost</div>
+                                <div class="heading">Total Cost</div>
                                 To-Be Confirmed
                             </div>
                         {% elif process_step >= 5 %}
                             <div class="container box">
-                                <div class="heading">Final Cost</div>
+                                <button class="button is-white is-pulled-right has-tooltip-multiline has-tooltip-left"
+                        data-tooltip="The amount reflected here exlcudes the 5% commission fee that Tourisit accepts from Customers. This is the amount earned by you.">
+                    <i class="far fa-question-circle"></i>
+                </button>
+                                <div class="heading">Total Cost</div>
                                 <div class="title">
-                                    ${{ booking.book_charges['baseprice']+booking.book_charges['customfee'] }}
+                                    ${{ '%0.2f'| format(( booking.book_charges['baseprice']+booking.book_charges['customfee']+booking.book_charges['revisionfee'] )|float) }}
                                     {% if process_step >=6 %}
                                         <span class="tag is-success is-light">Paid</span>
                                     {% endif %}

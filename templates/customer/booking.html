@@ -348,13 +348,16 @@
                     <!--END: Info Table-->
                     {% if process_step >= 3 %}
                         <div class="is-pulled-right">
-                            <span class="tag is-size-4">
-                                Price: ${{ booking.book_charges['baseprice'] }}
+                            <span class="tag is-size-4 mb-1">
+                                Tour Base Price: ${{ '%0.2f'| format((booking.book_charges['baseprice'])|float) }}
                             </span><br>
-                            <a class="has-text-link is-size-7 pl-5" onclick="openTab(event,'Billing')">View Price
+                            <span class="tag is-size-4">
+                                Overall Cost: ${{ '%0.2f'| format(( booking.book_charges['baseprice']+booking.book_charges['customfee']+booking.book_charges['revisionfee']+ 0.05*(booking.book_charges['baseprice']) )|float) }}
+                            </span><br>
+                            <a class="has-text-link is-size-7 mb-5" style='margin-left:8em;' onclick="openTab(event,'Billing')">View Price
                                 Breakdown</a>
                         </div>
-                        <br><br><br><br>
+                        <br><br><br><br><br>
                     {% endif %}
                     {% if process_step == 3 %}
                         <!--START: Revise/Confirm itinerary buttons-->
@@ -523,7 +526,7 @@
                         <br>
                         <div class="container box">
                             <div class="heading">Tour Price</div>
-                            <div class="title">${{ booking.book_charges['baseprice'] }}</div>
+                            <div class="title">${{ '%0.2f'| format((booking.book_charges['baseprice'])|float) }}</div>
                         </div>
                     </div>
                     <!--END: Proposed Cost-->
@@ -536,14 +539,14 @@
                         {% if booking.book_charges['customfee'] != 0 %}
                             <div class="container box">
                                 <div class="heading">Customisation Fee</div>
-                                <div class="title">${{ booking.book_charges['customfee'] }} <span
+                                <div class="title">${{ '%0.2f'| format((booking.book_charges['customfee'])|float) }} <span
                                         class="tag is-success is-light">Paid</span></div>
                             </div>
                         {% endif %}
                         {% if booking.book_charges['revisionfee'] != 0 %}
                             <div class="container box">
                                 <div class="heading">Extra Revisions</div>
-                                <div class="title">${{ booking.book_charges['revisionfee'] }}
+                                <div class="title">${{ '%0.2f'| format((booking.book_charges['revisionfee'])|float) }}
                                     {% if process_step > 5 %}
                                         <span class="tag is-success is-light">Paid</span>
                                     {% endif %}
@@ -553,7 +556,7 @@
                         {% if process_step >= 5 %}
                             <div class="container box">
                                 <div class="heading">Tour Price</div>
-                                <div class="title">${{ booking.book_charges['baseprice'] }}
+                                <div class="title">${{ '%0.2f'| format((booking.book_charges['baseprice'])|float) }}
                                     {% if process_step > 5 %}
                                         <span class="tag is-success is-light">Paid</span>
                                     {% endif %}
@@ -571,14 +574,37 @@
                             </div>
                         {% elif process_step >= 5 %}
                             <div class="container box">
+                                <div class="heading">Sub-Total</div>
+                                <div class="title">
+                                    ${{ '%0.2f'| format(( booking.book_charges['baseprice']+booking.book_charges['customfee']+booking.book_charges['revisionfee'] )|float) }}
+                                </div>
+
+                                <button class="button is-white is-pulled-right has-tooltip-multiline has-tooltip-left"
+                        data-tooltip="Tourisit accepts a 5% commission fee to sustain its services.">
+                    <i class="far fa-question-circle"></i>
+                </button>
+
+                                <div class="heading">+ Commission Fee</div>
+                                <div class="title">
+                                    ${{ '%0.2f'| format(( 0.05*(booking.book_charges['baseprice']) )|float) }}
+                                </div>
+
                                 <div class="heading">Total Cost</div>
                                 <div class="title">
-                                    ${{ booking.book_charges['baseprice']+booking.book_charges['customfee']+booking.book_charges['revisionfee'] }}
+                                    ${{ '%0.2f'| format(( booking.book_charges['baseprice']+booking.book_charges['customfee']+booking.book_charges['revisionfee']+ 0.05*(booking.book_charges['baseprice']) )|float) }}
                                     {% if process_step >=6 %}
                                         <span class="tag is-success is-light">Paid</span>
                                     {% endif %}
                                 </div>
                             </div>
+                        {% endif %}
+                        {% if process_step == 5%}
+                        <div class="container box">
+                            <div class="heading">Outstanding Fees</div>
+                            <div class="title">
+                                ${{ '%0.2f'| format(( booking.book_charges['baseprice']+booking.book_charges['revisionfee']+ 0.05*(booking.book_charges['baseprice']) )|float) }}
+                            </div>
+                        </div>
                         {% endif %}
                     </div>
                 </div>

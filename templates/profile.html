@@ -128,17 +128,31 @@
             <!--Reviews as a tour guide-->
             <div>
                 {% if item_list | length > 0 %}
-                    <p>{{ person.name }} as a Tour Guide</p>
+                {% set tg_reviews = [] %}
                     {% for item in item_list %}
                         {% if item.tour_reviews %}
                             {% for review in item.tour_reviews %}
 
-                                {% include 'components/review-card.html' %}
+                                {{ tg_reviews.append(item) |default("", True) }}
 
                             {% endfor %}
                         {% endif %}
                     {% endfor %}
+                {% endif %}    
+
+                {% if tg_reviews %}
+                    <p>{{ person.name }} as a Tour Guide</p>
+                    {% for item in item_list %}
+                    {% if item.tour_reviews %}
+                        {% for review in item.tour_reviews %}
+
+                            {% include 'components/review-card.html' %}
+
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
                 {% endif %}
+                
             </div>
         </div>
     </section>

@@ -1405,14 +1405,15 @@ def checkout(book_id):
 
                 else:
                     print("Error occurred while trying to pay.")
+
         if booking['process_step'] == 5:
             customize = 0
-            amount = booking['book_charges']['baseprice'] + booking['book_charges']['revisionfee'] + \
-                     booking['book_charges']['customfee']
+            amount = booking['book_charges']['baseprice'] + booking['book_charges']['revisionfee'] + 0.05*(booking['book_charges']['baseprice'])
 
         elif booking['process_step'] == 0:
             customize = 1
             amount = round(0.1 * float(tour['tour_price']), 2)
+
         return render_template(
             'customer/checkout.html',
             loggedin=True,
