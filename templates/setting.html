@@ -28,7 +28,8 @@
                         {{ form.csrf_token }}
                         <fieldset>
                             <div class="field">
-                                <label class="label has-text-weight-medium has-text-grey-dark" for="account_mode">Account Mode:</label>
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="account_mode">Account
+                                    Mode:</label>
                                 <div class="umode select">
                                     {{ form.account_mode(id="account_mode", type="select", class="formfield input") }}
                                     <ul>
@@ -51,7 +52,8 @@
                             </div>
 
                             <div class='field'>
-                                <label class="label has-text-weight-medium has-text-grey-dark" for="name">Profile Image: </label>
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="name">Profile
+                                    Image: </label>
                                 <div class="file has-name is-boxed">
                                     <label class="file-label">
                                         {{ form.profile_img(class="formfield file-input", id='uploadImg', type="file", onchange="if
@@ -81,13 +83,15 @@
 
                             <div class="field">
                                 <label class="label has-text-weight-medium has-text-grey-dark" for="password">Password:
-                                    <input class="button is-primary" type="button" id="openbtn" name="openbtn" value="Change Password"
+                                    <input class="button is-primary" type="button" id="openbtn" name="openbtn"
+                                           value="Change Password"
                                            onclick="$('#ChangePasswordModal').fadeIn('fast'); return false;">
                                 </label>
                             </div>
 
                             <div class="field">
-                                <label class="label has-text-weight-medium has-text-grey-dark" for="email">Email:</label>
+                                <label class="label has-text-weight-medium has-text-grey-dark"
+                                       for="email">Email:</label>
                                 <div class="control">
                                     {{ form.email(id="email", type="text", class="formfield input", value=user.email) }}
                                     <ul>
@@ -99,7 +103,8 @@
                             </div>
 
                             <div class="field">
-                                <label class="label has-text-weight-medium has-text-grey-dark" for="phone_number">Phone Number:</label>
+                                <label class="label has-text-weight-medium has-text-grey-dark" for="phone_number">Phone
+                                    Number:</label>
                                 <div class="control">
                                     {{ form.phone_number(id="phone_number", type="text", class="formfield input", value=user.phone_number) }}
                                     <ul>
@@ -109,9 +114,11 @@
                                     </ul>
                                 </div>
                             </div>
-                            <h1 class="is-size-4 has-text-left has-text-weight-bold pt-6 pb-4">Social Networks<label class="is-size-6 has-text-danger has-text-weight-normal"> (Optional)</label></h1>
+                            <h1 class="is-size-4 has-text-left has-text-weight-bold pt-6 pb-4">Social Networks<label
+                                    class="is-size-6 has-text-danger has-text-weight-normal"> (Optional)</label></h1>
                             <div class="field">
-                                <label class="label has-text-weight-medium has-text-grey-dark" for="name">Facebook</label>
+                                <label class="label has-text-weight-medium has-text-grey-dark"
+                                       for="name">Facebook</label>
                                 <div class="control">
                                     {{ form.fb(id="fb", type="text", class="formfield input", placeholder="e.g. www.facebook.com/Tourisit", value=user.socialmedia["fb"]) }}
                                     <ul>
@@ -122,7 +129,8 @@
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label has-text-weight-medium has-text-grey-dark" for="insta">Instagram</label>
+                                <label class="label has-text-weight-medium has-text-grey-dark"
+                                       for="insta">Instagram</label>
                                 <div class="control">
                                     {{ form.insta(id="insta", type="text", class="formfield input", placeholder="e.g. www.instagram.com/Tourisit", value=user.socialmedia["insta"]) }}
                                     <ul>
@@ -133,7 +141,8 @@
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label has-text-weight-medium has-text-grey-dark" for="linkedin">LinkedIn</label>
+                                <label class="label has-text-weight-medium has-text-grey-dark"
+                                       for="linkedin">LinkedIn</label>
                                 <div class="control">
                                     {{ form.linkedin(id="linkedin", type="text", class="formfield input", placeholder="e.g. www.linkedin.com/in/Tourisit", value=user.socialmedia["linkedin"]) }}
                                     <ul>
@@ -166,7 +175,8 @@
                 <form class="form-horizontal" action="/me/settings" method="POST">
                     {{ form1.csrf_token }}
                     <div class="field">
-                        <label class="label has-text-weight-medium has-text-grey-dark" for="old_password">Current Password:</label>
+                        <label class="label has-text-weight-medium has-text-grey-dark" for="old_password">Current
+                            Password:</label>
                         <div class="control">
                             {{ form1.old_password(id="old_password", type="password", class="input") }}
                             <ul>
@@ -177,7 +187,8 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label has-text-weight-medium has-text-grey-dark" for="password">New Password:</label>
+                        <label class="label has-text-weight-medium has-text-grey-dark" for="password">New
+                            Password:</label>
                         <div class="control">
                             {{ form1.password(id="password", type="password", class="input") }}
                             <ul>
@@ -188,7 +199,8 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label has-text-weight-medium has-text-grey-dark" for="confirm">Confirm New Password:</label>
+                        <label class="label has-text-weight-medium has-text-grey-dark" for="confirm">Confirm New
+                            Password:</label>
                         <div class="control">
                             {{ form1.confirm(id="confirm", type="password", class="input") }}
                             <ul>
@@ -200,13 +212,15 @@
                     </div>
                     <div class="field is-grouped is-grouped-centered mt-5 has-text-centered">
                         <div class="control">
-                            <button class="button is-danger is-light" id="closebtn" onclick="$('#ChangePasswordModal').fadeOut('fast');">
+                            <button class="button is-danger is-light" id="closebtn"
+                                    onclick="$('#ChangePasswordModal').fadeOut('fast');">
                                 Cancel
                             </button>
                         </div>
                         <form id="ChangePassword" method="POST">
                             <div class="control">
-                                <input type="submit" class="button is-success" id="change-pass" name="submit-change-pass" value="Update Password"
+                                <input type="submit" class="button is-success" id="change-pass"
+                                       name="submit-change-pass" value="Update Password"
                                        onclick="$('#ChangePasswordModal').fadeOut('fast');">
                             </div>
                         </form>
@@ -215,7 +229,8 @@
 
             </div>
         </div>
-        <button class="modal-close is-large" aria-label="close" onclick="$('#ChangePasswordModal').fadeOut('fast');"></button>
+        <button class="modal-close is-large" aria-label="close"
+                onclick="$('#ChangePasswordModal').fadeOut('fast');"></button>
     </div>
     <script>
         var somethingChanged = false;

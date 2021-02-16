@@ -37,7 +37,8 @@
                     <div class="buttons">
                         <a class="button is-light has-text-grey" data-pjax='main' href="{{ url_for('login') }}"><i
                                 class="fas fa-times"></i>&ensp;Cancel</a>
-                        <button type="submit" class="button is-primary">Recover account&ensp;<i class="fas fa-arrow-right"></i>
+                        <button type="submit" class="button is-primary">Recover account&ensp;<i
+                                class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                 </form>
@@ -50,10 +51,11 @@
             <div class="modal-background"></div>
             <div class="modal-card box" style="padding: 3em;">
                 <p class="title is-3 has-text-weight-bold has-text-centered">Check your email.</p>
-                <p class="has-text-centered">If your email matches our records, an email with a recovery link to reset your password will be sent.</p>
+                <p class="has-text-centered">If your email matches our records, an email with a recovery link to reset
+                    your password will be sent.</p>
                 <br>
                 <a onclick="$('#emailAcceptedModal').fadeOut('fast');" class="button is-light is-fullwidth"><i
-                                        class="fas fa-times"></i>&ensp;Close</a>
+                        class="fas fa-times"></i>&ensp;Close</a>
             </div>
         </div>
     {% endif %}

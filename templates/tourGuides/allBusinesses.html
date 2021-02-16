@@ -11,123 +11,124 @@
 
 
 {% block content %}
-<section class="section has-background-white is-medium">
-    <div class="container">
-        <h1 class="is-size-1 has-text-weight-bold mt-6">Your Business</h1>
-        <h3 class="subtitle">List of all jobs you have.</h3>
-    </div>
-</section>
+    <section class="section has-background-white is-medium">
+        <div class="container">
+            <h1 class="is-size-1 has-text-weight-bold mt-6">Your Business</h1>
+            <h3 class="subtitle">List of all jobs you have.</h3>
+        </div>
+    </section>
 
-<section class="section">
-    <div class="container">
-        <div class="box">
-            <div class="columns">
-                <div class="column">
-                    <p class="subtitle">Upcoming Tours</p>
-                    <table class='table is-striped is-fullwidth'>
-                        {% set content = [] %}
-                        {% for item in booking_list %}
-                            {% if item.process_step == 6 %}
-                            {{ content.append(item) |default("", True) }}
-                                <tr>
-                                    <td>{{ item.book_date }}</td>
-                                    <td><a href="">{{ listings[loop.index0].tour_name }}</a></td>
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </table>
-                    {% if content | length == 0 %}
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <div class="columns">
+                    <div class="column">
+                        <p class="subtitle">Upcoming Tours</p>
+                        <table class='table is-striped is-fullwidth'>
+                            {% set content = [] %}
+                            {% for item in booking_list %}
+                                {% if item.process_step == 6 %}
+                                    {{ content.append(item) |default("", True) }}
+                                    <tr>
+                                        <td>{{ item.book_date }}</td>
+                                        <td><a href="">{{ listings[loop.index0].tour_name }}</a></td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                        {% if content | length == 0 %}
                             <p class="has-text-centered">You have no Upcoming tours.</p>
                         {% endif %}
-                </div>
-                <div class="divider is-vertical is-right"></div>
-                <div class="column">
-                    <p class="subtitle">Required Action</p>
-                    <table class='table is-striped is-fullwidth'>
-                        {% set content = [] %}
-                        {% for item in booking_list %}
-                            {% if item.process_step in (2, 4, 7) %}
-                            {{ content.append(item) |default("", True) }}
-                                <tr>
-                                    <td><b>{{ listings[loop.index0].tour_name }}</b></td>
-                                    {% if item.process_step == 2 or item.process_step == 4 %}
-                                        <td><a href="">Plan Custom Package</a></td>
-                                    {% elif item.process_step == 7 %}
-                                        <td><a href="">Leave Feedback</a></td>
-                                    {% endif %}
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </table>
-                    {% if content | length == 0 %}
+                    </div>
+                    <div class="divider is-vertical is-right"></div>
+                    <div class="column">
+                        <p class="subtitle">Required Action</p>
+                        <table class='table is-striped is-fullwidth'>
+                            {% set content = [] %}
+                            {% for item in booking_list %}
+                                {% if item.process_step in (2, 4, 7) %}
+                                    {{ content.append(item) |default("", True) }}
+                                    <tr>
+                                        <td><b>{{ listings[loop.index0].tour_name }}</b></td>
+                                        {% if item.process_step == 2 or item.process_step == 4 %}
+                                            <td><a href="">Plan Custom Package</a></td>
+                                        {% elif item.process_step == 7 %}
+                                            <td><a href="">Leave Feedback</a></td>
+                                        {% endif %}
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                        {% if content | length == 0 %}
                             <p class="has-text-centered">All kept up to speed.</p>
                         {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-</section>
+        </div>
+    </section>
 
-<!--START: Dropdown-->
-<!-- <section class='section'>
-    <div class='container has-text-centered'>
-        <div class="control">
-            <div class="select">
-                <select>
-                    <option>Current Bookings</option>
-                    <option>Completed</option>
-                </select>
+    <!--START: Dropdown-->
+    <!-- <section class='section'>
+        <div class='container has-text-centered'>
+            <div class="control">
+                <div class="select">
+                    <select>
+                        <option>Current Bookings</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
-</section> -->
-<!--END: Dropdown-->
+    </section> -->
+    <!--END: Dropdown-->
 
-        <section class="section">
-            <div class="container">
-                {% if booking_list == [] %}
-                <div class="has-text-centered"> Nothing to display here. <a href="/listings">Set up your listings and kickstart your business today.</a></div>
-                {% else %}
+    <section class="section">
+        <div class="container">
+            {% if booking_list == [] %}
+                <div class="has-text-centered"> Nothing to display here. <a href="/listings">Set up your listings and
+                    kickstart your business today.</a></div>
+            {% else %}
                 {% for item in booking_list %}
-                {% set list = listings[loop.index0] %}
+                    {% set list = listings[loop.index0] %}
 
-                {% include 'components/listing-card-business.html' %}
+                    {% include 'components/listing-card-business.html' %}
 
                 {% endfor %}
-                {% endif %}
-            </div>
-        </section>
+            {% endif %}
+        </div>
+    </section>
 
-        <!--START: Scroll to top button-->
-        <button onclick="topFunction()" id="TopBtn" title="Go to top">
-            <i class="fas fa-chevron-up"></i>
-        </button>
-        <!--END: Scroll to top button-->
+    <!--START: Scroll to top button-->
+    <button onclick="topFunction()" id="TopBtn" title="Go to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    <!--END: Scroll to top button-->
 
-        <!--Scroll to top button's js-->
-        <script>
-            //Get the button:
-            mybutton = document.getElementById("TopBtn");
+    <!--Scroll to top button's js-->
+    <script>
+        //Get the button:
+        mybutton = document.getElementById("TopBtn");
 
-            // When the user scrolls down 20px from the top of the document, show the button
-            window.onscroll = function () {
-                scrollFunction()
-            };
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction()
+        };
 
-            function scrollFunction() {
-                if (document.body.scrollTop > 1200 || document.documentElement.scrollTop > 1200) {
-                    mybutton.style.display = "block";
-                } else {
-                    mybutton.style.display = "none";
-                }
+        function scrollFunction() {
+            if (document.body.scrollTop > 1200 || document.documentElement.scrollTop > 1200) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
             }
+        }
 
-            // When the user clicks on the button, scroll to the top of the document
-            function topFunction() {
-                document.body.scrollTop = 0; // For Safari
-                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-            }
-        </script>
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
 
 {% endblock %}

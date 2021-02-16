@@ -18,9 +18,6 @@ from wtforms.validators import DataRequired, Email
 
 import models.User as User
 
-from routes import setAccType
-from flask import redirect, url_for
-
 # MongoDB connection string
 client = pymongo.MongoClient(
     'mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
@@ -374,13 +371,12 @@ def send_confirmation_email(email_type, user_email):
 
     message = MIMEMultipart("alternative")
 
-    message["From"] = formataddr(
-        (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
-    message["To"] = user_email
-
     if email_type == "email_verification":
         # Email headers
         message["Subject"] = "Tourisit - Confirm your Email"
+        message["From"] = formataddr(
+            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
+        message["To"] = user_email
 
         code = 'https://tourisit.hiy.sh/endpoint/email_confirmation?token=' + \
                add_token("email_verification", uid)
@@ -393,10 +389,14 @@ def send_confirmation_email(email_type, user_email):
         message.attach(MIMEText(content, "html"))
     elif email_type == "password_reset":
         if len(user_obj) != 1:
+            # print(user_obj)
             return False
 
         # Email headers
         message["Subject"] = "Tourisit - Password reset"
+        message["From"] = formataddr(
+            (str(Header('Tourisit', 'utf-8')), 'notifications@tourisit.hiy.sh'))
+        message["To"] = user_email
 
         code = 'https://tourisit.hiy.sh/login/recover_account/reset?token=' + \
                add_token("password_reset", uid)

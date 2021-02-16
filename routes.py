@@ -8,6 +8,7 @@ from io import BytesIO
 from threading import Thread
 
 import bson
+import htmlmin
 import pymongo
 from bson.objectid import ObjectId
 from flask import Flask, render_template, request, redirect, url_for, make_response, Response, send_from_directory, \
@@ -26,7 +27,6 @@ from models.Review import ReviewForm, Review
 from models.Support import SupportForm, Support, StatusForm
 from models.Transaction import Transaction
 from models.User import BioForm, PasswordForm, UserForm
-import htmlmin
 
 # For Images
 buffered = BytesIO()
@@ -449,8 +449,6 @@ def adminTickets():
                 tickets=admin.list_tickets(),
                 form=sForm
             )
-
-
 
 
 # ALEX
@@ -1409,7 +1407,8 @@ def checkout(book_id):
                     print("Error occurred while trying to pay.")
         if booking['process_step'] == 5:
             customize = 0
-            amount = booking['book_charges']['baseprice']+booking['book_charges']['revisionfee']+booking['book_charges']['customfee']
+            amount = booking['book_charges']['baseprice'] + booking['book_charges']['revisionfee'] + \
+                     booking['book_charges']['customfee']
 
         elif booking['process_step'] == 0:
             customize = 1
@@ -1651,11 +1650,11 @@ def review(book_id):
                     return redirect(url_for(redirect_to, book_id=book_id))
 
         return render_template(
-                'customer/review.html',
-                booking=booking,
-                tour=tour[0],
-                form=form,
-                review_type=review_type)
+            'customer/review.html',
+            booking=booking,
+            tour=tour[0],
+            form=form,
+            review_type=review_type)
 
 
 # except BaseException:
@@ -2201,10 +2200,10 @@ def error413(err):
 #     app.run(debug=True, threaded=True)
 
 # Use this if running on server
+
+# if __name__ == '__main__'
+#     app.run(debug=True, threaded=True)
+
+
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)
-
-
-# if __name__ == '__main__':
-#     app.run(debug=True, threaded=True, host='0.0.0.0')
-

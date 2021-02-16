@@ -16,7 +16,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const arg = urlParams.get('gotoChat');
 console.log(arg)
 
-if (arg==='true') {
+if (arg === 'true') {
     openTab(event, 'Chat')
 }
 

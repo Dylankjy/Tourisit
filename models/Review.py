@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, StringField
-from wtforms.validators import InputRequired, NumberRange
+from wtforms.validators import InputRequired
 
 
 class ReviewForm(FlaskForm):

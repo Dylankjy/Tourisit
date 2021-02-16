@@ -3,7 +3,7 @@
 {% block scripts %}
     <link rel="stylesheet" href="/css/global/shop.css">
     <link rel="stylesheet" href="/css/pages/discover.css">
-    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <style>
         .center-gif {
             display: block;
@@ -51,7 +51,7 @@
                             <p class="control has-icons-left has-icons-right">
                                 <input id="searchReq" class="input is-fullwidth" type="text"
                                        placeholder="Look for a tour"
-                                       >
+                                >
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-search"></i>
                                 </span>
@@ -133,28 +133,28 @@
 
         // Listen for keystroke events
         searchbox.addEventListener('keyup', function (e) {
-                // Clear the timeout
-                // Don't query the database if there is input (Since the timeout function will be gone when there is input detected, with a new timeout function initiated)
-                clearTimeout(timeout);
-                $('.loading-screen').show()
-                $('.prod-cards').hide()
+            // Clear the timeout
+            // Don't query the database if there is input (Since the timeout function will be gone when there is input detected, with a new timeout function initiated)
+            clearTimeout(timeout);
+            $('.loading-screen').show()
+            $('.prod-cards').hide()
 
-                // Make a new timeout set to go off in 1000ms (1 second).
-                // If there is no keyup in the next 1 second, then the timeout function will execute (Search the database)
-                timeout = setTimeout(function () {
-                    receiveSearch(searchbox.value);
+            // Make a new timeout set to go off in 1000ms (1 second).
+            // If there is no keyup in the next 1 second, then the timeout function will execute (Search the database)
+            timeout = setTimeout(function () {
+                receiveSearch(searchbox.value);
 
-                    // Set a timeout of 0.6 seconds. As it takes time for the product cards to update (Based on the quering from the database)
-                    setTimeout(()=>{
-                        $('.loading-screen').hide()
-                        $('.prod-cards').show()
-                    }, 700)
+                // Set a timeout of 0.6 seconds. As it takes time for the product cards to update (Based on the quering from the database)
+                setTimeout(() => {
+                    $('.loading-screen').hide()
+                    $('.prod-cards').show()
+                }, 700)
 
             }, timetostop);
         });
 
 
-        $(window).load(function() {
+        $(window).load(function () {
             $('.loading-screen').hide();
         });
     </script>

@@ -1,16 +1,15 @@
+from datetime import datetime
 from io import BytesIO
+from statistics import mean
+
+import pymongo
 
 from models.Format import ObjectId
 
-import pymongo
-from datetime import datetime
-
-from statistics import mean
-
-
 buffered = BytesIO()
 
-client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')['Tourisit']
+client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_uwu@ip.system.gov.hiy.sh:27017')[
+    'Tourisit']
 
 # tour_name = 'Best of Kampong Glam'
 # tour_brief= 'Walk around this architectural marvel that™s both a cultural attraction and a historical museum'
@@ -22,6 +21,8 @@ client = pymongo.MongoClient('mongodb://tourisitUser:desk-kun_did_nothing_wrong_
 
 db = client['Listings']
 db_transactions = client['Transactions']
+
+
 # ini_list.sort(key = lambda x: datetime.strptime(x['d.o.b'], '%Y-%m-%d'))
 
 # Average Earning per tour
@@ -29,13 +30,13 @@ db_transactions = client['Transactions']
 # Negative
 
 def get_pos_neg(uid):
-    x = list(db.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+    x = list(db.find({"tg_uid": ObjectId(uid), "tour_reviews": {"$ne": "null"}}, {"_id": 0, "tour_reviews": 1}))
     x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
     stars = []
     d = {}
     for listing in x:
         for review in listing['tour_reviews']:
-            if int(review['stars']) >2:
+            if int(review['stars']) > 2:
                 stars.append('p')
             else:
                 stars.append('n')
@@ -45,8 +46,8 @@ def get_pos_neg(uid):
 
     return d
 
-# print(get_pos_neg('600666f7ccab3b102fce39fb'))
 
+# print(get_pos_neg('600666f7ccab3b102fce39fb'))
 
 
 def get_earning_breakdown(uid):
@@ -65,10 +66,10 @@ def get_earning_breakdown(uid):
         i["Year"] = i['_id']['year']
         del i['_id']
 
-
     # transactions.sort(key=lambda x:x['Date'])
     transactions.sort(key=lambda x: datetime.strptime(x['Date'], '%m-%Y'))
     return transactions
+
 
 # xgg = get_earning_breakdown('600666f7ccab3b102fce39fb')
 # print(xgg)
@@ -76,7 +77,8 @@ def get_earning_breakdown(uid):
 def er(uid):
     query = [
         {"$match": {"tg_uid": ObjectId(uid)}},
-        {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total_cost": {"$sum": "$earnings"}, "total_tours": {'$sum': 1}}},
+        {"$group": {"_id": {"month": "$month_paid", "year": "$year_paid"}, "total_cost": {"$sum": "$earnings"},
+                    "total_tours": {'$sum': 1}}},
         {"$sort": {"year": -1}}
 
         # {"$group": {"_id": {"$and": ["$month_paid"]}, "total": {"$sum": "$earnings"}}},
@@ -95,13 +97,14 @@ def er(uid):
     avg = total_cost / total_tours
     return round(avg, 2)
 
+
 # x = er('600666f7ccab3b102fce39fb')
 #
 # print(x)
 
 
 def get_satisfaction_rate(uid):
-    x = list(db.find({"tg_uid":ObjectId(uid), "tour_reviews": {"$ne":"null"}}, {"_id":0, "tour_reviews": 1}))
+    x = list(db.find({"tg_uid": ObjectId(uid), "tour_reviews": {"$ne": "null"}}, {"_id": 0, "tour_reviews": 1}))
     x = [x[i] for i in range(len(x)) if len(x[i]['tour_reviews']) != 0]
     l = []
     for listing in x:
@@ -126,15 +129,13 @@ def get_satisfaction_rate(uid):
 
     return l
 
-
 # x = get_satisfaction_rate('600666f7ccab3b102fce39fb')
 # print(x)
 # print(x)
 
 # for idx,listings in enumerate(x):
-    # if len(listings['tour_reviews']) == 0:
-    #     x.pop()
-
+# if len(listings['tour_reviews']) == 0:
+#     x.pop()
 
 
 # print(x)
@@ -161,17 +162,17 @@ def get_satisfaction_rate(uid):
 #
 #     d['stars'] = mean(d['stars'])
 #     l.append(d)
-        # if len(date) == 0:
-        #     d['date'] = date
-        #     d['stars'] = [int(review['stars'])]
-        # if date in d['date']:
-        #     d['date'].append(int(review['stars']))
-        # else:
-        #     d['date'] = date
-        #     d['stars'] = [int(review['stars'])]
+# if len(date) == 0:
+#     d['date'] = date
+#     d['stars'] = [int(review['stars'])]
+# if date in d['date']:
+#     d['date'].append(int(review['stars']))
+# else:
+#     d['date'] = date
+#     d['stars'] = [int(review['stars'])]
 
-    # d['date'] = mean(d['date'])
-    # l.append(d)
+# d['date'] = mean(d['date'])
+# l.append(d)
 
 #     print(d)
 #
@@ -198,10 +199,6 @@ def get_satisfaction_rate(uid):
 #         break
 
 
-
-
-
-
 # items = list(db.find({'tg_uid': ObjectId('600666f7ccab3b102fce39fb')}))[:3]
 # print(items)
 # db_booking = client['Bookings']
@@ -213,7 +210,6 @@ def get_satisfaction_rate(uid):
 # # print(len(x))
 # tmp1 = list(map(lambda i: i['tour_reviews'], item))[0]
 # print(len(tmp1))
-
 
 
 # y = list(map(lambda x: x['book_time'], x))
@@ -264,8 +260,6 @@ def get_satisfaction_rate(uid):
 # y = list(map(lambda i:i['tour_reviews'], x))[0]
 # z = list(map(lambda i:i['booking'], y))
 # print(z)
-
-
 
 
 # x = list(db.find({"$sample": {"size":1}}))
