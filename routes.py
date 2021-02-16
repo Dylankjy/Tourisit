@@ -295,9 +295,6 @@ def profile(user_id):
     else:
         editable = False
         profile_img = person['profile_img']
-        print(result)
-        print(person)
-        print(person['name'])
         return render_template(
             'profile.html',
             form=bForm,
@@ -1218,7 +1215,8 @@ def bookings(book_id):
                 if tg_dashboard:
                     dashboard_earnings = tg_dashboard['earnings']
                     earning = booking['book_charges']['baseprice'] + \
-                              booking['book_charges']['customfee']
+                              booking['book_charges']['customfee'] + \
+                              booking['book_charges']['revisionfee']
                     dashboard_earnings.append(earning)
                     update_tg_dashboard = {'$set': {'earnings': dashboard_earnings}}
                     dashboard_db.update_one(tg_dashboard, update_tg_dashboard)
@@ -1369,7 +1367,8 @@ def checkout(book_id):
                     bookings_db.update_one(booking, update_booking)
                     # Transaction
                     earnings = booking['book_charges']['baseprice'] + \
-                               booking['book_charges']['customfee']
+                               booking['book_charges']['customfee'] + \
+                               booking['book_charges']['revisionfee']
                     transaction = Transaction(
                         tg_uid=booking['tg_uid'],
                         cust_uid=booking['cust_uid'],
