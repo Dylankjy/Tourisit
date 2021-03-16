@@ -34,7 +34,7 @@ quantumrandom==1.9.0
 regex==2020.11.13
 requests==2.25.1
 scikit-learn==0.24.1
-scipy==1.6.0
+scipy==1.6.1
 six==1.15.0
 threadpoolctl==2.1.0
 toml==0.10.2
